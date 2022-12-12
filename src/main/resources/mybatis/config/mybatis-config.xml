@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<typeAliases>
+	
+		<!-- 유저 -->
+		<typeAlias type="com.gdu.smore.domain.user.UserDTO" alias="UserDTO"/>
+		<typeAlias type="com.gdu.smore.domain.user.RetireUserDTO" alias="RetireUserDTO"/>
+		<typeAlias type="com.gdu.smore.domain.user.SleepUserDTO" alias="SleepUserDTO"/>
+		
+		<!-- 스터디 -->
+		<typeAlias type="com.gdu.smore.domain.study.StudyCommentDTO" alias="StudyCommentDTO"/>
+		<typeAlias type="com.gdu.smore.domain.study.StudyGroupDTO" alias="StudyGroupDTO"/>
+		<typeAlias type="com.gdu.smore.domain.study.StudyMemberDTO" alias="StudyStudyMemberDTO"/>
+		<typeAlias type="com.gdu.smore.domain.study.StudyZzimDTO" alias="StudyZzimDTO"/>
+		
+		<!-- 신고목록 -->
+		<typeAlias type="com.gdu.smore.domain.redbell.RedbellDTO" alias="RedbellDTO"/>
+		
+		<!-- qna 게시판 -->
+		<typeAlias type="com.gdu.smore.domain.qna.QnaBoardDTO" alias="QnaBoardDTO"/>
+		<typeAlias type="com.gdu.smore.domain.qna.QnaCommentDTO" alias="QnaCommentDTO"/>
+		
+		<!-- 자유 게시판 -->
+		<typeAlias type="com.gdu.smore.domain.free.FreeBoardDTO" alias="FreeBoardDTO"/>
+		<typeAlias type="com.gdu.smore.domain.free.FreeCommentDTO" alias="FreeCommentDTO"/>
+		<typeAlias type="com.gdu.smore.domain.free.FreeImageDTO" alias="FreeImageDTO"/>
+		<typeAlias type="com.gdu.smore.domain.free.FreeLikedDTO" alias="FreeLikedDTO"/>
+		
+		<!-- 코드 게시판 -->
+		<typeAlias type="com.gdu.smore.domain.code.CodeAttachDTO" alias="CodeAttachDTO"/>
+		<typeAlias type="com.gdu.smore.domain.code.CodeBoardDTO" alias="CodeBoardDTO"/>
+		<typeAlias type="com.gdu.smore.domain.code.CodeCommentDTO" alias="CodeCommentDTO"/>
+		<typeAlias type="com.gdu.smore.domain.code.CodeImageDTO" alias="CodeImageDTO"/>
+		<typeAlias type="com.gdu.smore.domain.code.CodeLikedDTO" alias="CodeLikedDTO"/>
+		
+		
+	</typeAliases>
+
+</configuration>

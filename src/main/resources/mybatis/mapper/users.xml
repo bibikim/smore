@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.UserMapper">
+
+	<!-- 아이디 중복체크1, 이메일 중복체크, 로그인, 로그인 유지를 이용한 로그인, 마이페이지 가기 전 비번 확인, 네이버로그인으로 가입한 회원인지 확인 -->
+	<select id="selectUserByMap" parameterType="Map" resultType="UserDTO">
+		  SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE
+		  FROM USERS
+		 <where>	<!-- if 태그를 썼기떄문에 AND나 OR이 먼저나오면, 알아서 무시한다. -->
+			 <if test="id != null">
+			 	ID = #{id}
+			 </if>
+			 <if test="pw != null">
+			 	AND PW = #{pw}
+			 </if>
+			 <if test="email != null">
+			 	AND EMAIL = #{email}
+			 </if>
+			 <if test="sessionId != null">
+			 	AND SESSION_ID = #{sessionId}
+			 	AND SESSION_LIMIT_DATE > SYSDATE
+			 </if>
+		 </where>
+	</select>
+		
+		<!-- 일반회원가입 -->
+	<insert id="insertUser" parameterType="UserDTO">
+		INSERT INTO USERS
+			(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
+		VALUES
+			(USERS_SEQ.NEXTVAL, #{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, #{postcode}, #{roadAddress}, #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{agreeCode}, NULL, SYSDATE, SYSDATE, SYSDATE, NULL, NULL, 0, 1)
+	</insert>
+
+	<!-- 로그인 기록(ACCESS_LOG) 남기기 -->
+	<update id="updateAccessLog" parameterType="String">
+		UPDATE ACCESS_LOG
+		   SET LAST_LOGIN_DATE = SYSDATE
+		 WHERE ID = #{id}
+	</update>
+	
+	<insert id="insertAccessLog" parameterType="String">
+		INSERT INTO ACCESS_LOG
+			(ACCESS_LOG_NO, ID, LAST_LOGIN_DATE)
+		VALUES
+			(ACCESS_LOG_SEQ.NEXTVAL, #{id}, SYSDATE)
+	</insert>
+	
+</mapper>
+	
+	
+	
+	
