@@ -42,6 +42,8 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;	
 	@Autowired
 	private SecurityUtil securityUtil;
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public Map<String, Object> isReduceId(String id) {
@@ -115,8 +117,6 @@ public class UserServiceImpl implements UserService {
 		return result;
 		
 	}
-	
-	
 	
 	@Transactional  // INSERT,UPDATE,DELETE 중 2개 이상이 호출되는 서비스에서 필요함
 	@Override
@@ -222,46 +222,49 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	  @Override
-	   public void login(HttpServletRequest request, HttpServletResponse response) {
+	@Override
+	public void login(HttpServletRequest request, HttpServletResponse response) {
 	         
-	      String url = request.getParameter("url");
-	      String id = request.getParameter("id");
-	      String pw = request.getParameter("pw");
+		String url = request.getParameter("url");
+	    String id = request.getParameter("id");
+	    String pw = request.getParameter("pw");
 	      
-	      pw = securityUtil.sha256(pw);
+	    pw = securityUtil.sha256(pw);
 	            
-	      Map<String, Object> map = new HashMap<String, Object>();
-	      map.put("id", id);
-	      map.put("pw", pw);
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("id", id);
+	    map.put("pw", pw);
 	      	      
-	      UserDTO loginUser = userMapper.selectUserByMap(map);
-	      System.out.println(loginUser);
-	      if(loginUser != null) {
-	               
-	         request.getSession().setAttribute("loginUser", loginUser);
+	    UserDTO loginUser = userMapper.selectUserByMap(map);
+	    System.out.println(loginUser);
+	    
+	    if(loginUser != null) {
+	    	int updateResult = userMapper.updateAccessLog(id);
+	    	if(updateResult == 0) {
+	    		userMapper.insertAccessLog(id);
+	    	}
+	    	request.getSession().setAttribute("loginUser", loginUser);
 	         
-	         try {
-	            response.sendRedirect(url);
-	         } catch (IOException e) {
+	    	try {
+	    		response.sendRedirect(url);
+	        } catch (IOException e) {
 	            e.printStackTrace();
-	         }	         
-	      }else {
-	         try {         
-		            response.setContentType("text/html; charset=UTF-8");
-		            PrintWriter out = response.getWriter();
-		   
-		               out.println("<script>");
-		               out.println("alert('일치하는 회원정보가 없습니다.')");
-		               out.println("location.href='/';");
-		               out.println("</script>");
-		               out.close();
-		         } catch (Exception e) {
-		            // TODO: handle exception
-		         }
-	       }
-	      
-	   }
+	        }	         
+	    } else {
+	    	try {         
+	    		response.setContentType("text/html; charset=UTF-8");
+		        PrintWriter out = response.getWriter();
+		        	out.println("<script>");
+		        	out.println("alert('일치하는 회원정보가 없습니다.')");
+		        	out.println("location.href='/';");
+		        	out.println("</script>");
+		        	out.close();
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    }
+		      
+	}
 
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
@@ -280,10 +283,79 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public Map<String, Object> confirmPassword(HttpServletRequest request) {
+		
+		String pw = securityUtil.sha256(request.getParameter("pw"));
+		
+		HttpSession session = request.getSession();
+		String id = ((UserDTO)session.getAttribute("loginUser")).getId();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("pw", pw);
+		
+		UserDTO user = userMapper.selectUserByMap(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isUser", user != null);
+		return result;
+		
+	}
+	
+	@Override
+	public void modifyPassword(HttpServletRequest request, HttpServletResponse response) {
 
-	
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
 
-	
-	
-	
+		String pw = securityUtil.sha256(request.getParameter("pw"));
+
+		if(pw.equals(loginUser.getPw())) {
+			try {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+				out.println("<script>");
+				out.println("alert('현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.');");
+				out.println("history.back();");
+				out.println("</script>");
+				out.close();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		int userNo = loginUser.getUserNo();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userNo", userNo);
+		map.put("pw", pw);
+		
+		int result = userMapper.updateUserPassword(map);
+		
+		try {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			if(result > 0) {
+				loginUser.setPw(pw);
+				out.println("<script>");
+				out.println("alert('비밀번호가 수정되었습니다.');");
+				out.println("location.href='" + request.getContextPath()+"/user/check/form';");
+				out.println("</script>");
+				
+			} else {
+				out.println("<script>");
+				out.println("alert('비밀번호가 수정되지 않았습니다.');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -13,4 +13,6 @@ public interface UserMapper {
 	public int updateAccessLog(String id);
 	public int insertAccessLog(String id);
 	
+	public int updateUserPassword(Map<String, Object> map);
+	
 }

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDTO {
 	private int userNo;
+	private int rowNum;	// 주성 - 추가
 	private String id;
 	private String nickname;
 	private String pw;

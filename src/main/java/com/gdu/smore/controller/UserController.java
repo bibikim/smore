@@ -6,16 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.http.MediaType;
-
 
 import com.gdu.smore.service.UserService;
-
 
 @Controller
 public class UserController {
@@ -72,10 +70,40 @@ public class UserController {
       //  model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
       
       return "user/login";
-      
    }
-	
-	
-	
+
+   @GetMapping("/user/mypage")
+   public String requiredLogin_mypage() {
+	   return "user/mypage";
+   }
+   
+   @GetMapping("/user/checkpw")
+	public String requiredLogin_moveCheckPw(HttpServletRequest request) {
+	   return "user/checkpw";
+   }
+   
+   @GetMapping("/user/changepw")
+   public String requiredLogin_changePw(HttpServletRequest request) {
+	   return "user/changepw";
+   }
+   
+   @ResponseBody
+   @PostMapping(value="/user/check/pw", produces="application/json")
+   public Map<String, Object> requiredLogin_checkPw(HttpServletRequest request) {
+	   return userService.confirmPassword(request);
+   }
+   
+   @PostMapping("/user/modify/pw")
+   public void requiredLogin_modifyPw(HttpServletRequest request, HttpServletResponse response) {
+	   userService.modifyPassword(request, response);
+   }
+   
+   @GetMapping("/user/check/form")
+   public String requiredLogin_checkForm() {
+	   return "user/mypage";
+   }
+   
+   
+   
 }
 

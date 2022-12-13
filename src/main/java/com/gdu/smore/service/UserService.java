@@ -12,4 +12,9 @@ public interface UserService {
 	public Map<String, Object> isReduceId(String id);
 	public Map<String, Object> isReduceEmail(String email);
 	public Map<String, Object> sendAuthCode(String email);
+	
+	public Map<String, Object> confirmPassword(HttpServletRequest request);
+	public void modifyPassword(HttpServletRequest request, HttpServletResponse response);
+	
+	
 }
