@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserDTO {
+	private int rowNum;
 	private int userNo;
 	private int rowNum;	// 주성 - 추가
 	private String id;

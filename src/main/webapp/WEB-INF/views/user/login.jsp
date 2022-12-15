@@ -142,13 +142,7 @@
 <body>
 	
    <div class="join_cont">
-   <%-- <c:if test="${loginUser.id == 'admin'}">
-       <c:redirect url="/admin/admin" />
-      
-   </c:if> --%>
-
 		<div>
-		
 			<h1>로그인</h1>
 			
 			<form id="frm_login" action="${contextPath}/user/login" method="post">
@@ -184,7 +178,7 @@
 				</div>
 			
 			</form>
-			</div>
+		</div>
 			
 			<div class="div_user">
 				<div>
@@ -193,44 +187,12 @@
 					<a href="${contextPath}/user/findPw">비밀번호 찾기</a>
 				</div>
 			</div>
-			
 			<hr>
-			
 			<div class="div_naver">
 				<a href="${apiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
 			</div>
 		
-		
 		</div>
-
-<%-- 	<c:if test="${loginUser != null}">
-		<div>
-			${loginUser.name} 님 반갑습니다.
-		</div>
-		<hr>
-		<div>
-			<div>
-				<a href="${contextPath}/board/list">자유게시판</a>
-				<a href="${contextPath}/gallery/list">갤러리게시판</a>
-				<a href="${contextPath}/upload/list">업로드게시판</a>
-			</div>
-		</div>
-
-		<br>
-		<br>
-		
-		<a href="${contextPath}/user/logout">로그아웃 | </a>
-		<a href="javascript:fn_abc()">회원탈퇴</a>
-		<form id="lnk_retire" action="${contextPath}/user/retire" method="post"></form>
-		<script>
-			function fn_abc(){
-				if(confirm('탈퇴하시겠습니까?')){
-					$('#lnk_retire').submit();
-				}
-			}
-		</script>
-	</c:if> --%> 
-	
 
 </body>
 </html>
