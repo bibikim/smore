@@ -235,10 +235,13 @@ public class UserServiceImpl implements UserService {
 	      map.put("id", id);
 	      map.put("pw", pw);
 	      	      
-	      UserDTO loginUser = userMapper.selectUserByMap(map);
-	      System.out.println(loginUser);
+	      UserDTO loginUser = userMapper.selectUserByMap(map);	    
+	      
 	      if(loginUser != null) {
-	               
+	    	 int updateResult = userMapper.updateAccessLog(id);
+			 if(updateResult == 0) {
+				  userMapper.insertAccessLog(id);
+			 }
 	         request.getSession().setAttribute("loginUser", loginUser);
 	         
 	         try {
@@ -246,11 +249,10 @@ public class UserServiceImpl implements UserService {
 	         } catch (IOException e) {
 	            e.printStackTrace();
 	         }	         
-	      }else {
+	       } else {
 	         try {         
 		            response.setContentType("text/html; charset=UTF-8");
 		            PrintWriter out = response.getWriter();
-		   
 		               out.println("<script>");
 		               out.println("alert('일치하는 회원정보가 없습니다.')");
 		               out.println("location.href='/';");
@@ -277,7 +279,6 @@ public class UserServiceImpl implements UserService {
 		cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
 		cookie.setPath(request.getContextPath());
 		response.addCookie(cookie);
-		
 	}
 
 

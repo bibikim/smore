@@ -1,5 +1,6 @@
 package com.gdu.smore.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,4 +13,5 @@ public interface UserService {
 	public Map<String, Object> isReduceId(String id);
 	public Map<String, Object> isReduceEmail(String email);
 	public Map<String, Object> sendAuthCode(String email);
+	
 }
