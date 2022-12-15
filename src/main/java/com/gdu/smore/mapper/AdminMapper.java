@@ -13,7 +13,9 @@ import com.gdu.smore.domain.user.UserDTO;
 public interface AdminMapper {
 	
 	public List<UserDTO> selectUserListByMap(Map<String, Object> map);
+	public List<UserDTO> selectSleepUserListByMap(Map<String, Object> map);
 	public int selectUserCount();
+	public int selectSleepUserCount();
 	public int selectReportUserCount();
 	public int deleteUserList(List<String> userNoList);
 	public int deleteAccessLog(String id);

@@ -73,6 +73,20 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 	
-	
+	@Override
+	public Map<String, Object> getSleepUserList(int page) {
+		
+		int totalRecord = adminMapper.selectSleepUserCount();
+		pageUtil.setPageUtil(page, totalRecord);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("sleepuserList", adminMapper.selectSleepUserListByMap(map));
+		result.put("pageUtil", pageUtil);
+		return result;
+	}
 	
 }

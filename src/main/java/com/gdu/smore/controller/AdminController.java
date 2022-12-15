@@ -34,4 +34,11 @@ public class AdminController {
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.getreportUserList(page);
 	}
+	
+	@GetMapping(value="/sleepUsers/page{page}", produces = "application/json")
+	public Map<String, Object> getSleepUserList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.getSleepUserList(page);
+	}
+	
 }
