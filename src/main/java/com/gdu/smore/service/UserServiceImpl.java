@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
 		result.put("isUser", userMapper.selectUserByMap(map) != null);
 		//result.put("isRetireUser", userMapper.selectRetireUserById(id) != null);
 		return result;
-		
 	}
 	
 	@Override
@@ -70,7 +69,6 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isUser", userMapper.selectUserByMap(map) != null);
 		return result;
-		
 	}
 	
 	@Override
@@ -94,10 +92,8 @@ public class UserServiceImpl implements UserService {
 				return new PasswordAuthentication(username, password);
 			}
 		});
-		
 		// 이메일 작성 및 전송
 		try {
-			
 			Message message = new MimeMessage(session);
 			
 			message.setFrom(new InternetAddress(username, "인증코드관리자"));            // 보내는사람
@@ -110,20 +106,17 @@ public class UserServiceImpl implements UserService {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		// join.jsp로 생성한 인증코드를 보내줘야 함
 		// 그래야 사용자가 입력한 인증코드와 비교를 할 수 있음
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("authCode", authCode);
 		return result;
-		
 	}
 	
 	@Transactional  // INSERT,UPDATE,DELETE 중 2개 이상이 호출되는 서비스에서 필요함
 	@Override
 	public void join(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 파라미터
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		String name = request.getParameter("name");
@@ -179,14 +172,11 @@ public class UserServiceImpl implements UserService {
 		// 회원가입처리
 		int result = userMapper.insertUser(user);
 		
-		// 응답
 		try {
-			
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			
 			if(result > 0) {
-				
 				// 조회 조건으로 사용할 Map
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", id);
@@ -199,29 +189,23 @@ public class UserServiceImpl implements UserService {
 				if(updateResult == 0) {
 					userMapper.insertAccessLog(id);
 				}
-				
 				out.println("<script>");
 				out.println("alert('회원 가입되었습니다.');");
 				out.println("location.href='/';");
 				out.println("</script>");
 				
 			} else {
-				
 				out.println("<script>");
 				out.println("alert('회원 가입에 실패했습니다.');");
 				out.println("history.go(-2);");
 				out.println("</script>");
-				
 			}
-			
 			out.close();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
-	
 	
     @Override
     public void login(HttpServletRequest request, HttpServletResponse response) {
@@ -239,90 +223,68 @@ public class UserServiceImpl implements UserService {
        UserDTO loginUser = userMapper.selectUserByMap(map);       
        
        if(loginUser != null) {
-         int updateResult = userMapper.updateAccessLog(id);
-        if(updateResult == 0) {
-            userMapper.insertAccessLog(id);
-        }
-          request.getSession().setAttribute("loginUser", loginUser);
+    	   int updateResult = userMapper.updateAccessLog(id);
+    	   if(updateResult == 0) {
+    		   userMapper.insertAccessLog(id);
+    	   }
+    	   keepLogin(request, response);
+        
+    	   request.getSession().setAttribute("loginUser", loginUser);
           
-          try {
-             response.sendRedirect(url);
-          } catch (IOException e) {
-             e.printStackTrace();
-          }            
-        } else {
-          try {         
-                response.setContentType("text/html; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-       
-                   out.println("<script>");
-                   out.println("alert('일치하는 회원정보가 없습니다.')");
-                   out.println("location.href='/';");
-                   out.println("</script>");
-                   out.close();
-             } catch (Exception e) {
-                // TODO: handle exception
-             }
-        }
-       
-    }
+    	   try {
+    		   response.sendRedirect(url);
+    	   } catch (IOException e) {
+    		   e.printStackTrace();
+           }            
+       } else {
+    	   try {         
+    		   response.setContentType("text/html; charset=UTF-8");
+               PrintWriter out = response.getWriter();
+               out.println("<script>");
+               out.println("alert('일치하는 회원정보가 없습니다.')");
+               out.println("location.href='/';");
+               out.println("</script>");
+               out.close();
+    	   } catch (Exception e) {
+    		   e.printStackTrace();
+    	   }
+       }
+	}
     
     @Override
-    public void keepLogin(HttpServletRequest request, HttpServletResponse response) {
-    	/*
-			로그인 유지를 체크한 경우
-			
-			1. session_id를 쿠키에 저장해 둔다.
-			   (쿠키명 : keepLogin)
-			2. session_id를 DB에 저장해 둔다.
-			   (SESSION_ID 칼럼에 session_id를 저장하고, SESSION_LIMIT_DATE 칼럼에 15일 후 날짜를 저장한다.)
-
-			로그인 유지를 체크하지 않은 경우
-			
-			1. 쿠키 또는 DB에 저장된 정보를 삭제한다.
-			   편의상 쿠키명 keepLogin을 제거하는 것으로 처리한다.
-		*/
+	public void keepLogin(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 파라미터
 		String id = request.getParameter("id");
 		String keepLogin = request.getParameter("keepLogin");
 		
-		// 로그인 유지를 체크한 경우
 		if(keepLogin != null) {
-			
-			// session_id
 			String sessionId = request.getSession().getId();
 			
-			// session_id를 쿠키에 저장하기
 			Cookie cookie = new Cookie("keepLogin", sessionId);
-			cookie.setMaxAge(60 * 60 * 24 * 15);  // 15일
-			cookie.setPath(request.getContextPath());
+			cookie.setMaxAge(60 * 60 * 24 * 7);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 			
-			// session_id를 DB에 저장하기
 			UserDTO user = UserDTO.builder()
 					.id(id)
 					.sessionId(sessionId)
-					.sessionLimitDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15))  // 현재타임스탬프 + 15일에 해당하는 타임스탬프
+					.sessionLimitDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
 					.build();
-	
+
 			userMapper.updateSessionInfo(user);
-			
 		}
-		// 로그인 유지를 체크하지 않은 경우
 		else {
-			// keepLogin 쿠키 제거하기
 			Cookie cookie = new Cookie("keepLogin", "");
-			cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
-			cookie.setPath(request.getContextPath());
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
-    }
+	}
     
     @Override
-    public UserDTO getUserBySessionId(Map<String, Object> map) {
-    	return userMapper.selectUserByMap(map);
-    }
+	public UserDTO getUserBySessionId(Map<String, Object> map) {
+		return userMapper.selectUserByMap(map);
+	}
     
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
@@ -332,13 +294,11 @@ public class UserServiceImpl implements UserService {
 		if(session.getAttribute("loginUser") != null) {
 			session.invalidate();
 		}
-		
 		// 로그인 유지 풀기
 		Cookie cookie = new Cookie("keepLogin", "");
-		cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
-		cookie.setPath(request.getContextPath());
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
 		response.addCookie(cookie);
-		
 	}
 
 	@Override
