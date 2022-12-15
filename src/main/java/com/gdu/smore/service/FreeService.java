@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gdu.smore.domain.free.FreeBoardDTO;
+
 public interface FreeService {
 
 	public void getFreeList(Model model);
 	public void saveFree(HttpServletRequest request, HttpServletResponse response);
 	public Map<String, Object> savefImage(MultipartHttpServletRequest mRequest);
 	public int increaseHit(int fNo);
-	
+	public FreeBoardDTO getFreeByNo(int fNo);
 }

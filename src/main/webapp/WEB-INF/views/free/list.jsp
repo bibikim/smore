@@ -65,9 +65,17 @@
 					<c:forEach items="${freeList}" var="free" varStatus="vs">
 						<tr>
 							<td id="align">${beginNo - vs.index}</td>
-							<td><a href="#">${free.FTitle}</a></td>
+							<td>
+								<a href="#">${free.FTitle}</a>
+								<c:set var="now" value="${java.util.Date}"/>
+								<fmt:parseNumber value="${now /(1000*60*60*24)}" integerOnly="true" var="today"/>
+								<fmt:parseNumber value="${FCreateDate /(1000*60*60*24)}" integerOnly="true" var="creDate"/>
+								<c:if test="${today - creDate le 1}">
+									new
+								</c:if>
+							</td>
 							<td id="align">${free.nickname}</td>
-							<td id="align"><fmt:formatDate value="${free.FCreateDate}" pattern="yyyy.M.d"/></td>
+							<td id="align"><fmt:formatDate value="${free.FCreateDate}" pattern="yyyy.M.d a hh:m"/></td>
 							<td id="align">${free.FHit}</td>
 						</tr>
 					</c:forEach>

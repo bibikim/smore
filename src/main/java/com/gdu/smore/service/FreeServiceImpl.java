@@ -69,7 +69,7 @@ public class FreeServiceImpl implements FreeService {
 		// 파라미터 files
 		MultipartFile mpFile = mRequest.getFile("file");
 		// 저장경로
-		String path = "c:" + File.separator + "fboardImage";
+		String path = "c:" + File.separator + "summernoteImage";
 		// 저장할 파일명
 		String filesystem = fileUtil.getFilename(mpFile.getOriginalFilename());
 		
@@ -87,7 +87,7 @@ public class FreeServiceImpl implements FreeService {
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("src", mRequest.getContextPath() + "/free/load/image" + filesystem);
+		map.put("src", mRequest.getContextPath() + "/load/image/" + filesystem);
 		map.put("filesystem", filesystem);
 		
 		return map;
@@ -154,9 +154,13 @@ public class FreeServiceImpl implements FreeService {
 	
 	@Override
 	public int increaseHit(int fNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return freeMapper.updateHit(fNo);
 	}
 	
+	@Override
+	public FreeBoardDTO getFreeByNo(int fNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

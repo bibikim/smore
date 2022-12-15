@@ -47,8 +47,9 @@
 							processData: false,
 							dataType: 'json',
 							success: function(resData) {
-								$('#content').summernote('insertImage', resData.src);
+								$('#fContent').summernote('insertImage', resData.src);
 								$('#sumnote_image_list').append($('<input type="hidden" name="fImageNames" value="' + resData.filesystem + '">'));
+								console.log(resData);
 							}
 						})	// ajax
 					} // for
