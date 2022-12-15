@@ -1,5 +1,6 @@
 package com.gdu.smore.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,7 +13,15 @@ import com.gdu.smore.interceptor.SleepUserCheckingInterceptor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	// servlet-context.xml에서 resources 태그로 썸머노트이미지 저장시키는 경로 빈 등록한거 자바단에서 만들어둠
+	@Autowired
+	private KeepLoginInterceptor keepLoginInterceptor;
+	
+	@Autowired 
+	private PreventLoginInterceptor preventLoginInterceptor;
+	
+	@Autowired
+	private SleepUserCheckingInterceptor sleepUserCheckingInterceptor;
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/load/image/**")
@@ -21,17 +30,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new KeepLoginInterceptor())
-			.addPathPatterns("/**"); // 적용할 URL
-		registry.addInterceptor(new PreventLoginInterceptor())
-			.addPathPatterns("/user/login/form")
-			.addPathPatterns("/user/join/write")
-			.addPathPatterns("/user/agree");
-		registry.addInterceptor(new SleepUserCheckingInterceptor())
-			.addPathPatterns("/user/login");
-			// .excludePathPatterns("");	// 제외할 URL
+		registry.addInterceptor(keepLoginInterceptor)
+				.addPathPatterns("/") // 적용할 URL
+				.excludePathPatterns("/login");
+		
+		registry.addInterceptor(preventLoginInterceptor)
+				.addPathPatterns("/user/login/form") .addPathPatterns("/user/join/write")
+				.addPathPatterns("/user/agree");
+		  
+		registry.addInterceptor(sleepUserCheckingInterceptor)
+				.addPathPatterns("/user/login");
 	}
-	
-	
 	
 }

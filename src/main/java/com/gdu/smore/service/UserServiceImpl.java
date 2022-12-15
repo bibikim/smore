@@ -223,77 +223,60 @@ public class UserServiceImpl implements UserService {
        UserDTO loginUser = userMapper.selectUserByMap(map);       
        
        if(loginUser != null) {
-         int updateResult = userMapper.updateAccessLog(id);
-        if(updateResult == 0) {
-            userMapper.insertAccessLog(id);
-        }
-          request.getSession().setAttribute("loginUser", loginUser);
+    	   int updateResult = userMapper.updateAccessLog(id);
+    	   if(updateResult == 0) {
+    		   userMapper.insertAccessLog(id);
+    	   }
+    	   keepLogin(request, response);
+        
+    	   request.getSession().setAttribute("loginUser", loginUser);
           
-          try {
-             response.sendRedirect(url);
-          } catch (IOException e) {
-             e.printStackTrace();
-          }            
-        } else {
-          try {         
-                response.setContentType("text/html; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-                   out.println("<script>");
-                   out.println("alert('일치하는 회원정보가 없습니다.')");
-                   out.println("location.href='/';");
-                   out.println("</script>");
-                   out.close();
-             } catch (Exception e) {
-            	 e.printStackTrace();
-             }
-        }
-    }
+    	   try {
+    		   response.sendRedirect(url);
+    	   } catch (IOException e) {
+    		   e.printStackTrace();
+           }            
+       } else {
+    	   try {         
+    		   response.setContentType("text/html; charset=UTF-8");
+               PrintWriter out = response.getWriter();
+               out.println("<script>");
+               out.println("alert('일치하는 회원정보가 없습니다.')");
+               out.println("location.href='/';");
+               out.println("</script>");
+               out.close();
+    	   } catch (Exception e) {
+    		   e.printStackTrace();
+    	   }
+       }
+	}
     
     @Override
 	public void keepLogin(HttpServletRequest request, HttpServletResponse response) {
-		/*
-			로그인 유지를 체크한 경우
-			
-			1. session_id를 쿠키에 저장해 둔다.
-			   (쿠키명 : keepLogin)
-			2. session_id를 DB에 저장해 둔다.
-			   (SESSION_ID 칼럼에 session_id를 저장하고, SESSION_LIMIT_DATE 칼럼에 30일 후 날짜를 저장한다.)
-			
-			로그인 유지를 체크하지 않은 경우
-			
-			1. 쿠키 또는 DB에 저장된 정보를 삭제한다.
-			   편의상 쿠키명 keepLogin을 제거하는 것으로 처리한다.
-		*/
 		
-		// 파라미터
 		String id = request.getParameter("id");
 		String keepLogin = request.getParameter("keepLogin");
 		
-		// 로그인 유지를 체크한 경우
 		if(keepLogin != null) {
 			String sessionId = request.getSession().getId();
 			
-			// session_id를 쿠키에 저장하기
 			Cookie cookie = new Cookie("keepLogin", sessionId);
-			cookie.setMaxAge(60 * 60 * 24 * 30);  // 30일
-			cookie.setPath(request.getContextPath());
+			cookie.setMaxAge(60 * 60 * 24 * 7);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 			
-			// session_id를 DB에 저장하기
 			UserDTO user = UserDTO.builder()
 					.id(id)
 					.sessionId(sessionId)
-					.sessionLimitDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 30))  // 현재타임스탬프 + 30일에 해당하는 타임스탬프
+					.sessionLimitDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
 					.build();
 
 			userMapper.updateSessionInfo(user);
 		}
-		// 로그인 유지를 체크하지 않은 경우
 		else {
-			// keepLogin 쿠키 제거하기
 			Cookie cookie = new Cookie("keepLogin", "");
-			cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
-			cookie.setPath(request.getContextPath());
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 	}
@@ -311,13 +294,11 @@ public class UserServiceImpl implements UserService {
 		if(session.getAttribute("loginUser") != null) {
 			session.invalidate();
 		}
-		
 		// 로그인 유지 풀기
 		Cookie cookie = new Cookie("keepLogin", "");
-		cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
-		cookie.setPath(request.getContextPath());
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
 		response.addCookie(cookie);
-		
 	}
 
 	@Override
