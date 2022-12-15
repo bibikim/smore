@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <style type="text/css">
 	.bg-light{
 		background-color: #ffffff;
