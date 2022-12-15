@@ -8,10 +8,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<<<<<<< HEAD
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+
+=======
+>>>>>>> parent of e8b799f (jh 리스트)
 <style type="text/css">
-	.bg-light{
+	.bg-light {
 		background-color: #ffffff;
+	}	
+	a {
+		text-decoration-line: none;
+		cursor: pointer;
+		color: black;
 	}
 </style>
 
@@ -37,9 +46,18 @@
 		</nav>
       </c:if>
 	
-    <c:if test="${loginUser ne null}">
-     <div>
-     	<div style="text-align: right"> <a href="#">${loginUser.name} &nbsp; | &nbsp;&nbsp;</a><a href="${contextPath}/user/logout">로그아웃</a></div>
+	<c:if test="${loginUser ne null}">
+	<div>
+		<div style="text-align: right"> <a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a><a href="${contextPath}/user/logout">로그아웃</a></div>
+     	<div style="text-align: right"> 
+     		<c:if test="${loginUser.id == 'admin'}">
+		     	<a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
+	     	</c:if>
+	     	<c:if test="${loginUser.id ne 'admin'}">
+	     		<a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
+	     	</c:if>	
+	     	<a href="${contextPath}/user/logout">로그아웃</a>
+     	</div>
         <nav class="navbar navbar-light bg-light">
 		  	<a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
 			<ul class="nav justify-content-end">
@@ -57,9 +75,3 @@
 	  </div>
      </c:if>
 		
-</head>
-
-
-
-
-

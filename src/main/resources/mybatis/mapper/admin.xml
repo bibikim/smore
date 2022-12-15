@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.AdminMapper">
+
+	<select id="selectUserCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM USERS
+	</select>
+	
+	<select id="selectReportUserCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM REDBELL
+	</select>
+	
+
+	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
+		SELECT A.ROW_NUM, A.USER_NO, A.ID, A.NAME, A.NICKNAME, A.GENDER, A.JOIN_DATE, A.USER_STATE
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, USER_STATE
+		  		  FROM USERS) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end} 		  
+	</select>
+	
+	<select id="selectUserByNo" parameterType="int" resultType="UserDTO">
+		SELECT USER_NO, ID, JOIN_DATE
+		  FROM USERS
+		 WHERE USER_NO = #{userNo} 
+	</select>
+	
+	<delete id="deleteUserList" parameterType="List">
+		DELETE
+		  FROM USERS
+		  <where>
+		  	USER_NO IN 
+		 	<foreach collection="list" item="userNo" open="(" close=")" separator=",">  <!-- memberNo를 ()로 덮어주고 separator로 구분을해줌(여러개가 나오니까) -->
+		 		#{userNo}
+		 	</foreach>
+		  </where>
+	</delete>
+	
+	<delete id="deleteAccessLog" parameterType="String">
+		DELETE 
+		  FROM ACCESS_LOG
+		 WHERE  ID = #{id}
+	</delete>
+	
+
+   <insert id="insertRetireUser" parameterType="RetireUserDTO">
+      INSERT INTO RETIRE_USERS
+         (USER_NO, ID, JOIN_DATE, RETIRE_DATE)
+      VALUES
+		(#{userNo}, #{id}, #{joinDate}, SYSDATE)
+   </insert>
+    
+<!-- 	<select id="selectReportUserList" parameterType="map" resultMap="RedBellMap">
+		SELECT A.ROW_NUM, A.R_NO, A.ID, A.R_CONTENT, A.R_DATE, A.R_GUBUN, A.R_TARGET, A.S_NO, A.GRP_NICKNAME, A.S_CMT_NO, A.CMT_NICKNAME
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID, R.R_CONTENT, R.R_DATE, R.R_GUBUN, R.R_TARGET, G.S_NO, G.NICKNAME AS GRP_NICKNAME, C.S_CMT_NO, C.NICKNAME AS CMT_NICKNAME
+		  		  FROM REDBELL R 
+		         RIGHT OUTER JOIN S_GROUP G
+		            ON R.R_TARGET = G.S_NO
+		         RIGHT OUTER JOIN S_CMT C
+		            ON R.R_TARGET = C.S_CMT_NO) A 
+		   <where> 
+		      <if test="rGubun == 1">
+		         R.R_TARGET = #{sNo} 	         
+		      </if>
+		      <if test="rGubun == 2">
+		         R.R_TARGET = #{sCmtNo}  	         
+		      </if>
+		      AND A.ROW_NUM BETWEEN #{begin} AND #{end} 
+      	  </where>
+	</select>	 -->
+	
+		<resultMap type="GrpRedbellDTO" id="GrpRedbellMap">
+			<id property="rNo" column="R_NO"/>
+			<result property="title" column="TITLE"/>
+			<result property="content" column="CONTENT"/>
+			<result property="hit" column="HIT"/>
+			<result property="ip" column="IP"/>
+			<result property="createDate" column="CREATE_DATE"/>
+			<result property="modifyDate" column="MODIFY_DATE"/>
+			<association property="USERS" javaType="UserDTO">
+				<id property="userNo" column="USER_NO"/>
+				<result property="id" column="ID"/>
+			</association>
+			<association property="S_GROUP" javaType="StudyGroupDTO">
+				<id property="sNo" column="S_NO"/>
+				<result property="nickname" column="NICKNAME"/>
+			</association>
+		</resultMap>
+	
+	<!-- R.ID는 모임장 -->
+	<select id="selectReportList" parameterType="Map" resultMap="GrpRedbellMap">
+		SELECT A.ROW_NUM, A.R_NO, A.LEADER_ID, A.S_NO, A.R_CONTENT, A.R_DATE, A.REPORTER_ID, A.NICKNAME
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID AS LEADER_ID, R.S_NO, R.R_CONTENT, R.R_DATE, U.ID AS REPORTER_ID, S.NICKNAME
+		          FROM USERS U 
+		         INNER JOIN GRP_REDBELL R
+		            ON U.ID = R.ID
+		         INNER JOIN S_GROUP S
+		            ON R.S_NO = S.S_NO) A
+		  WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}           
+	</select>
+	
+</mapper>
+	
+	
+	
+	

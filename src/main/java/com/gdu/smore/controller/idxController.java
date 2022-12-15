@@ -11,4 +11,9 @@ public class idxController {
       return "index";
     }
 
+	@GetMapping("/admin/page")
+	public String adminPage() {
+		return "admin/page";
+	}
+	
 }
