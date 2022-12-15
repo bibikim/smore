@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
 	private int rowNum;
 	private int userNo;
-	private int rowNum;	// 주성 - 추가
 	private String id;
 	private String nickname;
 	private String pw;
