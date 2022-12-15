@@ -11,7 +11,7 @@
 <body>
 
 ㅋㅋㅋㅋ 인덷ㄱ스페이지임
-	
+	<a href="/study/list">스게</a>
 
 </body>
 

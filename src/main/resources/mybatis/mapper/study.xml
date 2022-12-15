@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.StudyMapper">
+
+	<select id="selectAllBoardCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_GROUP
+	</select>
+
+	<select id="selectAllList" parameterType="Map" resultType="StudyGroupDTO">
+		SELECT A.ROW_NUM, A.S_NO, A.NICKNAME, A.S_TITLE, A.S_CONTENT, A.S_CREATE_DATE, A.S_MODIFY_DATE, A.S_HIT, A.S_GENDER, A.S_REGION, A.S_WIDO, A.S_GDO, A.S_LANG, A.S_PEOPLE, A.S_CONTACT, A.S_DATE, A.S_IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY S_NO DESC) AS ROW_NUM, S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
+		          FROM S_GROUP B) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<insert id="insertStudy" parameterType="StudyGroupDTO">
+		<selectKey keyProperty="sNo" resultType="int" order="BEFORE">
+			SELECT S_GROUP_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO S_GROUP
+			(S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP)
+		VALUES
+			(#{sNo}, #{nickname}, #{sTitle}, #{sContent}, SYSDATE, SYSDATE, 0, #{sGender}, #{sRegion}, #{sWido}, #{sGdo}, #{sLang}, #{sPeople}, #{sContact}, SYSDATE, #{sIp})
+	</insert>
+	
+	<!-- 
+	<update id="updateHit" parameterType="int">
+		UPDATE S_GROUP
+		   SET S_HIT = S_HIT + 1
+		 WHERE S_NO = #{sNo}
+	</update>
+	 -->
+</mapper>
+	
+	
+	
+	

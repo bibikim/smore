@@ -45,12 +45,11 @@
 	
 	<c:if test="${loginUser ne null}">
 	<div>
-		<div style="text-align: right"> <a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a><a href="${contextPath}/user/logout">로그아웃</a></div>
      	<div style="text-align: right"> 
      		<c:if test="${loginUser.id == 'admin'}">
 		     	<a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
 	     	</c:if>
-	     	<c:if test="${loginUser.id ne 'admin'}">
+	     	<c:if test="${loginUser.id != 'admin'}">
 	     		<a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
 	     	</c:if>	
 	     	<a href="${contextPath}/user/logout">로그아웃</a>
