@@ -8,11 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<<<<<<< HEAD
+
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 
-=======
->>>>>>> parent of e8b799f (jh 리스트)
+
 <style type="text/css">
 	.bg-light {
 		background-color: #ffffff;
@@ -48,7 +47,7 @@
 	
 	<c:if test="${loginUser ne null}">
 	<div>
-		<div style="text-align: right"> <a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a><a href="${contextPath}/user/logout">로그아웃</a></div>
+		
      	<div style="text-align: right"> 
      		<c:if test="${loginUser.id == 'admin'}">
 		     	<a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>

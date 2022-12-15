@@ -1,4 +1,5 @@
 package com.gdu.smore.domain.qna;
+
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor 
 @Data
 @Builder
 public class QnaBoardDTO {
@@ -15,7 +16,7 @@ public class QnaBoardDTO {
 	private String nickname;
 	private String qTitle;
 	private String qContent;
-	private String qPw;
+	private int qPw;
 	private Date qCreateDate;
 	private Date qModifyDate;
 	private int qHit;
