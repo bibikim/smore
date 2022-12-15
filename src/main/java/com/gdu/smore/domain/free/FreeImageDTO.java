@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FreeImageDTO {
 	private int fNo;
-	private String fileSystem;
+	private String filesystem;
 }
