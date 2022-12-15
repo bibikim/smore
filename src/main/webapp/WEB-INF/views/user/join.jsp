@@ -173,12 +173,12 @@
    }
    
    #container {
-     width: 50%;
+     width: 65%;
      margin: 0 auto;
    }
    
    #frm_join {
-     width: 365px;
+     width: 777px;
      margin: 0 auto;
    }
    
@@ -593,13 +593,12 @@
          <!-- 성별 -->
          <div>
             <label for="gender">성별</label><br>
-            <div style="border: 1px solid #777; margin: 0 200px 0 0;">
-               <input type="radio" name="gender" id="male" value="M">
-               <label for="male">남자</label>
-               &nbsp;&nbsp;
-               <input type="radio" name="gender" id="female" value="F">
-               <label for="female">여자</label>
-            </div>
+            &nbsp;
+			<input type="radio" name="gender" id="male" value="M">
+	        <label for="male">남자</label>
+	        &nbsp;&nbsp;&nbsp;
+	        <input type="radio" name="gender" id="female" value="F">
+	        <label for="female">여자</label>
          </div>
          
          <br>
@@ -607,7 +606,7 @@
          <!-- 휴대전화 -->
          <div>
             <label for="mobile">휴대전화*</label><br>
-            <input type="text" name="mobile" id="mobile">
+            <input type="text" name="mobile" id="mobile" maxlength=11>
             <span id="msg_mobile"></span>
          </div>
          
@@ -625,13 +624,13 @@
          
          <!-- 주소 -->
          <div>
-            <input type="text" onclick="fn_execDaumPostcode()" name="postcode" id="postcode" placeholder="우편번호" readonly="readonly">
+            <input type="text" onclick="fn_execDaumPostcode()" name="postcode" id="postcode" size=4 placeholder="우편번호" readonly="readonly">
             <input type="button" onclick="fn_execDaumPostcode()" value="우편번호 찾기" id="btn_post_code"><br>
-            <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소"  readonly="readonly">
-            <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소"  readonly="readonly"><br>
+            <input type="text" name="roadAddress" id="roadAddress" size=27 placeholder="도로명주소"  readonly="readonly">
+            <input type="text" name="jibunAddress" id="jibunAddress" size=27 placeholder="지번주소"  readonly="readonly"><br>
             <span id="guide" style="color:#999;display:none"></span>
             <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-            <input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목" readonly="readonly">
+            <input type="text" name="extraAddress" id="extraAddress" size=30 placeholder="참고항목" readonly="readonly">
             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
             <script>
                 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -711,7 +710,7 @@
          <!-- 버튼 -->
          <div>
             <button id="btn_join">가입하기</button>
-            <input type="button" value="취소" id="btn_cancel" onclick="history.back()">
+            <input type="button" value="취소" id="btn_cancel" onclick="history.go(-2)">
          </div>    
       </form>
    

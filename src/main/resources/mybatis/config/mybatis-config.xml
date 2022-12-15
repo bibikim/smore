@@ -24,7 +24,8 @@
 		<typeAlias type="com.gdu.smore.domain.study.StudyZzimDTO" alias="StudyZzimDTO"/>
 		
 		<!-- 신고목록 -->
-		<typeAlias type="com.gdu.smore.domain.redbell.RedbellDTO" alias="RedbellDTO"/>
+		<typeAlias type="com.gdu.smore.domain.redbell.CmtRedbellDTO" alias="CmtRedbellDTO"/>
+		<typeAlias type="com.gdu.smore.domain.redbell.GrpRedbellDTO" alias="GrpRedbellDTO"/>
 		
 		<!-- qna 게시판 -->
 		<typeAlias type="com.gdu.smore.domain.qna.QnaBoardDTO" alias="QnaBoardDTO"/>

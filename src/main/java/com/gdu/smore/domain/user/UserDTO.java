@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserDTO {
+	private int rowNum;
 	private int userNo;
 	private String id;
 	private String nickname;
