@@ -7,43 +7,125 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+	.join_cont {
+	    width: 390px;
+	    padding: 60px 50px 51px;
+	    margin: 110px auto 0;
+	    border: 1px solid #f2f4f5;
+	}
+	#userid:focus {
+	        border: 1px solid #ff5000;
+	}
+	#pwd:focus {
+	        border: 1px solid #ff5000;
+	}
+	.login_ipt_box {
+	    display: block;     
+	    height: 48px;
+	    border: 1px solid #d7d7d7;
+	    margin-bottom: 6px;
+	    position: relative;  
+	}
+	.login_ipt_box > strong {
+	    position: absolute; 
+	    top: 16px;
+	    left: 19px;
+	    height: 17px; 
+	    font-size: 14px;
+	    color: #aaa;
+	   
+	}
+	.login_ipt_box > input {
+	    width: 350px;
+	    height: 17px;
+	    padding: 16px 19px 15px 19px; 
+	    border: none; 
+	    outline: none; 
+	    font-weight: bold;
+	    font-size: 14px;
+	    color: #aaa;
+	}
+	.chk_choice {
+	    margin: 10px 0 40px;
+	    position: relative;
+	}
+	.uio_check_box {
+	    display: inline-block; 
+	    padding: 0 20px 0 30px;
+	    height: 20px;
+	    font-size: 12px;
+	    font-weight: normal;
+	    color: #555;
+	    line-height: 22px;
+	    letter-spacing: -0.5px;
+	    position: relative
+	}
+	.check_style { 
+	    
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 18px;
+	    height: 18px;
+	    border: 1px solid #707070; 
+	}
+	.btn_login {
+		width : 390px;
+		display: block;
+	    height: 50px;
+	    background-color: #6495ed;
+	    color: #fff;
+	    font-size: 14px;
+	    font-weight: bold;
+	    letter-spacing: -0.5px; 
+	    text-align: center;
+	    line-height: 51px;
+	}
+	a {
+		text-decoration-line: none;
+		cursor: pointer;
+		color: black;
+	}
+	.div_user {
+		margin: 10px 0 10px 50px;
+	}
+	.div_naver {
+		margin: 0 0 0 110px; 
+	}
+
+</style>
+
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	
 	$(function(){
-		
 		fn_login();
 		fn_displayRememberId();
-		
 	});
 	
 	function fn_login(){
 		
 		$('#frm_login').submit(function(event){
-			
 			// 아이디, 비밀번호 공백 검사
 			if($('#id').val() == '' || $('#pw').val() == ''){
 				alert('아이디와 비밀번호를 모두 입력하세요.');
 				event.preventDefault();
 				return;
 			}
-			
 			// 아이디 기억을 체크하면 rememberId 쿠키에 입력된 아이디를 저장
 			if($('#rememberId').is(':checked')){
 				$.cookie('rememberId', $('#id').val());
 			} else {
 				$.cookie('rememberId', '');
 			}
-			
 		});
-		
 	}
 	
 	function fn_displayRememberId(){
-		
 		// rememberId 쿠키에 저장된 아이디를 가져와서 표시
-		
 		let rememberId = $.cookie('rememberId');
 		if(rememberId == ''){
 			$('#id').val('');
@@ -52,101 +134,10 @@
 			$('#id').val(rememberId);
 			$('#rememberId').prop('checked', true);
 		}
-		
 	}
 	
 </script>
-<style>
-.join_cont {
-    width: 390px;
-    padding: 60px 50px 51px;
-    margin: 110px auto 0;
-    border: 1px solid #f2f4f5;
-}
-#userid:focus {
-        border: 1px solid #ff5000;
-    }
-#pwd:focus {
-        border: 1px solid #ff5000;
-    }
-.login_ipt_box {
-    display: block;     
-    height: 48px;
-    border: 1px solid #d7d7d7;
-    margin-bottom: 6px;
-    position: relative;  
-    }
-.login_ipt_box > strong {
-    position: absolute; 
-    top: 16px;
-    left: 19px;
-    height: 17px; 
-    font-size: 14px;
-    color: #aaa;
-   
-}
-.login_ipt_box > input {
-    width: 350px;
-    height: 17px;
-    padding: 16px 19px 15px 19px; 
-    border: none; 
-    outline: none; 
-    font-weight: bold;
-    font-size: 14px;
-    color: #aaa;
-}
-.chk_choice {
-    margin: 10px 0 40px;
-    position: relative;
-}
-.uio_check_box {
-    display: inline-block; 
-    padding: 0 20px 0 30px;
-    height: 20px;
-    font-size: 12px;
-    font-weight: normal;
-    color: #555;
-    line-height: 22px;
-    letter-spacing: -0.5px;
-    position: relative
-}
 
-.check_style { 
-    
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #707070; 
-}
-
-
-.btn_login {
-	width : 390px;
-	display: block;
-    height: 50px;
-    background-color: #6495ed;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: -0.5px; 
-    text-align: center;
-    line-height: 51px;
-}
-a {
-	text-decoration-line: none;
-	cursor: pointer;
-	color: black;
-}
-.div_user {
-	margin: 10px 0 10px 50px;
-}
-.div_naver {
-	margin: 0 0 0 110px; 
-}
-
-</style>
 </head>
 <body>
 	
@@ -197,7 +188,7 @@ a {
 			
 			<div class="div_user">
 				<div>
-					<a href="${contextPath}/user/join">회원가입</a> |
+					<a href="${contextPath}/user/agree/form">회원가입</a> |
 					<a href="${contextPath}/user/findId">아이디 찾기</a> | 
 					<a href="${contextPath}/user/findPw">비밀번호 찾기</a>
 				</div>

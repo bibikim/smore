@@ -40,7 +40,20 @@
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
+	$(function() {
+		fn_retire();
+	});
 	
+	function fn_retire(){
+		$('#btn_retire').click(function(event){
+			if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')) {
+				location.href="${contextPath}/user/retire";
+			} else{
+				event.preventDefault();
+				return;
+			}
+		});
+	}
 
 </script>
 
@@ -60,9 +73,8 @@
 		<div class="my_boxs">
 			<ul>
 				<li><h3>My 정보</h3></li>
-				<li><a href="${contextPath}/user/info">개인정보확인/수정</a></li>
-				<li><a href="${contextPath}/user/checkpw">비밀번호 변경하기</a></li>
-				<li><a href="${contextPath}/user/withdraw">탈퇴하기</a></li>
+				<li><a href="${contextPath}/user/checkpw">개인정보확인/수정</a></li>
+				<li><a id="btn_retire" href="${contextPath}/user/retire">탈퇴하기</a></li>
 			</ul>
 		</div>
 	</div>

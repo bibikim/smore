@@ -26,7 +26,7 @@
 				dataType: 'json',
 				success: function(resData){
 					if(resData.isUser){
-						location.href = '${contextPath}/user/changepw';
+						location.href = '${contextPath}/user/info';
 					} else {
 						alert('비밀번호를 확인하세요.');
 					}
