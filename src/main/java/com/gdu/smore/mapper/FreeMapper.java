@@ -15,10 +15,12 @@ public interface FreeMapper {
 	public List<FreeBoardDTO> selectFreeListByMap(Map<String, Object> map);
 	public int insertFree(FreeBoardDTO free);
 	public int insertImage(FreeImageDTO fimage);
-	public int updateHit(int fNo);
 	
 	// 상세
 	public FreeBoardDTO selectFreeByNo(int fNo);
 	public List<FreeImageDTO> selectFreeImageListInFree(int fNo);
 	public List<FreeImageDTO> selectAllFreeImageList();
+	public int updateHit(int fNo);
+	public int deleteFreeImage(String filesystem);
+	
 }

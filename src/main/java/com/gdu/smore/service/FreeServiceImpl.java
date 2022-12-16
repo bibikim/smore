@@ -163,8 +163,17 @@ public class FreeServiceImpl implements FreeService {
 		
 		FreeBoardDTO free = freeMapper.selectFreeByNo(fNo);
 
+		List<FreeImageDTO> fImageList = freeMapper.selectFreeImageListInFree(fNo);
 		
-		return null;
+		if(fImageList != null && fImageList.isEmpty() == false) {
+			for(FreeImageDTO fImage : fImageList) {
+				if(free.getFContent().contains(fImage.getFilesystem()) == false ) {
+					File file = new File("C:" + File.separator + "fImage", fImage.getFilesystem());
+				}
+			}
+		}
+		
+		return free;
 	}
 	
 }

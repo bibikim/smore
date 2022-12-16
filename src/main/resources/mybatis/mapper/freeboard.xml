@@ -62,5 +62,11 @@
 		 WHERE F_NO = #{fNo}
 	</select>
 	
+	<delete id="deleteFreeImage" parameterType="String">
+		DELETE 
+		  FROM F_IMAGE
+		 WHERE FILESYSTEM = #{filesystem}
+	</delete>
+	
 </mapper>
 	
