@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gdu.smore.domain.user.SleepUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 
 public interface UserService {
@@ -34,5 +35,9 @@ public interface UserService {
 	// 탈퇴
 	public void retire(HttpServletRequest request, HttpServletResponse response);
 	
+	// 휴면
+	public void sleepUserHandle();
+	public SleepUserDTO getSleepUserById(String id);
+	public void restoreUser(HttpServletRequest request, HttpServletResponse response);
 	
 }
