@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudyGroupDTO {
 	private int SNo;
+	private int rowNum;
 	private String nickname;
 	private String STitle;
 	private String SContent;
