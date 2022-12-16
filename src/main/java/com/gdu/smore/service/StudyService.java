@@ -12,5 +12,8 @@ public interface StudyService {
 	public void saveStudy(HttpServletRequest request, HttpServletResponse response);
 	public StudyGroupDTO getStudyByNo(int SNo);
 	public int increseStudyHit(int SNo);
-	
+	public void modifyStudy(HttpServletRequest request, HttpServletResponse response);
+	public void removeStudy(HttpServletRequest request, HttpServletResponse response);
+
+
 }

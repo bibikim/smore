@@ -15,4 +15,6 @@ public interface StudyMapper {
 	public int updateHit(int SNo);
 	public StudyGroupDTO selectStudyByNo(int SNo);
 	public int updateStudy(StudyGroupDTO study);
+	public int deleteStudy(int SNo);
+
 }
