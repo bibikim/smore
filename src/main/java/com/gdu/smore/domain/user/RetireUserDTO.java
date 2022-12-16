@@ -1,6 +1,6 @@
 package com.gdu.smore.domain.user;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

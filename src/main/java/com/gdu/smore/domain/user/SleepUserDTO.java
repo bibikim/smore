@@ -1,6 +1,6 @@
 package com.gdu.smore.domain.user;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class SleepUserDTO {
 	private int userNo;
 	private String id;
+	private String nickname;
 	private String pw;
 	private String name;
 	private int grade;

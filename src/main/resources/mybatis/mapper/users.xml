@@ -22,7 +22,7 @@
           </if>
           <if test="sessionId != null">
              AND SESSION_ID = #{sessionId}
-             AND SESSION_LIMIT_DATE > SYSDATE
+             AND SESSION_LIMIT_DATE > NOW()
           </if>
        </where>
    </select>
@@ -37,22 +37,22 @@
    <!-- 일반회원가입 -->
    <insert id="insertUser" parameterType="UserDTO">
       INSERT INTO USERS
-         (USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
+         (ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
       VALUES
-         (USERS_SEQ.NEXTVAL, #{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, #{postcode}, #{roadAddress}, #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{agreeCode}, NULL, SYSDATE, SYSDATE, SYSDATE, NULL, NULL, 0, 1)
+         (#{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, #{postcode}, #{roadAddress}, #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{agreeCode}, NULL, NOW(), NOW(), NOW(), NULL, NULL, 0, 1)
    </insert>
 
    <!-- 로그인 기록(ACCESS_LOG) 남기기 -->
    <update id="updateAccessLog" parameterType="String">
       UPDATE ACCESS_LOG
-         SET LAST_LOGIN_DATE = SYSDATE
+         SET LAST_LOGIN_DATE = NOW()
        WHERE ID = #{id}
    </update>
    <insert id="insertAccessLog" parameterType="String">
       INSERT INTO ACCESS_LOG
-         (ACCESS_LOG_NO, ID, LAST_LOGIN_DATE)
+         (ID, LAST_LOGIN_DATE)
       VALUES
-         (ACCESS_LOG_SEQ.NEXTVAL, #{id}, SYSDATE)
+         (#{id}, NOW())
    </insert>
    
    <!-- 로그인 유지를 위한 SESSION_ID/SESSION_LIMIT_DATE 업데이트 -->
@@ -67,7 +67,7 @@
    <update id="updateUserPassword" parameterType="UserDTO">
       UPDATE USERS
          SET PW = #{pw}
-           , PW_MODIFY_DATE = SYSDATE
+           , PW_MODIFY_DATE = NOW()
        WHERE USER_NO = #{userNo}
    </update>
    
@@ -86,7 +86,7 @@
           , JIBUN_ADDRESS = #{jibunAddress}
           , DETAIL_ADDRESS = #{detailAddress}
           , EXTRA_ADDRESS = #{extraAddress}
-          , INFO_MODIFY_DATE = SYSDATE
+          , INFO_MODIFY_DATE = NOW()
       WHERE ID = #{id}
    </update>
    
@@ -102,18 +102,18 @@
       INSERT INTO RETIRE_USERS
          (USER_NO, ID, JOIN_DATE, RETIRE_DATE)
       VALUES
-         (#{userNo}, #{id}, #{joinDate}, SYSDATE)
+         (#{userNo}, #{id}, #{joinDate}, NOW())
    </insert>
    
    <!-- 휴면처리1 : 1년 이상 로그인 기록이 없으면 휴면테이블에 저장 -->
    <insert id="insertSleepUser">
                                                       
       INSERT INTO SLEEP_USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE, LAST_LOGIN_DATE, SLEEP_DATE)
-         (SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, SYSDATE
+         (SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, NOW()
             FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
               ON U.ID = A.ID
-           WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
-              OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+           WHERE MONTHS_BETWEEN(NOW(), A.LAST_LOGIN_DATE) >= 12
+              OR (MONTHS_BETWEEN(NOW(), U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
    </insert>
    
    <!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
@@ -123,8 +123,8 @@
        WHERE ID IN (SELECT U.ID
                       FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                         ON U.ID = A.ID
-                     WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
-                        OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+                     WHERE MONTHS_BETWEEN(NOW(), A.LAST_LOGIN_DATE) >= 12
+                        OR (MONTHS_BETWEEN(NOW(), U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
    </delete>
    
    <!-- 로그인 이전에 휴면회원인지 확인 -->
