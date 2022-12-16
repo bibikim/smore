@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CodeBoardDTO {
-	private int cNo;
+	private int coNo;
 	private String nickname;
-	private String cTitle;
-	private String cContent;
-	private Date cCreateDate;
-	private Date cModifyDate;
-	private int cHit;
-	private String cIp;
+	private String title;
+	private String content;
+	private Date createDate;
+	private Date modifyDate;
+	private int hit;
+	private String ip;
 }

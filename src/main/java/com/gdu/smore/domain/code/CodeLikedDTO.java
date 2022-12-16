@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CodeLikedDTO {
-	private int cNo;
+	private int coNo;
 	private String nickname;
 }

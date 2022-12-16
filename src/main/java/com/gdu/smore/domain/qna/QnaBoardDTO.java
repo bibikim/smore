@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class QnaBoardDTO {
-	private int qNo;
+	private int qaNo;
 	private String nickname;
-	private String qTitle;
-	private String qContent;
-	private int qPw;
-	private Date qCreateDate;
-	private Date qModifyDate;
-	private int qHit;
-	private String qIp;
+	private String title;
+	private String content;
+	private int pw;
+	private Date createDate;
+	private Date modifyDate;
+	private int hit;
+	private String ip;
 }

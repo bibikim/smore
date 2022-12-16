@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FreeCommentDTO {
-	private int fCmtNo;
-	private int fNo;
+	private int cmtNo;
+	private int freeNo;
 	private String nickname;
-	private String fCmtContent;
-	private Date fCmtCreateDate;
-	private Date fCmtModifyDate;
-	private int fState;
-	private int fDepth;
-	private String fIp;
+	private String cmtContent;
+	private Date createDate;
+	private Date modifyDate;
+	private int state;
+	private int depth;
+	private String ip;
 }

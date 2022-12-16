@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 
 public class CodeAttachDTO {
 	private int attachNo;
-	private int cNo;
+	private int coNo;
 	private String path;
 	private String origin;
-	private String fileSystem;
+	private String filesystem;
 	private int downloadCnt;
 }
