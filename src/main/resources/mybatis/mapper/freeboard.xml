@@ -12,27 +12,23 @@
 	</select>
 
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
-	    SELECT N.RW, N.FREENO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREENO DESC) AS RW, FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+	    SELECT N.RW, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREENO DESC) AS RW, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM FREEBOARD) N
 		 WHERE N.RW BETWEEN #{begin} AND #{end}
 	</select>
 
 	<!-- 글쓰기 -->
 	<insert id="insertFree" parameterType="FreeBoardDTO">
-		<selectKey keyProperty="fNo" resultType="int" order="BEFORE">
-			SELECT FREEBOARD_SEQ.NEXTVAL
-			  FROM DUAL
-		</selectKey>
 		INSERT INTO F_BOARD
-			(FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
+			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		 VALUES
-		 	(#{freeNo}, #{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
+		 	(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
 	</insert>
 	
 	<insert id="insertImage" parameterType="FreeImageDTO">
 		INSERT INTO FREEIMAGE
-			(FREENO, FILESYSTEM)
+			(FREE_NO, FILESYSTEM)
 		 VALUES
 		 	(#{freeNo}, #{filesystem})
 	</insert>
@@ -41,25 +37,25 @@
 	<update id="updateHit" parameterType="int">
 		UPDATE FREEBOARD
 		   SET HIT = HIT + 1
-		 WHERE freeNO = #{freeNo}
+		 WHERE FREE_NO = #{freeNo}
 	</update>
 	
 	<!-- 상세보기 -->
 	<select id="selectFreeByNo" parameterType="int" resultType="FreeBoardDTO">
-		SELECT FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  FROM FREEBOARD
-		 WHERE FREENO = #{freeNo} 
+		 WHERE FREE_NO = #{freeNo} 
 	</select>
 	
 	<select id="selectAllFreeImageList" resultType="FreeImageDTO">
-		SELECT FREENO, FILESYSTEM
+		SELECT FREE_NO, FILESYSTEM
 		  FROM FREEIMAGE
 	</select>
 	
 	<select id="selectFreeImageListInFree" parameterType="int" resultType="FreeImageDTO">
-		SELECT FREENO, FILESYSTEM
+		SELECT FREE_NO, FILESYSTEM
 		  FROM FREEIMAGE
-		 WHERE FREENO = #{freeNo}
+		 WHERE FREE_NO = #{freeNo}
 	</select>
 	
 	<delete id="deleteFreeImage" parameterType="String">

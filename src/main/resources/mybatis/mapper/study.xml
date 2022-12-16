@@ -19,47 +19,43 @@
 	</select>
 	
 	<insert id="insertStudy" parameterType="StudyGroupDTO">
-		<selectKey keyProperty="studNo" resultType="int" order="BEFORE">
-			SELECT S_GROUP_SEQ.NEXTVAL
-			  FROM DUAL
-		</selectKey>
 		INSERT INTO S_GROUP
-			(STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP)
+			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP)
 		VALUES
-			(#{studNo}, #{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{gender}, #{region}, #{wido}, #{gdo}, #{lang}, #{people}, #{contact}, NOW(), #{ip})
+			(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{gender}, #{region}, #{wido}, #{gdo}, #{lang}, #{people}, #{contact}, NOW(), #{ip})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
 		UPDATE S_GROUP
-		   SET S_HIT = S_HIT + 1
-		 WHERE S_NO = #{SNo}
+		   SET HIT = HIT + 1
+		 WHERE STUD_NO = #{studNo}
 	</update>
 	 
 	 <!-- 고칠것들 -->
 	 <select id="selectStudyByNo" parameterType="int" resultType="StudyGroupDTO">
-		SELECT S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
+		SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
           FROM S_GROUP
-		 WHERE S_NO = #{SNo}
+		 WHERE STUD_NO = #{studNo}
 	</select>
 	
 	<update id="updateStudy" parameterType="StudyGroupDTO">
 		UPDATE S_GROUP
-		   SET S_TITLE = #{STitle}
-		     , S_CONTENT = #{SContent}
-		     , S_MODIFY_DATE = NOW()
-		 WHERE S_NO = #{SNo}
+		   SET TITLE = #{title}
+		     , CONTENT = #{content}
+		     , MODIFY_DATE = NOW()
+		 WHERE STUD_NO = #{studNo}
 	</update>
 
 	
 	<delete id="deleteStudy" parameterType="int">
 		DELETE
 		  FROM S_GROUP
-		 WHERE S_NO = #{SNo}
+		 WHERE STUD_NO = #{studNo}
 	</delete>
 	
 	<select id="selectStudyScroll" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.ROW_NUM, A.S_NO, A.NICKNAME, A.S_TITLE, A.S_CONTENT, A.S_CREATE_DATE, A.S_MODIFY_DATE, A.S_HIT, A.S_GENDER, A.S_REGION, A.S_WIDO, A.S_GDO, A.S_LANG, A.S_PEOPLE, A.S_CONTACT, A.S_DATE, A.S_IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY S_NO DESC) AS ROW_NUM, S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
+		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
 		          FROM S_GROUP B) A
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
