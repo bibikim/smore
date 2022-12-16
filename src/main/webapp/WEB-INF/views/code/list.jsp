@@ -69,15 +69,25 @@
 	                <tr>
 	                    <td class="text-center">${beginNo - vs.index}</td>
 	                    <td class="subject">
-	                    	
 	                    	<c:if test="${loginUser.nickname eq question.NICKNAME}">
 	                    		<c:set var="chkUser" scope="request" value="Y" />
 	                    	</c:if>
-	                    	<c:if test="${loginUser.nickname ne question.NICKNAME}">
-	                    		<c:set var="chkUser" scope="request" value="N" />
-	                    	</c:if>
-	                    	
-	                    	
+	                    	<c:if test="${question.C_PW ne null}">
+		                        <a href="/code/detail" onclick="goDetailPage(${question.C_NO}, ${chkUser}, 'Y')">
+		                            <span>[코드]</span> ${question.C_TITLE}
+		                            <c:if test="${question.NEW_YN eq 'Y'}">
+		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
+		                            </c:if>
+		                        </a>
+	                        </c:if>
+	                        <c:if test="${question.C_PW eq null}">
+	                        	<a href="/code/detail" onclick="goDetailPage(${question.C_NO}, ${chkUser}, 'N')">
+		                        	${question.C_TITLE}
+		                            <c:if test="${question.NEW_YN eq 'Y'}">
+		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
+		                            </c:if>
+	                            </a>
+	                        </c:if>
 	                    </td>
 	                    <td>${question.NICKNAME}</td>
 	                    <td><fmt:formatDate value="${question.C_CREATE_DATE}" pattern="yyyy.M.d"/></td>

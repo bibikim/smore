@@ -12,14 +12,14 @@
 	</select>
 	
 	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
-		<selectKey keyProperty="cboardNo" resultType="int" order="BEFORE">
-			SELECT CODEBOARD_SEQ.NEXTVAL
+		<selectKey keyProperty="cNo" resultType="int" order="BEFORE">
+			SELECT C_BOARD_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
-		INSERT INTO CODEBOARD
-			(C_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP,)
+		INSERT INTO C_BOARD
+			(C_NO, NICKNAME, C_TITLE, C_CONTENT, C_CREATE_DATE, C_MODIFY_DATE, C_HIT, C_IP)
 		VALUES
-			(#{cNo}, {#nickname}, #{title}, #{content}, SYSDATE, SYSDATE, 0, #{ip})
+			(#{cNo}, #{nickname}, #{cTitle}, #{cContent}, SYSDATE, SYSDATE, 0, #{cIp})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
@@ -29,24 +29,24 @@
 	</update>
 	
 	<select id="selectCodeBoardByNo" parameterType="int" resultType="CodeBoardDTO">
-		SELECT C_NO as cNo, U.NICKNAME as nickname, C_TITLE as cTitle, C_CONTENT as cContent, C_PW as cPw, C_CREATE_DATE as cCreateDate, C_MODIFY_DATE as cModifyDate, C_HIT as cHit, C_IP as cIp
+		SELECT C_NO as cNo, U.NICKNAME as nickname, C_TITLE as cTitle, C_CONTENT as cContent, C_CREATE_DATE as cCreateDate, C_MODIFY_DATE as cModifyDate, C_HIT as cHit, C_IP as cIp
           FROM USERS U INNER JOIN C_BOARD C
             ON U.NICKNAME = C.NICKNAME
 		 WHERE C.C_NO = #{cNo}
 	</select>
 	
 	<update id="updateCodeBoard" parameterType="CodeBoardDTO">
-		UPDATE CODEBOARD
-		   SET TITLE = #{title}
-		     , CONTENT = #{content}
+		UPDATE C_BOARD
+		   SET TITLE = #{cTitle}
+		     , CONTENT = #{cContent}
 		     , MODIFY_DATE = SYSDATE
 		 WHERE C_NO = #{cNo}
 	</update>
 	
 	<delete id="deleteCodeBoard" parameterType="int">
 		DELETE
-		  FROM CODEBOARD
-		 WHERE CODEBOARD_NO = #{cNo}
+		  FROM C_BOARD
+		 WHERE C_BOARD_NO = #{cNo}
 	</delete>
 	
 	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="hashmap">

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.gdu.smore.domain.free.FreeImageDTO;
 import com.gdu.smore.domain.qna.QnaBoardDTO;
 import com.gdu.smore.mapper.QnaBoardMapper;
 import com.gdu.smore.util.MyFileUtil;
@@ -118,16 +117,56 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 	@Override
 	public void modifyQnaBoard(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		 QnaBoardDTO qna = new QnaBoardDTO();
+		 qna.setQTitle(request.getParameter("title"));
+		 qna.setQContent(request.getParameter("content"));
+		 qna.setQNo(Integer.parseInt(request.getParameter("qNo")));
+	      int result = qnaboardMapper.updateQnaBoard(qna);
+	      response.setContentType("text/html; charset=UTF-8");
+	      try {
+	         PrintWriter out = response.getWriter();
+	         if(result > 0) {  // if(result == 1) {
+	            out.println("<script>");
+	            out.println("alert('게시글이 수정되었습니다.');");
+	            out.println("location.href='" + request.getContextPath() + "/qna/list';");
+	            out.println("</script>");
+	         } else {
+	            out.println("<script>");
+	            out.println("alert('게시글이 수정되지 않았습니다.');");
+	            out.println("history.back();");
+	            out.println("</script>");
+	         }
+	         out.close();
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 
 	@Override
 	public void removeQnaBoard(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+		int qNo = Integer.parseInt(request.getParameter("qNo"));
+         
+         int result = qnaboardMapper.deleteQnaBoard(qNo);
+         response.setContentType("text/html; charset=UTF-8");
+         try {
+            PrintWriter out = response.getWriter();
+            if(result > 0) {  // if(result == 1) {
+               out.println("<script>");
+               out.println("alert('게시글이 삭제되었습니다.');");
+               out.println("location.href='" + request.getContextPath() + "/qna/list';");  
+               out.println("</script>");
+            } else {
+               out.println("<script>");
+               out.println("alert('게시글이 삭제되지 않았습니다.');");
+               out.println("history.back();");
+               out.println("</script>");
+            }
+            out.close();
+         } catch(Exception e) {
+            e.printStackTrace();
+         }
+   }
 	
 	
 	
