@@ -56,8 +56,10 @@
 		  FROM F_IMAGE
 	</select>
 	
-	<select id="">
-		
+	<select id="selectFreeImageListInFree" parameterType="int" resultType="FreeImageDTO">
+		SELECT F_NO, FILESYSTEM
+		  FROM F_IMAGE
+		 WHERE F_NO = #{fNo}
 	</select>
 	
 </mapper>

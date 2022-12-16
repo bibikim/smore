@@ -3,6 +3,7 @@ package com.gdu.smore.service;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -159,7 +160,10 @@ public class FreeServiceImpl implements FreeService {
 	
 	@Override
 	public FreeBoardDTO getFreeByNo(int fNo) {
-		// TODO Auto-generated method stub
+		
+		FreeBoardDTO free = freeMapper.selectFreeByNo(fNo);
+
+		
 		return null;
 	}
 	
