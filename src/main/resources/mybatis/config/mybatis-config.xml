@@ -16,6 +16,8 @@
 		<typeAlias type="com.gdu.smore.domain.user.UserDTO" alias="UserDTO"/>
 		<typeAlias type="com.gdu.smore.domain.user.RetireUserDTO" alias="RetireUserDTO"/>
 		<typeAlias type="com.gdu.smore.domain.user.SleepUserDTO" alias="SleepUserDTO"/>
+		<typeAlias type="com.gdu.smore.domain.user.AccessLogDTO" alias="AccessLogDTO"/>
+		<typeAlias type="com.gdu.smore.domain.user.AllUserDTO" alias="AllUserDTO"/>
 		
 		<!-- 스터디 -->
 		<typeAlias type="com.gdu.smore.domain.study.StudyCommentDTO" alias="StudyCommentDTO"/>

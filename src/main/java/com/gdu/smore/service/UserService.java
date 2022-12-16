@@ -20,6 +20,12 @@ public interface UserService {
 	public void keepLogin(HttpServletRequest request, HttpServletResponse response);
 	public UserDTO getUserBySessionId(Map<String, Object> map);
 	
+	// 아이디 찾기
+	
+	
+	// 비번 찾기
+	
+	
 	// 정보 수정
 	public Map<String, Object> confirmPassword(HttpServletRequest request);
 	public void modifyPassword(HttpServletRequest request, HttpServletResponse response);

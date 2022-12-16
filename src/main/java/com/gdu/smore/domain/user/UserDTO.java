@@ -2,6 +2,8 @@ package com.gdu.smore.domain.user;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,11 +33,16 @@ public class UserDTO {
 	private String extraAddress;
 	private int agreeCode;
 	private String snsType;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date joinDate;
 	private Date pwModifyDate;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date infoModifyDate;
 	private String sessionId;
 	private Date sessionLimitDate;
 	private int blackCnt;
 	private int userState; //일반회원(1) / 제재회원(0) 구분 not null
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date lastLoginDate;
+	private AccessLogDTO accessLogDTO;
 }

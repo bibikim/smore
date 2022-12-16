@@ -11,63 +11,63 @@
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 
 <style type="text/css">
-	.bg-light {
-		background-color: #ffffff;
-	}	
-	a {
-		text-decoration-line: none;
-		cursor: pointer;
-		color: black;
-	}
+   .bg-light {
+      background-color: #ffffff;
+   }   
+   a {
+      text-decoration-line: none;
+      cursor: pointer;
+      color: black;
+   }
 </style>
 
 <link rel="stylesheet" href="${contextPath}/resources/css/bootstrap.min.css">
 
       <c:if test="${loginUser == null}">
-    	<nav class="navbar navbar-light bg-light" >
-		  	<a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
-			<ul class="nav justify-content-end">
-				  <li class="nav-item">
-				    <a class="nav-link active" href="${contextPath}/free/list">자게</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/code/list">코게</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/qna/list">큐게</a>
-				  </li>
-				    <li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/user/login/form" tabindex="-1" aria-disabled="true">login</a>
-				  </li>
-			</ul>
-		</nav>
+       <nav class="navbar navbar-light bg-light" >
+           <a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
+         <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link active" href="${contextPath}/free/list">자게</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/code/list">코게</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/qna/list">큐게</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/user/login/form" tabindex="-1" aria-disabled="true">login</a>
+              </li>
+         </ul>
+      </nav>
       </c:if>
-	
-	<c:if test="${loginUser ne null}">
-	<div>
-     	<div style="text-align: right"> 
-     		<c:if test="${loginUser.id == 'admin'}">
-		     	<a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
-	     	</c:if>
-	     	<c:if test="${loginUser.id != 'admin'}">
-	     		<a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
-	     	</c:if>	
-	     	<a href="${contextPath}/user/logout">로그아웃</a>
-     	</div>
+   
+   <c:if test="${loginUser ne null}">
+   <div>
+        <div style="text-align: right"> 
+           <c:if test="${loginUser.id == 'admin'}">
+              <a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
+           </c:if>
+           <c:if test="${loginUser.id != 'admin'}">
+              <a href="${contextPath}/user/mypage">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
+           </c:if>   
+           <a href="${contextPath}/user/logout">로그아웃</a>
+        </div>
         <nav class="navbar navbar-light bg-light">
-		  	<a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
-			<ul class="nav justify-content-end">
-				  <li class="nav-item">
-				    <a class="nav-link active" href="${contextPath}/free/list">자게</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/code/list">코게</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/qna/list">큐게</a>
-				  </li>
-			</ul>
-		</nav>
-	  </div>
+           <a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
+         <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link active" href="${contextPath}/free/list">자게</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/code/list">코게</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/qna/list">큐게</a>
+              </li>
+         </ul>
+      </nav>
+     </div>
      </c:if>
-		
+      
