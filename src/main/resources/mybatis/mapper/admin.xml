@@ -6,203 +6,200 @@
 
 <mapper namespace="com.gdu.smore.mapper.AdminMapper">
 
-<!-- 	<resultMap type="AccessLogDTO" id="AccessLogMap">
-		<result column="ACCESS_LOG_NO" property="accessLogNo" />
-		<result column="ID" property="id" />
-		<result column="LAST_LOGIN_DATE" property="lastLoginDate" />
-	</resultMap>
-	<resultMap type="SleepUserDTO" id="SleepUserMap">
-		<result column="USER_NO" property="userNo" />
-		<result column="ID" property="id" />
-		<result column="PW" property="pw" />
-		<result column="NAME" property="name" />
-		<result column="GENDER" property="gender" />
-		<result column="EMAIL" property="email" />
-		<result column="JOIN_DATE" property="joinDate" />
-		<result column="LAST_LOGIN_DATE" property="lastLoginDate" />
-		<result column="SLEEP_DATE" property="sleepDate" />
-	</resultMap>
-	<resultMap type="UserDTO" id="UserMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<result column="USER_NO" property="userNo" />
-		<result column="ID" property="id" />
-		<result column="PW" property="pw" />
-		<result column="NAME" property="name" />
-		<result column="GRADE" property="grade" />
-		<result column="GENDER" property="gender" />
-		<result column="EMAIL" property="email" />
-		<result column="MOBILE" property="mobile" />
-		<result column="BIRTH_YEAR" property="birthYear" />
-		<result column="BIRTHDAY" property="birthDay" />
-		<result column="POSTCODE" property="postcode" />
-		<result column="ROAD_ADDRESS" property="roadAddress" />
-		<result column="JIBUN_ADDRESS" property="jibunAddress" />
-		<result column="DETAIL_ADDRESS" property="detailAddress" />
-		<result column="EXTRA_ADDRESS" property="extraAddress" />
-		<result column="AGREE_CODE" property="agreeCode" />
-		<result column="SNS_TYPE" property="snsType" />
-		<result column="JOIN_DATE" property="joinDate" />
-		<result column="PW_MODIFY_DATE" property="pwModifyDate" />
-		<result column="INFO_MODIFY_DATE" property="infoModifyDate" />
-		<result column="SESSION_ID" property="sessionId" />
-		<result column="SESSION_LIMIT_DATE" property="sessionLimitDate" />
-		<result column="BLACK_CNT" property="blackCnt" />
-		<result column="USER_STATE" property="userState" />
-		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
-	</resultMap>
-	<resultMap type="AllUserDTO" id="AllUserMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<collection resultMap="UserMap" property="userDTO"></collection>
-		<collection resultMap="SleepUserMap" property="sleepUserDTO"></collection>
-	</resultMap> -->
+<!--    <resultMap type="AccessLogDTO" id="AccessLogMap">
+      <result column="ACCESS_LOG_NO" property="accessLogNo" />
+      <result column="ID" property="id" />
+      <result column="LAST_LOGIN_DATE" property="lastLoginDate" />
+   </resultMap>
+   <resultMap type="SleepUserDTO" id="SleepUserMap">
+      <result column="USER_NO" property="userNo" />
+      <result column="ID" property="id" />
+      <result column="PW" property="pw" />
+      <result column="NAME" property="name" />
+      <result column="GENDER" property="gender" />
+      <result column="EMAIL" property="email" />
+      <result column="JOIN_DATE" property="joinDate" />
+      <result column="LAST_LOGIN_DATE" property="lastLoginDate" />
+      <result column="SLEEP_DATE" property="sleepDate" />
+   </resultMap>
+   <resultMap type="UserDTO" id="UserMap">
+      <result column="ROW_NUM" property="rowNum" />
+      <result column="USER_NO" property="userNo" />
+      <result column="ID" property="id" />
+      <result column="PW" property="pw" />
+      <result column="NAME" property="name" />
+      <result column="GRADE" property="grade" />
+      <result column="GENDER" property="gender" />
+      <result column="EMAIL" property="email" />
+      <result column="MOBILE" property="mobile" />
+      <result column="BIRTH_YEAR" property="birthYear" />
+      <result column="BIRTHDAY" property="birthDay" />
+      <result column="POSTCODE" property="postcode" />
+      <result column="ROAD_ADDRESS" property="roadAddress" />
+      <result column="JIBUN_ADDRESS" property="jibunAddress" />
+      <result column="DETAIL_ADDRESS" property="detailAddress" />
+      <result column="EXTRA_ADDRESS" property="extraAddress" />
+      <result column="AGREE_CODE" property="agreeCode" />
+      <result column="SNS_TYPE" property="snsType" />
+      <result column="JOIN_DATE" property="joinDate" />
+      <result column="PW_MODIFY_DATE" property="pwModifyDate" />
+      <result column="INFO_MODIFY_DATE" property="infoModifyDate" />
+      <result column="SESSION_ID" property="sessionId" />
+      <result column="SESSION_LIMIT_DATE" property="sessionLimitDate" />
+      <result column="BLACK_CNT" property="blackCnt" />
+      <result column="USER_STATE" property="userState" />
+      <collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
+   </resultMap>
+   <resultMap type="AllUserDTO" id="AllUserMap">
+      <result column="ROW_NUM" property="rowNum" />
+      <collection resultMap="UserMap" property="userDTO"></collection>
+      <collection resultMap="SleepUserMap" property="sleepUserDTO"></collection>
+   </resultMap> -->
 
 
-	<select id="selectUserCount" resultType="int">
-		SELECT COUNT(*)
-		  FROM USERS
-	</select>
-	
-	<select id="selectSleepUserCount" resultType="int">
-		SELECT COUNT(*)
-		  FROM SLEEP_USERS
-	</select>
-	
-	
-	<select id="selectReportUserCount" resultType="int">
-		SELECT COUNT(*)
-		  FROM REDBELL
-	</select>
-	
-<!-- 	<select id="selectAllUserList" parameterType="Map" resultMap="AllUserMap">
-		SELECT
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, S. 
-		          FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE 
-		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                    ON U.ID = A.ID 
-		                 UNION
-                		SELECT USER_NO, ID, NAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
-                  		  FROM SLEEP_USERS) S) D   
-		                    
-	</select> -->
+   <select id="selectUserCount" resultType="int">
+      SELECT COUNT(*)
+        FROM USERS
+   </select>
+   
+   <select id="selectSleepUserCount" resultType="int">
+      SELECT COUNT(*)
+        FROM SLEEP_USERS
+   </select>
+   
+   
+   <select id="selectReportUserCount" resultType="int">
+      SELECT COUNT(*)
+        FROM REDBELL
+   </select>
+   
+<!--    <select id="selectAllUserList" parameterType="Map" resultMap="AllUserMap">
+      SELECT
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, S. 
+                FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE 
+                        FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+                          ON U.ID = A.ID 
+                       UNION
+                      SELECT USER_NO, ID, NAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
+                          FROM SLEEP_USERS) S) D   
+                          
+   </select> -->
 
-	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
-		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.INFO_MODIFY_DATE, B.LAST_LOGIN_DATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
-		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-                    		ON U.ID = A.ID) B
-		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
-	</select>
-	
-	<select id="selectSleepUserListByMap" parameterType="map" resultType="UserDTO">
-		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.SLEEP_DATE
-		  		  FROM SLEEP_USERS U LEFT OUTER JOIN ACCESS_LOG A
-                    		ON U.ID = A.ID) B
-		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
-	</select>
-	
-	<!-- 자유게시판 조회 -->
-	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
-	    SELECT N.RW, N.F_NO, N.NICKNAME, N.F_TITLE, N.F_CONTENT, N.F_CREATE_DATE, N.F_MODIFY_DATE, N.F_HIT, N.F_IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY F_NO DESC) AS RW, F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP
-		  		FROM F_BOARD) N
-		 WHERE N.RW BETWEEN #{begin} AND #{end}
-	</select>
-	
-	<!-- 스터디모집게시판 조회 -->
-	<select id="selectAllList" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.ROW_NUM, A.S_NO, A.NICKNAME, A.S_TITLE, A.S_CONTENT, A.S_CREATE_DATE, A.S_MODIFY_DATE, A.S_HIT, A.S_GENDER, A.S_REGION, A.S_WIDO, A.S_GDO, A.S_LANG, A.S_PEOPLE, A.S_CONTACT, A.S_DATE, A.S_IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY S_NO DESC) AS ROW_NUM, S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
-		          FROM S_GROUP B) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
-	</select>
-	
-	
-	
-<!-- 	<select id="selectUserByNo" parameterType="int" resultType="UserDTO">
-		SELECT USER_NO, ID, JOIN_DATE
-		  FROM USERS
-		 WHERE USER_NO = #{userNo} 
-	</select> -->
-	
-	<delete id="deleteUserList" parameterType="List">
-		DELETE
-		  FROM USERS
-		  <where>
-		  	USER_NO IN 
-		 	<foreach collection="list" item="userNo" open="(" close=")" separator=",">  <!-- memberNo를 ()로 덮어주고 separator로 구분을해줌(여러개가 나오니까) -->
-		 		#{userNo}
-		 	</foreach>
-		  </where>
-	</delete>
-	
-	<delete id="deleteAccessLog" parameterType="String">
-		DELETE 
-		  FROM ACCESS_LOG
-		 WHERE  ID = #{id}
-	</delete>
-	
+   <select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
+      SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.INFO_MODIFY_DATE, B.LAST_LOGIN_DATE
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
+                FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+                          ON U.ID = A.ID) B
+       WHERE B.ROW_NUM BETWEEN #{begin} AND #{end}         
+   </select>
+   
+   <select id="selectSleepUserListByMap" parameterType="map" resultType="UserDTO">
+      SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.SLEEP_DATE
+                FROM SLEEP_USERS U LEFT OUTER JOIN ACCESS_LOG A
+                          ON U.ID = A.ID) B
+       WHERE B.ROW_NUM BETWEEN #{begin} AND #{end}         
+   </select>
+   
+   <!-- 자유게시판 조회 -->
+   <select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
+       SELECT N.RW, N.F_NO, N.NICKNAME, N.F_TITLE, N.F_CONTENT, N.F_CREATE_DATE, N.F_MODIFY_DATE, N.F_HIT, N.F_IP
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY F_NO DESC) AS RW, F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP
+              FROM F_BOARD) N
+       WHERE N.RW BETWEEN #{begin} AND #{end}
+   </select>
+   
+   <!-- 스터디모집게시판 조회 -->
+   <select id="selectAllList" parameterType="Map" resultType="StudyGroupDTO">
+      SELECT A.ROW_NUM, A.S_NO, A.NICKNAME, A.S_TITLE, A.S_CONTENT, A.S_CREATE_DATE, A.S_MODIFY_DATE, A.S_HIT, A.S_GENDER, A.S_REGION, A.S_WIDO, A.S_GDO, A.S_LANG, A.S_PEOPLE, A.S_CONTACT, A.S_DATE, A.S_IP
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY S_NO DESC) AS ROW_NUM, S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
+                FROM S_GROUP B) A
+       WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+   </select>
+   
+   
+   
+<!--    <select id="selectUserByNo" parameterType="int" resultType="UserDTO">
+      SELECT USER_NO, ID, JOIN_DATE
+        FROM USERS
+       WHERE USER_NO = #{userNo} 
+   </select> -->
+   
+   <delete id="deleteUserList" parameterType="List">
+      DELETE
+        FROM USERS
+        <where>
+           USER_NO IN 
+          <foreach collection="list" item="userNo" open="(" close=")" separator=",">  <!-- memberNo를 ()로 덮어주고 separator로 구분을해줌(여러개가 나오니까) -->
+             #{userNo}
+          </foreach>
+        </where>
+   </delete>
+   
+   <delete id="deleteAccessLog" parameterType="String">
+      DELETE 
+        FROM ACCESS_LOG
+       WHERE  ID = #{id}
+   </delete>
+   
 
    <insert id="insertRetireUser" parameterType="RetireUserDTO">
       INSERT INTO RETIRE_USERS
          (USER_NO, ID, JOIN_DATE, RETIRE_DATE)
       VALUES
-		(#{userNo}, #{id}, #{joinDate}, SYSDATE)
+      (#{userNo}, #{id}, #{joinDate}, SYSDATE)
    </insert>
     
-<!-- 	<select id="selectReportUserList" parameterType="map" resultMap="RedBellMap">
-		SELECT A.ROW_NUM, A.R_NO, A.ID, A.R_CONTENT, A.R_DATE, A.R_GUBUN, A.R_TARGET, A.S_NO, A.GRP_NICKNAME, A.S_CMT_NO, A.CMT_NICKNAME
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID, R.R_CONTENT, R.R_DATE, R.R_GUBUN, R.R_TARGET, G.S_NO, G.NICKNAME AS GRP_NICKNAME, C.S_CMT_NO, C.NICKNAME AS CMT_NICKNAME
-		  		  FROM REDBELL R 
-		         RIGHT OUTER JOIN S_GROUP G
-		            ON R.R_TARGET = G.S_NO
-		         RIGHT OUTER JOIN S_CMT C
-		            ON R.R_TARGET = C.S_CMT_NO) A 
-		   <where> 
-		      <if test="rGubun == 1">
-		         R.R_TARGET = #{sNo} 	         
-		      </if>
-		      <if test="rGubun == 2">
-		         R.R_TARGET = #{sCmtNo}  	         
-		      </if>
-		      AND A.ROW_NUM BETWEEN #{begin} AND #{end} 
-      	  </where>
-	</select>	 -->
-	
-		<resultMap type="GrpRedbellDTO" id="GrpRedbellMap">
-		<id property="rNo" column="R_NO"/>
-		<result property="title" column="TITLE"/>
-		<result property="content" column="CONTENT"/>
-		<result property="hit" column="HIT"/>
-		<result property="ip" column="IP"/>
-		<result property="createDate" column="CREATE_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
-		<association property="USERS" javaType="UserDTO">
-			<id property="userNo" column="USER_NO"/>
-			<result property="id" column="ID"/>
-		</association>
-		<association property="S_GROUP" javaType="StudyGroupDTO">
-			<id property="sNo" column="S_NO"/>
-			<result property="nickname" column="NICKNAME"/>
-		</association>
-		</resultMap>
-	
-	<!-- R.ID는 모임장 -->
-	<select id="selectReportList" parameterType="Map" resultMap="GrpRedbellMap">
-		SELECT A.ROW_NUM, A.R_NO, A.LEADER_ID, A.S_NO, A.R_CONTENT, A.R_DATE, A.REPORTER_ID, A.NICKNAME
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID AS LEADER_ID, R.S_NO, R.R_CONTENT, R.R_DATE, U.ID AS REPORTER_ID, S.NICKNAME
-		          FROM USERS U 
-		         INNER JOIN GRP_REDBELL R
-		            ON U.ID = R.ID
-		         INNER JOIN S_GROUP S
-		            ON R.S_NO = S.S_NO) A
-		  WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}           
-	</select>
-	
-	
+<!--    <select id="selectReportUserList" parameterType="map" resultMap="RedBellMap">
+      SELECT A.ROW_NUM, A.R_NO, A.ID, A.R_CONTENT, A.R_DATE, A.R_GUBUN, A.R_TARGET, A.S_NO, A.GRP_NICKNAME, A.S_CMT_NO, A.CMT_NICKNAME
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID, R.R_CONTENT, R.R_DATE, R.R_GUBUN, R.R_TARGET, G.S_NO, G.NICKNAME AS GRP_NICKNAME, C.S_CMT_NO, C.NICKNAME AS CMT_NICKNAME
+                FROM REDBELL R 
+               RIGHT OUTER JOIN S_GROUP G
+                  ON R.R_TARGET = G.S_NO
+               RIGHT OUTER JOIN S_CMT C
+                  ON R.R_TARGET = C.S_CMT_NO) A 
+         <where> 
+            <if test="rGubun == 1">
+               R.R_TARGET = #{sNo}             
+            </if>
+            <if test="rGubun == 2">
+               R.R_TARGET = #{sCmtNo}              
+            </if>
+            AND A.ROW_NUM BETWEEN #{begin} AND #{end} 
+           </where>
+   </select>    -->
+   
+      <resultMap type="GrpRedbellDTO" id="GrpRedbellMap">
+      <id property="rNo" column="R_NO"/>
+      <result property="title" column="TITLE"/>
+      <result property="content" column="CONTENT"/>
+      <result property="hit" column="HIT"/>
+      <result property="ip" column="IP"/>
+      <result property="createDate" column="CREATE_DATE"/>
+      <result property="modifyDate" column="MODIFY_DATE"/>
+      <association property="USERS" javaType="UserDTO">
+         <id property="userNo" column="USER_NO"/>
+         <result property="id" column="ID"/>
+      </association>
+      <association property="S_GROUP" javaType="StudyGroupDTO">
+         <id property="sNo" column="S_NO"/>
+         <result property="nickname" column="NICKNAME"/>
+      </association>
+      </resultMap>
+   
+   <!-- R.ID는 모임장 -->
+   <select id="selectReportList" parameterType="Map" resultMap="GrpRedbellMap">
+      SELECT A.ROW_NUM, A.R_NO, A.LEADER_ID, A.S_NO, A.R_CONTENT, A.R_DATE, A.REPORTER_ID, A.NICKNAME
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID AS LEADER_ID, R.S_NO, R.R_CONTENT, R.R_DATE, U.ID AS REPORTER_ID, S.NICKNAME
+                FROM USERS U 
+               INNER JOIN GRP_REDBELL R
+                  ON U.ID = R.ID
+               INNER JOIN S_GROUP S
+                  ON R.S_NO = S.S_NO) A
+        WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}           
+   </select>
+   
+   
 
 </mapper>
-	
-	
-	
-	
+   

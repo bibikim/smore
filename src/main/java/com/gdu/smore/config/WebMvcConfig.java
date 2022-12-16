@@ -22,6 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	private SleepUserCheckingInterceptor sleepUserCheckingInterceptor;
 	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/load/image/**")
