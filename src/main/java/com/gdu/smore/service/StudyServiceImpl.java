@@ -145,6 +145,109 @@ public class StudyServiceImpl implements StudyService {
 		return study;
 	}
 	
+	@Transactional
+	@Override
+	public void modifyStudy(HttpServletRequest request, HttpServletResponse response) {
+		
+		// 파라미터 title, content, sNo
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		int SNo = Integer.parseInt(request.getParameter("SNo"));
+		
+		// DB로 보낼 BlogDTO
+		StudyGroupDTO study = StudyGroupDTO.builder()
+				.STitle(title)
+				.SContent(content)
+				.SNo(SNo)
+				.build();
+		
+		// DB 수정
+		int result = studyMapper.updateStudy(study);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		// 응답
+		try {
+			
+			PrintWriter out = response.getWriter();
+			
+			if(result > 0) {
+				/*
+				// 파라미터 summernoteImageNames
+				String[] summernoteImageNames = request.getParameterValues("summernoteImageNames");
+				
+				// DB에 SummernoteImage 저장
+				if(summernoteImageNames != null) {
+					for(String filesystem : summernoteImageNames) {
+						SummernoteImageDTO summernoteImage = SummernoteImageDTO.builder()
+								.blogNo(blog.getBlogNo())
+								.filesystem(filesystem)
+								.build();
+						blogMapper.insertSummernoteImage(summernoteImage);
+					}
+				}
+				*/
+				out.println("<script>");
+				out.println("alert('수정 성공');");
+				out.println("location.href='" + request.getContextPath() + "/study/list';");
+				out.println("</script>");
+			} else {
+				out.println("<script>");
+				out.println("alert('수정 실패');");
+				out.println("history.back();");
+				out.println("</script>");
+
+			}
+			out.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
+	@Override
+	public void removeStudy(HttpServletRequest request, HttpServletResponse response) {
+		
+		// 파라미터 blogNo
+		int SNo = Integer.parseInt(request.getParameter("SNo"));
+		
+		// DB 삭제
+		int result = studyMapper.deleteStudy(SNo);  // 외래키 제약조건에 의해서 SummernoteImage도 모두 지워짐
+		
+		// 응답
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			if(result > 0) {
+				
+				/*
+				// HDD에서 SummernoteImage 리스트 삭제
+				if(summernoteImageList != null && summernoteImageList.isEmpty() == false) {
+					for(SummernoteImageDTO summernoteImage : summernoteImageList) {
+						File file = new File(myFileUtil.getSummernotePath(), summernoteImage.getFilesystem());
+						if(file.exists()) {
+							file.delete();
+						}
+					}
+				}
+				*/
+				
+				out.println("alert('삭제 성공');");
+				out.println("location.href='" + request.getContextPath() + "/study/list';");
+			} else {
+				out.println("alert('삭제 실패');");
+				out.println("history.back();");
+			}
+			out.println("</script>");
+			out.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

@@ -25,6 +25,14 @@ public class StudyController {
 		return "study/list";
 	}
 	
+	/*
+	@GetMapping("/study/list_scroll")
+	public String getStudyList(HttpServletRequest request, Model model) {
+		studyService.getStudyList(request, model);
+		return "study/list_scroll";
+	}
+	*/
+	
 	@GetMapping("/study/write")
 	public String write() {
 		return "study/write";
@@ -56,5 +64,16 @@ public class StudyController {
 		model.addAttribute("study", studyService.getStudyByNo(SNo));
 		return "study/edit";
 	}
+	
+	@PostMapping("/study/modify")
+	public void modify(HttpServletRequest request, HttpServletResponse response) {
+		studyService.modifyStudy(request, response);
+	}
+	
+	@PostMapping("/study/remove")
+	public void remove(HttpServletRequest request, HttpServletResponse response) {
+		studyService.removeStudy(request, response);
+	}
+
 }
 
