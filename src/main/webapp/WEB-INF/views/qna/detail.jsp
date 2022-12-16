@@ -10,6 +10,9 @@
 </jsp:include>
 
 <body>
+<script>
+	
+</script>
  <div class="cont-body">
          <!-- 페이지 내용 -->
 
@@ -32,7 +35,7 @@
             <div class="util">
                 <span>${question}</span>
                 <%-- <span class="date"><fmt:formatDate value="${question}" pattern="yyyy.M.d"/></span> --%>
-                <span>조회 ${question}</span>
+                <span>내용 ${question}</span>
             </div>
             <div class="article">
                 <div class="txt">
