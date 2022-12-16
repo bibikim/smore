@@ -18,6 +18,7 @@
 		 WHERE N.RW BETWEEN #{begin} AND #{end}
 	</select>
 
+	<!-- 글쓰기 -->
 	<insert id="insertFree" parameterType="FreeBoardDTO">
 		<selectKey keyProperty="fNo" resultType="int" order="BEFORE">
 			SELECT F_BOARD_SEQ.NEXTVAL
@@ -36,11 +37,36 @@
 		 	(#{fNo}, #{filesystem})
 	</insert>
 	
+	<!-- 조회수 -->
 	<update id="updateHit" parameterType="int">
 		UPDATE F_BOARD
 		   SET F_HIT = F_HIT + 1
 		 WHERE F_NO = #{fNo}
 	</update>
-
+	
+	<!-- 상세보기 -->
+	<select id="selectFreeByNo" parameterType="int" resultType="FreeBoardDTO">
+		SELECT F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP
+		  FROM F_BOARD
+		 WHERE F_NO = #{fNo} 
+	</select>
+	
+	<select id="selectAllFreeImageList" resultType="FreeImageDTO">
+		SELECT F_NO, FILESYSTEM
+		  FROM F_IMAGE
+	</select>
+	
+	<select id="selectFreeImageListInFree" parameterType="int" resultType="FreeImageDTO">
+		SELECT F_NO, FILESYSTEM
+		  FROM F_IMAGE
+		 WHERE F_NO = #{fNo}
+	</select>
+	
+	<delete id="deleteFreeImage" parameterType="String">
+		DELETE 
+		  FROM F_IMAGE
+		 WHERE FILESYSTEM = #{filesystem}
+	</delete>
+	
 </mapper>
 	
