@@ -72,14 +72,14 @@
 	                    	<c:if test="${loginUser.nickname eq question.NICKNAME}">
 	                    		<c:set var="chkUser" scope="request" value="Y" />
 	                    	</c:if>
-	                    	<c:if test="${question.Q_PW ne null}">
-		                        <a href="/qna/detail" onclick="goDetailPage(${question.Q_NO}, ${chkUser}, 'Y')">
-		                            <span>[비공개]</span> ${question.Q_TITLE}
+	                    	<%-- <c:if test="${question.pw ne null}"> --%>
+		                        <a href="/qna/detail" onclick="goDetailPage(${question.qaNo}, ${chkUser}, 'Y')">
+		                            <span>[비공개]</span> ${question.title}
 		                            <c:if test="${question.NEW_YN eq 'Y'}">
 		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
 		                            </c:if>
 		                        </a>
-	                        </c:if>
+	                        <%-- </c:if> --%>
 	                        <c:if test="${question.Q_PW eq null}">
 	                        	<a href="/qna/detail" onclick="goDetailPage(${question.Q_NO}, ${chkUser}, 'N')">
 		                        	${question.Q_TITLE}
