@@ -12,10 +12,6 @@
 	</select>
 	
 	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
-		<selectKey keyProperty="coNo" resultType="int" order="BEFORE">
-			SELECT C_BOARD_SEQ.NEXTVAL
-			  FROM DUAL
-		</selectKey>
 		INSERT INTO C_BOARD
 			(CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		VALUES
@@ -51,7 +47,7 @@
 	
 	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="hashmap">
 		SELECT A.ROW_NUM, A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP,
-		CASE WHEN A.C_CREATE_DATE >= NOW()-7 THEN 'Y' ELSE 'N' END as NEW_YN
+		CASE WHEN A.CREATE_DATE >= NOW()-7 THEN 'Y' ELSE 'N' END as NEW_YN
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, B.CO_NO, B.NICKNAME, B.TITLE, B.CONTENT, B.CREATE_DATE, B.MODIFY_DATE, B.HIT, B.IP, U.USER_NO, U.ID, U.NAME
 		          FROM USERS U INNER JOIN C_BOARD B
 		            ON U.NICKNAME = B.NICKNAME) A
