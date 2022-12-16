@@ -24,6 +24,9 @@
 			 	AND SESSION_ID = #{sessionId}
 			 	AND SESSION_LIMIT_DATE > SYSDATE
 			 </if>
+			 <if test="name != null">
+			 	AND NAME = #{name}
+			 </if>
 		 </where>
 	</select>
 	
