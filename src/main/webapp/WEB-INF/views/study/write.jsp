@@ -9,11 +9,11 @@
 
 <script>
 	
-	// contextPath를 반환하는 자바스크립트 함수
+	// contextPath를 반환하는 자바스크립트 함수수수수수
 	function getContextPath() {
 		var begin = location.href.indexOf(location.origin) + location.origin.length;
 		var end = location.href.indexOf("/", begin + 1);
-		return location.href.substring(begin, end);
+		 return location.href.substring(begin, end);
 	}
 	
 	$(document).ready(function(){
