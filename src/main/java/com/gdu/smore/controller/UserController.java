@@ -130,6 +130,21 @@ public class UserController {
 		userService.retire(request, response);
 	}
 	
+	// 휴면
+	@GetMapping("/user/sleep/display")
+	public String sleepDisplay() {
+		return "user/sleep";
+	}
+
+	@PostMapping("/user/restore")
+	public void restore(HttpServletRequest request, HttpServletResponse response) {
+		userService.restoreUser(request, response);
+	}
+	
+	// 아이디 찾기
+	
+	
+	// 비번 찾기
    
 }
 

@@ -75,6 +75,7 @@
 	<update id="updateUserInfo" parameterType="UserDTO">
 		UPDATE USERS
 		  SET NAME = #{name}
+		    , NICKNAME = #{nickname}
 		    , GENDER = #{gender}
 		    , EMAIL = #{email}
 		    , MOBILE = #{mobile}
@@ -103,6 +104,55 @@
 		VALUES
 			(#{userNo}, #{id}, #{joinDate}, SYSDATE)
 	</insert>
+	
+	<!-- 휴면처리1 : 1년 이상 로그인 기록이 없으면 휴면테이블에 저장 -->
+	<insert id="insertSleepUser">
+																		
+		INSERT INTO SLEEP_USERS(USER_NO,ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE, LAST_LOGIN_DATE, SLEEP_DATE)
+			(SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, SYSDATE
+			   FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+			     ON U.ID = A.ID
+			  WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
+			     OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+	</insert>
+	
+	<!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
+	<delete id="deleteUserForSleep">
+		DELETE
+		  FROM USERS
+		 WHERE ID IN (SELECT U.ID
+		                FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		                  ON U.ID = A.ID
+		               WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
+		                  OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+	</delete>
+	
+	<!-- 로그인 이전에 휴면회원인지 확인 -->
+	<select id="selectSleepUserById" parameterType="String" resultType="SleepUserDTO">
+		SELECT ID, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
+		  FROM SLEEP_USERS
+		 WHERE ID = #{id}
+	</select>
+	
+	<!-- 휴면복원1 : 복원할 회원을 USERS 테이블에 삽입 -->
+	<insert id="insertRestoreUser" parameterType="String">
+		INSERT INTO USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE)
+			(SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE
+			   FROM SLEEP_USERS
+			  WHERE ID = #{id})
+	</insert>
+	
+	<!-- 휴면복원2 : 복원할 회원을 SLEEP_USERS 테이블에서 삭제 -->
+	<delete id="deleteSleepUser" parameterType="String">
+		DELETE
+		  FROM SLEEP_USERS
+		 WHERE ID = #{id}
+	</delete>
+	
+	
+	
+	
+	
 	
 	
 	
