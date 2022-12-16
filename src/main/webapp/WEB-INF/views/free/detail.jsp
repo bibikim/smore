@@ -38,14 +38,14 @@
 		
 			<div>
 				<div>
-					<label for="fTitle">제목</label>
+					<label for="title">제목</label>
 				</div>
-				<input type="text" id="fTitle" name="fTitle" placeholder="제목을 입력하세요.">
+				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
 			</div>
 		
 			<div>
-				<label for="fContent">내용</label>
-				<textarea id="fContent" name="fContent"></textarea>
+				<label for="content">내용</label>
+				<textarea id="content" name="content"></textarea>
 			</div>
 			
 			<div id="sumnote_image_list"></div>

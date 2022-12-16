@@ -19,7 +19,7 @@
 		
 
 		// summernote
-		$('#fContent').summernote({
+		$('#content').summernote({
 			width: 800,
 			height: 400,
 			lang: 'ko-KR',
@@ -47,7 +47,7 @@
 							processData: false,
 							dataType: 'json',
 							success: function(resData) {
-								$('#fContent').summernote('insertImage', resData.src);
+								$('#content').summernote('insertImage', resData.src);
 								$('#sumnote_image_list').append($('<input type="hidden" name="fImageNames" value="' + resData.filesystem + '">'));
 								console.log(resData);
 							}
@@ -68,12 +68,12 @@
 		
 		
 		$('#frm_write').submit(function(ev){
-			if($('#fTitle').val() == '') {
+			if($('#title').val() == '') {
 				alert('제목을 입력해주세요.')
 				ev.preventDefault();
 				return;
 			} else
-			if($('#fContent').val() == '') {
+			if($('#content').val() == '') {
 				alert('본문을 입력해주세요.')
 				ev.preventDefault();
 				return;
@@ -95,14 +95,14 @@
 		
 			<div>
 				<div>
-					<label for="fTitle">제목</label>
+					<label for="title">제목</label>
 				</div>
-				<input type="text" id="fTitle" name="fTitle" placeholder="제목을 입력하세요.">
+				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
 			</div>
 		
 			<div>
-				<label for="fContent">내용</label>
-				<textarea id="fContent" name="fContent"></textarea>
+				<label for="content">내용</label>
+				<textarea id="content" name="content"></textarea>
 			</div>
 			
 			<div id="sumnote_image_list"></div>

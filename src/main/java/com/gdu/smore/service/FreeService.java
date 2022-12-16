@@ -15,7 +15,7 @@ public interface FreeService {
 	public void getFreeList(Model model);
 	public void saveFree(HttpServletRequest request, HttpServletResponse response);
 	public Map<String, Object> savefImage(MultipartHttpServletRequest mRequest);
-	public int increaseHit(int fNo);
+	public int increaseHit(int freeNo);
 	
-	public FreeBoardDTO getFreeByNo(int fNo);
+	public FreeBoardDTO getFreeByNo(int freeNo);
 }

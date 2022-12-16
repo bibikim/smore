@@ -17,10 +17,10 @@ public interface FreeMapper {
 	public int insertImage(FreeImageDTO fimage);
 	
 	// 상세
-	public FreeBoardDTO selectFreeByNo(int fNo);
-	public List<FreeImageDTO> selectFreeImageListInFree(int fNo);
+	public FreeBoardDTO selectFreeByNo(int freeNo);
+	public List<FreeImageDTO> selectFreeImageListInFree(int freeNo);
 	public List<FreeImageDTO> selectAllFreeImageList();
-	public int updateHit(int fNo);
+	public int updateHit(int freeNo);
 	public int deleteFreeImage(String filesystem);
 	
 }

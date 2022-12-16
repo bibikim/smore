@@ -100,8 +100,8 @@ public class FreeServiceImpl implements FreeService {
 	public void saveFree(HttpServletRequest request, HttpServletResponse response) {
 		
 		String nickname = request.getParameter("nickname");
-		String content = request.getParameter("fContent");
-		String title = request.getParameter("fTitle");
+		String content = request.getParameter("content");
+		String title = request.getParameter("title");
 		
 		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
 		String fIp = opt.orElse(request.getRemoteAddr());
@@ -109,9 +109,9 @@ public class FreeServiceImpl implements FreeService {
 		
 		FreeBoardDTO fpost = FreeBoardDTO.builder()
 				.nickname(nickname)
-				.fTitle(title)
-				.fContent(content)
-				.fIp(fIp)
+				.title(title)
+				.content(content)
+				.ip(fIp)
 				.build();
 		
 		int result = freeMapper.insertFree(fpost);
@@ -128,7 +128,7 @@ public class FreeServiceImpl implements FreeService {
 				if(fImageNames != null) {
 					for(String filesystem : fImageNames) {
 						FreeImageDTO fimage = FreeImageDTO.builder()
-								.fNo(fpost.getFNo())
+								.freeNo(fpost.getFreeNo())
 								.filesystem(filesystem)
 								.build();
 						freeMapper.insertImage(fimage);
@@ -154,20 +154,20 @@ public class FreeServiceImpl implements FreeService {
 	
 	
 	@Override
-	public int increaseHit(int fNo) {
-		return freeMapper.updateHit(fNo);
+	public int increaseHit(int freeNo) {
+		return freeMapper.updateHit(freeNo);
 	}
 	
 	@Override
-	public FreeBoardDTO getFreeByNo(int fNo) {
+	public FreeBoardDTO getFreeByNo(int freeNo) {
 		
-		FreeBoardDTO free = freeMapper.selectFreeByNo(fNo);
+		FreeBoardDTO free = freeMapper.selectFreeByNo(freeNo);
 
-		List<FreeImageDTO> fImageList = freeMapper.selectFreeImageListInFree(fNo);
+		List<FreeImageDTO> fImageList = freeMapper.selectFreeImageListInFree(freeNo);
 		
 		if(fImageList != null && fImageList.isEmpty() == false) {
 			for(FreeImageDTO fImage : fImageList) {
-				if(free.getFContent().contains(fImage.getFilesystem()) == false ) {
+				if(free.getContent().contains(fImage.getFilesystem()) == false ) {
 					File file = new File("C:" + File.separator + "fImage", fImage.getFilesystem());
 				}
 			}

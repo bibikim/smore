@@ -8,63 +8,63 @@
 
 	<select id="selectListCount" resultType="int">
 		SELECT COUNT(*)
-		  FROM F_BOARD
+		  FROM FREEBOARD
 	</select>
 
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
-	    SELECT N.RW, N.F_NO, N.NICKNAME, N.F_TITLE, N.F_CONTENT, N.F_CREATE_DATE, N.F_MODIFY_DATE, N.F_HIT, N.F_IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY F_NO DESC) AS RW, F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP
-		  		FROM F_BOARD) N
+	    SELECT N.RW, N.FREENO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREENO DESC) AS RW, FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  		FROM FREEBOARD) N
 		 WHERE N.RW BETWEEN #{begin} AND #{end}
 	</select>
 
 	<!-- 글쓰기 -->
 	<insert id="insertFree" parameterType="FreeBoardDTO">
 		<selectKey keyProperty="fNo" resultType="int" order="BEFORE">
-			SELECT F_BOARD_SEQ.NEXTVAL
+			SELECT FREEBOARD_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO F_BOARD
-			(F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP)
+			(FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		 VALUES
-		 	(#{fNo}, #{nickname}, #{fTitle}, #{fContent}, SYSDATE, SYSDATE, 0, #{fIp})
+		 	(#{freeNo}, #{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
 	</insert>
 	
 	<insert id="insertImage" parameterType="FreeImageDTO">
-		INSERT INTO F_IMAGE
-			(F_NO, FILESYSTEM)
+		INSERT INTO FREEIMAGE
+			(FREENO, FILESYSTEM)
 		 VALUES
-		 	(#{fNo}, #{filesystem})
+		 	(#{freeNo}, #{filesystem})
 	</insert>
 	
 	<!-- 조회수 -->
 	<update id="updateHit" parameterType="int">
-		UPDATE F_BOARD
-		   SET F_HIT = F_HIT + 1
-		 WHERE F_NO = #{fNo}
+		UPDATE FREEBOARD
+		   SET HIT = HIT + 1
+		 WHERE freeNO = #{freeNo}
 	</update>
 	
 	<!-- 상세보기 -->
 	<select id="selectFreeByNo" parameterType="int" resultType="FreeBoardDTO">
-		SELECT F_NO, NICKNAME, F_TITLE, F_CONTENT, F_CREATE_DATE, F_MODIFY_DATE, F_HIT, F_IP
-		  FROM F_BOARD
-		 WHERE F_NO = #{fNo} 
+		SELECT FREENO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM FREEBOARD
+		 WHERE FREENO = #{freeNo} 
 	</select>
 	
 	<select id="selectAllFreeImageList" resultType="FreeImageDTO">
-		SELECT F_NO, FILESYSTEM
-		  FROM F_IMAGE
+		SELECT FREENO, FILESYSTEM
+		  FROM FREEIMAGE
 	</select>
 	
 	<select id="selectFreeImageListInFree" parameterType="int" resultType="FreeImageDTO">
-		SELECT F_NO, FILESYSTEM
-		  FROM F_IMAGE
-		 WHERE F_NO = #{fNo}
+		SELECT FREENO, FILESYSTEM
+		  FROM FREEIMAGE
+		 WHERE FREENO = #{freeNo}
 	</select>
 	
 	<delete id="deleteFreeImage" parameterType="String">
 		DELETE 
-		  FROM F_IMAGE
+		  FROM FREEIMAGE
 		 WHERE FILESYSTEM = #{filesystem}
 	</delete>
 	
