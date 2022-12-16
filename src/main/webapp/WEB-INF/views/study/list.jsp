@@ -40,13 +40,13 @@
 	 			<c:if test="${studyList ne null}">
 		 			<c:forEach items="${studyList}" var="study">
 		 				<tr>
-							<td>${study.SNo}</td>
+							<td>${study.studNo}</td>
 		 					<td>${study.nickname}</td>	
-		 					<td><a href="/study/detail?SNo=${study.SNo}">${study.STitle}</a></td>
-		 					<td>${study.SLang}</td>
-		 					<td>${study.SDate}</td>		 					
-		 					<td>${study.SHit}</td>
-		 					<td><fmt:formatDate value="${study.SCreateDate}" pattern="yyyy.M.d"/></td>		 					
+		 					<td><a href="/study/detail?SNo=${study.studNo}">${study.title}</a></td>
+		 					<td>${study.lang}</td>
+		 					<td>${study.studDate}</td>		 					
+		 					<td>${study.hit}</td>
+		 					<td><fmt:formatDate value="${study.createDate}" pattern="yyyy.M.d"/></td>		 					
 		 				</tr>			
 		 			</c:forEach>
 	 			</c:if>

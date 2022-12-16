@@ -12,10 +12,10 @@ public interface StudyMapper {
 	public int selectAllBoardCnt();
 	public List<StudyGroupDTO> selectAllList(Map<String, Object> map); 
 	public int insertStudy(StudyGroupDTO study);
-	public int updateHit(int SNo);
-	public StudyGroupDTO selectStudyByNo(int SNo);
+	public int updateHit(int studNo);
+	public StudyGroupDTO selectStudyByNo(int studNo);
 	public int updateStudy(StudyGroupDTO study);
 
-	public int deleteStudy(int SNo);
+	public int deleteStudy(int studNo);
 
 }

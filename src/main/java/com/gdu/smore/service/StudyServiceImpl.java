@@ -91,16 +91,16 @@ public class StudyServiceImpl implements StudyService {
 		// DB로 보낼 StudyGroupDTO
 		StudyGroupDTO study = StudyGroupDTO.builder()
 				.nickname(nickname)
-				.STitle(title)
-				.SContent(content)
-				.SGender(gender)
-				.SRegion(region)
-				.SWido(wido)
-				.SGdo(gdo)
-				.SLang(lang)
-				.SPeople(people)
-				.SContact(contact)
-				.SIp(ip)
+				.title(title)
+				.content(content)
+				.gender(gender)
+				.region(region)
+				.wido(wido)
+				.gdo(gdo)
+				.lang(lang)
+				.people(people)
+				.contact(contact)
+				.ip(ip)
 				.build();
 		
 		// DB에 Study 저장
@@ -132,15 +132,15 @@ public class StudyServiceImpl implements StudyService {
 	}
 	
 	@Override
-	public int increseStudyHit(int sNo) {
-		return studyMapper.updateHit(sNo);
+	public int increseStudyHit(int studNo) {
+		return studyMapper.updateHit(studNo);
 	}
 
 	
 	@Override
-	public StudyGroupDTO getStudyByNo(int SNo) {
+	public StudyGroupDTO getStudyByNo(int studNo) {
 
-		StudyGroupDTO study = studyMapper.selectStudyByNo(SNo);
+		StudyGroupDTO study = studyMapper.selectStudyByNo(studNo);
 		
 		return study;
 	}
@@ -152,13 +152,13 @@ public class StudyServiceImpl implements StudyService {
 		// 파라미터 title, content, sNo
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		int SNo = Integer.parseInt(request.getParameter("SNo"));
+		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		
 		// DB로 보낼 BlogDTO
 		StudyGroupDTO study = StudyGroupDTO.builder()
-				.STitle(title)
-				.SContent(content)
-				.SNo(SNo)
+				.title(title)
+				.content(content)
+				.studNo(studNo)
 				.build();
 		
 		// DB 수정
@@ -208,8 +208,8 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public void removeStudy(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 파라미터 blogNo
-		int SNo = Integer.parseInt(request.getParameter("SNo"));
+		// 파라미터 studNo
+		int SNo = Integer.parseInt(request.getParameter("studNo"));
 		
 		// DB 삭제
 		int result = studyMapper.deleteStudy(SNo);  // 외래키 제약조건에 의해서 SummernoteImage도 모두 지워짐

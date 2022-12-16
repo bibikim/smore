@@ -10,8 +10,8 @@ import com.gdu.smore.domain.study.StudyGroupDTO;
 public interface StudyService {
 	public void getStudyList(HttpServletRequest request, Model model);
 	public void saveStudy(HttpServletRequest request, HttpServletResponse response);
-	public StudyGroupDTO getStudyByNo(int SNo);
-	public int increseStudyHit(int SNo);
+	public StudyGroupDTO getStudyByNo(int studNo);
+	public int increseStudyHit(int studNo);
 
 	public void modifyStudy(HttpServletRequest request, HttpServletResponse response);
 	public void removeStudy(HttpServletRequest request, HttpServletResponse response);
