@@ -27,7 +27,7 @@
 		
 		// 서브밋
 		$('#frm_edit').submit(function(event){
-			if($('#qTitle').val() == ''){
+			if($('#title').val() == ''){
 				alert('제목은 필수입니다.');
 				event.preventDefault();
 				return;
@@ -45,16 +45,16 @@
 	
 	<form id="frm_edit" action="${contextPath}/qna/modify" method="post">
 	
-		<input type="hidden" name="qNo" value="${qna.qNo}">
+		<input type="hidden" name="qaNo" value="${qna.qaNo}">
 	
 		<div>
 			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="${qna.qTitle}">
+			<input type="text" name="title" id="title" value="${qna.qaTitle}">
 		</div>
 		
 		<div>
 			<label for="content">내용</label>
-			<textarea name="content" id="content">${qna.qContent}</textarea>				
+			<textarea name="content" id="content">${qna.qaContent}</textarea>				
 		</div>
 		
 		

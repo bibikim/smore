@@ -30,7 +30,7 @@
         </form>
         <div class="detail-area">
             <div class="title">
-                ${question.qNo}
+                ${question.qaNo}
             </div>
             <div class="util">
                 <span>${question}</span>

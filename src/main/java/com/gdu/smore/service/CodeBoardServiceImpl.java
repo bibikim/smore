@@ -98,18 +98,18 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	@Override
 	public void saveCodeBoard(HttpServletRequest request, HttpServletResponse response) {
 		String nickname = request.getParameter("nickname");
-		String content = request.getParameter("cContent");
-		String title = request.getParameter("cTitle");
+		String content = request.getParameter("content");
+		String title = request.getParameter("title");
 		
 		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String cIp = opt.orElse(request.getRemoteAddr());
+		String Ip = opt.orElse(request.getRemoteAddr());
 		
 		
 		CodeBoardDTO post = CodeBoardDTO.builder()
 				.nickname(nickname)
-				.cTitle(title)
-				.cContent(content)
-				.cIp(cIp)
+				.title(title)
+				.content(content)
+				.ip(Ip)
 				.build();
 		
 		int result = codeboardMapper.insertCodeBoard(post);
@@ -126,8 +126,8 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 				if(ImageNames != null) {
 					for(String filesystem : ImageNames) {
 						CodeImageDTO image = CodeImageDTO.builder()
-								.cNo(post.getCNo())
-								.fileSystem(filesystem)
+								.coNo(post.getCoNo())
+								.filesystem(filesystem)
 								.build();
 						codeboardMapper.insertImage(image);
 					}
@@ -151,13 +151,13 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	}
 
 	@Override
-	public int increseCodeBoardHit(int cNo) {
-		return codeboardMapper.updateHit(cNo);
+	public int increseCodeBoardHit(int coNo) {
+		return codeboardMapper.updateHit(coNo);
 	}
 
 	@Override
-	public CodeBoardDTO getCodeBoardByNo(int cNo) {
-		return codeboardMapper.selectCodeBoardByNo(cNo);
+	public CodeBoardDTO getCodeBoardByNo(int coNo) {
+		return codeboardMapper.selectCodeBoardByNo(coNo);
 	}
 
 	@Override

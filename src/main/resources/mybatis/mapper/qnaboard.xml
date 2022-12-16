@@ -12,47 +12,47 @@
 	</select>
 	
 	<insert id="insertQnaBoard" parameterType="QnaBoardDTO">
-		<selectKey keyProperty="qNo" resultType="int" order="BEFORE">
+		<selectKey keyProperty="qaNo" resultType="int" order="BEFORE">
 			SELECT Q_BOARD_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO Q_BOARD
-			(Q_NO, NICKNAME, Q_TITLE, Q_CONTENT, Q_PW, Q_CREATE_DATE, Q_MODIFY_DATE, Q_HIT, Q_IP)
+			(QA_NO, NICKNAME, TITLE, CONTENT, PW, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		VALUES
-			(${qNo}, #{nickname}, #{qTitle}, #{qContent}, #{qPw}, SYSDATE, SYSDATE, 0, #{qIp})
+			(${qaNo}, #{nickname}, #{title}, #{content}, #{pw}, NOW(), NOW(), 0, #{ip})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
 		UPDATE Q_BOARD
-		   SET Q_HIT = Q_HIT + 1
-		 WHERE Q_NO = #{qNo}
+		   SET HIT = HIT + 1
+		 WHERE QA_NO = #{qaNo}
 	</update>
 	
 	<select id="selectQnaBoardByNo" parameterType="int" resultType="QnaBoardDTO">
-		SELECT Q_NO as qNo, U.NICKNAME as nickname, Q_TITLE as qTitle, Q_CONTENT as qContent, Q_PW as qPw, Q_CREATE_DATE as qCreateDate, Q_MODIFY_DATE as qModifyDate, Q_HIT as qHit, Q_IP as qIp
+		SELECT QA_NO as qaNo, U.NICKNAME as nickname, TITLE as title, CONTENT as content, PW as pw, CREATE_DATE as createDate, MODIFY_DATE as modifyDate, HIT as hit, IP as ip
           FROM USERS U INNER JOIN Q_BOARD Q
             ON U.NICKNAME = Q.NICKNAME
-		 WHERE Q.Q_NO = #{qNo}
+		 WHERE Q.QA_NO = #{qaNo}
 	</select>
 	
 	<update id="updateQnaBoard" parameterType="QnaBoardDTO">
 		UPDATE Q_BOARD
-		   SET TITLE = #{qTitle}
-		     , CONTENT = #{qContent}
-		     , MODIFY_DATE = SYSDATE
-		 WHERE Q_NO = #{qNo}
+		   SET TITLE = #{title}
+		     , CONTENT = #{content}
+		     , MODIFY_DATE = NOW()
+		 WHERE QA_NO = #{qaNo}
 	</update>
 	
 	<delete id="deleteQnaBoard" parameterType="int">
 		DELETE
 		  FROM Q_BOARD
-		 WHERE Q_BOARD_NO = #{qNo}
+		 WHERE Q_BOARD_NO = #{qaNo}
 	</delete>
 	
 	<select id="selectQnaBoardListByMap" parameterType="Map" resultType="hashmap">
-		SELECT A.ROW_NUM, A.Q_NO, A.NICKNAME, A.Q_TITLE, A.Q_CONTENT, A.Q_PW, A.Q_CREATE_DATE, A.Q_MODIFY_DATE, A.Q_HIT, A.Q_IP,
-		CASE WHEN A.Q_CREATE_DATE >= SYSDATE-7 THEN 'Y' ELSE 'N' END as NEW_YN
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY Q_NO DESC) AS ROW_NUM, B.Q_NO, B.NICKNAME, B.Q_TITLE, B.Q_CONTENT, B.Q_PW, B.Q_CREATE_DATE, B.Q_MODIFY_DATE, B.Q_HIT, B.Q_IP, U.USER_NO, U.ID, U.NAME
+		SELECT A.ROW_NUM, A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.PW, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP,
+		CASE WHEN A.Q_CREATE_DATE >= NOW()-7 THEN 'Y' ELSE 'N' END as NEW_YN
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, B.QA_NO, B.NICKNAME, B.Q_TITLE, B.CONTENT, B.PW, B.CREATE_DATE, B.MODIFY_DATE, B.HIT, B.IP, U.USER_NO, U.ID, U.NAME
 		          FROM USERS U INNER JOIN Q_BOARD B
 		            ON U.NICKNAME = B.NICKNAME) A
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}

@@ -63,21 +63,21 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	@Override
 	public void saveQnaBoard(HttpServletRequest request, HttpServletResponse response) {
 		String nickname = request.getParameter("nickname");
-		String content = request.getParameter("qContent");
-		String title = request.getParameter("qTitle");
+		String content = request.getParameter("content");
+		String title = request.getParameter("title");
 		
 		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String qIp = opt.orElse(request.getRemoteAddr());
+		String Ip = opt.orElse(request.getRemoteAddr());
 		
 		
-		QnaBoardDTO qpost = QnaBoardDTO.builder()
+		QnaBoardDTO post = QnaBoardDTO.builder()
 				.nickname(nickname)
-				.qTitle(title)
-				.qContent(content)
-				.qIp(qIp)
+				.title(title)
+				.content(content)
+				.ip(Ip)
 				.build();
 		
-		int result = qnaboardMapper.insertQnaBoard(qpost);
+		int result = qnaboardMapper.insertQnaBoard(post);
 		
 		try {
 			
@@ -106,21 +106,21 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	public int increseQnaBoardHit(int qNo) {
-		return qnaboardMapper.updateHit(qNo);
+	public int increseQnaBoardHit(int qaNo) {
+		return qnaboardMapper.updateHit(qaNo);
 	}
 
 	@Override
-	public QnaBoardDTO getQnaBoardByNo(int qNo) {
-		return qnaboardMapper.selectQnaBoardByNo(qNo);
+	public QnaBoardDTO getQnaBoardByNo(int qaNo) {
+		return qnaboardMapper.selectQnaBoardByNo(qaNo);
 	}
 
 	@Override
 	public void modifyQnaBoard(HttpServletRequest request, HttpServletResponse response) {
 		 QnaBoardDTO qna = new QnaBoardDTO();
-		 qna.setQTitle(request.getParameter("title"));
-		 qna.setQContent(request.getParameter("content"));
-		 qna.setQNo(Integer.parseInt(request.getParameter("qNo")));
+		 qna.setTitle(request.getParameter("title"));
+		 qna.setContent(request.getParameter("content"));
+		 qna.setQaNo(Integer.parseInt(request.getParameter("qaNo")));
 	      int result = qnaboardMapper.updateQnaBoard(qna);
 	      response.setContentType("text/html; charset=UTF-8");
 	      try {
@@ -145,9 +145,9 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 	@Override
 	public void removeQnaBoard(HttpServletRequest request, HttpServletResponse response) {
-		int qNo = Integer.parseInt(request.getParameter("qNo"));
+		int qaNo = Integer.parseInt(request.getParameter("qaNo"));
          
-         int result = qnaboardMapper.deleteQnaBoard(qNo);
+         int result = qnaboardMapper.deleteQnaBoard(qaNo);
          response.setContentType("text/html; charset=UTF-8");
          try {
             PrintWriter out = response.getWriter();

@@ -47,12 +47,12 @@ public class CodeBoardController {
 	
 	// end
 	@GetMapping("/code/increse/hit")
-	public String increseHit(@RequestParam(value="cNo", required=false, defaultValue="0") int cNo) {
-		log.info("qNo =====>" + cNo);
-		int result = codeBoardService.increseCodeBoardHit(cNo);
+	public String increseHit(@RequestParam(value="coNo", required=false, defaultValue="0") int coNo) {
+		log.info("coNo =====>" + coNo);
+		int result = codeBoardService.increseCodeBoardHit(coNo);
 		log.info("result =====>" + result);
 		if(result > 0) {  // 조회수 증가에 성공하면 상세보기로 이동
-			return "redirect:/code/detail?qNo=" + cNo;
+			return "redirect:/code/detail?coNo=" + coNo;
 		} else {          // 조회수 증가에 실패하면 목록보기로 이동
 			return "redirect:/code/list";
 		}
@@ -60,14 +60,14 @@ public class CodeBoardController {
 	
 	
 	@GetMapping("/code/detail")
-	public String detail(@RequestParam(value="cNo", required=false, defaultValue="0") int cNo, Model model) {
-		model.addAttribute("question", codeBoardService.getCodeBoardByNo(cNo));
+	public String detail(@RequestParam(value="coNo", required=false, defaultValue="0") int coNo, Model model) {
+		model.addAttribute("question", codeBoardService.getCodeBoardByNo(coNo));
 		return "code/detail";
 	}
 	
 	@PostMapping("/code/edit")
-	public String edit(int cNo, Model model) {
-		model.addAttribute("qnaboard", codeBoardService.getCodeBoardByNo(cNo));
+	public String edit(int coNo, Model model) {
+		model.addAttribute("qnaboard", codeBoardService.getCodeBoardByNo(coNo));
 		return "code/edit";
 	}
 	
