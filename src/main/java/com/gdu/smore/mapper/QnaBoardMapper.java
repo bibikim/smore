@@ -9,9 +9,9 @@ public interface QnaBoardMapper {
 	
 	public int selectQnaBoardListCount();
 	public int insertQnaBoard(QnaBoardDTO qnaboard);
-	public int updateHit(int qNo);
-	public QnaBoardDTO selectQnaBoardByNo(int qNo);
+	public int updateHit(int qaNo);
+	public QnaBoardDTO selectQnaBoardByNo(int qaNo);
 	public int updateQnaBoard(QnaBoardDTO qnaboard);
-	public int deleteQnaBoard(int qNo);
+	public int deleteQnaBoard(int qaNo);
 	public List<QnaBoardDTO> selectQnaBoardListByMap(Map<String, Object> map);
 }

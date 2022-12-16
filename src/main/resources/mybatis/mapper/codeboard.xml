@@ -12,47 +12,47 @@
 	</select>
 	
 	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
-		<selectKey keyProperty="cNo" resultType="int" order="BEFORE">
+		<selectKey keyProperty="coNo" resultType="int" order="BEFORE">
 			SELECT C_BOARD_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO C_BOARD
-			(C_NO, NICKNAME, C_TITLE, C_CONTENT, C_CREATE_DATE, C_MODIFY_DATE, C_HIT, C_IP)
+			(CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		VALUES
-			(#{cNo}, #{nickname}, #{cTitle}, #{cContent}, SYSDATE, SYSDATE, 0, #{cIp})
+			(#{coNo}, #{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
 		UPDATE C_BOARD
-		   SET C_HIT = C_HIT + 1
-		 WHERE C_NO = #{cNo}
+		   SET HIT = HIT + 1
+		 WHERE CO_NO = #{coNo}
 	</update>
 	
 	<select id="selectCodeBoardByNo" parameterType="int" resultType="CodeBoardDTO">
-		SELECT C_NO as cNo, U.NICKNAME as nickname, C_TITLE as cTitle, C_CONTENT as cContent, C_CREATE_DATE as cCreateDate, C_MODIFY_DATE as cModifyDate, C_HIT as cHit, C_IP as cIp
+		SELECT CO_NO as coNo, U.NICKNAME as nickname, TITLE as title, CONTENT as content, CREATE_DATE as createDate, MODIFY_DATE as modifyDate, HIT as hit, IP as ip
           FROM USERS U INNER JOIN C_BOARD C
             ON U.NICKNAME = C.NICKNAME
-		 WHERE C.C_NO = #{cNo}
+		 WHERE C.CO_NO = #{coNo}
 	</select>
 	
 	<update id="updateCodeBoard" parameterType="CodeBoardDTO">
 		UPDATE C_BOARD
-		   SET TITLE = #{cTitle}
-		     , CONTENT = #{cContent}
-		     , MODIFY_DATE = SYSDATE
-		 WHERE C_NO = #{cNo}
+		   SET TITLE = #{title}
+		     , CONTENT = #{content}
+		     , MODIFY_DATE = NOW()
+		 WHERE CO_NO = #{coNo}
 	</update>
 	
 	<delete id="deleteCodeBoard" parameterType="int">
 		DELETE
 		  FROM C_BOARD
-		 WHERE C_BOARD_NO = #{cNo}
+		 WHERE C_BOARD_NO = #{coNo}
 	</delete>
 	
 	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="hashmap">
-		SELECT A.ROW_NUM, A.C_NO, A.NICKNAME, A.C_TITLE, A.C_CONTENT, A.C_CREATE_DATE, A.C_MODIFY_DATE, A.C_HIT, A.C_IP,
-		CASE WHEN A.C_CREATE_DATE >= SYSDATE-7 THEN 'Y' ELSE 'N' END as NEW_YN
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY C_NO DESC) AS ROW_NUM, B.C_NO, B.NICKNAME, B.C_TITLE, B.C_CONTENT, B.C_CREATE_DATE, B.C_MODIFY_DATE, B.C_HIT, B.C_IP, U.USER_NO, U.ID, U.NAME
+		SELECT A.ROW_NUM, A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP,
+		CASE WHEN A.C_CREATE_DATE >= NOW()-7 THEN 'Y' ELSE 'N' END as NEW_YN
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, B.CO_NO, B.NICKNAME, B.TITLE, B.CONTENT, B.CREATE_DATE, B.MODIFY_DATE, B.HIT, B.IP, U.USER_NO, U.ID, U.NAME
 		          FROM USERS U INNER JOIN C_BOARD B
 		            ON U.NICKNAME = B.NICKNAME) A
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}

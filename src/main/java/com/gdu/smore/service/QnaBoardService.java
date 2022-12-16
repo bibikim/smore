@@ -12,8 +12,8 @@ public interface QnaBoardService {
 
 	public void getQnaBoardList(Model model);
 	public void saveQnaBoard(HttpServletRequest request, HttpServletResponse response);
-	public int increseQnaBoardHit(int qNo);
-	public QnaBoardDTO getQnaBoardByNo(int qNo);
+	public int increseQnaBoardHit(int qaNo);
+	public QnaBoardDTO getQnaBoardByNo(int qaNo);
 	public void modifyQnaBoard(HttpServletRequest request, HttpServletResponse response);
 	public void removeQnaBoard(HttpServletRequest request, HttpServletResponse response);
 }

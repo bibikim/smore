@@ -10,10 +10,10 @@ public interface CodeBoardMapper {
 	
 	public int selectCodeBoardListCount();
 	public int insertCodeBoard(CodeBoardDTO codeboard);
-	public int updateHit(int cNo);
-	public CodeBoardDTO selectCodeBoardByNo(int cNo);
+	public int updateHit(int coNo);
+	public CodeBoardDTO selectCodeBoardByNo(int coNo);
 	public int updateCodeBoard(CodeBoardDTO codeboard);
-	public int deleteCodeBoard(int cNo);
+	public int deleteCodeBoard(int coNo);
 	public int insertImage(CodeImageDTO image);
 	public List<CodeBoardDTO> selectCodeBoardListByMap(Map<String, Object> map);
 }

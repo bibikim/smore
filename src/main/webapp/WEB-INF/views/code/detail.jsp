@@ -27,7 +27,7 @@
         </form>
         <div class="detail-area">
             <div class="title">
-                ${question.cNo}
+                ${question.coNo}
             </div>
             <div class="util">
                 <span>${question}</span>

@@ -27,7 +27,7 @@
 		
 		// 서브밋
 		$('#frm_edit').submit(function(event){
-			if($('#cTitle').val() == ''){
+			if($('#title').val() == ''){
 				alert('제목은 필수입니다.');
 				event.preventDefault();
 				return;
@@ -45,16 +45,16 @@
 	
 	<form id="frm_edit" action="${contextPath}/code/modify" method="post">
 	
-		<input type="hidden" name="qNo" value="${code.cNo}">
+		<input type="hidden" name="coNo" value="${code.coNo}">
 	
 		<div>
 			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="${code.cTitle}">
+			<input type="text" name="title" id="title" value="${code.title}">
 		</div>
 		
 		<div>
 			<label for="content">내용</label>
-			<textarea name="content" id="content">${code.cContent}</textarea>				
+			<textarea name="content" id="content">${code.content}</textarea>				
 		</div>
 		
 		
