@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.QnaBoardMapper">
+	
+	<select id="selectQnaBoardListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM Q_BOARD
+	</select>
+	
+	<insert id="insertQnaBoard" parameterType="QnaBoardDTO">
+		<selectKey keyProperty="qNo" resultType="int" order="BEFORE">
+			SELECT Q_BOARD_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO Q_BOARD
+			(Q_NO, NICKNAME, Q_TITLE, Q_CONTENT, Q_PW, Q_CREATE_DATE, Q_MODIFY_DATE, Q_HIT, Q_IP)
+		VALUES
+			(${qNo}, #{nickname}, #{qTitle}, #{qContent}, #{qPw}, SYSDATE, SYSDATE, 0, #{qIp})
+	</insert>
+	
+	<update id="updateHit" parameterType="int">
+		UPDATE Q_BOARD
+		   SET Q_HIT = Q_HIT + 1
+		 WHERE Q_NO = #{qNo}
+	</update>
+	
+	<select id="selectQnaBoardByNo" parameterType="int" resultType="QnaBoardDTO">
+		SELECT Q_NO as qNo, U.NICKNAME as nickname, Q_TITLE as qTitle, Q_CONTENT as qContent, Q_PW as qPw, Q_CREATE_DATE as qCreateDate, Q_MODIFY_DATE as qModifyDate, Q_HIT as qHit, Q_IP as qIp
+          FROM USERS U INNER JOIN Q_BOARD Q
+            ON U.NICKNAME = Q.NICKNAME
+		 WHERE Q.Q_NO = #{qNo}
+	</select>
+	
+	<update id="updateQnaBoard" parameterType="QnaBoardDTO">
+		UPDATE Q_BOARD
+		   SET TITLE = #{qTitle}
+		     , CONTENT = #{qContent}
+		     , MODIFY_DATE = SYSDATE
+		 WHERE Q_NO = #{qNo}
+	</update>
+	
+	<delete id="deleteQnaBoard" parameterType="int">
+		DELETE
+		  FROM Q_BOARD
+		 WHERE Q_BOARD_NO = #{qNo}
+	</delete>
+	
+	<select id="selectQnaBoardListByMap" parameterType="Map" resultType="hashmap">
+		SELECT A.ROW_NUM, A.Q_NO, A.NICKNAME, A.Q_TITLE, A.Q_CONTENT, A.Q_PW, A.Q_CREATE_DATE, A.Q_MODIFY_DATE, A.Q_HIT, A.Q_IP,
+		CASE WHEN A.Q_CREATE_DATE >= SYSDATE-7 THEN 'Y' ELSE 'N' END as NEW_YN
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY Q_NO DESC) AS ROW_NUM, B.Q_NO, B.NICKNAME, B.Q_TITLE, B.Q_CONTENT, B.Q_PW, B.Q_CREATE_DATE, B.Q_MODIFY_DATE, B.Q_HIT, B.Q_IP, U.USER_NO, U.ID, U.NAME
+		          FROM USERS U INNER JOIN Q_BOARD B
+		            ON U.NICKNAME = B.NICKNAME) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	
+	
+	
+</mapper>
+	
+	
+	
+	

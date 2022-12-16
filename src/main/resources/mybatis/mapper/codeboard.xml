@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.CodeBoardMapper">
+
+	<select id="selectCodeBoardListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM C_BOARD
+	</select>
+	
+	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
+		<selectKey keyProperty="cboardNo" resultType="int" order="BEFORE">
+			SELECT CODEBOARD_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO CODEBOARD
+			(C_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP,)
+		VALUES
+			(#{cNo}, {#nickname}, #{title}, #{content}, SYSDATE, SYSDATE, 0, #{ip})
+	</insert>
+	
+	<update id="updateHit" parameterType="int">
+		UPDATE C_BOARD
+		   SET C_HIT = C_HIT + 1
+		 WHERE C_NO = #{cNo}
+	</update>
+	
+	<select id="selectCodeBoardByNo" parameterType="int" resultType="CodeBoardDTO">
+		SELECT C_NO as cNo, U.NICKNAME as nickname, C_TITLE as cTitle, C_CONTENT as cContent, C_PW as cPw, C_CREATE_DATE as cCreateDate, C_MODIFY_DATE as cModifyDate, C_HIT as cHit, C_IP as cIp
+          FROM USERS U INNER JOIN C_BOARD C
+            ON U.NICKNAME = C.NICKNAME
+		 WHERE C.C_NO = #{cNo}
+	</select>
+	
+	<update id="updateCodeBoard" parameterType="CodeBoardDTO">
+		UPDATE CODEBOARD
+		   SET TITLE = #{title}
+		     , CONTENT = #{content}
+		     , MODIFY_DATE = SYSDATE
+		 WHERE C_NO = #{cNo}
+	</update>
+	
+	<delete id="deleteCodeBoard" parameterType="int">
+		DELETE
+		  FROM CODEBOARD
+		 WHERE CODEBOARD_NO = #{cNo}
+	</delete>
+	
+	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="hashmap">
+		SELECT A.ROW_NUM, A.C_NO, A.NICKNAME, A.C_TITLE, A.C_CONTENT, A.C_CREATE_DATE, A.C_MODIFY_DATE, A.C_HIT, A.C_IP,
+		CASE WHEN A.C_CREATE_DATE >= SYSDATE-7 THEN 'Y' ELSE 'N' END as NEW_YN
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY C_NO DESC) AS ROW_NUM, B.C_NO, B.NICKNAME, B.C_TITLE, B.C_CONTENT, B.C_CREATE_DATE, B.C_MODIFY_DATE, B.C_HIT, B.C_IP, U.USER_NO, U.ID, U.NAME
+		          FROM USERS U INNER JOIN C_BOARD B
+		            ON U.NICKNAME = B.NICKNAME) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	
+	
+</mapper>
