@@ -19,23 +19,36 @@
 	</select>
 	
 	<insert id="insertStudy" parameterType="StudyGroupDTO">
-		<selectKey keyProperty="sNo" resultType="int" order="BEFORE">
+		<selectKey keyProperty="SNo" resultType="int" order="BEFORE">
 			SELECT S_GROUP_SEQ.NEXTVAL
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO S_GROUP
 			(S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP)
 		VALUES
-			(#{sNo}, #{nickname}, #{sTitle}, #{sContent}, SYSDATE, SYSDATE, 0, #{sGender}, #{sRegion}, #{sWido}, #{sGdo}, #{sLang}, #{sPeople}, #{sContact}, SYSDATE, #{sIp})
+			(#{SNo}, #{nickname}, #{STitle}, #{SContent}, SYSDATE, SYSDATE, 0, #{SGender}, #{SRegion}, #{SWido}, #{SGdo}, #{SLang}, #{SPeople}, #{SContact}, SYSDATE, #{SIp})
 	</insert>
 	
-	<!-- 
 	<update id="updateHit" parameterType="int">
 		UPDATE S_GROUP
 		   SET S_HIT = S_HIT + 1
 		 WHERE S_NO = #{sNo}
 	</update>
-	 -->
+	 
+	 <!-- 고칠것들 -->
+	 <select id="selectStudyByNo" parameterType="int" resultType="StudyGroupDTO">
+		SELECT S_NO, NICKNAME, S_TITLE, S_CONTENT, S_CREATE_DATE, S_MODIFY_DATE, S_HIT, S_GENDER, S_REGION, S_WIDO, S_GDO, S_LANG, S_PEOPLE, S_CONTACT, S_DATE, S_IP
+          FROM S_GROUP
+		 WHERE S_NO = #{SNo}
+	</select>
+	
+	<update id="updateStudy" parameterType="StudyGroupDTO">
+		UPDATE S_GROUP
+		   SET TITLE = #{STitle}
+		     , CONTENT = #{SContent}
+		     , MODIFY_DATE = SYSDATE
+		 WHERE S_NO = #{SNo}
+	</update>
 </mapper>
 	
 	

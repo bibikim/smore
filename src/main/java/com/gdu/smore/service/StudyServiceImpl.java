@@ -2,7 +2,6 @@ package com.gdu.smore.service;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,10 +37,7 @@ public class StudyServiceImpl implements StudyService {
 		
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));
-		
-		Optional<String> opt2 = Optional.ofNullable(request.getParameter("recordPerPage"));
-		int recordPerPage = Integer.parseInt(opt2.orElse("10"));
-		
+				
 		// 전체 게시글 수는 DB에서 select count로 구하고 매퍼통해서 결과값 가져오기
 		int totalRecord = studyMapper.selectAllBoardCnt();
 		
@@ -52,13 +48,11 @@ public class StudyServiceImpl implements StudyService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
-		
-		// db에서 목록 가져오기
-		List<StudyGroupDTO> studyList = studyMapper.selectAllList(map);
-
-		model.addAttribute("studyList", studyList);
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/study/list"));
+				
+		model.addAttribute("totalRecord", totalRecord);
+		model.addAttribute("studyList", studyMapper.selectAllList(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
+		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/study/list"));
 	}
 
 	@Transactional
@@ -97,16 +91,16 @@ public class StudyServiceImpl implements StudyService {
 		// DB로 보낼 StudyGroupDTO
 		StudyGroupDTO study = StudyGroupDTO.builder()
 				.nickname(nickname)
-				.sTitle(title)
-				.sContent(content)
-				.sGender(gender)
-				.sRegion(region)
-				.sWido(wido)
-				.sGdo(gdo)
-				.sLang(lang)
-				.sPeople(people)
-				.sContact(contact)
-				.sIp(ip)
+				.STitle(title)
+				.SContent(content)
+				.SGender(gender)
+				.SRegion(region)
+				.SWido(wido)
+				.SGdo(gdo)
+				.SLang(lang)
+				.SPeople(people)
+				.SContact(contact)
+				.SIp(ip)
 				.build();
 		
 		// DB에 Study 저장
@@ -136,14 +130,20 @@ public class StudyServiceImpl implements StudyService {
 		}
 		
 	}
-	/*
+	
 	@Override
 	public int increseStudyHit(int sNo) {
-
-		return 0;
+		return studyMapper.updateHit(sNo);
 	}
-	*/
 
+	
+	@Override
+	public StudyGroupDTO getStudyByNo(int SNo) {
+
+		StudyGroupDTO study = studyMapper.selectStudyByNo(SNo);
+		
+		return study;
+	}
 	
 	
 	

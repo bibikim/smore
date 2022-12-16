@@ -12,5 +12,7 @@ public interface StudyMapper {
 	public int selectAllBoardCnt();
 	public List<StudyGroupDTO> selectAllList(Map<String, Object> map); 
 	public int insertStudy(StudyGroupDTO study);
-	public int updateHit(int sNo);
+	public int updateHit(int SNo);
+	public StudyGroupDTO selectStudyByNo(int SNo);
+	public int updateStudy(StudyGroupDTO study);
 }
