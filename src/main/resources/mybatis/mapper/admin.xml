@@ -157,7 +157,7 @@
       INSERT INTO RETIRE_USERS
          (USER_NO, ID, JOIN_DATE, RETIRE_DATE)
       VALUES
-		(#{userNo}, #{id}, #{joinDate}, SYSDATE)
+		(#{userNo}, #{id}, #{joinDate}, NOW())
    </insert>
     
 <!-- 	<select id="selectReportUserList" parameterType="map" resultMap="RedBellMap">
