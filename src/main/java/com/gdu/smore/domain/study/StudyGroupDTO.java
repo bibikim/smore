@@ -12,20 +12,20 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class StudyGroupDTO {
-	private int sNo;
+	private int SNo;
 	private String nickname;
-	private String sTitle;
-	private String sContent;
-	private Date sCreateDate;
-	private Date sModifyDate;
-	private int sHit;
-	private String sGender;
-	private String sRegion;
-	private String sWido;
-	private String sGdo;
-	private String sLang;
-	private String sPeople;
-	private String sContact;
-	private Date sDate;
-	private String sIp;
+	private String STitle;
+	private String SContent;
+	private Date SCreateDate;
+	private Date SModifyDate;
+	private int SHit;
+	private String SGender;
+	private String SRegion;
+	private String SWido;
+	private String SGdo;
+	private String SLang;
+	private String SPeople;
+	private String SContact;
+	private Date SDate;
+	private String SIp;
 }

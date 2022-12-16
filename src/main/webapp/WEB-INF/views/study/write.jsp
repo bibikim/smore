@@ -16,6 +16,7 @@
 		return location.href.substring(begin, end);
 	}
 	
+	/*
 	$(document).ready(function(){
 		
 		// summernote
@@ -51,7 +52,7 @@
 							dataType: 'json',    // HDD에 저장된 이미지의 경로를 json으로 받아옴
 							success: function(resData){
 								
-								/*
+								
 									resData의 src 속성값이 ${contextPath}/load/image/aaa.jpg인 경우
 									<img src="${contextPath}/load/image/aaa.jpg"> 태그가 만들어진다.
 									
@@ -59,13 +60,13 @@
 									location=C:\\upload\\aaa.jpg이므로 이 내용을
 									servlet-context.xml에서 resource의 mapping값과 location값으로 등록해 준다.
 									(스프링에서 정적 자원 표시하는 방법은 servlet-context.xml에 있다.)
-								*/
+								
 								$('#content').summernote('insertImage', resData.src);
 								
-								/*
+								
 									어떤 파일이 HDD에 저장되어 있는지 목록을 저장해 둔다.
 									블로그를 등록할 때 써머노트에서 사용한 파일명도 함께 등록한다.
-								*/
+								
 								$('#summernote_image_list').append($('<input type="hidden" name="summernoteImageNames" value="' + resData.filesystem + '">'))
 								
 							}
@@ -74,6 +75,7 @@
 				}  // onImageUpload
 			}  // callbacks
 		});
+	*/
 		
 
 		// 목록
@@ -104,7 +106,7 @@
 	<form id="frm_write" action="/study/add" method="post">
 	
 		<div>
-			작성자 ▷ ${loginUser.name}
+			작성자 ▷ ${loginUser.nickname}
 			<input type="hidden" name="studyNo" value="${loginUser.userNo}">
 		</div>
 	
