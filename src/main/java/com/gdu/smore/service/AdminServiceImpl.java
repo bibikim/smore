@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.gdu.smore.domain.user.RetireUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.AdminMapper;
+import com.gdu.smore.mapper.FreeMapper;
 import com.gdu.smore.util.PageUtil;
 
 @PropertySource(value = {"classpath:application.yml"})
@@ -20,7 +21,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminMapper adminMapper;
-
+	
 	@Autowired
 	private PageUtil pageUtil;
 	
@@ -89,4 +90,38 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 	
+	@Override
+	public Map<String, Object> getFreeBoardList(int page) {
+		
+		int totalRecord = adminMapper.selectFreeBoardCount();
+		pageUtil.setPageUtil(page, totalRecord);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
+		System.out.println(result);
+		result.put("pageUtil", pageUtil);
+		return result;
+		
+	}
+	
+	@Override
+	public Map<String, Object> getStudyList(int page) {
+		
+		int totalRecord = adminMapper.selectSGroupBoardCount();
+		pageUtil.setPageUtil(page, totalRecord);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("studyList", adminMapper.selectStudyListByMap(map));
+		System.out.println(result);
+		result.put("pageUtil", pageUtil);
+		return result;
+	}
 }

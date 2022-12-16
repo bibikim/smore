@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FreeBoardDTO {
+	private int rowNum;
 	private int fNo;
 	private String nickname;
 	private String fTitle;

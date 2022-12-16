@@ -8,8 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
-
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
 <style type="text/css">
 	.bg-light {
 		background-color: #ffffff;
@@ -21,11 +22,11 @@
 	}
 </style>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 
       <c:if test="${loginUser == null}">
     	<nav class="navbar navbar-light bg-light" >
-		  	<a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
+		  	<a class="navbar-brand" href="/"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
 			<ul class="nav justify-content-end">
 				  <li class="nav-item">
 				    <a class="nav-link active" href="${contextPath}/free/list">자게</a>
@@ -45,6 +46,7 @@
 	
 	<c:if test="${loginUser ne null}">
 	<div>
+		
      	<div style="text-align: right"> 
      		<c:if test="${loginUser.id == 'admin'}">
 		     	<a href="${contextPath}/admin/page">${loginUser.nickname} &nbsp; | &nbsp;&nbsp;</a>
@@ -55,7 +57,7 @@
 	     	<a href="${contextPath}/user/logout">로그아웃</a>
      	</div>
         <nav class="navbar navbar-light bg-light">
-		  	<a class="navbar-brand" href="#"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
+		  	<a class="navbar-brand" href="/"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
 			<ul class="nav justify-content-end">
 				  <li class="nav-item">
 				    <a class="nav-link active" href="${contextPath}/free/list">자게</a>
