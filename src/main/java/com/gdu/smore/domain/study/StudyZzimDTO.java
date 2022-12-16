@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudyZzimDTO {
 	private String nickname;
-	private int sNo;
+	private int studNo;
 }

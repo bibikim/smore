@@ -6,154 +6,154 @@
 
 <mapper namespace="com.gdu.smore.mapper.UserMapper">
 
-	<!-- 아이디 중복체크1, 이메일 중복체크, 로그인, 로그인 유지를 이용한 로그인, 마이페이지 가기 전 비번 확인, 네이버로그인으로 가입한 회원인지 확인 -->
-	<select id="selectUserByMap" parameterType="Map" resultType="UserDTO">
-		  SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE
-		  FROM USERS
-		 <where>	<!-- if 태그를 썼기떄문에 AND나 OR이 먼저나오면, 알아서 무시한다. -->
-			 <if test="id != null">
-			 	ID = #{id}
-			 </if>
-			 <if test="pw != null">
-			 	AND PW = #{pw}
-			 </if>
-			 <if test="email != null">
-			 	AND EMAIL = #{email}
-			 </if>
-			 <if test="sessionId != null">
-			 	AND SESSION_ID = #{sessionId}
-			 	AND SESSION_LIMIT_DATE > SYSDATE
-			 </if>
-		 </where>
-	</select>
-	
-	<!-- 아이디 중복체크2 -->
-	<select id="selectRetireUserById" parameterType="String" resultType="RetireUserDTO">
-		SELECT ID
-		  FROM RETIRE_USERS
-		 WHERE ID = #{id}
-	</select>
-		
-	<!-- 일반회원가입 -->
-	<insert id="insertUser" parameterType="UserDTO">
-		INSERT INTO USERS
-			(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
-		VALUES
-			(USERS_SEQ.NEXTVAL, #{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, #{postcode}, #{roadAddress}, #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{agreeCode}, NULL, SYSDATE, SYSDATE, SYSDATE, NULL, NULL, 0, 1)
-	</insert>
+   <!-- 아이디 중복체크1, 이메일 중복체크, 로그인, 로그인 유지를 이용한 로그인, 마이페이지 가기 전 비번 확인, 네이버로그인으로 가입한 회원인지 확인 -->
+   <select id="selectUserByMap" parameterType="Map" resultType="UserDTO">
+        SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE
+        FROM USERS
+       <where>   <!-- if 태그를 썼기떄문에 AND나 OR이 먼저나오면, 알아서 무시한다. -->
+          <if test="id != null">
+             ID = #{id}
+          </if>
+          <if test="pw != null">
+             AND PW = #{pw}
+          </if>
+          <if test="email != null">
+             AND EMAIL = #{email}
+          </if>
+          <if test="sessionId != null">
+             AND SESSION_ID = #{sessionId}
+             AND SESSION_LIMIT_DATE > SYSDATE
+          </if>
+       </where>
+   </select>
+   
+   <!-- 아이디 중복체크2 -->
+   <select id="selectRetireUserById" parameterType="String" resultType="RetireUserDTO">
+      SELECT ID
+        FROM RETIRE_USERS
+       WHERE ID = #{id}
+   </select>
+      
+   <!-- 일반회원가입 -->
+   <insert id="insertUser" parameterType="UserDTO">
+      INSERT INTO USERS
+         (USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
+      VALUES
+         (USERS_SEQ.NEXTVAL, #{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, #{postcode}, #{roadAddress}, #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{agreeCode}, NULL, SYSDATE, SYSDATE, SYSDATE, NULL, NULL, 0, 1)
+   </insert>
 
-	<!-- 로그인 기록(ACCESS_LOG) 남기기 -->
-	<update id="updateAccessLog" parameterType="String">
-		UPDATE ACCESS_LOG
-		   SET LAST_LOGIN_DATE = SYSDATE
-		 WHERE ID = #{id}
-	</update>
-	<insert id="insertAccessLog" parameterType="String">
-		INSERT INTO ACCESS_LOG
-			(ACCESS_LOG_NO, ID, LAST_LOGIN_DATE)
-		VALUES
-			(ACCESS_LOG_SEQ.NEXTVAL, #{id}, SYSDATE)
-	</insert>
-	
-	<!-- 로그인 유지를 위한 SESSION_ID/SESSION_LIMIT_DATE 업데이트 -->
-	<update id="updateSessionInfo" parameterType="UserDTO">
-		UPDATE USERS
-		   SET SESSION_ID = #{sessionId}
-		     , SESSION_LIMIT_DATE = #{sessionLimitDate}
-		 WHERE ID = #{id}
-	</update>
-	
-	<!-- 마이페이지 : 비밀번호 수정, 임시비밀번호로 수정 -->
-	<update id="updateUserPassword" parameterType="UserDTO">
-		UPDATE USERS
-		   SET PW = #{pw}
-		     , PW_MODIFY_DATE = SYSDATE
-		 WHERE USER_NO = #{userNo}
-	</update>
-	
-	<!-- 마이페이지 : 정보 수정 -->
-	<update id="updateUserInfo" parameterType="UserDTO">
-		UPDATE USERS
-		  SET NAME = #{name}
-		    , NICKNAME = #{nickname}
-		    , GENDER = #{gender}
-		    , EMAIL = #{email}
-		    , MOBILE = #{mobile}
-		    , BIRTHYEAR = #{birthyear}
-		    , BIRTHDAY = #{birthday}
-		    , POSTCODE = #{postcode}
-		    , ROAD_ADDRESS = #{roadAddress}
-		    , JIBUN_ADDRESS = #{jibunAddress}
-		    , DETAIL_ADDRESS = #{detailAddress}
-		    , EXTRA_ADDRESS = #{extraAddress}
-		    , INFO_MODIFY_DATE = SYSDATE
-		WHERE ID = #{id}
-	</update>
-	
-	<!-- 회원탈퇴1 : USERS 테이블에서 제거 -->
-	<delete id="deleteUser" parameterType="int">
-		DELETE
-		  FROM USERS
-		 WHERE USER_NO = #{userNo}
-	</delete>
-	
-	<!-- 회원탈퇴2 : RETIRE_USERS 테이블에 추가 -->
-	<insert id="insertRetireUser" parameterType="RetireUserDTO">
-		INSERT INTO RETIRE_USERS
-			(USER_NO, ID, JOIN_DATE, RETIRE_DATE)
-		VALUES
-			(#{userNo}, #{id}, #{joinDate}, SYSDATE)
-	</insert>
-	
-	<!-- 휴면처리1 : 1년 이상 로그인 기록이 없으면 휴면테이블에 저장 -->
-	<insert id="insertSleepUser">
-																		
-		INSERT INTO SLEEP_USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE, LAST_LOGIN_DATE, SLEEP_DATE)
-			(SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, SYSDATE
-			   FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-			     ON U.ID = A.ID
-			  WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
-			     OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
-	</insert>
-	
-	<!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
-	<delete id="deleteUserForSleep">
-		DELETE
-		  FROM USERS
-		 WHERE ID IN (SELECT U.ID
-		                FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                  ON U.ID = A.ID
-		               WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
-		                  OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
-	</delete>
-	
-	<!-- 로그인 이전에 휴면회원인지 확인 -->
-	<select id="selectSleepUserById" parameterType="String" resultType="SleepUserDTO">
-		SELECT ID, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
-		  FROM SLEEP_USERS
-		 WHERE ID = #{id}
-	</select>
-	
-	<!-- 휴면복원1 : 복원할 회원을 USERS 테이블에 삽입 -->
-	<insert id="insertRestoreUser" parameterType="String">
-		INSERT INTO USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE)
-			(SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE
-			   FROM SLEEP_USERS
-			  WHERE ID = #{id})
-	</insert>
-	
-	<!-- 휴면복원2 : 복원할 회원을 SLEEP_USERS 테이블에서 삭제 -->
-	<delete id="deleteSleepUser" parameterType="String">
-		DELETE
-		  FROM SLEEP_USERS
-		 WHERE ID = #{id}
-	</delete>
-	
-	
-	
-	
-	
-	
-	
-	
+   <!-- 로그인 기록(ACCESS_LOG) 남기기 -->
+   <update id="updateAccessLog" parameterType="String">
+      UPDATE ACCESS_LOG
+         SET LAST_LOGIN_DATE = SYSDATE
+       WHERE ID = #{id}
+   </update>
+   <insert id="insertAccessLog" parameterType="String">
+      INSERT INTO ACCESS_LOG
+         (ACCESS_LOG_NO, ID, LAST_LOGIN_DATE)
+      VALUES
+         (ACCESS_LOG_SEQ.NEXTVAL, #{id}, SYSDATE)
+   </insert>
+   
+   <!-- 로그인 유지를 위한 SESSION_ID/SESSION_LIMIT_DATE 업데이트 -->
+   <update id="updateSessionInfo" parameterType="UserDTO">
+      UPDATE USERS
+         SET SESSION_ID = #{sessionId}
+           , SESSION_LIMIT_DATE = #{sessionLimitDate}
+       WHERE ID = #{id}
+   </update>
+   
+   <!-- 마이페이지 : 비밀번호 수정, 임시비밀번호로 수정 -->
+   <update id="updateUserPassword" parameterType="UserDTO">
+      UPDATE USERS
+         SET PW = #{pw}
+           , PW_MODIFY_DATE = SYSDATE
+       WHERE USER_NO = #{userNo}
+   </update>
+   
+   <!-- 마이페이지 : 정보 수정 -->
+   <update id="updateUserInfo" parameterType="UserDTO">
+      UPDATE USERS
+        SET NAME = #{name}
+          , NICKNAME = #{nickname}
+          , GENDER = #{gender}
+          , EMAIL = #{email}
+          , MOBILE = #{mobile}
+          , BIRTHYEAR = #{birthyear}
+          , BIRTHDAY = #{birthday}
+          , POSTCODE = #{postcode}
+          , ROAD_ADDRESS = #{roadAddress}
+          , JIBUN_ADDRESS = #{jibunAddress}
+          , DETAIL_ADDRESS = #{detailAddress}
+          , EXTRA_ADDRESS = #{extraAddress}
+          , INFO_MODIFY_DATE = SYSDATE
+      WHERE ID = #{id}
+   </update>
+   
+   <!-- 회원탈퇴1 : USERS 테이블에서 제거 -->
+   <delete id="deleteUser" parameterType="int">
+      DELETE
+        FROM USERS
+       WHERE USER_NO = #{userNo}
+   </delete>
+   
+   <!-- 회원탈퇴2 : RETIRE_USERS 테이블에 추가 -->
+   <insert id="insertRetireUser" parameterType="RetireUserDTO">
+      INSERT INTO RETIRE_USERS
+         (USER_NO, ID, JOIN_DATE, RETIRE_DATE)
+      VALUES
+         (#{userNo}, #{id}, #{joinDate}, SYSDATE)
+   </insert>
+   
+   <!-- 휴면처리1 : 1년 이상 로그인 기록이 없으면 휴면테이블에 저장 -->
+   <insert id="insertSleepUser">
+                                                      
+      INSERT INTO SLEEP_USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE, LAST_LOGIN_DATE, SLEEP_DATE)
+         (SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, SYSDATE
+            FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+              ON U.ID = A.ID
+           WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
+              OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+   </insert>
+   
+   <!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
+   <delete id="deleteUserForSleep">
+      DELETE
+        FROM USERS
+       WHERE ID IN (SELECT U.ID
+                      FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+                        ON U.ID = A.ID
+                     WHERE MONTHS_BETWEEN(SYSDATE, A.LAST_LOGIN_DATE) >= 12
+                        OR (MONTHS_BETWEEN(SYSDATE, U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+   </delete>
+   
+   <!-- 로그인 이전에 휴면회원인지 확인 -->
+   <select id="selectSleepUserById" parameterType="String" resultType="SleepUserDTO">
+      SELECT ID, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
+        FROM SLEEP_USERS
+       WHERE ID = #{id}
+   </select>
+   
+   <!-- 휴면복원1 : 복원할 회원을 USERS 테이블에 삽입 -->
+   <insert id="insertRestoreUser" parameterType="String">
+      INSERT INTO USERS(USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE)
+         (SELECT USER_NO, ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, USER_STATE
+            FROM SLEEP_USERS
+           WHERE ID = #{id})
+   </insert>
+   
+   <!-- 휴면복원2 : 복원할 회원을 SLEEP_USERS 테이블에서 삭제 -->
+   <delete id="deleteSleepUser" parameterType="String">
+      DELETE
+        FROM SLEEP_USERS
+       WHERE ID = #{id}
+   </delete>
+   
+   
+   
+   
+   
+   
+   
+   
 </mapper>

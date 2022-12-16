@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CodeCommentDTO {
-	private int cCmtNo;
-	private int cNo;
+	private int cmtNo;
+	private int coNo;
 	private String nickname;
-	private String cCmtContent;
-	private Date cCmtCreateDate;
-	private Date cCmtModifyDate;
-	private int cState;
-	private int cDepth;
-	private String cIp;
+	private String cmtContent;
+	private Date CreateDate;
+	private Date ModifyDate;
+	private int state;
+	private int depth;
+	private String ip;
 }

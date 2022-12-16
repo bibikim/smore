@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class QnaCommentDTO {
-	private int qCmtNo;
-	private int qNo;
-	private String qCmtContent;
-	private Date qCmtCreateDate;
-	private Date qCmtModifyDate;
-	private int qState;
-	private String qIp;
+	private int cmtNo;
+	private int qaNo;
+	private String cmtContent;
+	private Date createDate;
+	private Date modifyDate;
+	private int state;
+	private String ip;
 }

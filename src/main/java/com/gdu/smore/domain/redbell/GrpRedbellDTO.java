@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class GrpRedbellDTO {
-	private int rNo;
+	private int redNo;
 	private String id; // 신고자 ID
-	private int sNo;
-	private String rContent;
-	private Date rDate;
+	private int studNo;
+	private String redContent;
+	private Date redDate;
 	private UserDTO user;
 	private StudyGroupDTO studyGroup;
 }

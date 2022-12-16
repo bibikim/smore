@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudyMemberDTO {
 	private String nickname;
-	private int sNo;
-	private Date mDate;
-	private int mGuBun;
+	private int studNo;
+	private Date applyDate;
+	private int applyGubun;
 }

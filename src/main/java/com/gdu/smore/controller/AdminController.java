@@ -42,4 +42,16 @@ public class AdminController {
 		return adminService.getSleepUserList(page);
 	}
 
+	
+	@GetMapping(value="/freeBoardList/page{page}", produces = "application/json")
+	public Map<String, Object> getFreeBoardList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.getFreeBoardList(page);
+	}
+	@GetMapping(value="/studyList/page{page}", produces = "application/json")
+	public Map<String, Object> getStudyList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.getStudyList(page);
+	}
+	
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FreeLikedDTO {
-	private int fNo;
+	private int freeNo;
 	private String nickname;
 }

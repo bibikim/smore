@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CmtRedbellDTO {
-	private int rNo;
+	private int redCmtNo;
 	private String id;
-	private int sCmtNo;
-	private String rContent;
-	private Date rDate;
+	private int cmtNo;
+	private String redContent;
+	private Date redDate;
 	private UserDTO user;
 	private StudyCommentDTO studyComment;
 }

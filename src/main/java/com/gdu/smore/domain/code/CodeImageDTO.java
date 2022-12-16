@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CodeImageDTO {
-	private int cNo;
-	private String fileSystem;
+	private int coNo;
+	private String filesystem;
 }

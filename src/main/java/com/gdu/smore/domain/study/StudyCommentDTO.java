@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class StudyCommentDTO {
-	private int sCmtNo;
-	private int sNo;
+	private int cmtNo;
+	private int studNo;
 	private String nickname;
-	private String sCmtContent;
-	private Date sCmtCreateDate;
-	private int sState;
-	private int sDepth;
-	private String sIp;
+	private String cmtContent;
+	private Date createDate;
+	private int state;
+	private int depth;
+	private String ip;
 }

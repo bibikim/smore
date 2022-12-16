@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FreeImageDTO {
-	private int fNo;
+	private int freeNo;
 	private String filesystem;
 }
