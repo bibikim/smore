@@ -176,4 +176,106 @@ public class FreeServiceImpl implements FreeService {
 		return free;
 	}
 	
+
+	@Override
+	public void modifyFree(HttpServletRequest request, HttpServletResponse response) {
+		
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
+		
+		FreeBoardDTO free = FreeBoardDTO.builder()
+				.title(title)
+				.content(content)
+				.freeNo(freeNo)
+				.build();
+		
+		int result = freeMapper.updateFree(free);
+		
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			
+			if(result > 0) {
+				
+				String[] fImageNames = request.getParameterValues("fImageNames");
+				
+				if(fImageNames != null) {
+					for(String filesystem : fImageNames) {
+						FreeImageDTO fImage = FreeImageDTO.builder()
+								.freeNo(free.getFreeNo())
+								.filesystem(filesystem)
+								.build();
+						freeMapper.insertImage(fImage);
+					}
+				}
+				
+				out.println("alert('게시글이 수정되었습니다.');");
+				out.println("location.href='/free/detail?freeNo=" + freeNo + "';");
+			} else {
+				out.println("alert('게시글이 수정되지 않았습니다. 확인해주세요');");
+				out.println("history.back();");
+			}
+			
+			out.println("</script>");
+			out.close();
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	@Override
+	public void removeFree(HttpServletRequest request, HttpServletResponse response) {
+		
+		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
+		
+		List<FreeImageDTO> fImageList = freeMapper.selectFreeImageListInFree(freeNo);
+		
+		int result = freeMapper.deleteFree(freeNo);   // 외래키 제약조건에 의해서 fimage도 모두 지워진다!
+		
+		try {
+
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			if(result > 0) {
+			
+				if(fImageList != null && fImageList.isEmpty() == false) {
+					
+					for(FreeImageDTO fImage : fImageList) {
+						File file = new File("c:" + File.separator + "fImage", fImage.getFilesystem());
+						if(file.exists()) {
+							file.delete();
+						}
+					}
+				}
+				
+				out.println("alert('게시글이 삭제되었습니다.');");
+				out.println("location.href='/free/list'");
+				
+			} else {
+				
+				out.println("alert('게시글 삭제에 실패했습니다.);");
+				out.println("history.back();");
+
+			}
+			
+			out.println("</script>");
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -43,6 +44,41 @@ public class FreeController {
 	@PostMapping("/free/save")
 	public void saveFree(HttpServletRequest request, HttpServletResponse response) {
 		freeService.saveFree(request, response);
+	}
+	
+	
+	@GetMapping("/free/increase/hit")
+	public String increaseHit(@RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo) {
+		int result = freeService.increaseHit(freeNo);
+		if(result > 0) {
+			return "redirect:/free/detail?freeNo=" + freeNo;
+		} else {
+			return "redirect:/free/list";
+		}
+	}
+	
+	@GetMapping("/free/detail")
+
+	public String detailFree(@RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
+		model.addAttribute("free", freeService.getFreeByNo(freeNo));
+		return "free/detail";
+	}
+	
+	@PostMapping("/free/modify")
+	public void modifyFree(HttpServletRequest request, HttpServletResponse response) {
+		freeService.modifyFree(request, response);
+	}
+	
+	@PostMapping("/free/edit")
+	public String editFree(int freeNo, Model model) {
+		model.addAttribute("free", freeService.getFreeByNo(freeNo));
+		return "/free/edit";
+	}
+	
+	
+	@PostMapping("/free/remove")
+	public void removeFree(HttpServletRequest request, HttpServletResponse response) {
+		freeService.removeFree(request, response);
 	}
 	
 	
