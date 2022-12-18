@@ -221,7 +221,7 @@
 				$.each(resData.freeBoardList, function(i, board){
 					var tr = '<tr>';
 					tr += '<td>' + board.rowNum + '</td>';
-					tr += '<td> <a href="free/detail?fNo=' + board.fNo + ">' + board.nickname  + '</a></td>';
+/* 					tr += '<td> <a href="free/detail?fNo=' + board.fNo + ">' + board.nickname  + '</a></td>'; */
 					tr += '<td>' + board.title  + '</td>';
 					tr += '<td>' + board.createDate + '</td>'; 
 					tr += '<td>' + board.modifyDate + '</td>'; 
