@@ -22,10 +22,10 @@ public interface UserService {
 	public UserDTO getUserBySessionId(Map<String, Object> map);
 	
 	// 아이디 찾기
-	
+	public Map<String, Object> findId(Map<String, Object> map);
 	
 	// 비번 찾기
-	
+	public Map<String, Object> sendTemporaryPw(UserDTO user);
 	
 	// 정보 수정
 	public Map<String, Object> confirmPassword(HttpServletRequest request);

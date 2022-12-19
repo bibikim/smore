@@ -24,6 +24,9 @@
              AND SESSION_ID = #{sessionId}
              AND SESSION_LIMIT_DATE > NOW()
           </if>
+          <if test="name != null">
+			 AND NAME = #{name}
+		  </if>
        </where>
    </select>
    
@@ -111,19 +114,20 @@
          (SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, NOW()
             FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
               ON U.ID = A.ID
-           WHERE TIMESTAMPDIFF(MONTH, A.LAST_LOGIN_DATE, NOW()) >= 12
-              OR (TIMESTAMPDIFF(MONTH, U.JOIN_DATE, NOW()) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+           WHERE DATEDIFF(NOW(), A.LAST_LOGIN_DATE) >= 365
+              OR (DATEDIFF(NOW(), U.JOIN_DATE) >= 365 AND A.LAST_LOGIN_DATE IS NULL))
    </insert>
    
    <!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
    <delete id="deleteUserForSleep">
       DELETE
         FROM USERS
-       WHERE ID IN (SELECT U.ID
-                      FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-                        ON U.ID = A.ID
-                     WHERE TIMESTAMPDIFF(MONTH, A.LAST_LOGIN_DATE, NOW()) >= 12
-                        OR (TIMESTAMPDIFF(MONTH, U.JOIN_DATE, NOW()) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+       WHERE ID IN (SELECT ID
+       			      FROM (SELECT U.ID
+                              FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+                       		    ON U.ID = A.ID
+                     WHERE DATEDIFF(NOW(), A.LAST_LOGIN_DATE) >= 365
+                        OR (DATEDIFF(NOW(), U.JOIN_DATE) >= 365 AND A.LAST_LOGIN_DATE IS NULL)) AS AC)
    </delete>
    
    <!-- 로그인 이전에 휴면회원인지 확인 -->
@@ -147,12 +151,5 @@
         FROM SLEEP_USERS
        WHERE ID = #{id}
    </delete>
-   
-   
-   
-   
-   
-   
-   
    
 </mapper>

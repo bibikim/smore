@@ -34,4 +34,7 @@ public interface UserMapper {
 	public int insertRestoreUser(String id);
 	public int deleteSleepUser(String id);
 	
+	// 네이버 로그인
+	// public int insertNaverUser(UserDTO user);
+	
 }

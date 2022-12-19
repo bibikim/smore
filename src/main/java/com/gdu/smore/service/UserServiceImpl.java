@@ -5,23 +5,13 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,22 +20,18 @@ import com.gdu.smore.domain.user.RetireUserDTO;
 import com.gdu.smore.domain.user.SleepUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.UserMapper;
+import com.gdu.smore.util.JavaMailUtil;
 import com.gdu.smore.util.SecurityUtil;
 
-@PropertySource(value = {"classpath:application.yml"})
 @Service
 public class UserServiceImpl implements UserService {
 
-   @Value(value = "${mail.username}")
-   private String username;
-      
-   @Value(value="${mail.password}")
-   private String password;
-   
    @Autowired
    private UserMapper userMapper;   
    @Autowired
    private SecurityUtil securityUtil;
+   @Autowired
+   private JavaMailUtil javaMailUtil;
    
    @Override
    public Map<String, Object> isReduceId(String id) {
@@ -72,79 +58,61 @@ public class UserServiceImpl implements UserService {
    }
    
    @Override
-   public Map<String, Object> sendAuthCode(String email) {
-      
-      String authCode = securityUtil.getAuthCode(6);  
-      System.out.println("발송된 인증코드 : " + authCode);
-      
-      Properties properties = new Properties();
-      properties.put("mail.smtp.host", "smtp.gmail.com");  
-      properties.put("mail.smtp.port", "587");          
-      properties.put("mail.smtp.auth", "true");         
-      properties.put("mail.smtp.starttls.enable", "true"); 
-      
-      Session session = Session.getInstance(properties, new Authenticator() {
-         @Override
-         protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(username, password);
-         }
-      });
-      try {
-         Message message = new MimeMessage(session);
-         
-         message.setFrom(new InternetAddress(username, "인증코드관리자"));         
-         message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-         message.setSubject("[Application] 인증 요청 메일입니다.");               
-         message.setContent("인증번호는 <strong>" + authCode + "</strong>입니다.", "text/html; charset=UTF-8");  // 내용
-         
-         Transport.send(message);
-         
-      } catch(Exception e) {
-         e.printStackTrace();
-      }
-      Map<String, Object> result = new HashMap<String, Object>();
-      result.put("authCode", authCode);
-      return result;
-   }
+	public Map<String, Object> sendAuthCode(String email) {
+		
+		// 인증코드 만들기
+		String authCode = securityUtil.getAuthCode(6);  // String authCode = securityUtil.generateRandomString(6);
+		System.out.println("발송된 인증코드 : " + authCode);
+		
+		// 메일 전송
+		javaMailUtil.sendJavaMail(email, "[Application] 인증요청", "인증번호는 <strong>" + authCode + "</strong>입니다.");
+		
+		// join.jsp로 생성한 인증코드를 보내줘야 함
+		// 그래야 사용자가 입력한 인증코드와 비교를 할 수 있음
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("authCode", authCode);
+		return result;
+		
+	}
    
-   @Transactional
-   @Override
-   public void join(HttpServletRequest request, HttpServletResponse response) {
+	@Transactional
+	@Override
+	public void join(HttpServletRequest request, HttpServletResponse response) {
       
-      String id = request.getParameter("id");
-      String pw = request.getParameter("pw");
-      String name = request.getParameter("name");
-      String nickname = request.getParameter("nickname");
-      String gender = request.getParameter("gender");
-      String mobile = request.getParameter("mobile");
-      String birthyear = request.getParameter("birthyear");
-      String birthmonth = request.getParameter("birthmonth");
-      String birthdate = request.getParameter("birthdate");
-      String postcode = request.getParameter("postcode");
-      String roadAddress = request.getParameter("roadAddress");
-      String jibunAddress = request.getParameter("jibunAddress");
-      String detailAddress = request.getParameter("detailAddress");
-      String extraAddress = request.getParameter("extraAddress");
-      String email = request.getParameter("email");
-      String location = request.getParameter("location");
-      String promotion = request.getParameter("promotion");
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String name = request.getParameter("name");
+		String nickname = request.getParameter("nickname");
+		String gender = request.getParameter("gender");
+		String mobile = request.getParameter("mobile");
+		String birthyear = request.getParameter("birthyear");
+		String birthmonth = request.getParameter("birthmonth");
+		String birthdate = request.getParameter("birthdate");
+		String postcode = request.getParameter("postcode");
+		String roadAddress = request.getParameter("roadAddress");
+		String jibunAddress = request.getParameter("jibunAddress");
+		String detailAddress = request.getParameter("detailAddress");
+		String extraAddress = request.getParameter("extraAddress");
+		String email = request.getParameter("email");
+		String location = request.getParameter("location");
+		String promotion = request.getParameter("promotion");
             
-      pw = securityUtil.sha256(pw);
-      name = securityUtil.preventXSS(name);
-      nickname = securityUtil.preventXSS(nickname);
-      String birthday = birthmonth + birthdate;
-      detailAddress = securityUtil.preventXSS(detailAddress);
-      int agreeCode = 0;  // 필수 동의
-      if(!location.isEmpty() && promotion.isEmpty()) {
-         agreeCode = 1;  // 필수 + 위치
-      } else if(location.isEmpty() && !promotion.isEmpty()) {
-         agreeCode = 2;  // 필수 + 프로모션
-      } else if(!location.isEmpty() && !promotion.isEmpty()) {
-         agreeCode = 3;  // 필수 + 위치 + 프로모션
-      }
+		pw = securityUtil.sha256(pw);
+		name = securityUtil.preventXSS(name);
+		nickname = securityUtil.preventXSS(nickname);
+		String birthday = birthmonth + birthdate;
+		detailAddress = securityUtil.preventXSS(detailAddress);
+		int agreeCode = 0;  // 필수 동의
+		if(!location.isEmpty() && promotion.isEmpty()) {
+			agreeCode = 1;  // 필수 + 위치
+		} else if(location.isEmpty() && !promotion.isEmpty()) {
+			agreeCode = 2;  // 필수 + 프로모션
+		} else if(!location.isEmpty() && !promotion.isEmpty()) {
+			agreeCode = 3;  // 필수 + 위치 + 프로모션
+		}
       
-      UserDTO user = UserDTO.builder()
-            .id(id)
+		UserDTO user = UserDTO.builder()
+        	.id(id)
             .pw(pw)
             .name(name)
             .nickname(nickname)
@@ -524,7 +492,38 @@ public class UserServiceImpl implements UserService {
       }
    }
    
+   // 아이디 찾기
+   @Override
+	public Map<String, Object> findId(Map<String, Object> map) {
+	   Map<String, Object> result = new HashMap<String, Object>();
+	   result.put("findId", userMapper.selectUserByMap(map));
+	   return result;
+	}
    
+   // 비번 찾기
+	@Override
+	public Map<String, Object> sendTemporaryPw(UserDTO user) {
+		// 9자리 임시 비밀번호
+		String temporaryPassword = securityUtil.generateRandomString(9);
+		System.out.println("임시비번 : " + temporaryPassword);
+		
+		// 메일 내용
+		String text = "";
+		text += "비밀번호가 초기화되었습니다.<br>";
+		text += "임시비밀번호 : <strong>" + temporaryPassword + "</strong><br><br>";
+		text += "임시비밀번호로 로그인 후에 반드시 비밀번호를 변경해 주세요.";
+		
+		// 메일 전송
+		javaMailUtil.sendJavaMail(user.getEmail(), "[Application] 임시비밀번호", text);
+		
+		// DB로 보낼 user
+		user.setPw(securityUtil.sha256(temporaryPassword));  // user에 포함된 userNo와 pw를 사용
+		
+		// 임시 비밀번호로 DB 정보 수정하고 결과 반환
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isSuccess", userMapper.updateUserPassword(user));
+		return result;
+	}
    
    
 }

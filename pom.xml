@@ -41,6 +41,14 @@
           <artifactId>commons-codec</artifactId>
       </dependency>
       
+      <!-- 랜덤 String -->	
+	  <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	  <dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-lang3</artifactId>
+		  <version>3.11</version>
+      </dependency>
+      
       <dependency>
           <groupId>com.sun.mail</groupId>
           <artifactId>javax.mail</artifactId>
