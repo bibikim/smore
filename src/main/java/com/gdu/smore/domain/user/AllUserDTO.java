@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class AllUserDTO {
-	private int rowNum;
+	private int rn;
 	private UserDTO userDTO;
 	private SleepUserDTO sleepUserDTO;
 }

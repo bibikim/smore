@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.gdu.smore.domain.free.FreeBoardDTO;
 import com.gdu.smore.domain.redbell.GrpRedbellDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
-import com.gdu.smore.domain.user.AllUserDTO;
 import com.gdu.smore.domain.user.RetireUserDTO;
 import com.gdu.smore.domain.user.SleepUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
@@ -17,12 +16,8 @@ import com.gdu.smore.domain.user.UserDTO;
 public interface AdminMapper {
 	
 	// 유저 리스트
-	public List<UserDTO> selectAllUserList(Map<String, Object> map);
 	public List<UserDTO> selectUserListByMap(Map<String, Object> map);
 	public List<SleepUserDTO> selectSleepUserListByMap(Map<String, Object> map);
-	
-	public List<AllUserDTO> selectUsersByQuery(Map<String, Object> map);
-	
 	
 	// 게시판 리스트
 	public List<FreeBoardDTO> selectFreeListByMap(Map<String, Object> map);
@@ -32,10 +27,6 @@ public interface AdminMapper {
 	public int selectUserCount();
 	public int selectSleepUserCount();
 	public int selectReportUserCount();
-	
-	// 검색 카운트
-	public int selectUserCountByQuery(Map<String, Object> map);
-	
 	
 	// 게시판 카운트
 	public int selectFreeBoardCount();
