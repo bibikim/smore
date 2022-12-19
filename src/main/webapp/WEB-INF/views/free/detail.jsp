@@ -14,51 +14,70 @@
 	
 	$(document).ready(function(){
 		
+		$('.btn_remove').click(function(){
+			if(confirm('게시글을 삭제하시겠습니까?')) {
+				$('#frm_btn').attr('action', '/free/remove');
+				$('#frm_btn').submit();
+			}
+		})
 		
-		$('#btn_list').click(function(){
-			location.href='/free/list';	
-		});
 		
-		$('#btn_cancel').click(function(){
-			history.back();
-		});
+		$('.btn_modify').click(function(){
+			$('#frm_btn').attr('action', '/free/edit');
+			$('#frm_btn').submit();
+		})
+		
+		
 
 		
 	});
 
 </script>
+<style>
+	* {
+		box-sizing: border-box;
+	}
+</style>
 </head>
 <body>
-	
-	<div>
-		<form id="frm_write" action="/free/save" method="post">
-			
-			<input type="hidden" name="nickname" value="${loginUser.nickname}">
-
-		
-			<div>
-				<div>
-					<label for="title">제목</label>
-				</div>
-				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
-			</div>
-		
-			<div>
-				<label for="content">내용</label>
-				<textarea id="content" name="content"></textarea>
-			</div>
-			
-			<div id="sumnote_image_list"></div>
-			
-			<div>
-				<div>
-					<input type="button" id="btn_cancel" value="취소">
-					<input type="button" id="btn_list" value="목록">
-					<button>등록</button>
-				</div>
-			</div>
-		</form>
+	<div style="width: 800px; display: inline-block;" >
+		<div style="width: 300px;">
+			<input type="button" value="목록" onclick="location.href='/free/list'">
+			<input type="button" value="이전글">
+			<input type="button" value="다음글">
+		</div>
+		<div style="width: 200px; display: inline-block;">
+			<form id="frm_btn" method="post">
+				<input type="hidden" name="freeNo" value="${free.freeNo}">
+				<input type="button" value="수정" class="btn_modify">
+				<input type="button" value="삭제" class="btn_remove">
+			</form>
+		</div>
 	</div>
-	
+	<div>
+		<table>
+			<tbody>
+				<tr>
+					<td>${free.title}</td>
+				</tr>
+				<tr>
+					<td>${free.modifyDate}</td>
+				</tr>
+				<tr>
+					<td>
+						<p style="text-align: left;">${free.content}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<div>
+			<button id="btn_comment" class="" style="">
+			댓글 
+			<span class="">${comment}개</span>
+			</button>
+		</div>
+	</div>
 </body>
 </html>

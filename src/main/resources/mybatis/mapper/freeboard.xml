@@ -13,14 +13,14 @@
 
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 	    SELECT N.RW, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREENO DESC) AS RW, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS RW, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM FREEBOARD) N
 		 WHERE N.RW BETWEEN #{begin} AND #{end}
 	</select>
 
 	<!-- 글쓰기 -->
 	<insert id="insertFree" parameterType="FreeBoardDTO">
-		INSERT INTO F_BOARD
+		INSERT INTO FREEBOARD
 			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		 VALUES
 		 	(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
@@ -63,6 +63,22 @@
 		  FROM FREEIMAGE
 		 WHERE FILESYSTEM = #{filesystem}
 	</delete>
+	
+	<!-- 수정 -->
+	<update id="updateFree">
+		UPDATE FREEBOARD
+		   SET TITLE = #{title}, CONTENT = #{content}, MODIFY_DATE = NOW()
+		 WHERE FREE_NO = #{freeNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteFree" parameterType="int">
+		DELETE
+		  FROM FREEBOARD
+		 WHERE freeNO = #{freeNo}
+	</delete>
+	
+	
 	
 </mapper>
 	

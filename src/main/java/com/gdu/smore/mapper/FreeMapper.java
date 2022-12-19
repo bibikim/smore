@@ -23,4 +23,6 @@ public interface FreeMapper {
 	public int updateHit(int freeNo);
 	public int deleteFreeImage(String filesystem);
 	
+	public int updateFree(FreeBoardDTO free);
+	public int deleteFree(int freeNo);
 }
