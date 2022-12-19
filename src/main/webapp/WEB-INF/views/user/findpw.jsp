@@ -37,18 +37,18 @@
 					}),
 					dataType: 'json',
 					success: function(resData){
-						if(resData.findUser != null){
-							resolve(resData.findUser);
+						if(resData.findId != null){
+							resolve(resData.findId);
 						} else {
 							reject('일치하는 회원 정보가 없습니다.');
 						}
 					}
 				});		
-			}).then(function(findUser){
+			}).then(function(findId){
 				$.ajax({
 					url: '${contextPath}/user/sendTemporaryPassword',
 					type: 'post',
-					data: 'userNo=' + findUser.userNo + '&email=' + findUser.email,
+					data: 'userNo=' + findId.userNo + '&email=' + findId.email,
 					dataType: 'json',
 					success: function(resData){
 						if(resData.isSuccess){

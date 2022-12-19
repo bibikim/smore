@@ -39,11 +39,11 @@
 				}),
 				dataType: 'json',
 				success: function(resData) {
-					if (resData.findUser != null) {
-						let id = resData.findUser.id;
+					if (resData.findId != null) {
+						let id = resData.findId.id;
 						id = id.substring(0, 3) + '*****';
 						moment.locale('ko-KR');
-						$('#msg_result').html('회원님의 아이디는 ' + id + '입니다.<br>(가입일 : ' + moment(resData.findUser.joinDate).format("YYYY년 MM월 DD일 a h:mm:ss") + ')');
+						$('#msg_result').html('회원님의 아이디는 ' + id + '입니다.<br>(가입일 : ' + moment(resData.findId.joinDate).format("YYYY년 MM월 DD일 a h:mm:ss") + ')');
 					} else {
 						$('#msg_result').html('일치하는 회원이 없습니다. 입력 정보를 확인하세요.');
 					}

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.service.UserService;
 
 @Controller
@@ -133,19 +135,44 @@ public class UserController {
 	
 	// 휴면
 	@GetMapping("/user/sleep/display")
-	public String sleepDisplay() {
+	public String requiredLogin_sleepDisplay() {
 		return "user/sleep";
 	}
 
 	@PostMapping("/user/restore")
-	public void restore(HttpServletRequest request, HttpServletResponse response) {
+	public void requiredLogin_restore(HttpServletRequest request, HttpServletResponse response) {
 		userService.restoreUser(request, response);
 	}
 	
 	// 아이디 찾기
+	@GetMapping("/user/findId/form")
+	public String findIdForm() {
+		return "user/findid";
+	}
 	
+	@ResponseBody
+	@PostMapping(value="/user/findId", produces="application/json")
+	public Map<String, Object> findId(@RequestBody Map<String, Object> map) {
+		return userService.findId(map);
+	}
 	
 	// 비번 찾기
-   
+	@GetMapping("/user/findPw/form")
+	public String findPwForm() {
+		return "user/findpw";
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/user/findPw", produces="application/json")
+	public Map<String, Object> findPw(@RequestBody Map<String, Object> map) {
+		return userService.findId(map);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/user/sendTemporaryPassword", produces="application/json")
+	public Map<String, Object> memberSendEmailTemporaryPassword(UserDTO user) {
+		return userService.sendTemporaryPw(user);
+	}
+	
 }
 
