@@ -58,21 +58,21 @@
 	
 	// 목록 가져오기
 	function fn_getEmployees() {
-		$('.employee_list').addClass('blind');    // 목록 숨기기
+		$('.study_list').addClass('blind');    // 목록 숨기기
 		$('.wrapper').removeClass('blind');       // 로딩바 보여주기
 		$.ajax({
 			type: 'get',
-			url: '${contextPath}/emp/list/scroll',
+			url: '${contextPath}/study/list/scroll',
 			data: 'page=' + page,  // page=1, page=2, page=3, ...으로 동작함
 			dataType: 'json',
 			success: function(resData){
 				totalPage = resData.totalPage;  // 목록을 가져올 때 전체 페이지 수를 저장해 둠
 				page = page + 1;                // 스크롤을 통해서 한 페이지를 가져올때마다 다음 스크롤에서는 다음 페이지를 가져올 수 있도록 page를 증가시킴
-				$.each(resData.employees, function(i, employee){
+				$.each(resData.s_group, function(i, study){
 					var studyList = '<div class="employee">';
-					studyList += '<div>사원번호 ' + employee.employeeId + '</div>';
-					studyList += '<div>사원명 ' + employee.firstName + '</div>';
-					studyList += '<div>부서명 ' + employee.deptDTO.departmentName + '</div>';
+					studyList += '<div>번호 ' + study.studNo + '</div>';
+					studyList += '<div>닉네임 ' + study.nickname + '</div>';
+					studyList += '<div>개발언어 ' + study.lang + '</div>';
 					studyList += '</div>';
 					$('.study_list_container').append(studyList);
 				});

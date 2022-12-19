@@ -61,10 +61,13 @@
 		</table>
 	</div>
 	<div>
+	
 	<!-- 이거 누르면 무한스크롤버전으로 보이게 -->
+	<!-- 
 		<c:if test="${loginUser != null}">
-			<input type="button" value="스크롤페이지" onclick="location.href='/study/list_scroll'">
 		</c:if>
+	 -->
+		<input type="button" value="스크롤페이지" onclick="location.href='/study/list_scroll'">
 	</div>
 </div>
 
