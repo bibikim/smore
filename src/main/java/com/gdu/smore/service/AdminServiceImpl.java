@@ -41,7 +41,8 @@ public class AdminServiceImpl implements AdminService {
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("userList", adminMapper.selectUserListByMap(map));
       result.put("sleepList", adminMapper.selectSleepUserListByMap(map));
-      result.put("pageUtil", pageUtil);
+      result.put("allUserList", adminMapper.selectAllUserList(map));
+      result.put("naverPageUtil", pageUtil);
       return result;
    }
    
@@ -75,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("reportUserList", adminMapper.selectReportUserList(map));
       System.out.println(result);
-      result.put("pageUtil", pageUtil);
+      result.put("naverPageUtil", pageUtil);
       return result;
    }
    
@@ -90,8 +91,9 @@ public class AdminServiceImpl implements AdminService {
       map.put("end", pageUtil.getEnd());
       
       Map<String, Object> result = new HashMap<String, Object>();
-      result.put("sleepuserList", adminMapper.selectSleepUserListByMap(map));
-      result.put("pageUtil", pageUtil);
+      result.put("sleepUserList", adminMapper.selectSleepUserListByMap(map));
+      System.out.println(result);
+      result.put("naverPageUtil", pageUtil);
       return result;
    }
    
@@ -108,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
       System.out.println(result);
-      result.put("pageUtil", pageUtil);
+      result.put("naverPageUtil", pageUtil);
       return result;
       
    }
@@ -126,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("studyList", adminMapper.selectStudyListByMap(map));
       System.out.println(result);
-      result.put("pageUtil", pageUtil);
+      result.put("naverPageUtil", pageUtil);
       return result;
    }
    
