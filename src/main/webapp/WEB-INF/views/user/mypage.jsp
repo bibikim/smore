@@ -66,7 +66,6 @@
 				<li><h3>My 스터디</h3></li>
 				<li><a href="${contextPath}/user/studylist">My 스터디 목록</a></li>
 				<li><a href="${contextPath}/user/zzimlist">찜 스터디 목록</a></li>
-				<li><a href="${contextPath}/user/openlist">스터디 개설 목록</a></li>
 			</ul>
 		</div>
 		

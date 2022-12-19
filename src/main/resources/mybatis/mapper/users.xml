@@ -33,7 +33,7 @@
         FROM RETIRE_USERS
        WHERE ID = #{id}
    </select>
-      
+   
    <!-- 일반회원가입 -->
    <insert id="insertUser" parameterType="UserDTO">
       INSERT INTO USERS
@@ -75,7 +75,6 @@
    <update id="updateUserInfo" parameterType="UserDTO">
       UPDATE USERS
         SET NAME = #{name}
-          , NICKNAME = #{nickname}
           , GENDER = #{gender}
           , EMAIL = #{email}
           , MOBILE = #{mobile}
@@ -112,8 +111,8 @@
          (SELECT U.USER_NO, U.ID, U.NICKNAME, U.PW, U.NAME, U.GRADE, U.GENDER, U.EMAIL, U.MOBILE, U.BIRTHYEAR, U.BIRTHDAY, U.POSTCODE, U.ROAD_ADDRESS, U.JIBUN_ADDRESS, U.DETAIL_ADDRESS, U.EXTRA_ADDRESS, U.AGREE_CODE, U.SNS_TYPE, U.JOIN_DATE, U.USER_STATE, A.LAST_LOGIN_DATE, NOW()
             FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
               ON U.ID = A.ID
-           WHERE MONTHS_BETWEEN(NOW(), A.LAST_LOGIN_DATE) >= 12
-              OR (MONTHS_BETWEEN(NOW(), U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+           WHERE TIMESTAMPDIFF(MONTH, A.LAST_LOGIN_DATE, NOW()) >= 12
+              OR (TIMESTAMPDIFF(MONTH, U.JOIN_DATE, NOW()) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
    </insert>
    
    <!-- 휴면처리2 : 1년 이상 로그인 기록이 없으면 회원테이블에서 삭제 -->
@@ -123,8 +122,8 @@
        WHERE ID IN (SELECT U.ID
                       FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                         ON U.ID = A.ID
-                     WHERE MONTHS_BETWEEN(NOW(), A.LAST_LOGIN_DATE) >= 12
-                        OR (MONTHS_BETWEEN(NOW(), U.JOIN_DATE) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
+                     WHERE TIMESTAMPDIFF(MONTH, A.LAST_LOGIN_DATE, NOW()) >= 12
+                        OR (TIMESTAMPDIFF(MONTH, U.JOIN_DATE, NOW()) >= 12 AND A.LAST_LOGIN_DATE IS NULL))
    </delete>
    
    <!-- 로그인 이전에 휴면회원인지 확인 -->
