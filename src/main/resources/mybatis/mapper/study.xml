@@ -60,7 +60,18 @@
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
 	
-
+	<select id="selectEmployeesUsingPaging" parameterType="Map" resultType="StudyGroupDTO">
+		
+		<!-- 2. ROW_NUMBER() 함수 사용 -->
+		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
+		  FROM (SELECT ROW_NUM() OVER(ORDER BY <choose>
+													<when test="title=='STUD_NO'">STUD_ID</when>
+													<otherwise>${title}</otherwise>
+												  </choose> ${order}) AS ROW_NUM, A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
+		          FROM S_GROUP B) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+		  
+	</select>
 </mapper>
 	
 	
