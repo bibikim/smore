@@ -66,7 +66,28 @@
 						<tr>
 							<td id="align">${beginNo - vs.index}</td>
 							<td>
-								<a href="#">${free.title}</a>
+								<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
+								<a href="#" class="cmt_cnt"></a>
+								<script>
+									$(functions(){
+										fn_commentCnt();
+									})
+										function fn_commentCnt() {
+											$.ajax({
+												type: 'get',
+												url: '/free/comment/getcnt',
+												data: 'freeNo=${free.freeNo}',
+												dataType: 'json',
+												success: function(resData) {
+													$('.cmt_cnt').text(resData.commentCnt);
+												}
+											})
+										}
+										
+		
+								
+								</script>
+								
 								<c:set var="now" value="${java.util.Date}"/>
 								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>
 								<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>

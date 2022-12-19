@@ -22,4 +22,5 @@ public class FreeCommentDTO {
 	private int state;
 	private int depth;
 	private String ip;
+	private int groupNo;
 }

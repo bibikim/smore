@@ -14,6 +14,7 @@
 	
 	$(document).ready(function(){
 		
+		// 게시글 삭제 및 수정
 		$('.btn_remove').click(function(){
 			if(confirm('게시글을 삭제하시겠습니까?')) {
 				$('#frm_btn').attr('action', '/free/remove');
@@ -27,8 +28,187 @@
 			$('#frm_btn').submit();
 		})
 		
+		// 댓글 관련 함수 호출
+		fn_commentCnt();
+		fn_switchCmtList();
+		fn_addComment();
+		fn_cmtList();
+		fn_changePage();
+		fn_switchRecmtArea();
+		/* fn_addRecomment(); */
+		fn_removeComment();
+/* 		fn_editComment();
+ */		
+		// 댓글 관련 함수 정의
+		function fn_commentCnt() {
+			$.ajax({
+				type: 'get',
+				url: '/free/comment/getcnt',
+				data: 'freeNo=${free.freeNo}',
+				dataType: 'json',
+				success: function(resData) {
+					$('.cmt_cnt').text(resData.commentCnt);
+				}
+			})
+		}
 		
+ 		function fn_switchCmtList() {
+			$('#btn_cmtlist').click(function(){
+				$('#cmt_area').toggleClass('blind');
+			});
+		}
 
+		
+/* 		function fn_switchCmtList() {
+			$('#btn_cmtlist').click(function() {
+				$('#cmt_area').toggleClass('show');
+				if($('#cmt_area').hasClass('show')) {   // 쇼를 가지고 있으면 쇼를 보여주고 아니면 숨김
+					$('#cmt_area').show();  
+				} else {
+					$('#cmt_area').hide();
+				}
+			})
+		} */
+		 
+		
+		
+		
+		function fn_addComment() {
+			$('#btn_addcmt').click(function(){
+				if($('#content').val() == '') {
+					alert('댓글 내용을 입력해주세요.');
+					return;
+				}
+				$.ajax({
+					type: 'post',
+					url: '/free/comment/add',
+					data: $('#frm_addcmt').serialize(),
+					dataType: 'json',
+					success: function(resData) {
+						if(resData.isSave) {
+							alert('댓글이 등록되었습니다.');
+							$('#content').val('');
+							fn_cmtList();
+							fn_commentCnt();
+						}
+					}
+				})
+			})
+		}
+		
+		function fn_cmtList(){
+			$.ajax({
+				type: 'get',
+				url: '/free/comment/list',
+				data: 'freeNo=${free.freeNo}&page=' + $('#page').val(),
+				dataType: 'json',
+				success: function(resData) {
+					
+					$('#cmt_list').empty();
+					$.each(resData.cmtList, function(i, comment) {
+						var div ='';
+						if(comment.depth == 0) {   // 댓글
+							div += '<div>';
+						} else {
+							div += '<div style="margin-left: 40px;">';
+						}
+						if(comment.state == 1) {   // 정상(삭제한 상태가 아니면)
+							div += '<div>';
+							div += comment.cmtContent;
+							if( '${loginUser.nickname}' == comment.nickname) {
+								div += '<input type="button" value="삭제" class="btn_removecmt" data-comment_no="' + comment.cmtNo + '">';
+							}
+							if(comment.depth == 0) {
+								div += '<input type="button" value="re" class="btn_recomment_area">'  // 대댓 버튼
+							}
+							div += '</div>';
+						} else {
+							if(comment.depth == 0) {
+								div += '<div>삭제된 댓글입니다.</div>';
+							} else {
+								div += '<div>삭제된 댓글입니다.</div>';  // 대댓 삭제
+							}
+						}
+						
+						div += '<div>';
+						moment.locale('ko-KR');
+						div += '<span style="fonct-size: 12px; color: silver;">' + moment(comment.creatDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '</div>';
+						div += '<div style="margin-left; 40px" class="recomment_area blind">';
+						div += '<form class="frm_recomment">';
+						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
+						div += '<input type="hidden" name="groupNo" value="' +  comment.groupNo + '">';
+						div += '<textarea name="content" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
+						if( '${loginUser.nickname}' != '') {
+							div += '<input type="button" value="등록" class="btn_addrecmt">';
+						}
+						div += '</form>';
+						div += '</div>';
+						div += '</div>';
+						$('#cmt_list').append(div);
+						$('#cmt_list').append('<div style="border-bottom: 1px dotted gray;"></div>');
+					});
+					// 페이징
+					$('#paging').empty();
+					var pageUtil = resData.pageUtil;
+					var paging = '';
+					// 이전블록
+					if(pageUtil.beginPage != 1) {
+						paging += '<span class="enable_link" data-page="'+ (pageUtil.beginPage - 1) +'">prev</sapn>';
+					}
+					// 페이지 번호
+					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
+						if(p == $('#page').val()) {
+							paging += '<strong>' + p + '</strong>';
+						} else {
+							paging += '<span class="enable_link" data-page="' + p + '">' + p + '</span>';
+						}
+					}
+					// 다음블록
+					if(pageUtil.endPage != pageUtil.totalPage) {
+						paging += '<span class="enable_link" data-page="' + (pageUtil.endPage + 1) +'">next</span>';
+					}
+					$('#paging').append(paging);
+				}
+			})
+		}
+		
+		function fn_changePage(){
+			$(document).on('click', '.enable_link', function(){
+				$('#page').val($(this).data('page'));
+				fn_cmtList();
+			});
+		}
+		
+		function fn_removeComment(){
+			$(document).on('click', '.btn_removecmt', function(){
+				if(confirm('댓글을 삭제할까요?')) {
+					$.ajax({
+						type: 'post',
+						url: '/free/comment/remove',
+						data: 'cmtNo=' + $(this).data('comment_no'),
+						dataType: 'json',
+						success: function(resData) {
+							if(resData.isRemove) {
+								alert('댓글이 삭제되었습니다.');
+								fn_cmetList();
+								fn_commentCnt();
+							}
+						}
+					})
+				}
+			})	
+		}	
+		
+		
+		function fn_switchRecmtArea(){
+			$(document).on('click', '.btn_recomment_area', function(){
+				$(this).parent().next().next().toggleClass('blind');
+			});
+		}
+		
+		
+		
 		
 	});
 
@@ -37,6 +217,11 @@
 	* {
 		box-sizing: border-box;
 	}
+	
+	.blind {
+		display: none;
+	}
+	
 </style>
 </head>
 <body>
@@ -61,7 +246,7 @@
 					<td>${free.title}</td>
 				</tr>
 				<tr>
-					<td>${free.modifyDate}</td>
+					<td><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d a hh:m"/></td>
 				</tr>
 				<tr>
 					<td>
@@ -71,13 +256,41 @@
 			</tbody>
 		</table>
 	</div>
-	<div>
+
 		<div>
-			<button id="btn_comment" class="" style="">
-			댓글 
-			<span class="">${comment}개</span>
-			</button>
+			<span id="btn_cmtlist" class="" style="">
+				댓글 
+				<span class="cmt_cnt"></span>개
+			</span>
 		</div>
-	</div>
+		
+		<hr>
+
+		<div id="cmt_area" class="blind">
+			<div id="cmt_list"></div>
+			<div id="paging"></div>
+		</div>
+		
+		<hr>
+
+		<div>
+			<form id="frm_addcmt">
+				<div class="addcmt">
+					<div class="addcmt_textarea">
+						<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+					</div>
+					<div>
+						<input type="button" value="등록" id="btn_addcmt">
+					</div>
+				</div>
+				<input type="hidden" name="freeNo" value="${free.freeNo}">
+				<input type="hidden" name="ip" value="${cmtList.ip}">
+				<input type="hidden" name="nickname" value="${loginUser.nickname}">
+			</form>
+		</div>
+		
+		<input type="hidden" id="page" value="1">
+		
+		
 </body>
 </html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.FreeCmtMapper">
+
+	<select id="selectCommentCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM FREECMT
+		 WHERE FREE_NO = #{freeNo}
+	</select>
+	
+	<select id="selectCommentList" parameterType="Map" resultType="FreeCommentDTO">
+		
+		SELECT C.RN, C.CMT_NO, C.FREE_NO, C.NICKNAME, C.CMT_CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.STATE, C.DEPTH, C.GROUP_NO, C.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
+		   	      FROM FREECMT
+			     WHERE FREE_NO = #{freeNo}) C
+		 WHERE C.RN BETWEEN #{begin} AND #{end}
+	</select>
+
+<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO">
+		INSERT INTO F_CMT
+			(F_CMT_NO, F_NO, NICKNAME, F_CMT_CONTENT, F_CMT_CREATE_DATE, F_CMT_MODIFY_DATE, F_STATE, F_DEPTH, F_IP, GROUP_NO)
+		  VALUES
+		  	(F_CMT_SEQ.NEXTVAL, #{fNo}, #{nickname}, #{fCmtContent}, SYSDATE, SYSDATE, 1, 0, #{fIp}, F_CMT_SEQ.CURRVAL)
+	</insert> -->
+	
+	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO FREECMT
+			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
+	</insert>
+	
+	
+	<!-- 댓삭 -->
+	<update id="deleteComment" parameterType="int">
+		UPDATE FREECMT
+		   SET STATE = 0
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 댓 수정 -->
+	<update id="modifyComment" parameterType="FreeCommentDTO">
+		UPDATE FREECMT
+		   SET CMT_CONTENT = #{cmtContent}, MODIFY_DATE = NOW()
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 대댓 -->
+	<insert id="insertReComment" parameterType="FreeCommentDTO">
+		INSERT INTO FREECMT
+			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 1, #{ip}, #{groupNo})
+	</insert>
+	
+</mapper>

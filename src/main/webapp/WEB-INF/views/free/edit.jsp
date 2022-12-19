@@ -47,7 +47,7 @@
 							processData: false,
 							dataType: 'json',
 							success: function(resData) {
-								$('#fContent').summernote('insertImage', resData.src);
+								$('#content').summernote('insertImage', resData.src);
 								$('#sumnote_image_list').append($('<input type="hidden" name="fImageNames" value="' + resData.filesystem + '">'));
 								console.log(resData);
 							}
