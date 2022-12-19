@@ -4,15 +4,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import com.gdu.smore.domain.user.AllUserDTO;
 import com.gdu.smore.domain.user.RetireUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.AdminMapper;
-import com.gdu.smore.mapper.FreeMapper;
 import com.gdu.smore.util.PageUtil;
 
 @PropertySource(value = {"classpath:application.yml"})
@@ -28,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
    @Override
    public Map<String, Object> getUserList(int page) {
       
-      int totalRecord = adminMapper.selectUserCount();
+      int totalRecord = adminMapper.selectUserCount() + adminMapper.selectSleepUserCount();
       pageUtil.setPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
@@ -37,9 +41,11 @@ public class AdminServiceImpl implements AdminService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("userList", adminMapper.selectUserListByMap(map));
+      result.put("sleepList", adminMapper.selectSleepUserListByMap(map));
       result.put("pageUtil", pageUtil);
       return result;
    }
+   
    
    @Override
    public Map<String, Object> removeUserList(String userNoList) {
@@ -124,4 +130,63 @@ public class AdminServiceImpl implements AdminService {
       result.put("pageUtil", pageUtil);
       return result;
    }
+   
+   @Override
+	public Map<String, Object> findUsers(HttpServletRequest request) {
+	   
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+	   
+	    String state = request.getParameter("state");
+		String column = request.getParameter("column");
+		String query = request.getParameter("query");
+		String start = request.getParameter("start");
+		String stop = request.getParameter("stop");
+	   
+		Map<String, Object> map = new HashMap<>();
+		map.put("column", column);
+		map.put("query", query);
+		map.put("start", start);
+		map.put("stop", stop);
+		
+		int totalRecord = 0;
+		List<AllUserDTO> users = null;
+		
+		if(state.equals("active")) {
+			totalRecord = adminMapper.selectUserCountByQuery(map);
+			pageUtil.setPageUtil(page, totalRecord);			
+			map.put("begin", pageUtil.getBegin());
+			map.put("end", pageUtil.getEnd());
+			users = adminMapper.selectUsersByQuery(map);
+			System.out.println(users);
+		}
+			
+		String path = null;
+		
+		switch(column) {
+		case "ID":
+			path =  "/users/search?column=" + column + "&query=" + query;
+			break;
+		case "JOIN_DATE":
+			path = "/users/search?column=" + column + "&start=" + start + "&stop=" + stop;
+			break;	
+		}
+		
+		Map<String, Object> result = new HashMap<>();
+		if(users.size() == 0) {
+			result.put("message", "조회된 결과가 없습니다.");
+			result.put("totalRecord", totalRecord);
+			result.put("status", 500);
+		} else {
+			result.put("users", users);
+			result.put("totalRecord", totalRecord);
+			result.put("paging", pageUtil.getPaging(path));
+			result.put("status", 200);
+		}
+		
+		return result;
+		
+	}
+   
+   
 }
