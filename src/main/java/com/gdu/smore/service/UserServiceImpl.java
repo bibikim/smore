@@ -200,6 +200,8 @@ public class UserServiceImpl implements UserService {
        String id = request.getParameter("id");
        String pw = request.getParameter("pw");
        
+       pw = securityUtil.sha256(pw);
+       
        Map<String, Object> map = new HashMap<String, Object>();
        map.put("id", id);
        map.put("pw", pw);

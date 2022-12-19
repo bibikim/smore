@@ -2,10 +2,18 @@ package com.gdu.smore.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.ui.Model;
+
 public interface AdminService {
 	// 유저 리스트
 	public Map<String, Object> getUserList(int page);
 	public Map<String, Object> getSleepUserList(int page);
+	
+	// 검색
+	public Map<String, Object> findUsers(HttpServletRequest request);
+	
 	// 게시판 리스트
 	public Map<String, Object> getFreeBoardList(int page);
 	public Map<String, Object> getStudyList(int page);
