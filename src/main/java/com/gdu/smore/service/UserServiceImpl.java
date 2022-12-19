@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("isUser", userMapper.selectUserByMap(map) != null);
+      result.put("isRetireUser", userMapper.selectRetireUserById(id) != null);
       return result;
    }
    
@@ -200,19 +201,22 @@ public class UserServiceImpl implements UserService {
        String id = request.getParameter("id");
        String pw = request.getParameter("pw");
        
+       pw = securityUtil.sha256(pw);
+       
        Map<String, Object> map = new HashMap<String, Object>();
        map.put("id", id);
        map.put("pw", pw);
+       
        UserDTO loginUser = userMapper.selectUserByMap(map);       
        
        if(loginUser != null) {
+    	  keepLogin(request, response);
+    	  request.getSession().setAttribute("loginUser", loginUser);
+    	  
           int updateResult = userMapper.updateAccessLog(id);
           if(updateResult == 0) {
              userMapper.insertAccessLog(id);
           }
-          keepLogin(request, response);
-        
-          request.getSession().setAttribute("loginUser", loginUser);
           
           try {
              response.sendRedirect(url);
@@ -221,7 +225,7 @@ public class UserServiceImpl implements UserService {
            }            
        } else {
           try {         
-             response.setContentType("text/html; charset=UTF-8");
+               response.setContentType("text/html; charset=UTF-8");
                PrintWriter out = response.getWriter();
                out.println("<script>");
                out.println("alert('일치하는 회원정보가 없습니다.')");
