@@ -27,7 +27,7 @@ public class AdminController {
 	}
 	
 	@DeleteMapping(value="/users/{userNoList}", produces = "application/json")
-	public Map<String, Object>  deleteUser(@PathVariable String userNoList){
+	public Map<String, Object> deleteUser(@PathVariable String userNoList){
 		return adminService.removeUserList(userNoList);
 	}
 	

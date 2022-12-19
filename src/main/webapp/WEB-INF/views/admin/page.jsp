@@ -284,7 +284,6 @@
 				tr += '<th scope="col">' + '#' + '</th>';
 				tr += '<th scope="col">' + '닉네임' + '</th>';
 				tr += '<th scope="col">' + '제목' + '</th>';
-				/* tr += '<th scope="col">' + '게시글' + '</th>'; */
 				tr += '<th scope="col">' + '작성일' + '</th>';
 				tr += '<th scope="col">' + '수정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
@@ -295,8 +294,8 @@
 				$.each(resData.freeBoardList, function(i, board){
 					var tr = '<tr>';
 					tr += '<td>' + board.rowNum + '</td>';
-					/* tr += '<td><a href="free/detail?fNo=' + board.fNo + ">' + board.nickname  + '</a></td>';  */
-					tr += '<td>' + board.title  + '</td>';
+					tr += '<td>' +   board.nickname  + '</td>'; 
+					tr += '<td><a href="free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
 					tr += '<td>' + board.modifyDate + '</td>'; 
 					tr += '<td>' + board.hit + '</td>'; 
@@ -334,7 +333,8 @@
 					var tr = '<tr>';
 					tr += '<td>' + board.rowNum + '</td>';
 					tr += '<td>' + board.nickname  + '</td>';
-					tr += '<td>' + board.title  + '</td>';
+					tr += '<td><a href="free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
+					/* tr += '<td>' + board.title  + '</td>'; */
 					tr += '<td>' + board.createDate + '</td>'; 
 					tr += '<td>' + board.lang + '</td>'; 
 					tr += '<td>' + board.region + '</td>'; 

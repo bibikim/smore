@@ -1,7 +1,5 @@
 package com.gdu.smore.domain.free;
 
-
-
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
