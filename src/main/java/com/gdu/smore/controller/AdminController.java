@@ -4,7 +4,10 @@ package com.gdu.smore.controller;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,5 +56,14 @@ public class AdminController {
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.getStudyList(page);
 	}
+	
+	
+	@GetMapping(value="/users/search", produces = "application/json")
+	public Map<String, Object> search(HttpServletRequest request) {
+		return adminService.findUsers(request);
+	}
+
+	
+	
 	
 }
