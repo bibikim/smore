@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <jsp:include page="../layout/header.jsp">
 	<jsp:param value="회원정보확인/수정" name="title"/>
@@ -286,7 +287,7 @@
 				</div>
 				
 				<div>
-					가입일 ${loginUser.joinDate}
+					가입일 <fmt:formatDate value="${loginUser.joinDate}" pattern="yyyy.M.d" />
 				</div>
 				
 				<div>

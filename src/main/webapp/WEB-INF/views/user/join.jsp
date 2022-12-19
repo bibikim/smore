@@ -237,9 +237,10 @@
             /* 응답 */
             dataType: 'json',
             success: function(resData){  // resData = {"isUser": true, "isRetireUser": false}
-               if(resData.isUser || resData.isRetireUser){
+               if(resData.isUser || resData.isRetireUser || resData.isSleepUser){
                   $('#msg_id').text('이미 사용중이거나 탈퇴한 아이디입니다.');
                   idPass = false;
+               
                } else {
                   $('#msg_id').text('사용 가능한 아이디입니다.');
                   idPass = true;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
@@ -26,9 +27,9 @@
 			안녕하세요!<br>
 			${sleepUser.id}님은 1년 이상 로그인하지 않아 관련 법령에 의해 휴면계정으로 전환되었습니다.<br><br>
 			<ul>
-				<li>가입일 ${sleepUser.joinDate}</li>
-				<li>마지막 로그인 ${sleepUser.lastLoginDate}</li>
-				<li>휴면전환일 ${sleepUser.sleepDate}</li>
+				<li>가입일 <fmt:formatDate value="${sleepUser.joinDate}" pattern="yyyy.M.d" /></li>
+				<li>마지막 로그인 <fmt:formatDate value="${sleepUser.lastLoginDate}" pattern="yyyy.M.d" /></li>
+				<li>휴면전환일 <fmt:formatDate value="${sleepUser.sleepDate}" pattern="yyyy.M.d" /></li>
 			</ul>
 		</div>
 		
