@@ -81,7 +81,6 @@ public class UserController {
 	@GetMapping("/user/login/form")
 	public String loginForm(HttpServletRequest request, Model model) {
 
-		// 요청 헤더 referer : 이전 페이지의 주소가 저장
 		model.addAttribute("url", "http://localhost:9090");  // 로그인 후 되돌아 갈 주소 url
 
 		// 네이버 로그인
@@ -113,34 +112,34 @@ public class UserController {
    
 	@ResponseBody
 	@PostMapping(value="/user/check/pw", produces="application/json")
-	public Map<String, Object> requiredLogin_checkPw(HttpServletRequest request) {
+	public Map<String, Object> checkPw(HttpServletRequest request) {
 		return userService.confirmPassword(request);
 	}
 	
 	@PostMapping("/user/modify/pw")
-	public void requiredLogin_modifyPw(HttpServletRequest request, HttpServletResponse response) {
+	public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
 		userService.modifyPassword(request, response);
 	}
    
 	@PostMapping("/user/modify/info")
-	public void requiredLogin_modify(HttpServletRequest request, HttpServletResponse response) {
+	public void modify(HttpServletRequest request, HttpServletResponse response) {
 		userService.modifyUser(request, response);
 	}
 	
 	// 탈퇴
 	@GetMapping("/user/retire")
-	public void requiredLogin_retire(HttpServletRequest request, HttpServletResponse response) {
+	public void retire(HttpServletRequest request, HttpServletResponse response) {
 		userService.retire(request, response);
 	}
 	
 	// 휴면
 	@GetMapping("/user/sleep/display")
-	public String requiredLogin_sleepDisplay() {
+	public String sleepDisplay() {
 		return "user/sleep";
 	}
 
 	@PostMapping("/user/restore")
-	public void requiredLogin_restore(HttpServletRequest request, HttpServletResponse response) {
+	public void restore(HttpServletRequest request, HttpServletResponse response) {
 		userService.restoreUser(request, response);
 	}
 	
