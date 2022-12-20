@@ -524,6 +524,8 @@ public class UserServiceImpl implements UserService {
 		result.put("isSuccess", userMapper.updateUserPassword(user));
 		return result;
 	}
+	
+	// 네이버 로그인
    
    
 }
