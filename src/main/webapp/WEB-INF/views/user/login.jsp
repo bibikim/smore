@@ -109,13 +109,13 @@
 	function fn_login(){
 		
 		$('#frm_login').submit(function(event){
-			// 아이디, 비밀번호 공백 검사
+			
 			if($('#id').val() == '' || $('#pw').val() == ''){
 				alert('아이디와 비밀번호를 모두 입력하세요.');
 				event.preventDefault();
 				return;
 			}
-			// 아이디 기억을 체크하면 rememberId 쿠키에 입력된 아이디를 저장
+			
 			if($('#rememberId').is(':checked')){
 				$.cookie('rememberId', $('#id').val());
 			} else {
@@ -125,7 +125,7 @@
 	}
 	
 	function fn_displayRememberId(){
-		// rememberId 쿠키에 저장된 아이디를 가져와서 표시
+		
 		let rememberId = $.cookie('rememberId');
 		if(rememberId == ''){
 			$('#id').val('');

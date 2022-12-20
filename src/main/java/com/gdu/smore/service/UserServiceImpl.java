@@ -1,7 +1,15 @@
 package com.gdu.smore.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -526,6 +535,278 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	// 네이버 로그인
-   
-   
+	@Override
+	public String getNaverLoginApiURL(HttpServletRequest request) {
+	    
+		String apiURL = null;
+		try {
+			String clientId = "_A7rC_ITgDiz6_aSPMCA";
+			String redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath() + "/user/naver/login", "UTF-8");  // 네이버 로그인 Callback URL에 작성한 주소 입력 
+			SecureRandom random = new SecureRandom();
+			String state = new BigInteger(130, random).toString();
+			
+			apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+			apiURL += "&client_id=" + clientId;
+			apiURL += "&redirect_uri=" + redirectURI;
+			apiURL += "&state=" + state;
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("state", state);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return apiURL;
+		
+	}
+	
+	@Override
+	public String getNaverLoginToken(HttpServletRequest request) {
+		
+		// access_token 받기
+		String clientId = "_A7rC_ITgDiz6_aSPMCA";
+		String clientSecret = "2pH3suQqwn";
+		String code = request.getParameter("code");
+		String state = request.getParameter("state");
+		
+		String redirectURI = null;
+		try {
+			redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath(), "UTF-8");
+		} catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		StringBuffer res = new StringBuffer();  // StringBuffer는 StringBuilder과 동일한 역할 수행
+		try {
+			
+			String apiURL;
+			apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+			apiURL += "client_id=" + clientId;
+			apiURL += "&client_secret=" + clientSecret;
+			apiURL += "&redirect_uri=" + redirectURI;
+			apiURL += "&code=" + code;
+			apiURL += "&state=" + state;
+			
+			URL url = new URL(apiURL);
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			if(responseCode == 200) {
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else {
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				res.append(inputLine);
+			}
+			br.close();
+			con.disconnect();
+			
+			/*
+				res.toString()
+				
+				{
+					"access_token":"AAAANipjD0VEPFITQ50DR__AgNpF2hTecVHIe9v-_uoyK5eP1mfdYX57bM3VTF_x4cWgz0v2fQlZsOOjl9uS0j8CLI4",
+					"refresh_token":"2P9T9LTrnjaBf8XwF87a2UNUL4isfvk3QyLF8U1MDmju5ViiSXNSxii80ii8kvZWDiiYSiptFFYsuwqWl6C8n59NwoAEU6MmipfIis2htYMnZUlutzvRexh0PIZzzqqK3HlGYttJ",
+					"token_type":"bearer",
+					"expires_in":"3600"
+				}
+			*/
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		JSONObject obj = new JSONObject(res.toString());
+		String access_token = obj.getString("access_token");
+		return access_token;
+	}
+	
+	@Override
+	public UserDTO getNaverLoginProfile(String access_token) {
+		
+		// access_token을 이용해서 profile 받기
+		String header = "Bearer " + access_token;
+		
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			
+			String apiURL = "https://openapi.naver.com/v1/nid/me";
+			URL url = new URL(apiURL);
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("Authorization", header);
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			if(responseCode == 200) {
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else {
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
+			}
+			br.close();
+			con.disconnect();
+			
+			/*
+				sb.toString()
+				
+				{
+					"resultcode": "00",
+					"message": "success",
+					"response": {
+						"id":"asdfghjklqwertyuiopzxcvbnmadfafrgbgfg",
+						"gender":"M",
+						"email":"hahaha@naver.com",
+						"mobile":"010-1111-1111",
+						"mobile_e164":"+821011111111",
+						"name":"\ubbfc\uacbd\ud0dc",
+						"birthday":"10-10",
+						"birthyear":"1990"
+					}
+				}
+			*/
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 받아온 profile을 UserDTO로 만들어서 반환
+		UserDTO user = null;
+		try {
+			JSONObject profile = new JSONObject(sb.toString()).getJSONObject("response");
+			String id = profile.getString("id");
+			String name = profile.getString("name");
+			String nickname = profile.getString("nickname");
+			String gender = profile.getString("gender");
+			String email = profile.getString("email");
+			String mobile = profile.getString("mobile").replaceAll("-", "");
+			String birthyear = profile.getString("birthyear");
+			String birthday = profile.getString("birthday").replace("-", "");
+			
+			user = UserDTO.builder()
+					.id(id)
+					.name(name)
+					.nickname(nickname)
+					.gender(gender)
+					.email(email)
+					.mobile(mobile)
+					.birthyear(birthyear)
+					.birthday(birthday)
+					.build();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	@Override
+	public UserDTO getNaverUserById(String id) {
+		
+		// 조회 조건으로 사용할 Map
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		
+		return userMapper.selectUserByMap(map);
+	}
+	
+	@Transactional
+	@Override
+	public void naverLogin(HttpServletRequest request, UserDTO naverUser) {
+		
+		// 로그인 처리를 위해서 session에 로그인 된 사용자 정보를 올려둠
+		request.getSession().setAttribute("loginUser", naverUser);
+		
+		// 로그인 기록 남기기
+		String id = naverUser.getId();
+		int updateResult = userMapper.updateAccessLog(id);
+		if(updateResult == 0) {
+			userMapper.insertAccessLog(id);
+		}
+	}
+	
+	@Override
+	public void naverJoin(HttpServletRequest request, HttpServletResponse response) {
+		
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String nickname = request.getParameter("nickname");
+		String gender = request.getParameter("gender");
+		String mobile = request.getParameter("mobile");
+		String birthyear = request.getParameter("birthyear");
+		String birthmonth = request.getParameter("birthmonth");
+		String birthdate = request.getParameter("birthdate");
+		String email = request.getParameter("email");
+		String location = request.getParameter("location");
+		String promotion = request.getParameter("promotion");
+		
+		// 일부 파라미터는 DB에 넣을 수 있도록 가공
+		name = securityUtil.preventXSS(name);
+		String birthday = birthmonth + birthdate;
+		String pw = securityUtil.sha256(birthyear + birthday);  // 생년월일을 초기비번 8자리로 제공하기로 함
+		
+		int agreeCode = 0;  // 필수 동의
+		if(location != null && promotion == null) {
+			agreeCode = 1;  // 필수 + 위치
+		} else if(location == null && promotion != null) {
+			agreeCode = 2;  // 필수 + 프로모션
+		} else if(location != null && promotion != null) {
+			agreeCode = 3;  // 필수 + 위치 + 프로모션
+		}
+		
+		// DB로 보낼 UserDTO 만들기
+		UserDTO user = UserDTO.builder()
+				.id(id)
+				.pw(pw)
+				.name(name)
+				.nickname(nickname)
+				.gender(gender)
+				.email(email)
+				.mobile(mobile)
+				.birthyear(birthyear)
+				.birthday(birthday)
+				.agreeCode(agreeCode)
+				.snsType("naver")  // 네이버로그인으로 가입하면 naver를 저장해 두기로 함
+				.build();
+				
+		int result = userMapper.insertNaverUser(user);
+		
+		try {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			if(result > 0) {
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				
+				request.getSession().setAttribute("loginUser", userMapper.selectUserByMap(map));
+				
+				int updateResult = userMapper.updateAccessLog(id);
+				if(updateResult == 0) {
+					userMapper.insertAccessLog(id);
+				}
+	            out.println("<script>");
+	            out.println("alert('회원 가입되었습니다.');");
+	            out.println("location.href='/';");
+	            out.println("</script>");
+			} else {
+				out.println("<script>");
+				out.println("alert('회원 가입에 실패했습니다.');");
+				out.println("history.go(-2);");
+				out.println("</script>");
+			}
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

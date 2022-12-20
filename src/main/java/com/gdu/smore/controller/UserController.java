@@ -67,26 +67,51 @@ public class UserController {
 		userService.join(request, response);
 	}
 	
+	@GetMapping("/user/login/form")
+	public String loginForm(HttpServletRequest request, Model model) {
+		// 로그인 후 되돌아 갈 주소 url
+		model.addAttribute("url", "http://localhost:9090");  
+
+		// 네이버 로그인
+		model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
+      
+		return "user/login";
+	}
+
 	@PostMapping("/user/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		userService.login(request, response);
+	}
+	
+	// 네이버 로그인
+	@GetMapping("/user/naver/login")
+	public String naverLogin(HttpServletRequest request, Model model) {
+		
+		String access_token = userService.getNaverLoginToken(request);
+		UserDTO profile = userService.getNaverLoginProfile(access_token);  // 네이버로그인에서 받아온 프로필 정보
+		UserDTO naverUser = userService.getNaverUserById(profile.getId()); // 이미 네이버로그인으로 가입한 회원이라면 DB에 정보가 있음
+		
+		// 네이버로그인으로 가입하려는 회원 : 간편가입페이지로 이동
+		if(naverUser == null) {
+			model.addAttribute("profile", profile);
+			return "user/naver_join";
+		}
+		// 네이버로그인으로 이미 가입한 회원 : 로그인 처리
+		else {
+			userService.naverLogin(request, naverUser);
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping("/user/naver/join")
+	public void naverJoin(HttpServletRequest request, HttpServletResponse response) {
+		userService.naverJoin(request, response);
 	}
 	
 	@GetMapping("/user/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		userService.logout(request, response);
 		return "redirect:/";
-	}
-
-	@GetMapping("/user/login/form")
-	public String loginForm(HttpServletRequest request, Model model) {
-
-		model.addAttribute("url", "http://localhost:9090");  // 로그인 후 되돌아 갈 주소 url
-
-		// 네이버 로그인
-		//  model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
-      
-		return "user/login";
 	}
 
 	// 회원정보 수정

@@ -17,6 +17,14 @@ public interface UserService {
 	public void login(HttpServletRequest request, HttpServletResponse response);
 	public void logout(HttpServletRequest request, HttpServletResponse response);
 	
+	// 네이버 로그인
+	public String getNaverLoginApiURL(HttpServletRequest request);  
+	public String getNaverLoginToken(HttpServletRequest request);   
+	public UserDTO getNaverLoginProfile(String accessToken);       
+	public UserDTO getNaverUserById(String id);
+	public void naverLogin(HttpServletRequest request, UserDTO naverUser);
+	public void naverJoin(HttpServletRequest request, HttpServletResponse response);
+	
 	// 로그인 유지
 	public void keepLogin(HttpServletRequest request, HttpServletResponse response);
 	public UserDTO getUserBySessionId(Map<String, Object> map);
