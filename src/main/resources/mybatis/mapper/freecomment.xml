@@ -21,18 +21,23 @@
 		 WHERE C.RN BETWEEN #{begin} AND #{end}
 	</select>
 
-<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO">
-		INSERT INTO F_CMT
-			(F_CMT_NO, F_NO, NICKNAME, F_CMT_CONTENT, F_CMT_CREATE_DATE, F_CMT_MODIFY_DATE, F_STATE, F_DEPTH, F_IP, GROUP_NO)
+
+	
+<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO FREECMT
+			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES
-		  	(F_CMT_SEQ.NEXTVAL, #{fNo}, #{nickname}, #{fCmtContent}, SYSDATE, SYSDATE, 1, 0, #{fIp}, F_CMT_SEQ.CURRVAL)
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
 	</insert> -->
 	
 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
 		INSERT INTO FREECMT
 			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES
-		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{cmtNo})
+		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	

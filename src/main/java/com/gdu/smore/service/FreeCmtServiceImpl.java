@@ -81,7 +81,7 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 	@Override
 	public Map<String, Object> saveRecomment(FreeCommentDTO recomment) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isSave", cmtMapper.insertRecomment(recomment) == 1);
+		result.put("isSaveRe", cmtMapper.insertRecomment(recomment) == 1);
 		return result;
 	}
 	
