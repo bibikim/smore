@@ -75,7 +75,7 @@
 	<delete id="deleteFree" parameterType="int">
 		DELETE
 		  FROM FREEBOARD
-		 WHERE freeNO = #{freeNo}
+		 WHERE FREE_NO = #{freeNo}
 	</delete>
 	
 	
