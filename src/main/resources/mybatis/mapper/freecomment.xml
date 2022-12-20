@@ -46,7 +46,7 @@
 	<!-- 댓 수정 -->
 	<update id="modifyComment" parameterType="FreeCommentDTO">
 		UPDATE FREECMT
-		   SET CMT_CONTENT = #{cmtContent}, MODIFY_DATE = NOW()
+		   SET FREE_NO = #{freeNo}, CMT_CONTENT = #{cmtContent}, IP = #{ip} , MODIFY_DATE = NOW()
 		 WHERE CMT_NO = #{cmtNo}
 	</update>
 	

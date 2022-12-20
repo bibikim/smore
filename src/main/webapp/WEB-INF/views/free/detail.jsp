@@ -38,6 +38,7 @@
 		fn_addRecomment();
 		fn_removeComment();
  		fn_editComment();
+ 		fn_switchEditcmtArea();
 		
 		// 댓글 관련 함수 정의
 		function fn_commentCnt() {
@@ -117,10 +118,10 @@
 							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
 							div += '<br>&nbsp;&nbsp;'
 							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
-							if( '${loginUser.nickname}' == comment.nickname) {
+							if( '${loginUser.nickname}' == comment.nickname || '${loginUser.nickname}' == '관리자') {
 								// a링크 태그로 바꾸기
 								div += '<input type="button" value="삭제" class="btn_removecmt" data-comment_no="' + comment.cmtNo + '">';
-								div += '<input type="button" value="수정" class="btn_editcmt" data-comment_no="' + comment.cmtNo + '">';	
+								div += '<input type="button" value="수정" class="btn_editcmt_area" data-comment_no="' + comment.cmtNo + '">';	
 							}
 							if(comment.depth == 0) {
 								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area">'  // 대댓존
@@ -136,13 +137,15 @@
 						}
 						div += '<div>';
 						moment.locale('ko-KR');
-						div += '<span style="fonct-size: 12px; color: silver;">' + moment(comment.creatDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.creatDate).format('YYYY. MM. DD hh:mm') + '</span>';
 						div += '</div>';
-						// 대댓
+						
+						/********************************** 대댓 ****************************************/
 						div += '<div style="margin-left; 40px" class="recomment_area blind">';
 						div += '<form class="frm_recomment">';
 						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
-						div += '<input type="hidden" name="groupNo" id="cogroupNo" value="' +  comment.groupNo + '">';
+						div += '<input type="hidden" name="groupNo" value="' +  comment.groupNo + '">';
+						div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
 						div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
 						if( '${loginUser.nickname}' != '') {
 							div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요."></textarea>';
@@ -150,23 +153,28 @@
 						} else {
 							div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
 						}
+						div += '</form>';
+						div += '</div>';
+						/****************************************************************************/
 						
-						// 댓 수정
+						
+						
+						/****************************  댓 수정 ***************************************/
 						div += '<div style="margin-left; 40px" class="edit_cmt_area blind">';
 						div += '<form class="frm_editcmt">';
 						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
 						//div += '<input type="hidden" name="groupNo" id="cogroupNo" value="' +  comment.groupNo + '">';
 						div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
 						if( '${loginUser.nickname}' == comment.nickname ) {
-							div += '<textarea name="cmtContent" value="' + comment.cmtContent + '"></textarea>';
-							div += '<input type="button" value="등록" class="btn_addrecmt">';
+							div += '<textarea name="cmtContent">' + comment.cmtContent + '</textarea>';
+							div += '<input type="button" value="등록" class="btn_editcmt">';
 						} 
 						div += '</form>';
 						div += '</div>';
-						///////
+						/****************************************************************************/
 						
-						div += '</form>';
-						div += '</div>';
+						
+						
 						div += '</div>';
 						$('#cmt_list').append(div);
 						$('#cmt_list').append('<div style="border-bottom: 1px dotted gray;"></div>');
@@ -214,7 +222,7 @@
 						success: function(resData) {
 							if(resData.isRemove) {
 								alert('댓글이 삭제되었습니다.');
-								fn_cmetList();
+								fn_cmtList();
 								fn_commentCnt();
 							}
 						}
@@ -253,10 +261,19 @@
 			})
 		}
 		
+		function fn_switchEditcmtArea(){
+			$(document).on('click', '.btn_editcmt_area', function(){
+				$(this).parent().next().next().next().toggleClass('blind');
+			});
+		}
+		
+		
  		function fn_editComment() {
 			$(document).on('click', '.btn_editcmt', function() {
-				var cmt = $('.origin_cmt').val();
-				
+				if($(this).prev().val() == '') {
+					alert('내용을 입력해주세요.');
+					return;
+				}
 				$.ajax({
 					type: 'post',
 					url: '/free/comment/edit',

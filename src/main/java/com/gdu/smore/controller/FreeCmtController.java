@@ -40,7 +40,6 @@ public class FreeCmtController {
 
 	// 댓글 수정
 	 @ResponseBody
-	  
 	 @PostMapping(value="/free/comment/edit", produces="application/json") 
 	 public Map<String, Object> editCmt(FreeCommentDTO comment) { 
 		 return cmtService.editComment(comment); 
