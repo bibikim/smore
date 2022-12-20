@@ -51,7 +51,7 @@
 	</update>
 	
 	<!-- 대댓 -->
-	<insert id="insertReComment" parameterType="FreeCommentDTO">
+	<insert id="insertRecomment" parameterType="FreeCommentDTO">
 		INSERT INTO FREECMT
 			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES

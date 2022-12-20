@@ -65,9 +65,9 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 	}
 	
 	@Override
-	public Map<String, Object> editComment(int cmtNo) {
+	public Map<String, Object> editComment(FreeCommentDTO comment) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isEdit", cmtMapper.modifyComment(cmtNo) == 1);
+		result.put("isEdit", cmtMapper.modifyComment(comment) == 1);
 		return result;
 	}
 	

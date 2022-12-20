@@ -35,10 +35,10 @@
 		fn_cmtList();
 		fn_changePage();
 		fn_switchRecmtArea();
-		/* fn_addRecomment(); */
+		fn_addRecomment();
 		fn_removeComment();
-/* 		fn_editComment();
- */		
+ 		fn_editComment();
+		
 		// 댓글 관련 함수 정의
 		function fn_commentCnt() {
 			$.ajax({
@@ -113,14 +113,19 @@
 							div += '<div style="margin-left: 40px;">';
 						}
 						if(comment.state == 1) {   // 정상(삭제한 상태가 아니면)
-							div += '<div>';
-							div += comment.cmtContent;
+							div += '<div class="comment_area">';
+							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
+							div += '<br>&nbsp;&nbsp;'
+							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
 							if( '${loginUser.nickname}' == comment.nickname) {
+								// a링크 태그로 바꾸기
 								div += '<input type="button" value="삭제" class="btn_removecmt" data-comment_no="' + comment.cmtNo + '">';
+								div += '<input type="button" value="수정" class="btn_editcmt" data-comment_no="' + comment.cmtNo + '">';	
 							}
 							if(comment.depth == 0) {
-								div += '<input type="button" value="re" class="btn_recomment_area">'  // 대댓 버튼
+								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area">'  // 대댓존
 							}
+							div += '<input type="hidden" value="' + comment.cmtNo +'">';
 							div += '</div>';
 						} else {
 							if(comment.depth == 0) {
@@ -129,19 +134,37 @@
 								div += '<div>삭제된 댓글입니다.</div>';  // 대댓 삭제
 							}
 						}
-						
 						div += '<div>';
 						moment.locale('ko-KR');
 						div += '<span style="fonct-size: 12px; color: silver;">' + moment(comment.creatDate).format('YYYY. MM. DD hh:mm') + '</span>';
 						div += '</div>';
+						// 대댓
 						div += '<div style="margin-left; 40px" class="recomment_area blind">';
 						div += '<form class="frm_recomment">';
 						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
-						div += '<input type="hidden" name="groupNo" value="' +  comment.groupNo + '">';
-						div += '<textarea name="content" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
+						div += '<input type="hidden" name="groupNo" id="cogroupNo" value="' +  comment.groupNo + '">';
+						div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
 						if( '${loginUser.nickname}' != '') {
+							div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요."></textarea>';
 							div += '<input type="button" value="등록" class="btn_addrecmt">';
+						} else {
+							div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
 						}
+						
+						// 댓 수정
+						div += '<div style="margin-left; 40px" class="edit_cmt_area blind">';
+						div += '<form class="frm_editcmt">';
+						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
+						//div += '<input type="hidden" name="groupNo" id="cogroupNo" value="' +  comment.groupNo + '">';
+						div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
+						if( '${loginUser.nickname}' == comment.nickname ) {
+							div += '<textarea name="cmtContent" value="' + comment.cmtContent + '"></textarea>';
+							div += '<input type="button" value="등록" class="btn_addrecmt">';
+						} 
+						div += '</form>';
+						div += '</div>';
+						///////
+						
 						div += '</form>';
 						div += '</div>';
 						div += '</div>';
@@ -208,7 +231,47 @@
 		}
 		
 		
+		function fn_addRecomment(){
+			$(document).on('click', '.btn_addrecmt', function(){
+				if($(this).prev().val() == '') {
+					alert('내용을 입력해주세요.');
+					return;
+				}
+				$.ajax({
+					type: 'post',
+					url: '/free/comment/reply/save',
+					data: $(this).closest('.frm_recomment').serialize(),
+					dataType: 'json',
+					success: function(resData) {
+						if(resData.isSave) {
+							alert('댓글이 등록되었습니다.');
+							fn_cmtList();
+							fn_commentCnt();
+						}
+					}
+				})
+			})
+		}
 		
+ 		function fn_editComment() {
+			$(document).on('click', '.btn_editcmt', function() {
+				var cmt = $('.origin_cmt').val();
+				
+				$.ajax({
+					type: 'post',
+					url: '/free/comment/edit',
+					data: $(this).closest('.frm_editcmt').serialize(),
+					dataType: 'json',
+					success: function(resData) {
+						if(resData.isEdit) {
+							alert('댓글이 수정되었습니다.');
+							fn_cmtList();
+						}
+					}
+				})				
+			})
+		}
+		 
 		
 	});
 

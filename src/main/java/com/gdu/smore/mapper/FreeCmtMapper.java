@@ -14,7 +14,7 @@ public interface FreeCmtMapper {
 	public List<FreeCommentDTO> selectCommentList(Map<String, Object> map);
 	public int insertFreecmt(FreeCommentDTO fcmt);
 	public int deleteComment(int cmtNo);  // 댓글 삭제는 update로
-	public int modifyComment(int cmtNo);
-	public int insertRecomment(FreeCommentDTO recmt);
+	public int modifyComment(FreeCommentDTO comment);
+	public int insertRecomment(FreeCommentDTO recomment);
 	
 }

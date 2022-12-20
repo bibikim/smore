@@ -69,20 +69,10 @@
 								<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
 								<a href="#" class="cmt_cnt"></a>
 								<script>
-									$(functions(){
-										fn_commentCnt();
+									$(function(){
+										// 댓글 카운트 list에 뿌리기
 									})
-										function fn_commentCnt() {
-											$.ajax({
-												type: 'get',
-												url: '/free/comment/getcnt',
-												data: 'freeNo=${free.freeNo}',
-												dataType: 'json',
-												success: function(resData) {
-													$('.cmt_cnt').text(resData.commentCnt);
-												}
-											})
-										}
+										
 										
 		
 								

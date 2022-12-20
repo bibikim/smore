@@ -13,6 +13,6 @@ public interface FreeCmtService {
 	public Map<String, Object> saveComment(FreeCommentDTO fcmt);
 	public Map<String, Object> getCmtList(HttpServletRequest request);  // fNo, page 다 받아오기 위해서 request를 받아옴
 	public Map<String, Object> removeComment(int cmtNo);
-	public Map<String, Object> editComment(int cmtNo);
-	public Map<String, Object> saveRecomment(FreeCommentDTO recmt);
+	public Map<String, Object> editComment(FreeCommentDTO comment);
+	public Map<String, Object> saveRecomment(FreeCommentDTO recomment);
 }
