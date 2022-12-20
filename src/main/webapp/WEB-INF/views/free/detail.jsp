@@ -273,7 +273,6 @@
 					data: $(this).closest('.frm_editcmt').serialize(),
 					dataType: 'json',
 					success: function(resData) {
-						alert('아야난ㅁ');
 						if(resData.isEdit) {
 							alert('댓글이 수정되었습니다.');
 							fn_cmtList();

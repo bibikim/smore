@@ -40,6 +40,10 @@
 		</selectKey>
 	</insert>
 	
+	<!--  
+		https://chobopark.tistory.com/289
+	-->
+	
 	
 	<!-- 댓삭 -->
 	<update id="deleteComment" parameterType="int">
