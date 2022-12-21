@@ -193,10 +193,7 @@
 		  		  FROM SLEEP_USERS U) B
 		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
 	</select> 
-	
-
-	
-	
+		
 	<!-- 자유게시판 조회 -->
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 	    SELECT N.ROW_NUM, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
@@ -243,8 +240,20 @@
 		  FROM USERS
 		  <where>
 		  	USER_NO IN 
-		 	<foreach collection="list" item="userNo" open="(" close=")" separator=",">  <!-- memberNo를 ()로 덮어주고 separator로 구분을해줌(여러개가 나오니까) -->
+		 	<foreach collection="list" item="userNo" open="(" close=")" separator=","> 
 		 		#{userNo}
+		 	</foreach>
+		  </where>
+	</delete>
+	
+	<!-- 자유게시판 다중 삭제 -->
+	<delete id="deleteFreeBoardList" parameterType="List">
+		DELETE
+		  FROM FREEBOARD
+		  <where>
+		  	 IN FREE_NO
+		 	<foreach collection="list" item="freeNo" open="(" close=")" separator=",">  
+		 		#{freeNo}
 		 	</foreach>
 		  </where>
 	</delete>

@@ -71,6 +71,15 @@ public class AdminServiceImpl implements AdminService {
       return result;
    }
    
+   @Override
+	public Map<String, Object> removeFreeList(String freeNoList) {
+		List<String> list = Arrays.asList(freeNoList.split(","));
+		Map<String, Object> result = new HashMap<String, Object>();
+        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));
+	   
+		return null;
+	}
+   
    @Transactional
    @Override
 	public Map<String, Object> toCommonUserList(String userNoList) {

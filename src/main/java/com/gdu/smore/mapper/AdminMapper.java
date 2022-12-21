@@ -48,13 +48,19 @@ public interface AdminMapper {
 	public int selectCodeBoardCount();
 	public int selectQnaBoardCount(); 
 	
+	// 일반유저 다중 탈퇴
 	public int deleteUserList(List<String> userNoList);
+	// 휴면유저 다중 탈퇴
 	public int deleteSleepUserList(List<String> userNoList);
+	public int updateAccessInfo(String id);
 	
-	public int deleteAccessLog(String id);
+	
+	/* public int deleteAccessLog(String id); */
 	public int insertRetireUser(RetireUserDTO retireUser);
 	
-	public int updateAccessInfo(String id);
+	// 자유게시판 다중 삭제
+	public int deleteFreeBoardList(List<String> freeNoList);
+	
 	
 	public UserDTO selectUserByNo(int userNo);
 	public SleepUserDTO selectSleepUserByNo(int userNo);

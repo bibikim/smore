@@ -25,4 +25,6 @@ public interface AdminService {
 	// 휴면유저에서 일반유저 전환
 	public Map<String, Object> toCommonUserList(String userNoList);
 	
+	// 자유게시판 삭제
+	public Map<String, Object> removeFreeList(String freeNoList);
 }

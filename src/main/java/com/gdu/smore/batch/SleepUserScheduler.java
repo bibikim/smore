@@ -14,10 +14,10 @@ public class SleepUserScheduler {
 
 	@Autowired
 	private UserService userService;
-	
-	/*
-	 * @Scheduled(cron="0 0/1 * * * *") public void execute() {
-	 * userService.sleepUserHandle(); }
-	 */
-	
+		
+	@Scheduled(cron="0 0/1 * * * *") 
+	public void execute() {
+		userService.sleepUserHandle(); 
+	}
+	 
 }
