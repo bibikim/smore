@@ -42,7 +42,7 @@
 		 				<tr>
 							<td>${study.studNo}</td>
 		 					<td>${study.nickname}</td>	
-		 					<td><a href="/study/detail?SNo=${study.studNo}">${study.title}</a></td>
+		 					<td><a href="/study/detail?studNo=${study.studNo}">${study.title}</a></td>
 		 					<td>${study.lang}</td>
 		 					<td>${study.studDate}</td>		 					
 		 					<td>${study.hit}</td>

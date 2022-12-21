@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 
 @Mapper
@@ -17,5 +18,18 @@ public interface StudyMapper {
 	public int updateStudy(StudyGroupDTO study);
 
 	public int deleteStudy(int studNo);
+	
+	public List<StudyGroupDTO> selectStudyScroll(Map<String, Object> map);
+	public List<StudyGroupDTO> selectStudyPaging(Map<String, Object> map);
 
+	// 댓글
+	
+	public int selectCommentCount(int studNo);
+	public int insertComment(StudyCommentDTO comment);
+	public List<StudyCommentDTO> selectCommentList(Map<String, Object> map);
+
+	public int selectNickZCount(Map<String, Object> map);
+	public int selectStudZCount(int studNo);
+	public int insertZ(Map<String, Object> map);
+	public int deleteZ(Map<String, Object> map);
 }

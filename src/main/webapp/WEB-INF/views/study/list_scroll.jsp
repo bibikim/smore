@@ -15,13 +15,13 @@
 		text-decoration: none;
 		color: gray;
 	}
-	.employee_list_container {
+	.study_list_container {
 		margin: 0 auto;
 		width: 1260px;
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.employee {
+	.study {
 		width: 400px;
 		height: 400px;
 		margin: 10px;
@@ -29,8 +29,9 @@
 		border: 1px solid gray;
 		border-radius: 5px;
 		text-align: center;
+		
 	}
-	.employee:hover {
+	.study:hover {
 		background-color: skyblue;
 	}
 	.wrapper {
@@ -39,12 +40,14 @@
 		align-items: center;      /* wrapper의 자식을 세로 가운데 정렬 */
 		min-height: 100vh;
 	}
+	/*
 	.loading_bar {
 		width: 200px;
 		height: 200px;
 		background-image: url('../../../resources/images/loading.gif');
 		background-size: 200px 200px;
 	}
+	*/
 	.blind {
 		display: none;
 	}
@@ -57,19 +60,19 @@
 	var timer;
 	
 	// 목록 가져오기
-	function fn_getEmployees() {
+	function fn_getS_group() {
 		$('.study_list').addClass('blind');    // 목록 숨기기
 		$('.wrapper').removeClass('blind');       // 로딩바 보여주기
 		$.ajax({
 			type: 'get',
-			url: '${contextPath}/study/list/scroll',
+			url: '/study/list_scroll',
 			data: 'page=' + page,  // page=1, page=2, page=3, ...으로 동작함
 			dataType: 'json',
 			success: function(resData){
 				totalPage = resData.totalPage;  // 목록을 가져올 때 전체 페이지 수를 저장해 둠
 				page = page + 1;                // 스크롤을 통해서 한 페이지를 가져올때마다 다음 스크롤에서는 다음 페이지를 가져올 수 있도록 page를 증가시킴
-				$.each(resData.s_group, function(i, study){
-					var studyList = '<div class="employee">';
+				$.each(resData.S_group, function(i, study){
+					var studyList = '<div class="study">';
 					studyList += '<div>번호 ' + study.studNo + '</div>';
 					studyList += '<div>닉네임 ' + study.nickname + '</div>';
 					studyList += '<div>개발언어 ' + study.lang + '</div>';
@@ -81,7 +84,6 @@
 			}
 		});
 	}
-
 	$(document).ready(function(){
 		
 		/*
@@ -94,7 +96,7 @@
 		*/
 		
 		// 스크롤을 움직이기 전 첫 목록을 가져옴
-		fn_getStudy();
+		fn_getS_group();
 		
 		// 스크롤 이벤트
 		$(window).scroll(function(){
@@ -111,7 +113,7 @@
 					if(page > totalPage){  // 마지막 페이지를 넘어가면 동작 안함
 						return;
 					}
-					fn_getStudy();
+					fn_getS_group();
 				}
 			}, 200);  // 200밀리초 = 0.2초(시간은 알아서 조절할 것)
 		});
@@ -130,10 +132,16 @@
 	<hr>
 
 	<div>
-		<h1>사원 전체 목록 조회하기</h1>
+		<h1>스터디 목록 조회하기</h1>
 	</div>
 	
 	<hr>
+	
+	<div>
+		<c:if test="${loginUser != null}">
+			<input type="button" value="글 작성하기" onclick="location.href='/study/write'">
+		</c:if>
+	</div>
 	
 	<!-- 사원목록 -->
 	<div id="study_list" class="study_list">

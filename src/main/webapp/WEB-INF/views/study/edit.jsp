@@ -7,62 +7,6 @@
    <jsp:param value="" name="title"/>
 </jsp:include>
 
-<div>
-	
-	<h1>목록(전체 ${totalRecord}개)</h1>
-	
-	<div>
-		<c:if test="${loginUser != null}">
-			<input type="button" value="글 작성하기" onclick="location.href='/study/write'">
-		</c:if>
-	</div>
-	
-	<div>
-		<table border="1">
-			<thead>
-				<tr>
-					<td>순번</td>
-					<td>모임장</td>
-					<td>제목</td>
-					<td>개발 언어</td>
-					<td>시작예정일</td>
-					<td>조회수</td>
-					<td>작성일</td>
-				</tr>
-			</thead>
-	 		<tbody>
-	 			<c:if test="${empty studyList}">
-	 				<tr>
-	 					<td colspan="7">게시물이 없습니다.</td>
-	 				</tr>
-	 			</c:if>
-	 			
-	 			<c:if test="${studyList ne null}">
-		 			<c:forEach items="${studyList}" var="study">
-		 				<tr>
-							<td>${study.SNo}</td>
-		 					<td>${study.nickname}</td>	
-		 					<td><a href="/study/detail?SNo=${study.SNo}">${study.STitle}</a></td>
-		 					<td>${study.SLang}</td>
-		 					<td>${study.SDate}</td>		 					
-		 					<td>${study.SHit}</td>
-		 					<td><fmt:formatDate value="${study.SCreateDate}" pattern="yyyy.M.d"/></td>		 					
-		 				</tr>			
-		 			</c:forEach>
-	 			</c:if>
-	 		</tbody>
-			<tfoot>
-				<tr >
-					<td colspan="7">
-						${paging}
-					</td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-
-</div>
-
 <script>
 	
 	// contextPath를 반환하는 자바스크립트 함수
@@ -72,7 +16,6 @@
 		return location.href.substring(begin, end);
 	}
 	
-	/*
 	$(document).ready(function(){
 		
 		// summernote
@@ -100,14 +43,14 @@
 						// 이미지를 HDD에 저장하고 경로를 받아오는 ajax
 						$.ajax({
 							type: 'post',
-							url: getContextPath() + '/study/uploadImage',
+							url: getContextPath() + '/blog/uploadImage',
 							data: formData,
 							contentType: false,  // ajax 이미지 첨부용
 							processData: false,  // ajax 이미지 첨부용
 							dataType: 'json',    // HDD에 저장된 이미지의 경로를 json으로 받아옴
 							success: function(resData){
 								
-								
+								/*
 									resData의 src 속성값이 ${contextPath}/load/image/aaa.jpg인 경우
 									<img src="${contextPath}/load/image/aaa.jpg"> 태그가 만들어진다.
 									
@@ -115,13 +58,13 @@
 									location=C:\\upload\\aaa.jpg이므로 이 내용을
 									servlet-context.xml에서 resource의 mapping값과 location값으로 등록해 준다.
 									(스프링에서 정적 자원 표시하는 방법은 servlet-context.xml에 있다.)
-								
+								*/
 								$('#content').summernote('insertImage', resData.src);
 								
-								
+								/*
 									어떤 파일이 HDD에 저장되어 있는지 목록을 저장해 둔다.
 									블로그를 등록할 때 써머노트에서 사용한 파일명도 함께 등록한다.
-								
+								*/
 								$('#summernote_image_list').append($('<input type="hidden" name="summernoteImageNames" value="' + resData.filesystem + '">'))
 								
 							}
@@ -130,11 +73,15 @@
 				}
 			}
 		});
-		*/		
+		
+		// 목록
+		$('#btn_list').click(function(){
+			location.href = getContextPath() + '/blog/list';
+		});
 		
 		// 서브밋
 		$('#frm_edit').submit(function(event){
-			if($('#STitle').val() == ''){
+			if($('#title').val() == ''){
 				alert('제목은 필수입니다.');
 				event.preventDefault();
 				return;
@@ -150,27 +97,26 @@
 
 	<h1>작성 화면</h1>
 	
-	<form id="frm_edit" action="/study/modify" method="post">
+	<form id="frm_edit" action="${contextPath}/study/modify" method="post">
 	
-		<input type="hidden" name="SNo" value="${study.SNo}">
+		<input type="hidden" name="studNo" value="${study.studNo}">
 	
 		<div>
 			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="${study.STitle}">
+			<input type="text" name="title" id="title" value="${study.title}">
 		</div>
 		
 		<div>
 			<label for="content">내용</label>
-			<textarea name="content" id="content">${study.SContent}</textarea>				
+			<textarea name="content" id="content">${study.content}</textarea>				
 		</div>
 		
-		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움)
+		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) -->
 		<div id="summernote_image_list"></div>
-		-->
 		
 		<div>
 			<button>수정완료</button>
-			<input type="button" value="목록" id="btn_list" onclick="location.href='/study/list'">
+			<input type="button" value="목록" id="btn_list">
 		</div>
 		
 	</form>
