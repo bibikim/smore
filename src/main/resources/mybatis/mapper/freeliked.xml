@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gdu.smore.mapper.FreeLikedMapper">
+
+	<select id="selectUserLikeCount" parameterType="map" resultType="int">
+		select count(*)
+		  from free_liked
+		 where free_no = #{freeNo}
+		   and nickname = #{nickname}
+	</select>
+	
+	<select id="selectFreeLikeCount" parameterType="int" resultType="int">
+		select count(*)
+		  from free_liked
+		 where free_no = #{freeNo}
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		insert into free_liked
+			(free_no, nickname)
+		values
+			(#{freeNo}, #{nickname})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE
+		  FROM FREE_LIKED
+		 WHERE FREE_NO = #{freeNo}
+		   AND NICKNAME = #{nickname}
+	</delete>
+	
+</mapper>

@@ -66,17 +66,9 @@
 						<tr>
 							<td id="align">${beginNo - vs.index}</td>
 							<td>
+							
 								<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
-								<a href="#" class="cmt_cnt"></a>
-								<script>
-									$(function(){
-										// 댓글 카운트 list에 뿌리기
-									})
-										
-										
-		
-								
-								</script>
+								<c:out value="${free.cmtCount}"/>
 								
 								<c:set var="now" value="${java.util.Date}"/>
 								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>

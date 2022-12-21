@@ -1,5 +1,6 @@
 package com.gdu.smore.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gdu.smore.domain.free.FreeBoardDTO;
+import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.service.FreeService;
 
 @Controller
@@ -79,6 +82,16 @@ public class FreeController {
 	@PostMapping("/free/remove")
 	public void removeFree(HttpServletRequest request, HttpServletResponse response) {
 		freeService.removeFree(request, response);
+	}
+	
+	// 리스트에 댓글 개수 표시	
+	@GetMapping("/free/list/cmtcnt")
+	public String readCmt(FreeBoardDTO free, @RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
+		freeService.getCmtCount(freeNo);
+		model.addAttribute("free", freeService.getFreeByNo(freeNo));
+		
+		//List<FreeCommentDTO> cmtList = fre
+		return "/free/list";
 	}
 	
 	

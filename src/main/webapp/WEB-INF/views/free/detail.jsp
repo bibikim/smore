@@ -282,6 +282,26 @@
 			})
 		}
 		 
+ 		/**************************************************************************/
+ 		
+ 		// 좋아요 함수 호출
+ 		fn_likeCheck();
+ 		fn_likeCount();
+ 		fn_pressLike();
+ 		
+ 		// 좋아요 함수
+ 		// 내가 좋아요 누른 게시글인지 체크
+ 		function fn_likeCheck() {
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/free/likeCheck',
+ 				data: 'freeNo=${freeNo}&nickname=${loginUser.nickname}',
+ 				dataType: 'json',
+ 				success: function(resData) {
+ 					if(resData.count == 0)
+ 				}
+ 			})
+ 		}
 		
 	});
 

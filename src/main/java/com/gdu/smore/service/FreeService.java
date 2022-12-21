@@ -21,4 +21,6 @@ public interface FreeService {
 	
 	public void modifyFree(HttpServletRequest request, HttpServletResponse response);
 	public void removeFree(HttpServletRequest request, HttpServletResponse response);
+	
+	public void getCmtCount(int freeNo);
 }
