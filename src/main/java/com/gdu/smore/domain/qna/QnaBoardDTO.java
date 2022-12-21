@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class QnaBoardDTO {
+	private int rowNum;
 	private int qaNo;
 	private String nickname;
 	private String title;
@@ -22,4 +23,5 @@ public class QnaBoardDTO {
 	private Date modifyDate;
 	private int hit;
 	private String ip;
+	private int answer;
 }
