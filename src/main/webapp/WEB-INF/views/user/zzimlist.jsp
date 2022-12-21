@@ -4,7 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
-	<jsp:param value="${loginUser.nickname}님 찜 스터디 목록" name="title"/>
+	<jsp:param value="찜 스터디 목록" name="title"/>
 </jsp:include>
 
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
