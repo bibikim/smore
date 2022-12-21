@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="" name="title"/>
 </jsp:include>
@@ -10,10 +11,13 @@
 
 .menu a{cursor:pointer;}
 .menu .hide{display:none;}
+
 input#btn_remove{
 	display: none;
 }
-
+input#btn_trans{
+	display: none;
+}
 
 .wrapper .sidebar{
     background: #8AE587;
@@ -74,7 +78,7 @@ input#btn_remove{
 	//	fn_remove(); 
 		fn_searchList();
 		fn_changePage();
-		fn_trans();
+	//	fn_trans();
 		fn_CodeList();
 		
 	    // html dom 이 다 로딩된 후 실행된다.
@@ -258,7 +262,7 @@ input#btn_remove{
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */				
-				tr += '<th scope="col" class="btn_remove_label"><input type="button" id="btn_remove"><label  for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_remove_label"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				
 				tr += '</tr>';
 				$('#head_list').append(tr);
@@ -300,8 +304,8 @@ input#btn_remove{
 				tr += '<th scope="col">' + '가입일' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '휴면전환일' + '</th>';
-				tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
-				tr += '</tr>';
+				tr += '<th scope="col" class="btn_trans_label"><input type="button" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
+				tr += '</tr>';				
 				$('#head_list').append(tr); 
 				$.each(resData.sleepUserList, function(i, user){
 					var tr = '<tr>';
@@ -355,7 +359,8 @@ input#btn_remove{
 		
 	}  
 	
-  	function fn_trans(){
+//  	function fn_trans(){ // 다중 일반전환
+	$(document).on('click','.btn_trans_label',function(){	
   		$('#btn_trans').click(function(){
   			if(confirm('선택한 회원을 일반회원으로 전환할까요?')){
 				let userNoList = '';
@@ -363,8 +368,7 @@ input#btn_remove{
 					if( $($('.trans-chk')[i]).is(':checked')){
 						userNoList += $($('.trans-chk')[i]).val() + ',';
 					}
-				}
-  				
+				} 				
   				userNoList = userNoList.substr(0, userNoList.length -1);
   				console.log(userNoList);
 				$.ajax({
@@ -382,9 +386,10 @@ input#btn_remove{
 				});
   			}
   		});
-  	}
-  	
-
+	});	
+//  	}
+  		
+  		// 일반회원 다중탈퇴
 		$(document).on('click','.btn_remove_label',function(){			
 			if(confirm('선택한 회원을 탈퇴시킬까요?')){						
 				let userNoList = '';
@@ -428,7 +433,8 @@ input#btn_remove{
 				tr += '<th scope="col">' + '수정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
-				tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
+				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
+				tr += '<th scope="col" class="btn_remove_label"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				$.each(resData.freeBoardList, function(i, board){
@@ -693,7 +699,7 @@ input#btn_remove{
 
 	<div  style="margin-left:225px;">	
 		<div>
-			<input type="button" value="휴면전환" id="btn_trans">
+			<!-- <input type="button" value="휴면전환" id="btn_trans"> -->
 			<!-- <input type="button" value="선택삭제" id="btn_remove"> -->
 		</div>
 		<table class="table">
@@ -703,6 +709,7 @@ input#btn_remove{
 				<tr>
 					<td colspan="10">
 						<div id="paging"></div>
+						
 					</td>
 				</tr>
 			</tfoot>
