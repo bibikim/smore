@@ -299,11 +299,11 @@
  				dataType: 'json',
  				success: function(resData) {
  					if(resData.count == 0) {
- 						$('#heart').html('<img src="../../resources/images/whiteheart.png" width="15px">');
+ 						$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
  						$('#like').removeClass("like_checked");
  					} else {
- 						$('#heart').html('<img src="../../resources/images/redheart.png" width="15px">');
- 						$('#good').addClass("like_checked");
+ 						$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+ 						$('#like').addClass("like_checked");
  					}
  				}
  			})
@@ -323,6 +323,42 @@
  			})
  		}
  		
+ 		// 좋아요 누른 경우
+ 		function fn_pressLike() {
+ 			$('#lnk_like').click(function(){
+ 				// 로그인 해야 누를 수 있음
+ 				if('${loginUser.nickname}' == '') {
+ 					alert('해당 기능은 로그인이 필요합니다.');
+ 					return;
+ 				}
+ 				// 셀프 좋아요 방지
+ 				if('${loginUser.nickname}' == '${free.nickname}') {
+ 					alert('작성자의 게시글에서는 좋아요를 누를 수 없습니다.');
+ 					return;
+ 				}
+ 				// 좋아요 선택/해제 상태에 따른 하트 상태 변경
+ 				$('#like').toggleClass("like_checked");
+ 				if ($('#like').hasClass("like_checked")) {
+ 					$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+ 				} else {
+ 					$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
+ 				}
+ 				
+ 				// 좋아요 처리
+ 				$.ajax({
+ 					type: 'get',
+ 					url: '/free/mark',
+ 					data: 'freeNo=${free.freeNo}&nickname=${loginUser.nickname}',
+ 					dataType: 'json',
+ 					success: function(resData) {
+ 						if(resData.isSuccess) {
+ 							fn_likeCount();
+ 						}
+ 					}
+ 				})
+ 			})
+ 		}
+ 		
  		
 	});
 
@@ -334,6 +370,15 @@
 	
 	.blind {
 		display: none;
+	}
+	
+	#lnk_like:hover span {
+		cursor: pointer;
+		color: #f83030;
+	}
+	#heart {
+		width: 16px;
+		margin-right: 5px;
 	}
 	
 </style>

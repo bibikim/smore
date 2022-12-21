@@ -352,11 +352,13 @@
 					alert('해당 기능은 로그인이 필요합니다.');
 					return;
 				}
+				
 				// 셀프 좋아요 방지
 				if('${loginUser.nickname}' == '${study.nickname}'){
 					alert('본인의 게시글에서는 "좋아요"를 누를 수 없습니다.');
 					return;
 				}
+				
 				// "좋아요" 선택/해제 상태에 따른 하트 변경
 				$('#good').toggleClass("z_checked");
 				if ($('#good').hasClass("z_checked")) {

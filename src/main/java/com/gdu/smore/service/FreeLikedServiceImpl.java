@@ -48,7 +48,6 @@ public class FreeLikedServiceImpl implements FreeLikedService{
 		} else {
 			result.put("isSuccess", likeMapper.deleteLike(map) == 1);
 		}
-		
 		return result;
 
 	}
