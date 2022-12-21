@@ -69,13 +69,17 @@
 	                <tr>
 	                    <td class="text-center">${beginNo - vs.index}</td>
 	                    <td class="subject">
-	                    	<!-- 닉네임 체크  -->
+	                    	<!-- chkUser 1: 본인 2: 다른사용자 3: 관리자 -->
 	                    	<c:if test="${loginUser.nickname eq question.NICKNAME}">
-	                    		<c:set var="chkUser" scope="request" value="Y" />
+	                    		<c:set var="chkUser" scope="request" value="1" />
 	                    	</c:if>
 	                    	
 	                    	<c:if test="${loginUser.nickname ne question.NICKNAME}">
-	                    		<c:set var="chkUser" scope="request" value="N" />
+	                    		<c:set var="chkUser" scope="request" value="2" />
+	                    	</c:if>
+	                    	
+	                    	<c:if test="${question.CMT_NO ne ''}">
+	                    		<c:set var="chkUser" scope="request" value="3" />
 	                    	</c:if>
 	                    	
 	                    	<c:if test="${question.PW ne 0}">
@@ -198,7 +202,7 @@
 		}
 		
 		
-		if(chkUser != 'Y'){
+		if(chkUser != '1'){
 			goUrl = '/qna/increse/hit?qaNo='+qaNo;
 		}
 		

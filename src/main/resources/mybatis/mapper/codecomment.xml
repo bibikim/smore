@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.CodeCmtMapper">
+
+	<select id="selectCommentCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM C_CMT
+		 WHERE CO_NO = #{coNo}
+	</select>
+	
+	<select id="selectCommentList" parameterType="Map" resultType="CodeCommentDTO">
+		
+		SELECT C.RN, C.CMT_NO, C.CO_NO, C.NICKNAME, C.CMT_CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.STATE, C.DEPTH, C.GROUP_NO, C.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
+		   	      FROM C_CMT
+			     WHERE CO_NO = #{coNo}) C
+		 WHERE C.RN BETWEEN #{begin} AND #{end}
+	</select>
+
+
+	
+<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO FREECMT
+			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
+	</insert> -->
+	
+	<insert id="insertCodecmt" parameterType="CodeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO C_CMT
+			(CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{coNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{cmtNo})
+		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!--  
+		https://chobopark.tistory.com/289
+	-->
+	
+	
+	<!-- 댓삭 -->
+	<update id="deleteComment" parameterType="int">
+		UPDATE C_CMT
+		   SET STATE = 0
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 댓 수정 -->
+	<update id="modifyComment" parameterType="CodeCommentDTO">
+		UPDATE C_CMT
+		   SET CO_NO = #{coNo}, CMT_CONTENT = #{cmtContent}, IP = #{ip} , MODIFY_DATE = NOW()
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 대댓 -->
+	<insert id="insertRecomment" parameterType="CodeCommentDTO">
+		INSERT INTO C_CMT
+			(CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{coNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 1, #{ip}, #{groupNo})
+	</insert>
+	
+</mapper>

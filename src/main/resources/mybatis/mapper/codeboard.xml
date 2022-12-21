@@ -11,11 +11,25 @@
 		  FROM C_BOARD
 	</select>
 	
+	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="CodeBoardDTO">
+	    SELECT N.RW, N.CO_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS RW, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  		FROM C_BOARD) N
+		 WHERE N.RW BETWEEN #{begin} AND #{end}
+	</select>
+	
 	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
 		INSERT INTO C_BOARD
-			(CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
+			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		VALUES
-			(#{coNo}, #{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
+			(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{ip})
+	</insert>
+	
+	<insert id="insertImage" parameterType="CodeImageDTO">
+		INSERT INTO C_IMAGE
+			(CO_NO, FILESYSTEM)
+		 VALUES
+		 	(#{coNo}, #{filesystem})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
@@ -25,13 +39,29 @@
 	</update>
 	
 	<select id="selectCodeBoardByNo" parameterType="int" resultType="CodeBoardDTO">
-		SELECT CO_NO as coNo, U.NICKNAME as nickname, TITLE as title, CONTENT as content, CREATE_DATE as createDate, MODIFY_DATE as modifyDate, HIT as hit, IP as ip
-          FROM USERS U INNER JOIN C_BOARD C
-            ON U.NICKNAME = C.NICKNAME
-		 WHERE C.CO_NO = #{coNo}
+		SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM C_BOARD
+		 WHERE CO_NO = #{coNo} 
 	</select>
 	
-	<update id="updateCodeBoard" parameterType="CodeBoardDTO">
+	<select id="selectAllCodeImageList" resultType="CodeImageDTO">
+		SELECT CO_NO, FILESYSTEM
+		  FROM C_IMAGE
+	</select>
+	
+	<select id="selectCodeImageListInCode" parameterType="int" resultType="CodeImageDTO">
+		SELECT CO_NO, FILESYSTEM
+		  FROM C_IMAGE
+		 WHERE CO_NO = #{coNo}
+	</select>
+	
+	<delete id="deleteCodeImage" parameterType="String">
+		DELETE 
+		  FROM C_IMAGE
+		 WHERE FILESYSTEM = #{filesystem}
+	</delete>
+	
+	<update id="updateCodeBoard">
 		UPDATE C_BOARD
 		   SET TITLE = #{title}
 		     , CONTENT = #{content}
@@ -45,14 +75,6 @@
 		 WHERE C_BOARD_NO = #{coNo}
 	</delete>
 	
-	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="hashmap">
-		SELECT A.ROW_NUM, A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP,
-		CASE WHEN (A.CREATE_DATE >= CURDATE() - interval 1 DAY) THEN 'Y' ELSE 'N' END as NEW_YN
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, B.CO_NO, B.NICKNAME, B.TITLE, B.CONTENT, B.CREATE_DATE, B.MODIFY_DATE, B.HIT, B.IP, U.USER_NO, U.ID, U.NAME
-		          FROM USERS U INNER JOIN C_BOARD B
-		            ON U.NICKNAME = B.NICKNAME) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
-	</select>
 	
 	
 	
