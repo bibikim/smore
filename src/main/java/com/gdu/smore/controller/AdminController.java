@@ -33,8 +33,12 @@ public class AdminController {
 	
 	@DeleteMapping(value="/common/{userNoList}", produces = "application/json")
 	public Map<String, Object> transCommon(@PathVariable String userNoList){
-		System.out.println("왔음");
 		return adminService.toCommonUserList(userNoList);
+	}
+	
+	@DeleteMapping(value="/common/{userNoList}", produces = "application/json")
+	public Map<String, Object> deleteFree(@PathVariable String boardNoList){
+		return adminService.removeFreeList(boardNoList);
 	}
 	
 	@GetMapping(value="/reportUsers/page{page}", produces = "application/json")
