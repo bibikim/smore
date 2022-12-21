@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.smore.domain.user.AllUserDTO;
 import com.gdu.smore.domain.user.RetireUserDTO;
+import com.gdu.smore.domain.user.SleepUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.AdminMapper;
+import com.gdu.smore.mapper.UserMapper;
 import com.gdu.smore.util.PageUtil;
 
 @PropertySource(value = {"classpath:application.yml"})
@@ -24,6 +27,9 @@ public class AdminServiceImpl implements AdminService {
 
    @Autowired
    private AdminMapper adminMapper;
+   
+   @Autowired
+   private UserMapper userMapper;
    
    @Autowired
    private PageUtil pageUtil;
@@ -47,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
    }
    
    
+   @Transactional
    @Override
    public Map<String, Object> removeUserList(String userNoList) {
       List<String> list = Arrays.asList(userNoList.split(","));
@@ -63,6 +70,51 @@ public class AdminServiceImpl implements AdminService {
       result.put("deleteResult", adminMapper.deleteUserList(list));
       return result;
    }
+   
+   @Override
+	public Map<String, Object> removeFreeList(String freeNoList) {
+		List<String> list = Arrays.asList(freeNoList.split(","));
+		Map<String, Object> result = new HashMap<String, Object>();
+        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	   
+		return result;
+	}
+   
+   @Transactional
+   @Override
+	public Map<String, Object> toCommonUserList(String userNoList) {
+		List<String> list = Arrays.asList(userNoList.split(","));
+		System.out.println(list);
+		for(int i = 0; i < list.size(); i++) {			
+			SleepUserDTO sleepUserDTO = adminMapper.selectSleepUserByNo(Integer.parseInt(list.get(i)));				
+			UserDTO userDTO = new UserDTO();
+			userDTO.setUserNo(sleepUserDTO.getUserNo());
+			userDTO.setId(sleepUserDTO.getId());
+			userDTO.setNickname(sleepUserDTO.getNickname());
+			userDTO.setPw(sleepUserDTO.getPw());
+			userDTO.setName(sleepUserDTO.getName());
+			userDTO.setGrade(sleepUserDTO.getGrade());
+			userDTO.setGender(sleepUserDTO.getGender());
+			userDTO.setEmail(sleepUserDTO.getEmail());
+			userDTO.setMobile(sleepUserDTO.getMobile());
+			userDTO.setBirthyear(sleepUserDTO.getBirthyear());
+			userDTO.setBirthday(sleepUserDTO.getBirthday());
+			userDTO.setPostcode(sleepUserDTO.getPostcode());
+			userDTO.setRoadAddress(sleepUserDTO.getRoadAddress());
+			userDTO.setJibunAddress(sleepUserDTO.getJibunAddress());
+			userDTO.setDetailAddress(sleepUserDTO.getDetailAddress());
+			userDTO.setExtraAddress(sleepUserDTO.getExtraAddress());
+			userDTO.setAgreeCode(sleepUserDTO.getAgreeCode());
+			userDTO.setSnsType(sleepUserDTO.getSnsType());
+			userDTO.setUserState(sleepUserDTO.getUserState());
+			userDTO.setJoinDate(sleepUserDTO.getJoinDate());
+			userDTO.setLastLoginDate(sleepUserDTO.getLastLoginDate());
+			userMapper.insertUser(userDTO);
+			adminMapper.updateAccessInfo(userDTO.getId());
+		}
+		 Map<String, Object> result = new HashMap<String, Object>();
+	     result.put("deleteSleep", adminMapper.deleteSleepUserList(list));
+	     return result;	
+	}
 
    @Override
    public Map<String, Object> getreportUserList(int page) {
@@ -127,10 +179,43 @@ public class AdminServiceImpl implements AdminService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("studyList", adminMapper.selectStudyListByMap(map));
-      System.out.println(result);
       result.put("naverPageUtil", pageUtil);
       return result;
    }
+   
+   @Override
+	public Map<String, Object> getCodeList(int page) {
+		
+	   int totalRecord = adminMapper.selectCodeBoardCount();
+	   pageUtil.setPageUtil(page, totalRecord);
+	   
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   map.put("begin", pageUtil.getBegin());
+       map.put("end", pageUtil.getEnd());
+      
+       Map<String, Object> result = new HashMap<String, Object>();
+       result.put("codeList", adminMapper.selectCodeListByMap(map));
+       System.out.println(result);
+       result.put("naverPageUtil", pageUtil);
+       return result;
+	}
+   
+   @Override
+	public Map<String, Object> getQnaList(int page) {
+		int totalRecord = adminMapper.selectQnaBoardCount();
+		pageUtil.setPageUtil(page, totalRecord);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("begin", pageUtil.getBegin());
+        map.put("end", pageUtil.getEnd());
+        
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("qnaList", adminMapper.selectQnaListByMap(map));
+        System.out.println(result);
+        result.put("naverPageUtil", pageUtil);
+        return result;
+	}
+   
    
    @Override
 	public Map<String, Object> findUsers(HttpServletRequest request) {
@@ -188,6 +273,8 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 		
 	}
+   
+   
    
    
 }

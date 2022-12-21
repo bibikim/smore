@@ -10,33 +10,28 @@
 </jsp:include>
 
 <body>
- <div class="cont-body">
-         <!-- 페이지 내용 -->
-
-        <form name="dataForm" id="dataForm" method="post" action="BD_selectBbsList.do">
-            <!-- 페이징 관련 파라미터 생성. rowPerPage 설정 시 목록표시 갯수 선택 생성됨-->
-            <input type="hidden" name="c_bbsCode" id="c_bbsCode" value="1039">
-            <input type="hidden" name="c_pagePerPage" id="c_pagePerPage" value="10">
-            <input type="hidden" name="c_pagingEndNum" id="c_pagingEndNum" value="10">
-            <input type="hidden" name="c_bbscttSn" id="c_bbscttSn" value="20221215092703894">
-            <input type="hidden" name="c_rowPerPage" id="c_rowPerPage" value="10">
-            <input type="hidden" name="c_pagingStartNum" id="c_pagingStartNum" value="1">
-            <input type="hidden" name="c_currPage" id="c_currPage" value="1">
-            <input type="hidden" name="c_order" id="c_order" value="">
-            <input type="hidden" name="password" id="password">
+<script>
+	
+</script>
+ 	<div class="cont-body">
+ 		<form name="dataForm" id="dataForm" method="post">
+            <input type="hidden" name="coNo" id="coNo" value="${code.coNo}">
         </form>
+        <!-- 페이지 내용 -->
         <div class="detail-area">
             <div class="title">
-                ${question.coNo}
+                ${code.title}
             </div>
             <div class="util">
-                <span>${question}</span>
-                <%-- <span class="date"><fmt:formatDate value="${question}" pattern="yyyy.M.d"/></span> --%>
-                <span>내용 ${question}</span>
+                <span>${code.nickname}</span>
+                <span class="date">
+                	${code.createDate}
+                </span>
+                <span>조회 ${code.hit}</span>
             </div>
             <div class="article">
                 <div class="txt">
-                    ${question}
+                    ${code.content}
                 </div>
             </div>
         </div>
@@ -44,14 +39,22 @@
         <!-- 버튼 -->
         <div class="aligner" data-top="sm">
             <div class="left">
-                <button type="button" class="btn" onclick="pwdPop('1039','20221215092703894','D');">삭제</button>
+            	<c:if test="${loginUser != null}">
+            		<c:if test="${loginUser.nickname eq code.nickname}">
+            			<button type="button" class="btn" onclick="goPage(${code.coNo},'del');">삭제</button>
+            		</c:if>
+            	</c:if>
             </div>
             <div class="right">
-                <button type="button" class="btn" onclick="pwdPop('1039','20221215092703894','U');">수정</button>
-                <button type="button" class="btn" onclick="opList();">목록</button>
+            	<c:if test="${loginUser != null}">
+            		<c:if test="${loginUser.nickname eq code.nickname}">
+            			<button type="button" class="btn" onclick="goPage(${code.coNo}, 'mod');">수정</button>
+            		</c:if>
+            	</c:if>
+                <button type="button" class="btn" onclick="goPage(${code.coNo}, 'list');">목록</button>
             </div>
         </div>
-        <!— //버튼 —>
+        <!-- 버튼  -->
 
         <div class="docs-case">
             <div class="docs-value">
@@ -61,5 +64,26 @@
         </div>
     </div>
 </body>
-
+<script type="text/javascript">
+	/** 페이지 이동 **/
+	function goPage(coNo, task){
+		
+		if(task == 'list'){
+			location.href = '/code/list';
+		}else if(task == 'mod'){
+			$("#dataForm").attr("action", "/code/edit");
+			$("#dataForm").submit();
+		}else if(task == 'del'){
+			var _confirm = confirm('정말로 삭제하시겠습니까?');
+			
+			if(_confirm){
+				$("#dataForm").attr("action", "/code/remove");
+				$("#dataForm").submit();
+			}else{
+				return;
+			}
+		}
+	}
+	
+</script>
 </html>

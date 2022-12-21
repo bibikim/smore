@@ -14,13 +14,21 @@
 
 <style>
 
-
-
 </style>
 </head>
 <body>
-
-	My 스터디 목록		
+	
+	<h1>${loginUser.nickname}님 스터디 목록</h1>
+	
+	<div>
+		<c:if test="${loginUser != null}">
+			<input type="button" value="스터디 나가기" onclick="location.href='/user/studylist'">
+		</c:if>
+	</div>
+	
+	<div>
+		
+	</div>
 
 </body>
 </html>

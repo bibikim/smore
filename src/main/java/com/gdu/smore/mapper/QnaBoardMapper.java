@@ -9,6 +9,7 @@ public interface QnaBoardMapper {
 	
 	public int selectQnaBoardListCount();
 	public int insertQnaBoard(QnaBoardDTO qnaboard);
+	public int selectQnaBoardPwCount(QnaBoardDTO qnaboard);
 	public int updateHit(int qaNo);
 	public QnaBoardDTO selectQnaBoardByNo(int qaNo);
 	public int updateQnaBoard(QnaBoardDTO qnaboard);

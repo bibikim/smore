@@ -13,6 +13,11 @@ public interface UserMapper {
 	public UserDTO selectUserByMap(Map<String, Object> map);
 	public RetireUserDTO selectRetireUserById(String id);
 	public int insertUser(UserDTO user);
+	
+	// 네아로, 카아로
+	public int insertNaverUser(UserDTO user);
+	public int insertKakaoUser(UserDTO user);
+	
 	public int updateAccessLog(String id);
 	public int insertAccessLog(String id);
 	

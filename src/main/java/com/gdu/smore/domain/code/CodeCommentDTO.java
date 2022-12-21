@@ -21,4 +21,5 @@ public class CodeCommentDTO {
 	private int state;
 	private int depth;
 	private String ip;
+	private int groupNo;
 }

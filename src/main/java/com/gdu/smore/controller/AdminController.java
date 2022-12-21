@@ -31,6 +31,16 @@ public class AdminController {
 		return adminService.removeUserList(userNoList);
 	}
 	
+	@DeleteMapping(value="/common/{userNoList}", produces = "application/json")
+	public Map<String, Object> transCommon(@PathVariable String userNoList){
+		return adminService.toCommonUserList(userNoList);
+	}
+	
+	@DeleteMapping(value="/common/{userNoList}", produces = "application/json")
+	public Map<String, Object> deleteFree(@PathVariable String boardNoList){
+		return adminService.removeFreeList(boardNoList);
+	}
+	
 	@GetMapping(value="/reportUsers/page{page}", produces = "application/json")
 	public Map<String, Object> getReportUserList(@PathVariable(value="page", required = false) Optional<String> opt){
 		int page = Integer.parseInt(opt.orElse("1"));
@@ -50,10 +60,23 @@ public class AdminController {
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.getFreeBoardList(page);
 	}
+	
 	@GetMapping(value="/studyList/page{page}", produces = "application/json")
 	public Map<String, Object> getStudyList(@PathVariable(value="page", required = false) Optional<String> opt){
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.getStudyList(page);
+	}
+	
+	@GetMapping(value="/codeList/page{page}", produces = "application/json")
+	public Map<String, Object> getCodeList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.getCodeList(page);
+	}
+	
+	@GetMapping(value="/qnaList/page{page}", produces = "application/json")
+	public Map<String, Object> getQnaList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.getCodeList(page);
 	}
 	
 	@GetMapping(value="/users/search", produces = "application/json")
@@ -61,6 +84,8 @@ public class AdminController {
 		return adminService.findUsers(request);
 	}
 
+
+	
 	
 	
 	

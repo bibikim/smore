@@ -5,7 +5,9 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gdu.smore.mapper.StudyMapper">
-
+	
+	<!-- 스터디 모집 게시글 -->
+	
 	<select id="selectAllBoardCnt" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_GROUP
@@ -60,18 +62,55 @@
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
 	
-	<select id="selectEmployeesUsingPaging" parameterType="Map" resultType="StudyGroupDTO">
-		
-		<!-- 2. ROW_NUMBER() 함수 사용 -->
-		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
-		  FROM (SELECT ROW_NUM() OVER(ORDER BY <choose>
-													<when test="title=='STUD_NO'">STUD_ID</when>
-													<otherwise>${title}</otherwise>
-												  </choose> ${order}) AS ROW_NUM, A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
-		          FROM S_GROUP B) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
-		  
+	<!-- 댓글 -->
+	
+	<select id="selectCommentCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_CMT
+		 WHERE STUD_NO = #{studNo}
 	</select>
+	
+	<insert id="insertComment" parameterType="StudyCommentDTO">
+		INSERT INTO S_CMT
+			(CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP)
+		VALUES
+			(#{cmtNo}, #{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{cmtNo}, #{ip})
+	</insert>	
+	
+	<select id="selectCommentList" parameterType="Map" resultType="StudyCommentDTO">
+		SELECT A.ROW_NUM, A.CMT_NO, A.STUD_NO, A.NICKNAME, A.CMT_CONTENT, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE DESC) AS ROW_NUM, CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
+		          FROM S_CMT
+		         WHERE STUD_NO = #{studNo}) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<select id="selectNickZCount" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_ZZIM
+		 WHERE STUD_NO = #{studNo}
+		   AND NICKNAME = #{nickname}
+	</select>	
+	
+	<select id="selectStudZCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_ZZIM
+		 WHERE STUD_NO = #{studNo}
+	</select>	
+	
+	<insert id="insertZ" parameterType="map">
+		INSERT INTO S_ZZIM
+			(STUD_NO, NICKNAME)
+		VALUES
+			(#{studNo}, #{nickname})
+	</insert>
+	
+	<delete id="deleteZ" parameterType="map">
+		DELETE
+		  FROM S_ZZIM
+		 WHERE STUD_NO = #{studNo}
+		   AND NICKNAME = #{nickname}
+	</delete>	
 </mapper>
 	
 	

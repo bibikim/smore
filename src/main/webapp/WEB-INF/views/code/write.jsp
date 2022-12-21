@@ -17,12 +17,26 @@
 	
 	$(document).ready(function(){
 		
-
+		var task = '<c:out value="${chkBtn}"/>';
+		
+		if(task == 'mod'){
+			$("#frm_write").attr("action", "/code/modify");
+		}else{
+			$("#frm_write").attr("action", "/code/save");
+			
+		}
+		
+		var _html = '<c:out value="${code.content}"/>';
+		$('#content').summernote('code', _html);
+		
+		$('#content').summernote('pasteHTML', _html);
+		
 		// summernote
 		$('#content').summernote({
 			width: 800,
 			height: 400,
 			lang: 'ko-KR',
+			focus: true,
 			toolbar: [
 			    // [groupName, [list of button]]
 			    ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -32,47 +46,19 @@
 			    ['para', ['ul', 'ol', 'paragraph']],
 			    ['height', ['height']],
 			    ['insert', ['link', 'picture', 'video']]
-			],
-			callbacks: {
-				onImageUpload: function(files) {
-					for(let i = 0; i < files.length; i++) {
-						var formData = new FormData();
-						formData.append('file', files[i]);
-						
-						$.ajax({
-							type: 'post',
-							url: '/code/uploadImage',
-							data: formData,
-							contentType: false,
-							processData: false,
-							dataType: 'json',
-							success: function(resData) {
-								$('#content').summernote('insertImage', resData.src);
-								$('#sumnote_image_list').append($('<input type="hidden" name="ImageNames" value="' + resData.filesystem + '">'));
-							}
-						})	// ajax
-					} // for
-				} // onImageUpload
-			} // callbacks
+			]
 		});
 		
 		$('#btn_list').click(function(){
 			location.href='/code/list';	
 		});
 		
-		$('#btn_cancel').click(function(){
-			history.back();
-		});
-		
-		
-		
 		$('#frm_write').submit(function(ev){
 			if($('#title').val() == '') {
 				alert('제목을 입력해주세요.')
 				ev.preventDefault();
 				return;
-			} else
-			if($('#content').val() == '') {
+			}else if($('#content').val() == '') {
 				alert('본문을 입력해주세요.')
 				ev.preventDefault();
 				return;
@@ -80,41 +66,93 @@
 			
 		});
 		
+		
 	});
 
 </script>
 </head>
 <body>
-	
-	<div>
-		<form id="frm_write" action="/code/save" method="post">
-			
+    <div class="cont-body">
+       <!-- 페이지 내용 -->
+       <div class="cont-body">
+           <form id="frm_write" method="post"
+               class="form-horizontal">
 			<input type="hidden" name="nickname" value="${loginUser.nickname}">
+			<input type="hidden" name="coNo" id="coNo" value="${code.coNo}">
+               <div class="section">
+                   <div class="table detail-type no-scroll" data-top="sm">
+                       <table>
+                           <caption>
+                           </caption>
+                           <colgroup class="table-col">
+                               <col style="width: 10%">
+                               <col style="width: 35%">
+                               <col style="width: 15%">
+                               <col style="*">
+                           </colgroup>
+                           <tbody>
+                               <tr>
+                                   <th scope="row" class="text-left">제목 <span class="point-color-red">*</span></th>
+                                   <td colspan="3">
+                                       <div class="input expanded">
+                                           <input type="text" id="title" name="title" value="${code.title}" placeholder="제목을 입력하세요." required style="width: 500px;"/>
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                               		<th scope="row" class="text-left">비밀번호</th>
+                                   <td colspan="3">
+                                       <div class="input expanded">
+                                       		<c:choose>
+                                       			<c:when test="${chkBtn eq 'mod' && code.pw ne 0}">
+                                       				<input type="password" id="password" name="password" value="${code.pw}" maxlength="20"
+                                               autocomplete="off" style="width: 500px;">
+                                       			</c:when>
+                                       			<c:otherwise>
+                                       				<input type="password" id="password" name="password" maxlength="20"
+                                               autocomplete="off" style="width: 500px;">
+                                       			</c:otherwise>
+                                       		</c:choose>
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <th scope="row" class="text-left">내용 <span class="point-color-red">*</span></th>
+                                   <td colspan="3">
+                                       <div class="textarea">
+                                           <textarea id="content" name="content" cols="30" rows="10"
+                                               required></textarea>
+                                       </div>
+                                       <div id="sumnote_image_list"></div>
+                                   </td>
+                               </tr>
+                           </tbody>
+                       </table>
+                   </div>
+               </div>
 
-		
-			<div>
-				<div>
-					<label for="title">제목</label>
-				</div>
-				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
-			</div>
-		
-			<div>
-				<label for="content">내용</label>
-				<textarea id="content" name="content"></textarea>
-			</div>
-			
-			<div id="sumnote_image_list"></div>
-			
-			<div>
-				<div>
-					<input type="button" id="btn_cancel" value="취소">
-					<input type="button" id="btn_list" value="목록">
-					<button>등록</button>
-				</div>
-			</div>
-		</form>
-	</div>
-	
+               <!--  버튼  -->
+               <div class="aligner" data-top="sm">
+                   <div class="right">
+                   	 <c:if test="${chkBtn eq 'mod'}">
+                   	 	<button type="submit" class="btn btn-success">수정</button>
+                   	 </c:if>
+                     <c:if test="${chkBtn eq 'reg'}">
+                  	 	<button type="submit" class="btn btn-success">등록</button>
+                  	 </c:if>
+                       <button type="button" id="btn_list" class="btn btn-info">목록</button>
+                   </div>
+               </div>
+               <!-- 버튼 -->
+           </form>
+       </div>
+
+       <div class="docs-case">
+           <div class="docs-value">
+               <div class="inquiry-area">
+               </div>
+           </div>
+       </div>
+    </div>	
 </body>
 </html>

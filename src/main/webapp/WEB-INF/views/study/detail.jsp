@@ -11,7 +11,7 @@
 	.blind {
 		display: none;
 	}
-	#lnk_good:hover span {
+	#lnk_Z:hover span {
 		cursor: pointer;
 		color: #f83030;
 	}
@@ -23,29 +23,29 @@
 
 <div>
 
-	<h1>${study.STitle}</h1>
+	<h1>${study.title}</h1>
 	
 	<div>
 		<span>▷ 작성자 ${study.nickname}</span>
 		&nbsp;&nbsp;&nbsp;
-		<span>▷ 작성일 <fmt:formatDate value="${study.SCreateDate}" pattern="yyyy. M. d HH:mm" /></span>
+		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
 		&nbsp;&nbsp;&nbsp;
-		<span>▷ 수정일 <fmt:formatDate value="${study.SModifyDate}" pattern="yyyy. M. d HH:mm" /></span>
+		<span>▷ 수정일 <fmt:formatDate value="${study.modifyDate}" pattern="yyyy. M. d HH:mm" /></span>
 	</div>
 	
 	<div>
-		<span>조회수 <fmt:formatNumber value="${study.SHit}" pattern="#,##0" /></span>
+		<span>조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
 	</div>
 	
 	<hr>
 	
 	<div>
-		${study.SContent}
+		${study.content}
 	</div>
 	
 	<div>
 		<form id="frm_btn" method="post">
-			<input type="hidden" name="SNo" value="${study.SNo}">
+			<input type="hidden" name="studNo" value="${study.studNo}">
 			<c:if test="${loginUser.nickname == study.nickname}">
 				<input type="button" value="수정" id="btn_edit_study">
 				<input type="button" value="삭제" id="btn_remove_study">
@@ -68,13 +68,13 @@
 	
 	<hr>
 	
-	
+	<!-- 12.20 시작 -->
 	<span id="btn_comment_list">
 		댓글
 		<span id="comment_count"></span>개
 	</span>
-	<a id="lnk_good">
-		<span id="heart"></span><span id="good">좋아요 </span><span id="good_count"></span>
+	<a id="lnk_Z">
+		<span id="heart"></span><span id="good">찜하기 </span><span id="Z_count"></span>
 	</a>
 	
 	<hr>
@@ -98,7 +98,7 @@
 					</c:if>
 				</div>
 			</div>
-			<input type="hidden" name="SNo" value="${study.SNo}">
+			<input type="hidden" name="studNo" value="${study.studNo}">
 			<input type="hidden" name="nickname" value="${loginUser.nickname}">
 		</form>
 	</div>
@@ -118,16 +118,16 @@
 		fn_switchReplyArea();
 		fn_addReply();
 		
-		fn_goodCheck();
-		fn_goodCount();
-		fn_pressGood();
+		fn_ZCheck();
+		fn_ZCount();
+		fn_pressZ();
 		
 		// 함수 정의
 		function fn_commentCount(){
 			$.ajax({
 				type: 'get',
-				url: '${contextPath}/comment/getCount',
-				data: 'SNo=${study.SNo}',
+				url: '${contextPath}/study/comment/getCount',
+				data: 'studNo=${study.studNo}',
 				dataType: 'json',
 				success: function(resData){  // resData = {"commentCount": 개수}
 					$('#comment_count').text(resData.commentCount);
@@ -149,7 +149,7 @@
 				}
 				$.ajax({
 					type: 'post',
-					url: '${contextPath}/comment/add',
+					url: '${contextPath}/study/comment/add',
 					data: $('#frm_add_comment').serialize(),
 					dataType: 'json',
 					success: function(resData){  // resData = {"isAdd", true}
@@ -167,8 +167,8 @@
 		function fn_commentList(){
 			$.ajax({
 				type: 'get',
-				url: '${contextPath}/comment/list',
-				data: 'SNo=${study.SNo}&page=' + $('#page').val(),
+				url: '/study/comment/list',
+				data: 'studNo=${study.studNo}&page=' + $('#page').val(),
 				dataType: 'json',
 				success: function(resData){
 					/*
@@ -186,7 +186,6 @@
 					*/
 					// 화면에 댓글 목록 뿌리기
 					$('#comment_list').empty();
-					moment.locale('ko-KR');
 					$.each(resData.commentList, function(i, comment){
 						var div = '';
 						if(comment.state == -1) {
@@ -201,13 +200,14 @@
 							} else {
 								div += '<div style="margin-left:40px;">';
 							}
-							div += '  <span>' + comment.user.name + '</span>';
+							div += '  <span>' + comment.nickname + '</span>';
+							moment.locale('ko-KR');
 							div += '  <span style="font-size:12px; color:silver;">' + moment(comment.createDate).format('YYYY년 MM월 DD일 A h:mm:ss') + '</span>';
-							div += '<div>' + comment.content + '</div>';
-							if('${loginUser.userNo}' != '') {
-								if('${loginUser.userNo}' == comment.user.userNo && comment.state == 1) {
-									div += '<input type="button" value="삭제" class="btn_comment_remove" data-comment_no="' + comment.commentNo + '">';
-								} else if('${loginUser.userNo}' != comment.user.userNo && comment.depth == 0) {
+							div += '<div>' + comment.cmtContent + '</div>';
+							if('${loginUser.nickname}' != '') {
+								if('${loginUser.nickname}' == comment.nickname && comment.state == 1) {
+									div += '<input type="button" value="삭제" class="btn_comment_remove" data-comment_no="' + comment.cmtNo + '">';
+								} else if('${loginUser.nickname}' != comment.nickname && comment.depth == 0) {
 									div += '<input type="button" value="답글" class="btn_reply_area">';
 								}
 							}
@@ -215,11 +215,10 @@
 						}
 						div += '<div style="margin-left: 40px;" class="reply_area blind">';
 						div += '<form class="frm_reply">';
-						div += '<input type="hidden" name="SNo" value="' + comment.SNo + '">';
-						div += '<input type="hidden" name="groupNo" value="' + comment.groupNo + '">';
-						div += '<input type="hidden" name="userNo" value="${loginUser.userNo}">';
+						div += '<input type="hidden" name="studNo" value="' + comment.studNo + '">';
+						div += '<input type="hidden" name="nickname" value="${loginUser.nickname}">';
 						div += '<input type="text" name="content" placeholder="답글을 작성하려면 로그인을 해주세요">';
-						if('${loginUser.userNo}' != '') {
+						if('${loginUser.nickname}' != '') {
 							div += '<input type="button" value="답글작성완료" class="btn_reply_add">';
 						}
 						div += '</form>';
@@ -310,43 +309,44 @@
 		}
 		
 		//////////////////////////////////////////////////
+		// 12.20 18시
 		
 		// 내가 "좋아요"를 누른 게시글인가?(좋아요 테이블에 사용자와 게시글 정보가 있는지 확인, 눌렀으면 빨간하트, 안 눌렀으면 빈하트)
-		function fn_goodCheck() { 
+		function fn_ZCheck() { 
 			$.ajax({
-				url: '${contextPath}/good/getGoodCheck',
+				url: '${contextPath}/study/getZCheck',
 				type: 'get',
-				data: 'SNo=${study.SNo}&userNo=${loginUser.userNo}',
+				data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
 				dataType: 'json',
 				success: function(resData){
 					if (resData.count == 0) {
 						$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
-						$('#good').removeClass("good_checked");
+						$('#z').removeClass("z_checked");
 					} else {
 						$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
-						$('#good').addClass("good_checked");
+						$('#z').addClass("z_checked");
 					}
 				}
 			});
 		}
 		
 		// "좋아요" 개수 표시하기
-		function fn_goodCount(){
+		function fn_ZCount(){
 			$.ajax({
-				url: '${contextPath}/good/getGoodCount',
+				url: '${contextPath}/study/getZCount',
 				type: 'get',
-				data: 'SNo=${study.SNo}',
+				data: 'studNo=${study.studNo}',
 				dataType: 'json',
 				success: function(resData){
-					$('#good_count').empty();
-					$('#good_count').text(resData.count + '개');
+					$('#Z_count').empty();
+					$('#Z_count').text(resData.count + '개');
 				}
 			});
 		}
 		
 		// "좋아요" 누른 경우
-		function fn_pressGood(){
-			$('#lnk_good').click(function(){
+		function fn_pressZ(){
+			$('#lnk_Z').click(function(){
 				// 로그인을 해야 "좋아요"를 누를 수 있다.
 				if('${loginUser.nickname}' == ''){
 					alert('해당 기능은 로그인이 필요합니다.');
@@ -358,21 +358,21 @@
 					return;
 				}
 				// "좋아요" 선택/해제 상태에 따른 하트 변경
-				$('#good').toggleClass("good_checked");
-				if ($('#good').hasClass("good_checked")) {
+				$('#good').toggleClass("z_checked");
+				if ($('#good').hasClass("z_checked")) {
 					$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
 				} else {
 					$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
 				}
 				// "좋아요" 처리
 				$.ajax({
-					url: '${contextPath}/good/mark',
+					url: '${contextPath}/study/mark',
 					type: 'get',
-					data: 'SNo=${study.SNo}&userNo=${loginUser.userNo}',
+					data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
 					dataType: 'json',
 					success: function(resData){
 						if(resData.isSuccess) {
-							fn_goodCount();							
+							fn_ZCount();							
 						}
 					}
 				});
