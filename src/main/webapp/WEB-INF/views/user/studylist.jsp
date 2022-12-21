@@ -14,13 +14,15 @@
 
 <style>
 
-
-
 </style>
 </head>
 <body>
-
-	My 스터디 목록		
+	
+	<h1>${loginUser.nickname}님 스터디 목록</h1>
+	<div>
+	
+	
+	</div>
 
 </body>
 </html>

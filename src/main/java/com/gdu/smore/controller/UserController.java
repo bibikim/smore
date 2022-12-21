@@ -67,26 +67,76 @@ public class UserController {
 		userService.join(request, response);
 	}
 	
+	@GetMapping("/user/login/form")
+	public String loginForm(HttpServletRequest request, Model model) {
+		// 로그인 후 되돌아 갈 주소 url
+		model.addAttribute("url", "http://localhost:9090");  
+
+		// 네이버 로그인
+		model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
+		
+		// 카카오 로그인
+		//model.addAttribute("apiURL", userService.getKakaoLoginApiURL(request));
+      
+		return "user/login";
+	}
+
 	@PostMapping("/user/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		userService.login(request, response);
 	}
 	
+	// 네이버 로그인
+	@GetMapping("/user/naver/login")
+	public String naverLogin(HttpServletRequest request, Model model) {
+		
+		String access_token = userService.getNaverLoginToken(request);
+		UserDTO profile = userService.getNaverLoginProfile(access_token);  // 네이버로그인에서 받아온 프로필 정보
+		UserDTO naverUser = userService.getNaverUserById(profile.getId()); // 이미 네이버로그인으로 가입한 회원이라면 DB에 정보가 있음
+		
+		if(naverUser == null) {
+			model.addAttribute("profile", profile);
+			return "user/naver_join";
+		}
+		else {
+			userService.naverLogin(request, naverUser);
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping("/user/naver/join")
+	public void naverJoin(HttpServletRequest request, HttpServletResponse response) {
+		userService.naverJoin(request, response);
+	}
+	
+	// 카카오 로그인
+	/*
+	@GetMapping("/user/kakao/login")
+	public String kakaoLogin(HttpServletRequest request, Model model) {
+		
+		String access_token = userService.getKakaoLoginToken(request);
+		UserDTO profile = userService.getKakaoLoginProfile(access_token);
+		UserDTO kakaoUser = userService.getKakaoUserById(profile.getId()); 
+		if(kakaoUser == null) {
+			model.addAttribute("profile", profile);
+			return "user/kakao_join";
+		}
+		else {
+			userService.kakaoLogin(request, kakaoUser);
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping("/user/kakao/join")
+	public void kakaoJoin(HttpServletRequest request, HttpServletResponse response) {
+		userService.kakaoJoin(request, response);
+	}
+	*/
+	
 	@GetMapping("/user/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		userService.logout(request, response);
 		return "redirect:/";
-	}
-
-	@GetMapping("/user/login/form")
-	public String loginForm(HttpServletRequest request, Model model) {
-
-		model.addAttribute("url", "http://localhost:9090");  // 로그인 후 되돌아 갈 주소 url
-
-		// 네이버 로그인
-		//  model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
-      
-		return "user/login";
 	}
 
 	// 회원정보 수정
