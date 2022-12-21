@@ -262,7 +262,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */				
-				tr += '<th scope="col" class="btn_remove_label"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_userRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				
 				tr += '</tr>';
 				$('#head_list').append(tr);
@@ -304,7 +304,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '가입일' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '휴면전환일' + '</th>';
-				tr += '<th scope="col" class="btn_trans_label"><input type="button" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
+				tr += '<th scope="col" class="btn_trans"><input type="button" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
 				tr += '</tr>';				
 				$('#head_list').append(tr); 
 				$.each(resData.sleepUserList, function(i, user){
@@ -359,8 +359,8 @@ input#btn_trans{
 		
 	}  
 	
-//  	function fn_trans(){ // 다중 일반전환
-	$(document).on('click','.btn_trans_label',function(){	
+  	// 일반회원 전환
+	$(document).on('click','.btn_trans',function(){	
   		$('#btn_trans').click(function(){
   			if(confirm('선택한 회원을 일반회원으로 전환할까요?')){
 				let userNoList = '';
@@ -387,34 +387,60 @@ input#btn_trans{
   			}
   		});
 	});	
-//  	}
+
   		
-  		// 일반회원 다중탈퇴
-		$(document).on('click','.btn_remove_label',function(){			
-			if(confirm('선택한 회원을 탈퇴시킬까요?')){						
-				let userNoList = '';
-				for(let i = 0; i < $('.del-chk').length; i++){				
-					if( $($('.del-chk')[i]).is(':checked')){
-						userNoList += $($('.del-chk')[i]).val() + ',';
-						/* user의 id joindate가져와야함 */
+  	// 일반회원 다중탈퇴
+	$(document).on('click','.btn_userRemove',function(){			
+		if(confirm('선택한 회원을 탈퇴시킬까요?')){						
+			let userNoList = '';
+			for(let i = 0; i < $('.del-chk').length; i++){				
+				if( $($('.del-chk')[i]).is(':checked')){
+					userNoList += $($('.del-chk')[i]).val() + ',';
+					/* user의 id joindate가져와야함 */
+				}
+			}
+			userNoList = userNoList.substr(0, userNoList.length -1);
+			$.ajax({
+				type :'delete',
+				url : '/users/' + userNoList,
+				dataType : 'json',
+				success : function(resData){
+					if(resData.deleteResult > 0){
+						alert('선택된 유저가 탈퇴 되었습니다.');
+						fn_userList();
+					} else{
+						alert('선택된 회원이 탈퇴되지 않았습니다.');
 					}
 				}
-				userNoList = userNoList.substr(0, userNoList.length -1);
-				$.ajax({
-					type :'delete',
-					url : '/users/' + userNoList,
-					dataType : 'json',
-					success : function(resData){
-						if(resData.deleteResult > 0){
-							alert('선택된 유저가 탈퇴 되었습니다.');
-							fn_userList();
-						} else{
-							alert('선택된 회원이 탈퇴되지 않았습니다.');
-						}
-					}
-				});
+			});
+		}
+	});
+  	
+  	// 자유게시판 삭제
+	$(document).on('click','.btn_freeRemove',function(){			
+		if(confirm('선택한 게시판을 삭제할까요?')){						
+			let boardNoList = '';
+			for(let i = 0; i < $('.del-chk').length; i++){				
+				if( $($('.del-chk')[i]).is(':checked')){
+					boardNoList += $($('.del-chk')[i]).val() + ',';
+				}
 			}
-		});
+			boardNoList = boardNoList.substr(0, boardNoList.length -1);
+			$.ajax({
+				type :'delete',
+				url : '/frees/' + boardNoList,
+				dataType : 'json',
+				success : function(resData){
+					if(resData.deleteResult > 0){
+						alert('선택된 게시판이 삭제되었습니다.');
+						fn_FreeBoardList();
+					} else{
+						alert('선택된 게시판이 삭제되지않았습니다.');
+					}
+				}
+			});
+		}
+	});
 
 	
 	function fn_FreeBoardList(){
@@ -434,7 +460,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
-				tr += '<th scope="col" class="btn_remove_label"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_freeRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				$.each(resData.freeBoardList, function(i, board){

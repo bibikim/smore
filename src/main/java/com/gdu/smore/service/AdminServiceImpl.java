@@ -75,9 +75,8 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> removeFreeList(String freeNoList) {
 		List<String> list = Arrays.asList(freeNoList.split(","));
 		Map<String, Object> result = new HashMap<String, Object>();
-        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));
-	   
-		return null;
+        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	   
+		return result;
 	}
    
    @Transactional
