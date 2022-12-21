@@ -1,5 +1,8 @@
 package com.gdu.smore.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdu.smore.domain.qna.QnaBoardDTO;
 import com.gdu.smore.service.QnaBoardService;
+
 import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
@@ -35,10 +41,35 @@ public class QnaBoardController {
 	
 	
 	@GetMapping("/qna/write")
-	public String write() {
+	public String write(Model model) {
+		model.addAttribute("chkBtn", "reg");
 		return "qna/write";
 	}
 	
+	@GetMapping("/qna/pwPopup")
+	public String pwPopup(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, Model model) {
+		QnaBoardDTO qb = qnaBoardService.getQnaBoardByNo(qaNo);
+		model.addAttribute("question", qb);
+		return "qna/pwPop";
+	}
+	
+	@ResponseBody
+	@PostMapping("/qna/chkPw")
+	public Map<String, Object> chkPw(HttpServletRequest request, HttpServletResponse response) {
+		int resultCnt = qnaBoardService.getQnaBoardPw(request, response);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if(resultCnt > 0) {
+			result.put("resCd", "0000");
+			result.put("resMsg", "정상");
+		}else {
+			result.put("resCd", "9999");
+			result.put("resMsg", "실패");
+		}
+		
+		return result;
+	}
 	
 	@PostMapping("/qna/save")
 	public void save(HttpServletRequest request, HttpServletResponse response) {
@@ -61,14 +92,16 @@ public class QnaBoardController {
 	
 	@GetMapping("/qna/detail")
 	public String detail(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, Model model) {
-		model.addAttribute("question", qnaBoardService.getQnaBoardByNo(qaNo));
+		QnaBoardDTO qb = qnaBoardService.getQnaBoardByNo(qaNo);
+		model.addAttribute("question", qb);
 		return "qna/detail";
 	}
 	
 	@PostMapping("/qna/edit")
-	public String edit(int qaNo, Model model) {
-		model.addAttribute("qnaboard", qnaBoardService.getQnaBoardByNo(qaNo));
-		return "qna/edit";
+	public String edit(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, Model model) {
+		model.addAttribute("question", qnaBoardService.getQnaBoardByNo(qaNo));
+		model.addAttribute("chkBtn", "mod");
+		return "qna/write";
 	}
 	
 	

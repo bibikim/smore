@@ -49,12 +49,12 @@
 	
 		<div>
 			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="${code.title}">
+			<input type="text" name="title" id="title" value="${code.coTitle}">
 		</div>
 		
 		<div>
 			<label for="content">내용</label>
-			<textarea name="content" id="content">${code.content}</textarea>				
+			<textarea name="content" id="content">${code.coContent}</textarea>				
 		</div>
 		
 		

@@ -69,20 +69,33 @@
 	                <tr>
 	                    <td class="text-center">${beginNo - vs.index}</td>
 	                    <td class="subject">
+	                    	<!-- 닉네임 체크  -->
 	                    	<c:if test="${loginUser.nickname eq question.NICKNAME}">
 	                    		<c:set var="chkUser" scope="request" value="Y" />
 	                    	</c:if>
-	                    	<%-- <c:if test="${question.pw ne null}"> --%>
-		                        <a href="/qna/detail" onclick="goDetailPage(${question.qaNo}, ${chkUser}, 'Y')">
-		                            <span>[비공개]</span> ${question.title}
+	                    	
+	                    	<c:if test="${loginUser.nickname ne question.NICKNAME}">
+	                    		<c:set var="chkUser" scope="request" value="N" />
+	                    	</c:if>
+	                    	
+	                    	<c:if test="${question.PW ne 0}">
+		                        <a href="javascript:void(0)" onclick="goDetailPage(${question.QA_NO}, '${chkUser}', 'Y')">
+		                            <c:if test="${question.ANSWER eq 1}">
+		                            	<span>[답변완료]</span>
+		                            </c:if>
+		                            <span>(비공개)</span> 
+		                            ${question.TITLE}
 		                            <c:if test="${question.NEW_YN eq 'Y'}">
 		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
 		                            </c:if>
 		                        </a>
-	                        <%-- </c:if> --%>
-	                        <c:if test="${question.Q_PW eq null}">
-	                        	<a href="/qna/detail" onclick="goDetailPage(${question.Q_NO}, ${chkUser}, 'N')">
-		                        	${question.Q_TITLE}
+	                        </c:if>
+	                        <c:if test="${question.PW eq 0}">
+	                        	<a href="javascript:void(0)" onclick="goDetailPage(${question.QA_NO}, '${chkUser}', 'N')">
+		                        	<c:if test="${question.ANSWER eq 1}">
+		                            	<span>[답변완료]</span>
+		                            </c:if>
+		                        	${question.TITLE}
 		                            <c:if test="${question.NEW_YN eq 'Y'}">
 		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
 		                            </c:if>
@@ -90,8 +103,11 @@
 	                        </c:if>
 	                    </td>
 	                    <td>${question.NICKNAME}</td>
-	                    <td><fmt:formatDate value="${question.Q_CREATE_DATE}" pattern="yyyy.M.d"/></td>
-	                    <td>${question.Q_HIT}</td>
+	                    <td>
+	                    	<fmt:parseDate value="${question.CREATE_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+	                    	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd"/>
+	                    </td>
+	                    <td>${question.HIT}</td>
 	                </tr>
 	                </c:forEach>
                 </c:if>
@@ -153,7 +169,7 @@
         <a href="#" class="last" onclick="opMovePage(2296); return false;" title="마지막페이지로 가기">마지막페이지</a>
     </div> -->
 
-    <!— //페이징 —>
+    <!-- 페이징  -->
 
     <div class="docs-case">
         <div class="docs-value">
@@ -171,19 +187,34 @@
 	}
 	
 	/** 상세페이지 이동 **/
-	function goDetailPage(qNo, chkUser, pwYN){
+	function goDetailPage(qaNo, chkUser, pwYN){
+
+		var goUrl = '/qna/detail?qaNo='+qaNo;
+		var userGrade = '<c:out value="${loginUser.grade}"/>';
 		
-		if(chkUser == 'Y'){
-			
-		}else{
-			location.href = '/qna/detail?qNO='+qNo;
+		if(userGrade == '0'){
+			location.href = goUrl;
+			return;
 		}
+		
+		
+		if(chkUser != 'Y'){
+			goUrl = '/qna/increse/hit?qaNo='+qaNo;
+		}
+		
+		// 비밀글 여부
 		if(pwYN == 'N'){
-			location.href = '/qna/detail?qNO='+qNo;
+			location.href = goUrl;
+			return;
 		}else{
-			alert('패스워드 입력');
+			//var _confirm = confirm('패스워드를 입력해주세요');
+			
+			//if(_confirm){
+				//location.href = goUrl;
+			//}
+			var windowOpen = window.open("","selectBbsPwdForm","width=520,height=270, scrollbars=yes, resizable=yes");
+        	windowOpen.location.href = "/qna/pwPopup?qaNo="+qaNo;
 		}
-		
 	}
 	
 </script>
