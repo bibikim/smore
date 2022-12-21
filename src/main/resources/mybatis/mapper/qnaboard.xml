@@ -39,9 +39,22 @@
 			(#{qaNo}, #{nickname}, #{title}, #{content}, #{pw}, NOW(), NOW(), 0, #{ip}, #{answer})
 	</insert>
 	
+	<insert id="insertQnaComment" parameterType="QnaCommentDTO">
+		INSERT INTO Q_CMT
+			(CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE,IP)
+		VALUES
+			(#{cmtNo}, #{qaNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, #{ip})
+	</insert>
+	
 	<update id="updateHit" parameterType="int">
 		UPDATE Q_BOARD
 		   SET HIT = HIT + 1
+		 WHERE QA_NO = #{qaNo}
+	</update>
+	
+	<update id="updateAnswer" parameterType="QnaBoardDTO">
+		UPDATE Q_BOARD
+		   SET ANSWER = #{answer}
 		 WHERE QA_NO = #{qaNo}
 	</update>
 	
@@ -51,6 +64,19 @@
             ON U.NICKNAME = Q.NICKNAME
 		 WHERE Q.QA_NO = #{qaNo}
 	</select>
+	
+	<select id="selectQnaCmtByNo" parameterType="int" resultType="QnaCommentDTO">
+		SELECT CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, IP
+		  FROM Q_CMT
+		WHERE STATE = '1'
+              AND CMT_NO = #{cmtNo}
+	</select>
+	
+	<update id="deleteQnaComment" parameterType="int">
+		UPDATE Q_CMT
+		   SET STATE = 0
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
 	
 	<update id="updateQnaBoard" parameterType="QnaBoardDTO">
 		UPDATE Q_BOARD

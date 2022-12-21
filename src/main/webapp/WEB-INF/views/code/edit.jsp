@@ -5,7 +5,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="새 글 작성" name="title"/>
 </jsp:include>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>

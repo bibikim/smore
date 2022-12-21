@@ -8,7 +8,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="QNA게시판" name="title"/>
 </jsp:include>
 
 <div class="cont-body">
@@ -45,7 +45,7 @@
     <div class="table">
         <table>
             <caption>
-                <span>QnA 목록을 나타낸 표</span>
+                <span>QNA 목록을 나타낸 표</span>
             </caption>
             <colgroup class="table-col">
                 <col style="width: 10%" />
@@ -83,7 +83,7 @@
 	                    	</c:if>
 	                    	
 	                    	<c:if test="${question.PW ne 0}">
-		                        <a href="javascript:void(0)" onclick="goDetailPage(${question.QA_NO}, '${chkUser}', 'Y')">
+		                        <a href="javascript:void(0)" onclick="goDetailPage('${question.CMT_NO}', '${question.QA_NO}', '${chkUser}', 'Y')">
 		                            <c:if test="${question.ANSWER eq 1}">
 		                            	<span>[답변완료]</span>
 		                            </c:if>
@@ -95,7 +95,7 @@
 		                        </a>
 	                        </c:if>
 	                        <c:if test="${question.PW eq 0}">
-	                        	<a href="javascript:void(0)" onclick="goDetailPage(${question.QA_NO}, '${chkUser}', 'N')">
+	                        	<a href="javascript:void(0)" onclick="goDetailPage('${question.CMT_NO}', '${question.QA_NO}', '${chkUser}', 'N')">
 		                        	<c:if test="${question.ANSWER eq 1}">
 		                            	<span>[답변완료]</span>
 		                            </c:if>
@@ -143,13 +143,15 @@
 
     <!-- 버튼 -->
     <c:if test="${loginUser != null}">
-	    <div class="aligner" data-top="sm">
-	        <div class="right">
-	            <button type="button" class="btn" onclick="goWritePage();">
-	                등록하기
-	            </button>
-	        </div>
-	    </div>
+    	<c:if test="${loginUser.grade ne '0'}">
+		    <div class="aligner" data-top="sm">
+		        <div class="right">
+		            <button type="button" class="btn" onclick="goWritePage();">
+		                등록하기
+		            </button>
+		        </div>
+		    </div>
+	    </c:if>
     </c:if>
     <!-- //버튼 -->
 
@@ -191,19 +193,28 @@
 	}
 	
 	/** 상세페이지 이동 **/
-	function goDetailPage(qaNo, chkUser, pwYN){
+	function goDetailPage(cmtNo, qaNo, chkUser, pwYN){
 
 		var goUrl = '/qna/detail?qaNo='+qaNo;
 		var userGrade = '<c:out value="${loginUser.grade}"/>';
 		
+		// 관리자는 모든글 진입가능
 		if(userGrade == '0'){
-			location.href = goUrl;
+			if(chkUser == '3'){ // 관리자가 쓴글이면 관리자 상세
+				location.href = '/qna/detail?qaNo='+qaNo + '&cmtNo='+cmtNo;
+			}else{
+				location.href = goUrl;
+			}
 			return;
 		}
 		
-		
-		if(chkUser != '1'){
+		// 본인이 쓴 글 조회수 증가 없이 진입
+		if(chkUser == '1'){
+			goUrl = '/qna/detail?qaNo='+qaNo;
+		}else if(chkUser == '2'){
 			goUrl = '/qna/increse/hit?qaNo='+qaNo;
+		}if(chkUser == '3'){ // 관리자가 쓴글이면 관리자 상세
+			goUrl = '/qna/detail?qaNo='+qaNo + '&cmtNo='+cmtNo;
 		}
 		
 		// 비밀글 여부
@@ -211,12 +222,13 @@
 			location.href = goUrl;
 			return;
 		}else{
-			//var _confirm = confirm('패스워드를 입력해주세요');
-			
-			//if(_confirm){
-				//location.href = goUrl;
-			//}
-			var windowOpen = window.open("","selectBbsPwdForm","width=520,height=270, scrollbars=yes, resizable=yes");
+			var popupX = (document.body.offsetWidth / 2) - (200 / 2);
+			// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+
+			var popupY= (window.screen.height / 2) - (300 / 2);
+			// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+			var windowOpen = window.open("","selectBbsPwdForm","width=520,height=270, scrollbars=yes, resizable=yes left='+ popupX + ', top='+ popupY");
         	windowOpen.location.href = "/qna/pwPopup?qaNo="+qaNo;
 		}
 	}

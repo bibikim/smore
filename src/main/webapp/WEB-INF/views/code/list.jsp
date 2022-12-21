@@ -4,11 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <link rel="stylesheet" href="${contextPath}/resources/css/base.css">
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
+
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="코드게시판" name="title"/>
 </jsp:include>
 <style>
 	* {

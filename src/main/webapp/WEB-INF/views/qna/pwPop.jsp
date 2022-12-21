@@ -24,6 +24,8 @@
 </body>
 <script type="text/javascript">
 
+	
+
 	$("#pw_btn").on('click', function(){
 		if($('#password').val() == '') {
 			alert('비밀번호를 입력해주세요.')

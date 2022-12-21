@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.smore.domain.qna.QnaBoardDTO;
+import com.gdu.smore.domain.qna.QnaCommentDTO;
 import com.gdu.smore.service.QnaBoardService;
 
 import lombok.extern.log4j.Log4j2;
@@ -39,11 +40,18 @@ public class QnaBoardController {
 		return "qna/list";
 	}
 	
-	
 	@GetMapping("/qna/write")
 	public String write(Model model) {
 		model.addAttribute("chkBtn", "reg");
 		return "qna/write";
+	}
+	
+	@GetMapping("/qna/adm/write")
+	public String writeAdm(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo,Model model) {
+		QnaBoardDTO qb = qnaBoardService.getQnaBoardByNo(qaNo);
+		model.addAttribute("chkBtn", "reg");
+		model.addAttribute("question", qb);
+		return "qna/adm/write";
 	}
 	
 	@GetMapping("/qna/pwPopup")
@@ -71,6 +79,11 @@ public class QnaBoardController {
 		return result;
 	}
 	
+	@PostMapping("/qna/adm/save")
+	public void saveAdm(HttpServletRequest request, HttpServletResponse response) {
+		qnaBoardService.saveQnaComment(request, response);
+	}
+	
 	@PostMapping("/qna/save")
 	public void save(HttpServletRequest request, HttpServletResponse response) {
 		qnaBoardService.saveQnaBoard(request, response);
@@ -89,12 +102,27 @@ public class QnaBoardController {
 		}
 	}
 	
-	
 	@GetMapping("/qna/detail")
-	public String detail(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, Model model) {
-		QnaBoardDTO qb = qnaBoardService.getQnaBoardByNo(qaNo);
-		model.addAttribute("question", qb);
-		return "qna/detail";
+	public String detail(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, @RequestParam(value="cmtNo", required=false, defaultValue="0") int cmtNo, Model model) {
+		QnaBoardDTO qb = null;
+		QnaCommentDTO qc = null;
+		if(cmtNo == 0) {
+			qb = qnaBoardService.getQnaBoardByNo(qaNo);
+		}else {
+			qc = qnaBoardService.getQnaCmtByNo(cmtNo);
+		}
+		
+		model.addAttribute("question", (qb == null) ? qc : qb);
+		String returnPage = (qb == null) ? "qna/adm/detail" : "qna/detail";
+		return returnPage;
+	}
+	
+	@PostMapping("/qna/adm/edit")
+	public String editAdm(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, @RequestParam(value="cmtNo", required=false, defaultValue="0") int cmtNo,Model model) {
+		model.addAttribute("question", qnaBoardService.getQnaBoardByNo(qaNo));
+		model.addAttribute("comment", qnaBoardService.getQnaCmtByNo(cmtNo));
+		model.addAttribute("chkBtn", "mod");
+		return "qna/adm/write";
 	}
 	
 	@PostMapping("/qna/edit")
@@ -113,5 +141,9 @@ public class QnaBoardController {
 	@PostMapping("/qna/remove")
 	public void remove(HttpServletRequest request, HttpServletResponse response) {
 		qnaBoardService.removeQnaBoard(request, response);
+	}
+	@PostMapping("/qna/adm/remove")
+	public void removeAdm(HttpServletRequest request, HttpServletResponse response) {
+		qnaBoardService.removeQnaComment(request, response);
 	}
 }
