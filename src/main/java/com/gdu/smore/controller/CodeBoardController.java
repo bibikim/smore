@@ -45,7 +45,7 @@ public class CodeBoardController {
 	}
 	
 	@PostMapping("/code/save")
-	public void saveCode(HttpServletRequest request, HttpServletResponse response) {
+	public void saveCodeBoard(HttpServletRequest request, HttpServletResponse response) {
 		codeBoardService.saveCodeBoard(request, response);
 	}
 	
@@ -68,7 +68,7 @@ public class CodeBoardController {
 	}
 	
 	@PostMapping("/code/modify")
-	public void modifyCode(HttpServletRequest request, HttpServletResponse response) {
+	public void modifyCodeBoard(HttpServletRequest request, HttpServletResponse response) {
 		codeBoardService.modifyCodeBoard(request, response);
 	}
 	
@@ -80,7 +80,7 @@ public class CodeBoardController {
 	
 	
 	@PostMapping("/code/remove")
-	public void removeCode(HttpServletRequest request, HttpServletResponse response) {
+	public void removeCodeBoard(HttpServletRequest request, HttpServletResponse response) {
 		codeBoardService.removeCodeBoard(request, response);
 	}
 	

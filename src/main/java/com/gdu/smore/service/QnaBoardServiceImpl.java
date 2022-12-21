@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gdu.smore.domain.qna.QnaBoardDTO;
+import com.gdu.smore.domain.qna.QnaCommentDTO;
 import com.gdu.smore.mapper.QnaBoardMapper;
 import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.PageUtil;
@@ -154,7 +155,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 	@Override
 	public void removeQnaBoard(HttpServletRequest request, HttpServletResponse response) {
-		int qaNo = Integer.parseInt(request.getParameter("qaNo"));
+		 int qaNo = Integer.parseInt(request.getParameter("qaNo"));
          
          int result = qnaboardMapper.deleteQnaBoard(qaNo);
          response.setContentType("text/html; charset=UTF-8");
@@ -185,7 +186,90 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		return qnaboardMapper.selectQnaBoardPwCount(qna);
 	}
 	
-	
+	@Override
+	public QnaCommentDTO getQnaCmtByNo(int cmtNo) {
+		return qnaboardMapper.selectQnaCmtByNo(cmtNo);
+	}
+
+	@Override
+	public void removeQnaComment(HttpServletRequest request, HttpServletResponse response) {
+		int cmtNo = Integer.parseInt(request.getParameter("cmtNo"));
+        
+        int result = qnaboardMapper.deleteQnaComment(cmtNo);
+        QnaBoardDTO qna = new QnaBoardDTO();
+		 	qna.setQaNo(Integer.parseInt(request.getParameter("qaNo")));
+		 	qna.setAnswer(0);
+		 	qnaboardMapper.updateAnswer(qna);
+        response.setContentType("text/html; charset=UTF-8");
+        try {
+           PrintWriter out = response.getWriter();
+           if(result > 0) {  // if(result == 1) {
+	    	   	
+              out.println("<script>");
+              out.println("alert('답변이 삭제되었습니다.');");
+              out.println("location.href='" + request.getContextPath() + "/qna/list';");  
+              out.println("</script>");
+           } else {
+              out.println("<script>");
+              out.println("alert('답변이 삭제되지 않았습니다.');");
+              out.println("history.back();");
+              out.println("</script>");
+           }
+           out.close();
+        } catch(Exception e) {
+           e.printStackTrace();
+        }
+	}
+
+	@Override
+	public void saveQnaComment(HttpServletRequest request, HttpServletResponse response) {
+		int qaNo = Integer.parseInt(request.getParameter("qaNo"));
+		String nickname = request.getParameter("nickname");
+		String cmtContent = request.getParameter("cmtContent");
+		String Ip = request.getRemoteAddr();
+		
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			QnaBoardDTO qb = qnaboardMapper.selectQnaBoardByNo(qaNo);
+			if(qb == null) {
+				out.println("<script>");
+				out.println("alert('등록된 QNA가 없습니다.');");
+				out.println("location.href='/qna/list';");
+				out.println("</script>");
+				out.close();
+			}
+			
+			QnaCommentDTO post = QnaCommentDTO.builder()
+					.nickname(nickname)
+					.qaNo(qaNo)
+					.cmtContent(cmtContent)
+					.ip(Ip)
+					.build();
+			
+			int result = qnaboardMapper.insertQnaComment(post);
+			QnaBoardDTO qna = new QnaBoardDTO();
+  		 	qna.setQaNo(qaNo);
+  		 	qna.setAnswer(1);
+  		 	qnaboardMapper.updateAnswer(qna);
+			out.println("<script>");
+			if(result > 0) {
+				
+				out.println("alert('답변이 등록되었습니다.');");
+				out.println("location.href='/qna/list';");
+			} else {
+				out.println("alert('답변 등록이 되지 않았습니다.);");
+				out.println("history.back();");
+			}
+			out.println("</script>");
+			out.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	

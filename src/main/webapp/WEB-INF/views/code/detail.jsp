@@ -2,19 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
+
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="코드게시판" name="title"/>
 </jsp:include>
 
-<body>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
+
 <script>
 	
-<script>
 
-$(document).ready(function(){
+	$(document).ready(function(){
 	
 	// 게시글 삭제
 	$('.btn_remove').click(function(){
@@ -39,8 +39,8 @@ $(document).ready(function(){
 	fn_switchRecmtArea();
 	fn_addRecomment();
 	fn_removeComment();
-		fn_editComment();
-		fn_switchEditcmtArea();
+	fn_editComment();
+	fn_switchEditcmtArea();
 	
 	// 댓글 카운트
 	function fn_commentCnt() {
@@ -288,7 +288,16 @@ $(document).ready(function(){
 });
 
 </script>
-
+<style>
+	* {
+		box-sizing: border-box;
+	}
+	
+	.blind {
+		display: none;
+	}
+	
+</style>
 </head>
 <body>
 <div style="width: 800px; display: inline-block;" >
