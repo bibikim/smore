@@ -85,7 +85,7 @@
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
 	
-	<select id="selectUserZCount" parameterType="map" resultType="int">
+	<select id="selectNickZCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_ZZIM
 		 WHERE STUD_NO = #{studNo}

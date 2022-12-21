@@ -74,7 +74,7 @@
 		<span id="comment_count"></span>개
 	</span>
 	<a id="lnk_Z">
-		<span id="heart"></span><span id="good">좋아요 </span><span id="Z_count"></span>
+		<span id="heart"></span><span id="good">찜하기 </span><span id="Z_count"></span>
 	</a>
 	
 	<hr>
