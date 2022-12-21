@@ -251,12 +251,15 @@
 		DELETE
 		  FROM FREEBOARD
 		  <where>
-		  	 IN FREE_NO
+		  	 FREE_NO IN
 		 	<foreach collection="list" item="freeNo" open="(" close=")" separator=",">  
 		 		#{freeNo}
 		 	</foreach>
 		  </where>
 	</delete>
+	
+	
+	
 	
 	<!-- 휴면 복구 -->
 	

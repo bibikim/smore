@@ -426,6 +426,7 @@ input#btn_trans{
 				}
 			}
 			boardNoList = boardNoList.substr(0, boardNoList.length -1);
+			console.log(boardNoList);
 			$.ajax({
 				type :'delete',
 				url : '/frees/' + boardNoList,
@@ -441,6 +442,35 @@ input#btn_trans{
 			});
 		}
 	});
+  	
+  	// 코드게시판 삭제
+	$(document).on('click','.btn_codeRemove',function(){			
+		if(confirm('선택한 게시판을 삭제할까요?')){						
+			let boardNoList = '';
+			for(let i = 0; i < $('.del-chk').length; i++){				
+				if( $($('.del-chk')[i]).is(':checked')){
+					boardNoList += $($('.del-chk')[i]).val() + ',';
+				}
+			}
+			boardNoList = boardNoList.substr(0, boardNoList.length -1);
+			console.log(boardNoList);
+			$.ajax({
+				type :'delete',
+				url : '/frees/' + boardNoList,
+				dataType : 'json',
+				success : function(resData){
+					if(resData.deleteResult > 0){
+						alert('선택된 게시판이 삭제되었습니다.');
+						fn_FreeBoardList();
+					} else{
+						alert('선택된 게시판이 삭제되지않았습니다.');
+					}
+				}
+			});
+		}
+	});
+  	
+  	
 
 	
 	function fn_FreeBoardList(){
@@ -467,12 +497,12 @@ input#btn_trans{
 					var tr = '<tr>';
 					tr += '<td>' + board.rowNum + '</td>';
 					tr += '<td>' +   board.nickname  + '</td>'; 
-					tr += '<td><a href="free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
+					tr += '<td><a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
 					tr += '<td>' + board.modifyDate + '</td>'; 
 					tr += '<td>' + board.hit + '</td>'; 
 					tr += '<td>' + board.ip + '</td>'; 
-					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.fNo + '"</td>';
+					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.freeNo + '"</td>';
 					tr += '</tr>';
 					$('#user_list').append(tr);
 				});
@@ -556,7 +586,8 @@ input#btn_trans{
 				tr += '<th scope="col">' + '수정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
-				tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
+				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
+				tr += '<th scope="col" class="btn_codeRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				$.each(resData.codeList, function(i, board){

@@ -74,8 +74,10 @@ public class AdminServiceImpl implements AdminService {
    @Override
 	public Map<String, Object> removeFreeList(String freeNoList) {
 		List<String> list = Arrays.asList(freeNoList.split(","));
+		System.out.println(list);
 		Map<String, Object> result = new HashMap<String, Object>();
-        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	   
+        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	 
+        System.out.println("결과:" + result);
 		return result;
 	}
    
@@ -83,7 +85,6 @@ public class AdminServiceImpl implements AdminService {
    @Override
 	public Map<String, Object> toCommonUserList(String userNoList) {
 		List<String> list = Arrays.asList(userNoList.split(","));
-		System.out.println(list);
 		for(int i = 0; i < list.size(); i++) {			
 			SleepUserDTO sleepUserDTO = adminMapper.selectSleepUserByNo(Integer.parseInt(list.get(i)));				
 			UserDTO userDTO = new UserDTO();

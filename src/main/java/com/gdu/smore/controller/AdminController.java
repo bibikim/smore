@@ -36,7 +36,7 @@ public class AdminController {
 		return adminService.toCommonUserList(userNoList);
 	}
 	
-	@DeleteMapping(value="/common/{userNoList}", produces = "application/json")
+	@DeleteMapping(value="/frees/{boardNoList}", produces = "application/json")
 	public Map<String, Object> deleteFree(@PathVariable String boardNoList){
 		return adminService.removeFreeList(boardNoList);
 	}
@@ -46,7 +46,6 @@ public class AdminController {
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.getreportUserList(page);
 	}
-
 	
 	@GetMapping(value="/sleepUsers/page{page}", produces = "application/json")
 	public Map<String, Object> getSleepUserList(@PathVariable(value="page", required = false) Optional<String> opt){
