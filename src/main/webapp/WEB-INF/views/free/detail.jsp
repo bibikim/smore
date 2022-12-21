@@ -282,7 +282,48 @@
 			})
 		}
 		 
+ 		/**************************************************************************/
+ 		
+ 		// 좋아요 함수 호출
+ 		fn_likeCheck();
+ 		fn_likeCount();
+ 		fn_pressLike();
+ 		
+ 		// 좋아요 함수
+ 		// 내가 좋아요 누른 게시글인지 체크
+ 		function fn_likeCheck() {
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/free/likeCheck',
+ 				data: 'freeNo=${free.freeNo}&nickname=${loginUser.nickname}',
+ 				dataType: 'json',
+ 				success: function(resData) {
+ 					if(resData.count == 0) {
+ 						$('#heart').html('<img src="../../resources/images/whiteheart.png" width="15px">');
+ 						$('#like').removeClass("like_checked");
+ 					} else {
+ 						$('#heart').html('<img src="../../resources/images/redheart.png" width="15px">');
+ 						$('#good').addClass("like_checked");
+ 					}
+ 				}
+ 			})
+ 		}
 		
+ 		// 좋아유 개수
+ 		function fn_likeCount(){
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/free/likeCnt',
+ 				data: 'freeNo=${free.freeNo}',
+ 				dataType: 'json',
+ 				success: function(resData){
+ 					$('#like_count').empty();
+ 					$('#like_count').text(resData.count);
+ 				}
+ 			})
+ 		}
+ 		
+ 		
 	});
 
 </script>
@@ -332,9 +373,12 @@
 
 		<div>
 			<span id="btn_cmtlist" class="" style="">
-				댓글 
+				댓글
 				<span class="cmt_cnt"></span>개
 			</span>
+			<a id="lnk_like">
+				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
+			</a>
 		</div>
 		
 		<hr>

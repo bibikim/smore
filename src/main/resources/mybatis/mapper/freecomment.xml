@@ -34,8 +34,8 @@
 		INSERT INTO FREECMT
 			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES
-		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{cmtNo})
-		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{groupNo})
+		<selectKey resultType="int" keyProperty="groupNo" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
@@ -66,5 +66,6 @@
 		  VALUES
 		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 1, #{ip}, #{groupNo})
 	</insert>
+	
 	
 </mapper>

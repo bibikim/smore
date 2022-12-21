@@ -25,4 +25,6 @@ public interface FreeMapper {
 	
 	public int updateFree(FreeBoardDTO free);
 	public int deleteFree(int freeNo);
+	
+	public int updateCmtCount(int freeNo);
 }

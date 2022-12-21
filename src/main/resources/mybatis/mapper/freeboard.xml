@@ -78,6 +78,13 @@
 		 WHERE FREE_NO = #{freeNo}
 	</delete>
 	
+	<!-- list에 댓글 개수 -->
+	<update id="updateCmtCount" parameterType="int">
+		 UPDATE FREEBOARD F
+   			SET F.CMT_COUNT = (SELECT COUNT(CMT_NO) FROM FREECMT WHERE FREE_NO = #{freeNo})
+   		  WHERE F.FREE_NO = #{freeNo};
+	</update>
+	
 	
 	
 </mapper>

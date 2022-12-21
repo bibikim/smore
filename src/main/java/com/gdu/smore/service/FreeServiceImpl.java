@@ -278,4 +278,9 @@ public class FreeServiceImpl implements FreeService {
 	}
 	
 	
+	@Override
+	public void getCmtCount(int freeNo) {
+		freeMapper.updateCmtCount(freeNo);
+	}
+	
 }
