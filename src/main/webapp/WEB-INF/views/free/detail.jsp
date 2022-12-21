@@ -295,14 +295,35 @@
  			$.ajax({
  				type: 'get',
  				url: '/free/likeCheck',
- 				data: 'freeNo=${freeNo}&nickname=${loginUser.nickname}',
+ 				data: 'freeNo=${free.freeNo}&nickname=${loginUser.nickname}',
  				dataType: 'json',
  				success: function(resData) {
- 					if(resData.count == 0)
+ 					if(resData.count == 0) {
+ 						$('#heart').html('<img src="../../resources/images/whiteheart.png" width="15px">');
+ 						$('#like').removeClass("like_checked");
+ 					} else {
+ 						$('#heart').html('<img src="../../resources/images/redheart.png" width="15px">');
+ 						$('#good').addClass("like_checked");
+ 					}
  				}
  			})
  		}
 		
+ 		// 좋아유 개수
+ 		function fn_likeCount(){
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/free/likeCnt',
+ 				data: 'freeNo=${free.freeNo}',
+ 				dataType: 'json',
+ 				success: function(resData){
+ 					$('#like_count').empty();
+ 					$('#like_count').text(resData.count);
+ 				}
+ 			})
+ 		}
+ 		
+ 		
 	});
 
 </script>
@@ -352,9 +373,12 @@
 
 		<div>
 			<span id="btn_cmtlist" class="" style="">
-				댓글 
+				댓글
 				<span class="cmt_cnt"></span>개
 			</span>
+			<a id="lnk_like">
+				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
+			</a>
 		</div>
 		
 		<hr>
