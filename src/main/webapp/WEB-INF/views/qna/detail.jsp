@@ -13,33 +13,25 @@
 <script>
 	
 </script>
- <div class="cont-body">
-         <!-- 페이지 내용 -->
-
-        <form name="dataForm" id="dataForm" method="post" action="BD_selectBbsList.do">
-            <!-- 페이징 관련 파라미터 생성. rowPerPage 설정 시 목록표시 갯수 선택 생성됨-->
-            <input type="hidden" name="q_bbsCode" id="q_bbsCode" value="1039">
-            <input type="hidden" name="q_pagePerPage" id="q_pagePerPage" value="10">
-            <input type="hidden" name="q_pagingEndNum" id="q_pagingEndNum" value="10">
-            <input type="hidden" name="q_bbscttSn" id="q_bbscttSn" value="20221215092703894">
-            <input type="hidden" name="q_rowPerPage" id="q_rowPerPage" value="10">
-            <input type="hidden" name="q_pagingStartNum" id="q_pagingStartNum" value="1">
-            <input type="hidden" name="q_currPage" id="q_currPage" value="1">
-            <input type="hidden" name="q_order" id="q_order" value="">
-            <input type="hidden" name="password" id="password">
+ 	<div class="cont-body">
+ 		<form name="dataForm" id="dataForm" method="post">
+            <input type="hidden" name="qaNo" id="qaNo" value="${question.qaNo}">
         </form>
+        <!-- 페이지 내용 -->
         <div class="detail-area">
             <div class="title">
-                ${question.qaNo}
+                ${question.title}
             </div>
             <div class="util">
-                <span>${question}</span>
-                <%-- <span class="date"><fmt:formatDate value="${question}" pattern="yyyy.M.d"/></span> --%>
-                <span>내용 ${question}</span>
+                <span>${question.nickname}</span>
+                <span class="date">
+                	${question.createDate}
+                </span>
+                <span>조회 ${question.hit}</span>
             </div>
             <div class="article">
                 <div class="txt">
-                    ${question}
+                    ${question.content}
                 </div>
             </div>
         </div>
@@ -47,14 +39,25 @@
         <!-- 버튼 -->
         <div class="aligner" data-top="sm">
             <div class="left">
-                <button type="button" class="btn" onclick="pwdPop('1039','20221215092703894','D');">삭제</button>
+            	<c:if test="${loginUser != null}">
+            		<c:if test="${loginUser.nickname eq question.nickname}">
+            			<button type="button" class="btn" onclick="goPage(${question.qaNo},'del');">삭제</button>
+            		</c:if>
+            		<c:if test="${loginUser.grade eq '0'}">
+            			<button type="button" class="btn" onclick="">답변하기</button>
+            		</c:if>
+            	</c:if>
             </div>
             <div class="right">
-                <button type="button" class="btn" onclick="pwdPop('1039','20221215092703894','U');">수정</button>
-                <button type="button" class="btn" onclick="opList();">목록</button>
+            	<c:if test="${loginUser != null}">
+            		<c:if test="${loginUser.nickname eq question.nickname}">
+            			<button type="button" class="btn" onclick="goPage(${question.qaNo}, 'mod');">수정</button>
+            		</c:if>
+            	</c:if>
+                <button type="button" class="btn" onclick="goPage(${question.qaNo}, 'list');">목록</button>
             </div>
         </div>
-        <!— //버튼 —>
+        <!-- 버튼 -->
 
         <div class="docs-case">
             <div class="docs-value">
@@ -64,5 +67,26 @@
         </div>
     </div>
 </body>
-
+<script type="text/javascript">
+	/** 페이지 이동 **/
+	function goPage(qaNo, task){
+		
+		if(task == 'list'){
+			location.href = '/qna/list';
+		}else if(task == 'mod'){
+			$("#dataForm").attr("action", "/qna/edit");
+			$("#dataForm").submit();
+		}else if(task == 'del'){
+			var _confirm = confirm('정말로 삭제하시겠습니까?');
+			
+			if(_confirm){
+				$("#dataForm").attr("action", "/qna/remove");
+				$("#dataForm").submit();
+			}else{
+				return;
+			}
+		}
+	}
+	
+</script>
 </html>

@@ -158,7 +158,7 @@
 				
 				<div>
 					<label for="pw" class="login_ipt_box">
-						<input type="password" name="pw" id="pw" placeholder="비밀번호">
+						<input type="password" name="pw" id="pw" placeholder="비밀번호" value="!rlawhdgns23">
 					</label>
 				</div>
 				

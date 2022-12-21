@@ -18,5 +18,5 @@ public class QnaCommentDTO {
 	private Date createDate;
 	private Date modifyDate;
 	private int state;
-	private String ip;
+
 }

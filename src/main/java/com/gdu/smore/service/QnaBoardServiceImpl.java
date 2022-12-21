@@ -17,6 +17,9 @@ import com.gdu.smore.mapper.QnaBoardMapper;
 import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.PageUtil;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class QnaBoardServiceImpl implements QnaBoardService {
 	
@@ -43,14 +46,15 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		
 		// 전체 블로그 개수
 		int totalRecord = qnaboardMapper.selectQnaBoardListCount();
-		
+		log.info(totalRecord);
 		// 페이징 처리에 필요한 변수 계산
 		pageUtil.setPageUtil(page, totalRecord);
 		
+		log.info(pageUtil.getBegin() + "====" + pageUtil.getEnd());
 		// 조회 조건으로 사용할 Map 만들기
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("begin", 0);
+		map.put("end", 10);
 		
 		// 뷰로 전달할 데이터를 model에 저장하기 
 		model.addAttribute("totalRecord", totalRecord);
@@ -65,16 +69,21 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		String nickname = request.getParameter("nickname");
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
+		String Ip = request.getRemoteAddr();
+		int pw = 0;
 		
-		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String Ip = opt.orElse(request.getRemoteAddr());
-		
+		if(request.getParameter("password") == null || "".equals(request.getParameter("password"))) {
+			pw = 0;
+		}else {
+			pw = Integer.parseInt(request.getParameter("password"));
+		}
 		
 		QnaBoardDTO post = QnaBoardDTO.builder()
 				.nickname(nickname)
 				.title(title)
 				.content(content)
 				.ip(Ip)
+				.pw(pw)
 				.build();
 		
 		int result = qnaboardMapper.insertQnaBoard(post);
@@ -167,6 +176,14 @@ public class QnaBoardServiceImpl implements QnaBoardService {
             e.printStackTrace();
          }
    }
+
+	@Override
+	public int getQnaBoardPw(HttpServletRequest request, HttpServletResponse response) {
+		QnaBoardDTO qna = new QnaBoardDTO();
+		 qna.setQaNo(Integer.parseInt(request.getParameter("qaNo")));
+		 qna.setPw(Integer.parseInt(request.getParameter("password")));
+		return qnaboardMapper.selectQnaBoardPwCount(qna);
+	}
 	
 	
 	

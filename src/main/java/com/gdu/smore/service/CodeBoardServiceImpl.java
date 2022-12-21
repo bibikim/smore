@@ -22,6 +22,9 @@ import com.gdu.smore.mapper.CodeBoardMapper;
 import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.PageUtil;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class CodeBoardServiceImpl implements CodeBoardService {
 	
@@ -48,10 +51,11 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		
 		// 전체 블로그 개수
 		int totalRecord = codeboardMapper.selectCodeBoardListCount();
-		
+		log.info(totalRecord);
 		// 페이징 처리에 필요한 변수 계산
 		pageUtil.setPageUtil(page, totalRecord);
 		
+		log.info(pageUtil.getBegin() + "====" + pageUtil.getEnd());
 		// 조회 조건으로 사용할 Map 만들기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
@@ -100,9 +104,9 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		String nickname = request.getParameter("nickname");
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
+		String Ip = request.getRemoteAddr();
 		
-		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String Ip = opt.orElse(request.getRemoteAddr());
+		
 		
 		
 		CodeBoardDTO post = CodeBoardDTO.builder()
@@ -162,15 +166,60 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 
 	@Override
 	public void modifyCodeBoard(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		CodeBoardDTO code = new CodeBoardDTO();
+		code.setTitle(request.getParameter("title"));
+		code.setContent(request.getParameter("content"));
+		code.setCoNo(Integer.parseInt(request.getParameter("coNo")));
+	      int result = codeboardMapper.updateCodeBoard(code);
+	      response.setContentType("text/html; charset=UTF-8");
+	      try {
+	         PrintWriter out = response.getWriter();
+	         if(result > 0) {  // if(result == 1) {
+	            out.println("<script>");
+	            out.println("alert('게시글이 수정되었습니다.');");
+	            out.println("location.href='" + request.getContextPath() + "/code/list';");
+	            out.println("</script>");
+	         } else {
+	            out.println("<script>");
+	            out.println("alert('게시글이 수정되지 않았습니다.');");
+	            out.println("history.back();");
+	            out.println("</script>");
+	         }
+	         out.close();
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 
 	@Override
 	public void removeCodeBoard(HttpServletRequest request, HttpServletResponse response) {
-		
-		
+		int coNo = Integer.parseInt(request.getParameter("coNo"));
+        
+        int result = codeboardMapper.deleteCodeBoard(coNo);
+        response.setContentType("text/html; charset=UTF-8");
+        try {
+           PrintWriter out = response.getWriter();
+           if(result > 0) {  // if(result == 1) {
+              out.println("<script>");
+              out.println("alert('게시글이 삭제되었습니다.');");
+              out.println("location.href='" + request.getContextPath() + "/code/list';");  
+              out.println("</script>");
+           } else {
+              out.println("<script>");
+              out.println("alert('게시글이 삭제되지 않았습니다.');");
+              out.println("history.back();");
+              out.println("</script>");
+           }
+           out.close();
+        } catch(Exception e) {
+           e.printStackTrace();
+        }
+  }
+
 	
-	}
+	
+	
+	
 	
 }

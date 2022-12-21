@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
@@ -36,7 +38,9 @@
 </style>
 </head>
 <body>
-
+	
+	
+	
 	<div>
 		<div>
 			<span><a href="/free/write">글쓰기</a></span>

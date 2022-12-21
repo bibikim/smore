@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.smore.domain.code.CodeBoardDTO;
 import com.gdu.smore.service.CodeBoardService;
 
 import lombok.extern.log4j.Log4j2;
@@ -36,7 +37,8 @@ public class CodeBoardController {
 	
 	
 	@GetMapping("/code/write")
-	public String write() {
+	public String write(Model model) {
+		model.addAttribute("chkBtn", "reg");
 		return "code/write";
 	}
 	
@@ -61,14 +63,16 @@ public class CodeBoardController {
 	
 	@GetMapping("/code/detail")
 	public String detail(@RequestParam(value="coNo", required=false, defaultValue="0") int coNo, Model model) {
-		model.addAttribute("question", codeBoardService.getCodeBoardByNo(coNo));
+		CodeBoardDTO cb = codeBoardService.getCodeBoardByNo(coNo);
+		model.addAttribute("code", cb);
 		return "code/detail";
 	}
 	
 	@PostMapping("/code/edit")
-	public String edit(int coNo, Model model) {
-		model.addAttribute("qnaboard", codeBoardService.getCodeBoardByNo(coNo));
-		return "code/edit";
+	public String edit(@RequestParam(value="coNo", required=false, defaultValue="0") int coNo, Model model) {
+		model.addAttribute("code", codeBoardService.getCodeBoardByNo(coNo));
+		model.addAttribute("chkBtn", "mod");
+		return "code/write";
 	}
 	
 	@PostMapping("/code/modify")
