@@ -11,6 +11,7 @@
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/b9a2709031.js" crossorigin="anonymous"></script>
 <style type="text/css">
 	.bg-light {
 		background-color: #ffffff;
@@ -21,7 +22,7 @@
 		color: black;
 	}
 </style>
-
+<link rel="stylesheet" href="/resources/css/reset.css">
 <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 
       <c:if test="${loginUser == null}">

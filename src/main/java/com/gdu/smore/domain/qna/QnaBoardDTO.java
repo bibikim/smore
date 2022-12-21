@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class QnaBoardDTO {
+	private int rowNum;
 	private int qaNo;
 	private String nickname;
 	private String title;
