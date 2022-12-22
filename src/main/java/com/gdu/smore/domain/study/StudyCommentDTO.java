@@ -19,5 +19,6 @@ public class StudyCommentDTO {
 	private Date createDate;
 	private int state;
 	private int depth;
+	private int groupNo;
 	private String ip;
 }

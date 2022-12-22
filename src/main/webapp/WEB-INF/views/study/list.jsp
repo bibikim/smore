@@ -43,11 +43,12 @@
 							<td>${study.studNo}</td>
 		 					<td>${study.nickname}</td>	
 		 					<td>
-		 						<a href="/study/detail?studNo=${study.studNo}">${study.title}</a>
-		 					<c:if test="${loginUser.nickname != stud.nickname}">
-								<a href="${contextPath}/study/increse/hit?studNo=${study.studNo}">${study.title}(작성회원번호 ${study.nickname})</a>
-							</c:if>
-		 						
+			 					<c:if test="${loginUser.nickname == study.nickname}">
+			 						<a href="/study/detail?studNo=${study.studNo}">${study.title}</a>
+			 					</c:if>
+			 					<c:if test="${loginUser.nickname != study.nickname}">
+									<a href="${contextPath}/study/increse/hit?studNo=${study.studNo}">${study.title}</a>
+								</c:if>
 		 					</td>
 		 					<td>${study.lang}</td>
 		 					<td>${study.studDate}</td>		 					

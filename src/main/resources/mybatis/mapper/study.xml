@@ -33,7 +33,6 @@
 		 WHERE STUD_NO = #{studNo}
 	</update>
 	 
-	 <!-- 고칠것들 -->
 	 <select id="selectStudyByNo" parameterType="int" resultType="StudyGroupDTO">
 		SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
           FROM S_GROUP
@@ -48,7 +47,6 @@
 		 WHERE STUD_NO = #{studNo}
 	</update>
 
-	
 	<delete id="deleteStudy" parameterType="int">
 		DELETE
 		  FROM S_GROUP
@@ -111,8 +109,9 @@
 		 WHERE STUD_NO = #{studNo}
 		   AND NICKNAME = #{nickname}
 	</delete>	
-</mapper>
 	
+</mapper>
+
 	
 	
 	
