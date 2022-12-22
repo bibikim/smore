@@ -105,6 +105,7 @@
 							div += '<div class="comment_area">';
 							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
 							div += '<br>&nbsp;&nbsp;'
+							div += '<input type="hidden" name="cmtNo" value="' + comment.cmtNo +'">';
 							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
 							if( '${loginUser.nickname}' == comment.nickname || '${loginUser.nickname}' == '관리자') {
 								// a링크 태그로 바꾸기
@@ -114,7 +115,6 @@
 							if(comment.depth == 0) {
 								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area">'  // 대댓존
 							}
-							div += '<input type="hidden" value="' + comment.cmtNo +'">';
 							div += '</div>';
 						} else {
 							if(comment.depth == 0) {
@@ -447,6 +447,8 @@
 				</div>
 				<input type="hidden" name="freeNo" value="${free.freeNo}">
 				<input type="hidden" name="ip" value="${cmtList.ip}">
+				
+				<input type="hidden" name="groupNo" value="0">
 				<input type="hidden" name="nickname" value="${loginUser.nickname}">
 			</form>
 		</div>

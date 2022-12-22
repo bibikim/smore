@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.gdu.smore.domain.free.FreeCommentDTO;
+import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.FreeCmtMapper;
 import com.gdu.smore.util.PageUtil;
 
@@ -55,12 +60,36 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		return result;
 	}
 	
-	
+	@Transactional
 	@Override
 	public Map<String, Object> saveComment(FreeCommentDTO comment) {
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		
+		// int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); 
+		 
+		 int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+		 comment.setGroupNo(groupNo);
+		 comment.setNickname(loginUser.getNickname());
+		 // 원댓 group_no
+		 
+		 
+		 FreeCommentDTO cmt2 = FreeCommentDTO.builder() 
+		//		 .cmtNo(cmtNo)
+				 .groupNo(groupNo)
+				 .build();
+		 
+		 cmtMapper.updateGroupNo(cmt2);
+		
+		 
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSave", cmtMapper.insertFreecmt(comment) == 1);
 					// insert 결과가 1이면 true, 아니면 false 반환
+	
+		
 		return result;
 	}
 	
@@ -78,11 +107,32 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		return result;
 	}
 	
+	
 	@Override
 	public Map<String, Object> saveRecomment(FreeCommentDTO recomment) {
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		recomment.setNickname(loginUser.getNickname());
+		
+		
+		/*
+		 * int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); int groupNo =
+		 * Integer.parseInt(request.getParameter("groupNo"));
+		 * 
+		 * FreeCommentDTO comment = FreeCommentDTO.builder() .cmtNo(cmtNo)
+		 * .groupNo(groupNo) .build();
+		 * 
+		 * cmtMapper.updateGroupNo(comment);
+		 */
+		 
+		
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSaveRe", cmtMapper.insertRecomment(recomment) == 1);
 		return result;
 	}
+	
 	
 }

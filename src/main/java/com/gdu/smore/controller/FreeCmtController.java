@@ -32,12 +32,15 @@ public class FreeCmtController {
 		return cmtService.getCmtList(request);
 	}
 
-	@ResponseBody
-	@PostMapping(value = "/free/comment/add", produces = "application/json")
-	public Map<String, Object> saveCmt(FreeCommentDTO comment) {
-		return cmtService.saveComment(comment);
-	}
+	
+	 @ResponseBody
 
+	 @PostMapping(value = "/free/comment/add", produces = "application/json")
+	 public Map<String, Object> saveCmt(FreeCommentDTO comment) { 
+		 return cmtService.saveComment(comment);
+	 }
+
+	
 	// 댓글 수정
 	 @ResponseBody
 	 @PostMapping(value="/free/comment/edit", produces="application/json") 
@@ -57,5 +60,7 @@ public class FreeCmtController {
 	public Map<String, Object> saveRecmt(FreeCommentDTO recomment) {
 		return cmtService.saveRecomment(recomment);
 	}
+	
+
 
 }

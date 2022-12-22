@@ -17,4 +17,6 @@ public interface FreeCmtMapper {
 	public int modifyComment(FreeCommentDTO comment);
 	public int insertRecomment(FreeCommentDTO recomment);
 	
+	
+	public int updateGroupNo(FreeCommentDTO recomment);
 }

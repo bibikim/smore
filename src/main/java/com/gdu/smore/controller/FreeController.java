@@ -84,16 +84,5 @@ public class FreeController {
 		freeService.removeFree(request, response);
 	}
 	
-	// 리스트에 댓글 개수 표시	
-	@GetMapping("/free/list/cmtcnt")
-	public String readCmt(FreeBoardDTO free, @RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
-		freeService.getCmtCount(freeNo);
-		model.addAttribute("free", freeService.getFreeByNo(freeNo));
-		
-		//List<FreeCommentDTO> cmtList = fre
-		return "/free/list";
-	}
-	
-	
 	
 }

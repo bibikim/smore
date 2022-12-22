@@ -9,7 +9,7 @@
 	<select id="selectCommentCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		  FROM FREECMT
-		 WHERE FREE_NO = #{freeNo}
+		 WHERE FREE_NO = #{freeNo} AND STATE = 1
 	</select>
 	
 	<select id="selectCommentList" parameterType="Map" resultType="FreeCommentDTO">
@@ -23,36 +23,21 @@
 
 
 	
-<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
-		INSERT INTO FREECMT
-			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
-		  VALUES
-		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
-	</insert> -->
-	
 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
 		INSERT INTO FREECMT
 			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES
-		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{groupNo})
-		<selectKey resultType="int" keyProperty="groupNo" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, 0)
 	</insert>
 	
-	<!--  
-		https://chobopark.tistory.com/289
-	-->
-	
-	
-	<!-- 댓삭 -->
+<!-- 댓삭 -->
 	<update id="deleteComment" parameterType="int">
 		UPDATE FREECMT
 		   SET STATE = 0
 		 WHERE CMT_NO = #{cmtNo}
 	</update>
 	
-	<!-- 댓 수정 -->
+<!-- 	댓 수정 -->
 	<update id="modifyComment" parameterType="FreeCommentDTO">
 		UPDATE FREECMT
 		   SET FREE_NO = #{freeNo}, CMT_CONTENT = #{cmtContent}, IP = #{ip} , MODIFY_DATE = NOW()
@@ -67,5 +52,15 @@
 		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 1, #{ip}, #{groupNo})
 	</insert>
 	
+	<!-- 댓글계층 -->
+    <update id="updateGroupNo" parameterType="FreeCommentDTO">
+		UPDATE FREECMT
+		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
+	</update>
 	
-</mapper>
+<!-- 	<update id="updatePrevCmt" parameterType="FreeCommentDTO">
+		update freecmt
+		   set 
+	</update> -->
+	
+</mapper> 
