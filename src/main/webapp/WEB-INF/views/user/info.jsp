@@ -9,6 +9,11 @@
 
 <style>
 
+	a {
+		text-decoration-line: none;
+		cursor: pointer;
+		color: black;
+	}
 
 </style>
 
@@ -233,9 +238,12 @@
 	}
 	
 	function fn_retire(){
-		$('#btn_retire').click(function(){
-			if (confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')){
-				$('#lnk_retire').submit();
+		$('#btn_retire').click(function(event){
+			if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')) {
+				location.href="${contextPath}/user/retire";
+			} else{
+				event.preventDefault();
+				return;
 			}
 		});
 	}
@@ -245,7 +253,7 @@
 </head>
 <body>
 	<div>
-		<h1>마이페이지</h1>
+		<h1>회원정보</h1>
 		<hr>
 		
 		<div>
@@ -396,6 +404,8 @@
 					<span id="msg_email"></span>
 				</div>
 				
+				<hr>
+					<a id="btn_retire" href="${contextPath}/user/retire">탈퇴하기</a>		
 				<hr>
 				
 				<div>

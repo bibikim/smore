@@ -15,29 +15,37 @@
 
 <style>
 
+	.btn_mypage{
+		float: right;
+	    width: 90px;
+	    height: 32px;
+	    font-size: 12px;
+	    
+	    clear: both;
+	}
+
 </style>
 </head>
 <body>
-	
-	<h1>${loginUser.nickname}님 스터디 목록</h1>
+	<h3>${loginUser.nickname}님 스터디 목록 <button type="button" class="btn btn-outline-success btn_mypage" onclick="location.href='/user/mypage'">마이페이지</button></h3>
 	
 	<div>
-		<table border="1">
+		<table class="table">
 			<thead>
 				<tr>
 					<td>순번</td>
 					<td>모임장</td>
 					<td>제목</td>
-					<td>개발 언어</td>
+					<td>개발언어</td>
 					<td>시작예정일</td>
 					<td>조회수</td>
-					<td>작성일</td>
+					<td>비고</td>
 				</tr>
 			</thead>
 	 		<tbody>
 	 			<c:if test="${empty studyList}">
 	 				<tr>
-	 					<td colspan="7">게시물이 없습니다.</td>
+	 					<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>
 	 				</tr>
 	 			</c:if>
 	 			
@@ -53,26 +61,25 @@
 								</c:if>
 		 					</td>
 		 					<td>${study.lang}</td>
-		 					<td>${study.studDate}</td>		 					
+		 					<td><fmt:formatDate value="${study.studDate}" pattern="yyyy.M.d"/></td>		 					
 		 					<td>${study.hit}</td>
-		 					<td><fmt:formatDate value="${study.createDate}" pattern="yyyy.M.d"/></td>		 					
+							<td>
+								<c:if test="${loginUser.nickname != null}">
+								<input type="button" value="스터디 나가기" onclick="location.href='/user/studylist'">
+								</c:if>
+							</td>
 		 				</tr>			
 		 			</c:forEach>
 	 			</c:if>
 	 		</tbody>
 			<tfoot>
-				<tr >
+				<tr>
 					<td colspan="7">
 						${paging}
 					</td>
 				</tr>
 			</tfoot>
 		</table>
-	</div>
-	<div>
-		<c:if test="${loginUser.nickname != null}">
-			<input type="button" value="스터디 나가기" onclick="location.href='/user/studylist'">
-		</c:if>
 	</div>
 
 </body>
