@@ -9,30 +9,59 @@
 
 <style>
 
-	li {
-		list-style: none;
+	.menu a{cursor:pointer;}
+	.menu .hide{display:none;}
+	
+	.wrapper .sidebar{
+	    background: #039BE5;
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 225px;
+	    height: 100%;
+	    padding: 20px 0;
+	    transition: all 0.5s ease;
+	}
+	.wrapper .sidebar ul li a{
+	    display: block;
+	    padding: 13px 30px;
+	    border-bottom: 1px solid #10558d;
+	    color: rgb(241, 237, 237);
+	    font-size: 16px;
+	    position: relative;
 	}
 	
-	a {
-		text-decoration-line: none;
-		cursor: pointer;
-      	color: black;
+	.wrapper .sidebar ul li a .icon{
+	    color: #dee4ec;
+	    width: 30px;
+	    display: inline-block;
 	}
-	a:visited { text-decoration: none; }
-	a:hover { text-decoration: none; }
-	a:focus { text-decoration: none; }
-	a:hover, a:active { text-decoration: none; }
-
-	.my_box_area {
-		width:70%; 
-		border:1px solid #000;
-		text-align: left;
-		margin: 0 auto;
+	.wrapper .sidebar ul li a:hover,
+	.wrapper .sidebar ul li a.active{
+	    color: #0c7db1;
+		text-decoration: none;
+	    background:white;
+	    border-right: 2px solid rgb(5, 68, 104);
 	}
 	
-	.my_boxs { 
-		display:inline-block; 
-		width:48%;
+	.wrapper .sidebar ul li a:hover .icon,
+	.wrapper .sidebar ul li a.active .icon{
+	    color: #0c7db1;
+	}
+	
+	.wrapper .sidebar ul li a:hover:before,
+	.wrapper .sidebar ul li a.active:before{
+	    display: block;
+	}
+	
+	.wrapper .sidebar ul li a{
+		border:none !important;
+	}
+	.sidebar a{
+		border:none;
+	}
+	.navbar{
+		margin-left: 225px !important;
 	}
 	
 </style>
@@ -40,42 +69,77 @@
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
-	$(function() {
-		fn_retire();
+	// html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+	
+    /* 체크박스 */
+	$(document).on('click','#chk_all',function(){
+	    if($('#chk_all').is(':checked')){
+	       $('.del-chk').prop('checked',true);
+	    }else{
+	       $('.del-chk').prop('checked',false);
+	    }
+	});
+	$(document).on('click','.del-chk',function(){
+	    if($('input[class=del-chk]:checked').length==$('.del-chk').length){
+	        $('#chk_all').prop('checked',true);
+	    }else{
+	       $('#chk_all').prop('checked',false);
+	    }
 	});
 	
-	function fn_retire(){
-		$('#btn_retire').click(function(event){
-			if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')) {
-				location.href="${contextPath}/user/retire";
-			} else{
-				event.preventDefault();
-				return;
-			}
-		});
-	}
-
+	/* 스터디 목록 */
+	$('.studylist').click(function(){
+		$('#user_list').empty();
+		fn_studylist();
+	});
+	/* 찜 목록 */
+	
 </script>
 
 </head>
 <body>
 
-	<div class="my_box_area">
-		<div class="my_boxs">
+	<div class="wrapper">
+		<div class="sidebar">
 			<ul>
-				<li><h3>My 스터디</h3></li>
-				<li><a href="${contextPath}/user/studylist">My 스터디 목록</a></li>
-				<li><a href="${contextPath}/user/zzimlist">찜 스터디 목록</a></li>
+				<li class="menu">
+					<a>My 스터디</a>
+					<ul class="hide">					
+						<li><a class="studylist" href="#">- My 스터디 목록</a></li>
+						<li><a class="zzimlist" href="#">- 찜 스터디 목록</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
-		
-		<div class="my_boxs">
-			<ul>
-				<li><h3>My 정보</h3></li>
-				<li><a href="${contextPath}/user/checkpw">개인정보확인/수정</a></li>
-				<li><a id="btn_retire" href="${contextPath}/user/retire">탈퇴하기</a></li>
-			</ul>
+	</div>
+	
+	<div style="margin-left:225px;">	
+		<div>
 		</div>
+		<table class="table">
+			<thead id="head_list"></thead>	
+			<tbody id="body_list"></tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7">
+						<div id="paging"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
 
 </body>

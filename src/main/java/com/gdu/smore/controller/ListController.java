@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ListController {
 
 	@GetMapping("/user/studylist")
-	public String studyList() {
+	public String requiredLogin_studyList() {
 		return "/user/studylist";
 	}
 	
 	@GetMapping("/user/zzimlist")
-	public String zzimList() {
+	public String requiredLogin_zzimList() {
 		return "/user/zzimlist";
 	}
 	

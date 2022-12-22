@@ -8,10 +8,15 @@
    <jsp:param value="" name="title"/>
 </jsp:include>
 
-<body>
+<style>
+	
+	
+	
+</style>
 
-ㅋㅋㅋㅋ 인덷ㄱ스페이지임
-	<a href="/study/list">스게</a>
+<body>
+인덱스페이지야 모두들 즐거운 크리스마스 보내세요~~~
+	<a href="/study/list">스터디 게시판</a>
 
 </body>
 
