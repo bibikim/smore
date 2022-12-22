@@ -33,7 +33,7 @@
 <!-- 댓삭 -->
 	<update id="deleteComment" parameterType="int">
 		UPDATE FREECMT
-		   SET STATE = 0
+		   SET STATE = -1
 		 WHERE CMT_NO = #{cmtNo}
 	</update>
 	
@@ -53,14 +53,10 @@
 	</insert>
 	
 	<!-- 댓글계층 -->
+	<!-- 댓글이 삽입될 때(saveComment())마다 그때 insert된 group_no에 +1을 해줌. saveComment에서 update, insert 동시에 -->
     <update id="updateGroupNo" parameterType="FreeCommentDTO">
 		UPDATE FREECMT
 		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
 	</update>
-	
-<!-- 	<update id="updatePrevCmt" parameterType="FreeCommentDTO">
-		update freecmt
-		   set 
-	</update> -->
 	
 </mapper> 

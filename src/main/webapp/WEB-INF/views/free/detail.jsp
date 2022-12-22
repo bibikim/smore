@@ -125,7 +125,7 @@
 						}
 						div += '<div>';
 						moment.locale('ko-KR');
-						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.creatDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.createDate).format('YYYY. MM. DD hh:mm') + '</span>';
 						div += '</div>';
 						
 						/********************************** 대댓 ****************************************/

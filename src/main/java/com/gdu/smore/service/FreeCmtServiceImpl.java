@@ -67,8 +67,6 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
 		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
-		
-		// int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); 
 		 
 		 int groupNo = Integer.parseInt(request.getParameter("groupNo"));
 		 comment.setGroupNo(groupNo);

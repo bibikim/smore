@@ -78,6 +78,10 @@
 		 WHERE FREE_NO = #{freeNo}
 	</delete>
 	
+	<!-- 검색 및 조회 -->
+	<select id="select">
+		
+	</select>
 	
 </mapper>
 	
