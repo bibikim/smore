@@ -51,7 +51,7 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		map.put("freeNo", freeNo);
 		map.put("ip", ip);
 		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("cmtList", cmtMapper.selectCommentList(map));

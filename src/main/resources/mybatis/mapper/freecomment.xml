@@ -18,7 +18,8 @@
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
 		   	      FROM FREECMT
 			     WHERE FREE_NO = #{freeNo}) C
-		 WHERE C.RN BETWEEN #{begin} AND #{end}
+			     LIMIT #{begin}, #{recordPerPage}
+		 <!-- WHERE C.RN BETWEEN #{begin} AND #{end} -->
 	</select>
 
 

@@ -79,6 +79,9 @@
 							fn_cmtList();
 							fn_commentCnt();
 						}
+					}, error: function(){
+						alert('다시 로그인 해 주세요.');
+						location.href='/user/login/form';
 					}
 				})
 			})
@@ -171,6 +174,7 @@
 						$('#cmt_list').append(div);
 						$('#cmt_list').append('<div style="border-bottom: 1px dotted gray;"></div>');
 					});
+					
 					// 페이징
 					$('#paging').empty();
 					var pageUtil = resData.pageUtil;
