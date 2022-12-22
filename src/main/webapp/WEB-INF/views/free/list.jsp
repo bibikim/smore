@@ -66,6 +66,11 @@
 		
 	
 </style>
+<script>
+	
+	
+	
+</script>
 </head>
 <body>
 	
@@ -73,7 +78,9 @@
 	
 	<div>
 		<div>
-			<span><a href="/free/write">글쓰기</a></span>
+
+				<span><a id="f_write" href="/free/write">글쓰기</a></span>
+
 		</div>
 	</div>
 	
