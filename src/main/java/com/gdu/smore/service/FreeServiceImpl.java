@@ -2,6 +2,7 @@ package com.gdu.smore.service;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.smore.domain.free.FreeBoardDTO;
 import com.gdu.smore.domain.free.FreeImageDTO;
+import com.gdu.smore.mapper.FreeCmtMapper;
 import com.gdu.smore.mapper.FreeMapper;
 import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.PageUtil;
@@ -29,11 +31,13 @@ public class FreeServiceImpl implements FreeService {
 	// id= dlwlrma, pw= dkdldb1!
 	
 	private FreeMapper freeMapper;
+	private FreeCmtMapper cmtMapper;
 	private PageUtil pageUtil;
 	private MyFileUtil fileUtil;
 	
 	@Autowired
-	public void set(FreeMapper freeMapper, PageUtil pageUtil, MyFileUtil fileUtil) {
+	public void set(FreeMapper freeMapper, FreeCmtMapper cmtMapper, PageUtil pageUtil, MyFileUtil fileUtil) {
+		this.cmtMapper = cmtMapper;
 		this.freeMapper = freeMapper;
 		this.pageUtil = pageUtil;
 		this.fileUtil = fileUtil;
@@ -57,10 +61,25 @@ public class FreeServiceImpl implements FreeService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
 		
+		// 페이징 처리
 		model.addAttribute("totalRecord", totalRecord);
-		model.addAttribute("freeList", freeMapper.selectFreeListByMap(map));
+		//model.addAttribute("freeList", freeMapper.selectFreeListByMap(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
 		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/free/list"));
+		
+		// 게시글 목록
+		List<FreeBoardDTO> free = freeMapper.selectFreeListByMap(map);
+		model.addAttribute("freeList", free);
+		//model.addAttribute("freeList", free);
+		
+		// list에 댓글 갯수
+		List<Integer> freeNo = new ArrayList<Integer>();
+		List<Integer> cmtCount = new ArrayList<Integer>();
+		for(int i = 0; i < free.size(); i++) {
+			freeNo.add(free.get(i).getFreeNo());
+			cmtCount.add(cmtMapper.selectCommentCnt(freeNo.get(i)));
+		}
+		model.addAttribute("freeCmtCnt", cmtCount);
 		
 	}
 	
@@ -278,9 +297,8 @@ public class FreeServiceImpl implements FreeService {
 	}
 	
 	
-	@Override
-	public void getCmtCount(int freeNo) {
-		freeMapper.updateCmtCount(freeNo);
-	}
-	
+	/*
+	 * @Override public void getCmtCount(int freeNo) {
+	 * freeMapper.updateCmtCount(freeNo); }
+	 */
 }
