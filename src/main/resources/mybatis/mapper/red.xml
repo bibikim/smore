@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.RedMapper">
+	
+	<select id="selectAllRedCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM GRP_REDBELL
+	</select>
+	
+	<select id="selectAllList" parameterType="Map" resultType="StudyGroupDTO">
+		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
+		          FROM S_GROUP B) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>	
+	
+	<insert id="insertRed" parameterType="GrpRedbellDTO">
+		INSERT INTO GRP_REDBELL
+			(RED_NO, ID, STUD_NO, RED_CONTENT, RED_DATE, USER_NO, NICKNAME)
+		VALUES
+			(#{redNo}, #{id}, #{studNo}, #{redContent}, #{redDate}, #{userNo}, #{nickname})	
+	</insert>
+	
+</mapper>
+
+	
+	
+	

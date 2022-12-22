@@ -51,6 +51,7 @@
 				<input type="button" value="삭제" id="btn_remove_study">
 			</c:if>
 			<input type="button" value="목록" onclick="location.href='/study/list'">
+			<input type="button" value="신고하기" id="btn_red_study" onclick="showPopup();">
 		</form>
 		<script>
 			$('#btn_edit_study').click(function(){
@@ -58,11 +59,12 @@
 				$('#frm_btn').submit();
 			});
 			$('#btn_remove_study').click(function(){
-				if(confirm('이 게시글을 삭제하시겠습니까?')){
+				if(confirm('이 게시판을 삭제하시겠습니까?')){
 					$('#frm_btn').attr('action', '${contextPath}/study/remove');
 					$('#frm_btn').submit();
 				}
 			});
+
 		</script> 
 	</div>
 	
@@ -121,6 +123,7 @@
 		fn_ZCheck();
 		fn_ZCount();
 		fn_pressZ();
+		fn_pressRed();
 		
 		// 함수 정의
 		function fn_commentCount(){
@@ -381,6 +384,26 @@
 			});
 		}
 		
+		function showPopup() { 
+			window.open("<%=request.getContextPath()%>/red/write", "신고창", "width=800, height=600, left=100, top=50"); 
+		}
+		
+		function pressRed() {
+			$('#btn_red_study').click(function(){
+				// 로그인을 해야 "신고하기"를 누를 수 있다.
+				if('${loginUser.nickname}' == ''){
+					alert('해당 기능은 로그인이 필요합니다.');
+					return;
+				}
+				
+				// 자기신고 불가
+				if('${loginUser.nickname}' == '${study.nickname}'){
+					alert('본인을 신고 할 수 없습니다.');
+					return;
+				}
+			});
+		}
+
 	</script>
 	
 </div>

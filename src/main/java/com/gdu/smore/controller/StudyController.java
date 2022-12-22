@@ -99,20 +99,24 @@ public class StudyController {
 	public Map<String, Object> list(HttpServletRequest request) {
 		return studyService.getCommentList(request);
 	}
+	
 	@ResponseBody	
 	@GetMapping(value="/study/getZCheck", produces="application/json")
 	public Map<String, Object> getZCheck(HttpServletRequest request) {
 		return studyService.getZCheck(request);
 	}
+	
 	@ResponseBody	
 	@GetMapping(value="/study/getZCount", produces="application/json")
 	public Map<String, Object> getZCount(int studNo) {
 		return studyService.getZCount(studNo);
 	}
+	
 	@ResponseBody	
 	@GetMapping(value="/study/mark", produces="application/json")
 	public Map<String, Object> mark(HttpServletRequest request) {
 		return studyService.mark(request);
 	}
+	
 }
 

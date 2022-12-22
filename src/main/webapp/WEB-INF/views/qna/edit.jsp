@@ -18,8 +18,7 @@
 	}
 	
 	$(document).ready(function(){
-		
-		
+			
 		// 목록
 		$('#btn_list').click(function(){
 			location.href = getContextPath() + '/qna/list';
