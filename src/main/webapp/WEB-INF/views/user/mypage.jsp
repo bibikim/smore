@@ -12,6 +12,10 @@
 	.menu a{cursor:pointer;}
 	.menu .hide{display:none;}
 	
+	input#btn_remove{
+		display: none;
+	}
+	
 	.wrapper .sidebar{
 	    background: #039BE5;
 	    position: fixed;
@@ -69,6 +73,11 @@
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
+	$(function() {
+		fn_studylist();
+		fn_zzimlist();
+	});
+
 	// html dom 이 다 로딩된 후 실행된다.
     $(document).ready(function(){
         // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -78,7 +87,7 @@
             // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
             if( submenu.is(":visible") ){
                 submenu.slideUp();
-            }else{
+            } else{
                 submenu.slideDown();
             }
         });
@@ -88,24 +97,71 @@
 	$(document).on('click','#chk_all',function(){
 	    if($('#chk_all').is(':checked')){
 	       $('.del-chk').prop('checked',true);
-	    }else{
+	    } else{
 	       $('.del-chk').prop('checked',false);
 	    }
 	});
 	$(document).on('click','.del-chk',function(){
 	    if($('input[class=del-chk]:checked').length==$('.del-chk').length){
 	        $('#chk_all').prop('checked',true);
-	    }else{
+	    } else{
 	       $('#chk_all').prop('checked',false);
 	    }
 	});
 	
 	/* 스터디 목록 */
 	$('.studylist').click(function(){
-		$('#user_list').empty();
+		$('#body_list').empty();
 		fn_studylist();
 	});
+	
 	/* 찜 목록 */
+	$('.zzimlist').click(function(){
+		$('#body_list').empty();
+		fn_zzimlist();
+	});
+	
+	function fn_studylist() {
+		$.ajax({
+			type: 'get',
+			url: '/user/mypage',
+			dataType: 'json',
+			success: function(resData) {
+				$('#head_list').empty();
+				$('#body_list').empty();
+				
+				var tr = '<tr>';
+				tr += '<th scope="col">' + '순번' + '</th>';
+				tr += '<th scope="col">' + '모임장' + '</th>';
+				tr += '<th scope="col">' + '제목' + '</th>';
+				tr += '<th scope="col">' + '개발언어' + '</th>';
+				tr += '<th scope="col">' + '시작예정일' + '</th>';
+				tr += '<th scope="col">' + '조회수' + '</th>';
+				tr += '<th scope="col" class="btn_studyRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '</tr>';
+				$('#head_list').append(tr);
+				
+				if(resData.studylist == '') {
+					var tr = '<tr>';
+					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
+					$('#body_list').append(tr);
+				} else {
+					$.each(resData.studylist, function(i, list) {
+						var tr = '<tr>';
+						tr += '<td>' + study.rowNum + '</td>';
+						tr += '<td>' + study.nickname  + '</td>';
+						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a></td>';
+						tr += '<td>' + study.lang + '</td>'; 
+						tr += '<td>' + study.studDate + '</td>'; 
+						tr += '<td>' + study.hit + '</td>'; 
+						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.studNo + '"</td>';
+						tr += '</tr>';
+						$('#body_list').append(tr);
+					});
+				}
+			}
+		});
+	}
 	
 </script>
 
@@ -118,7 +174,7 @@
 				<li class="menu">
 					<a>My 스터디</a>
 					<ul class="hide">					
-						<li><a class="studylist" href="#">- My 스터디 목록</a></li>
+						<li><a class="studylist" href="${contextPath}/user/studylist">- My 스터디 목록</a></li>
 						<li><a class="zzimlist" href="#">- 찜 스터디 목록</a></li>
 					</ul>
 				</li>

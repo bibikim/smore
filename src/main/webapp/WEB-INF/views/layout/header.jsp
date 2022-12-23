@@ -63,13 +63,13 @@
 			<a class="navbar-brand" href="/"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
 			<ul class="nav justify-content-end">
 				<li class="nav-item">
-					<a class="nav-link active" href="${contextPath}/free/list">자게</a>
+					<a class="nav-link active" href="${contextPath}/free/list">자유게시판</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="${contextPath}/code/list">코게</a>
+					<a class="nav-link" href="${contextPath}/code/list">코드게시판</a>
 				</li>
 				<li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/qna/list">큐게</a>
+				    <a class="nav-link" href="${contextPath}/qna/list">QnA</a>
 				</li>
 				<li class="nav-item">
 				    <a class="nav-link" href="${contextPath}/user/login/form" tabindex="-1" aria-disabled="true">login</a>
@@ -133,7 +133,5 @@
 		</div>
 	</div>
 	</c:if>
-	
-	
 	
 		
