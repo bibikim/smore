@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +18,7 @@ import com.gdu.smore.domain.user.SleepUserDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.AdminMapper;
 import com.gdu.smore.mapper.UserMapper;
+import com.gdu.smore.util.NaverPageUtil;
 import com.gdu.smore.util.PageUtil;
 
 @PropertySource(value = {"classpath:application.yml"})
@@ -34,10 +34,51 @@ public class AdminServiceImpl implements AdminService {
    @Autowired
    private PageUtil pageUtil;
    
+   @Autowired 
+   private NaverPageUtil naverPageUtil;  
+   
    @Override
-   public Map<String, Object> getUserList(int page) {
+   public Map<String, Object> getAllUserList(int page) {
       
-      int totalRecord = adminMapper.selectUserCount() + adminMapper.selectSleepUserCount();
+	  int userCnt = adminMapper.selectUserCount();
+	  int sleepCnt = adminMapper.selectSleepUserCount(); 
+	  
+      int totalRecord = userCnt + sleepCnt;
+      
+      naverPageUtil.setNaverPageUtil(page, totalRecord);
+      
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("begin", naverPageUtil.getBegin());
+      map.put("end", naverPageUtil.getEnd());
+      
+      Map<String, Object> result = new HashMap<String, Object>();
+      result.put("allUserList", adminMapper.selectAllUserList(map));
+      result.put("naverPageUtil", naverPageUtil);
+           
+      return result;
+   }
+   
+   @Override
+	public Map<String, Object> getCommonUserList(int page) {  
+		
+	   int totalRecord = adminMapper.selectUserCount();
+	   naverPageUtil.setNaverPageUtil(page, totalRecord);
+		      
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   map.put("begin", naverPageUtil.getBegin());
+	   map.put("end", naverPageUtil.getEnd());
+	  
+	   Map<String, Object> result = new HashMap<String, Object>();
+	   result.put("userList", adminMapper.selectUserListByMap(map));
+	   result.put("naverPageUtil", naverPageUtil);
+	  
+	   return result;
+	}
+   
+   @Override
+   public Map<String, Object> getSleepUserList(int page) {
+      
+      int totalRecord = adminMapper.selectSleepUserCount();
       pageUtil.setPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
@@ -45,13 +86,10 @@ public class AdminServiceImpl implements AdminService {
       map.put("end", pageUtil.getEnd());
       
       Map<String, Object> result = new HashMap<String, Object>();
-      result.put("userList", adminMapper.selectUserListByMap(map));
-      result.put("sleepList", adminMapper.selectSleepUserListByMap(map));
-      result.put("allUserList", adminMapper.selectAllUserList(map));
+      result.put("sleepUserList", adminMapper.selectSleepUserListByMap(map));
       result.put("naverPageUtil", pageUtil);
       return result;
    }
-   
    
    @Transactional
    @Override
@@ -72,14 +110,38 @@ public class AdminServiceImpl implements AdminService {
    }
    
    @Override
-	public Map<String, Object> removeFreeList(String freeNoList) {
-		List<String> list = Arrays.asList(freeNoList.split(","));
-		System.out.println(list);
+	public Map<String, Object> removeStudList(String studNoList) {
+		List<String> list = Arrays.asList(studNoList.split(","));
 		Map<String, Object> result = new HashMap<String, Object>();
-        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	 
-        System.out.println("결과:" + result);
+       result.put("deleteResult", adminMapper.deleteStudyBoardList(list));	 
 		return result;
 	}
+   
+   
+   @Override
+	public Map<String, Object> removeFreeList(String freeNoList) {
+		List<String> list = Arrays.asList(freeNoList.split(","));
+		Map<String, Object> result = new HashMap<String, Object>();
+        result.put("deleteResult", adminMapper.deleteFreeBoardList(list));	 
+		return result;
+	}
+   
+   @Override
+	public Map<String, Object> removeCodeList(String codeNoList) {
+	   List<String> list = Arrays.asList(codeNoList.split(","));
+	   Map<String, Object> result = new HashMap<String, Object>();
+       result.put("deleteResult", adminMapper.deleteCodeBoardList(list));	 
+	   return result;
+	}
+   
+   @Override
+	public Map<String, Object> removeQnaList(String qnaNoList) {
+	   List<String> list = Arrays.asList(qnaNoList.split(","));
+	   Map<String, Object> result = new HashMap<String, Object>();
+       result.put("deleteResult", adminMapper.deleteQnaBoardList(list));	 
+	   return result;
+	}
+   
    
    @Transactional
    @Override
@@ -133,22 +195,7 @@ public class AdminServiceImpl implements AdminService {
       return result;
    }
    
-   @Override
-   public Map<String, Object> getSleepUserList(int page) {
-      
-      int totalRecord = adminMapper.selectSleepUserCount();
-      pageUtil.setPageUtil(page, totalRecord);
-      
-      Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", pageUtil.getBegin());
-      map.put("end", pageUtil.getEnd());
-      
-      Map<String, Object> result = new HashMap<String, Object>();
-      result.put("sleepUserList", adminMapper.selectSleepUserListByMap(map));
-      System.out.println(result);
-      result.put("naverPageUtil", pageUtil);
-      return result;
-   }
+
    
    @Override
    public Map<String, Object> getFreeBoardList(int page) {
@@ -162,7 +209,6 @@ public class AdminServiceImpl implements AdminService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
-      System.out.println(result);
       result.put("naverPageUtil", pageUtil);
       return result;
       
@@ -196,7 +242,6 @@ public class AdminServiceImpl implements AdminService {
       
        Map<String, Object> result = new HashMap<String, Object>();
        result.put("codeList", adminMapper.selectCodeListByMap(map));
-       System.out.println(result);
        result.put("naverPageUtil", pageUtil);
        return result;
 	}
@@ -212,62 +257,53 @@ public class AdminServiceImpl implements AdminService {
         
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("qnaList", adminMapper.selectQnaListByMap(map));
-        System.out.println(result);
         result.put("naverPageUtil", pageUtil);
         return result;
 	}
    
    
    @Override
-	public Map<String, Object> findUsers(HttpServletRequest request) {
-	   
-		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-		int page = Integer.parseInt(opt.orElse("1"));
-	   
-	    String state = request.getParameter("state");
+	public Map<String, Object> findUsers(HttpServletRequest request, int page) {
+	   		
+		/* String state = request.getParameter("state"); */
 		String column = request.getParameter("column");
 		String query = request.getParameter("query");
 		String start = request.getParameter("start");
 		String stop = request.getParameter("stop");
-	   
+	 	System.out.println(query);
+	 	
 		Map<String, Object> map = new HashMap<>();
 		map.put("column", column);
 		map.put("query", query);
 		map.put("start", start);
 		map.put("stop", stop);
 		
-		int totalRecord = 0;
-		List<AllUserDTO> users = null;
-		
-		if(state.equals("active")) {
-			totalRecord = adminMapper.selectUserCountByQuery(map);
-			pageUtil.setPageUtil(page, totalRecord);			
-			map.put("begin", pageUtil.getBegin());
-			map.put("end", pageUtil.getEnd());
-			users = adminMapper.selectUsersByQuery(map);
-			System.out.println(users);
-		}
-			
+		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
+		naverPageUtil.setNaverPageUtil(page, totalRecord);		
+		map.put("begin", naverPageUtil.getBegin());
+		map.put("end", naverPageUtil.getEnd());
+		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
+				
 		String path = null;
 		
 		switch(column) {
 		case "ID":
-			path =  "/users/search?column=" + column + "&query=" + query;
+			path = "/users/search?column=" + column + "&query=" + query;
 			break;
 		case "JOIN_DATE":
 			path = "/users/search?column=" + column + "&start=" + start + "&stop=" + stop;
 			break;	
 		}
 		
+		System.out.println(path);
+		
 		Map<String, Object> result = new HashMap<>();
 		if(users.size() == 0) {
 			result.put("message", "조회된 결과가 없습니다.");
-			result.put("totalRecord", totalRecord);
 			result.put("status", 500);
 		} else {
 			result.put("users", users);
-			result.put("totalRecord", totalRecord);
-			result.put("paging", pageUtil.getPaging(path));
+			result.put("naverPageUtil", naverPageUtil.getNaverPaging(path));
 			result.put("status", 200);
 		}
 		

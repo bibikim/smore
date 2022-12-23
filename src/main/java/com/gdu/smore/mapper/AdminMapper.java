@@ -23,9 +23,12 @@ public interface AdminMapper {
 	public List<UserDTO> selectUserListByMap(Map<String, Object> map);
 	public List<SleepUserDTO> selectSleepUserListByMap(Map<String, Object> map);
 	
+	// 유저 검색
 	public List<AllUserDTO> selectUsersByQuery(Map<String, Object> map);
 	
-	
+	// 모든 유저 검색 카운트
+	public int selectAllUserCountByQuery(Map<String, Object> map);
+		
 	// 게시판 리스트
 	public List<FreeBoardDTO> selectFreeListByMap(Map<String, Object> map);
 	public List<StudyGroupDTO> selectStudyListByMap(Map<String, Object> map);
@@ -38,10 +41,9 @@ public interface AdminMapper {
 	public int selectReportUserCount();
 	
 	
-	// 검색 카운트
-	public int selectUserCountByQuery(Map<String, Object> map);
+
 	
-	
+		
 	// 게시판 카운트
 	public int selectFreeBoardCount();
 	public int selectSGroupBoardCount();
@@ -59,7 +61,10 @@ public interface AdminMapper {
 	public int insertRetireUser(RetireUserDTO retireUser);
 	
 	// 자유게시판 다중 삭제
+	public int deleteStudyBoardList(List<String> studNoList);
 	public int deleteFreeBoardList(List<String> freeNoList);
+	public int deleteCodeBoardList(List<String> codeNoList);
+	public int deleteQnaBoardList(List<String> qnaNoList);
 	
 	
 	public UserDTO selectUserByNo(int userNo);
