@@ -157,8 +157,8 @@
 
     <!-- 페이징 -->
 
-    <!-- <div class="pagination">
-        <div class="num">
+    <div class="pagination">
+        <!-- <div class="num">
             <a href="#" title="현재 1 페이지" onclick="return false;" class="active">1</a>
             <a href="#" onclick="opMovePage(2); return false;" title="2 페이지">2</a>
             <a href="#" onclick="opMovePage(3); return false;" title="3 페이지">3</a>
@@ -172,8 +172,11 @@
         </div>
 
         <a href="#" class="next" onclick="opMovePage(11); return false;" title="다음페이지그룹 가기">다음페이지</a>
-        <a href="#" class="last" onclick="opMovePage(2296); return false;" title="마지막페이지로 가기">마지막페이지</a>
-    </div> -->
+        <a href="#" class="last" onclick="opMovePage(2296); return false;" title="마지막페이지로 가기">마지막페이지</a> -->
+
+						${paging}
+
+    </div>
 
     <!-- 페이징  -->
 
@@ -229,7 +232,13 @@
 			// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
 
 			var windowOpen = window.open("","selectBbsPwdForm","width=520,height=270, scrollbars=yes, resizable=yes left='+ popupX + ', top='+ popupY");
-        	windowOpen.location.href = "/qna/pwPopup?qaNo="+qaNo;
+			
+			if(chkUser == '3'){ // 관리자가 쓴글이면 관리자 상세
+				windowOpen.location.href = "/qna/pwPopup?qaNo="+qaNo+'&cmtNo='+cmtNo;
+			}else{
+				windowOpen.location.href = "/qna/pwPopup?qaNo="+qaNo;
+			}
+        	
 		}
 	}
 	

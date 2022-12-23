@@ -35,21 +35,34 @@
 			],
 			callbacks: {
 				onImageUpload: function(files) {
+					
+					// 1. 파일 여러개일경우도 있으니 for문을 돌린다
 					for(let i = 0; i < files.length; i++) {
+						// 2. 파일을 form에 담아준다. 왜냐하면 post 전송시 form이 필요하기 떄문에 
 						var formData = new FormData();
+						// 3. form에 file이라는 이름으로 데이터를 담는다.
+						// ex) 이런식으로 생김 저 영어 두줄로 
+						//	  <form> 
+						//     <input type="hidden" name="file" value=""/>
+						//	  </form>
 						formData.append('file', files[i]);
 						
+						// 4. 데이터를 컨트롤러로 보내기 위한 행위 
 						$.ajax({
+							// 2번 참조 
 							type: 'post',
+							// 등록할떄 테이블 두곳에 데이터 넣어야 할듯 지금 몇개 넣어 몇개 넣었냐고 몇개넣으라고? ㄴㄴ 너가 등록 했짜나 ㅇㅇ 어느테이블에 들어감 ? 여긴가 
 							url: '/code/uploadImage',
+							// 위에서 생성한 formData 를 /code/uploadImage 컨트롤러에 전달 
 							data: formData,
 							contentType: false,
 							processData: false,
 							dataType: 'json',
 							success: function(resData) {
+								// 아나는 저기 리소스에 폴더따로 만들자고 한줄 임플쪾 소스만 바꾸면됨 
 								$('#content').summernote('insertImage', resData.src);
-								$('#sumnote_image_list').append($('<input type="hidden" name="ImageNames" value="' + resData.filesystem + '">'));
-								console.log(resData);
+								$('#sumnote_image_list').append($('<input type="hidden" name="cImageNames" value="' + resData.filesystem + '">'));
+								//console.log(resData);
 							}
 						})	// ajax
 					} // for

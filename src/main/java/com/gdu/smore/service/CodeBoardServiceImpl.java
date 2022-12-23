@@ -29,20 +29,20 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	
 	private CodeBoardMapper codeboardMapper;
 	private PageUtil pageUtil;
-	private MyFileUtil myFileUtil;
+	private MyFileUtil fileUtil;
 	
 	@Autowired
-	public void set(CodeBoardMapper codeboardMapper, PageUtil pageUtil, MyFileUtil myFileUtil) {
+	public void set(CodeBoardMapper codeboardMapper, PageUtil pageUtil, MyFileUtil fileUtil) {
 		this.codeboardMapper = codeboardMapper;
 		this.pageUtil = pageUtil;
-		this.myFileUtil = myFileUtil;
+		this.fileUtil = fileUtil;
 	}
 	
 	public void getCodeBoardList(Model model) {
 		
 		// Model에 저장된 request 꺼내기
-		Map<String, Object> modelMap = model.asMap();  // model을 map으로 변신
-		HttpServletRequest request = (HttpServletRequest) modelMap.get("request");
+		Map<String, Object> mtoMap = model.asMap();  // model을 map으로 변신
+		HttpServletRequest request = (HttpServletRequest) mtoMap.get("request");
 		
 		// page 파라미터
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
@@ -68,29 +68,35 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	}
 	
 	@Override
-	public Map<String, Object> saveImage(MultipartHttpServletRequest mRequest) {
-		// 파라미터 files
+	public Map<String, Object> savecImage(MultipartHttpServletRequest mRequest) {
+		// 1. 코드게시판에서 보낸 파일 담아준다.
 		MultipartFile mpFile = mRequest.getFile("file");
-		// 저장경로
-		String path = "c:" + File.separator + "summernoteImage";
-		// 저장할 파일명
-		String filesystem = myFileUtil.getFilename(mpFile.getOriginalFilename());
+		// 2. 저장할 경로 설정
+		String path = mRequest.getRealPath("/resources/" + File.separator + "upload");
+		// 3. 저장할 파일명
+		String filesystem = fileUtil.getFilename(mpFile.getOriginalFilename());
 		
+		// 4. 파일 클래스 생성 
 		File dir = new File(path);
+		
+		// 5. 2번에서 저장할 경로에 summernoteImage폴더 없으면 생성 
 		if(dir.exists() == false) {
 			dir.mkdirs();
 		}
 		
+		// 6. 해당경로에 실제 파일 저장할 클래스 생성 
 		File file = new File(path, filesystem);
 		
+		// 7. 해당경로에 파일 생성 
 		try {
 			mpFile.transferTo(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// 8. 다 완료 됐으면 이미지 경로랑 파일명 다시 write 페이지로 전송 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("src", mRequest.getContextPath() + "/load/image" + filesystem);
+		map.put("src", "/resources/upload/" + filesystem);
 		map.put("filesystem", filesystem);
 		
 		return map;
@@ -103,17 +109,17 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
 		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String Ip = opt.orElse(request.getRemoteAddr());
+		String cIp = opt.orElse(request.getRemoteAddr());
 		
 		
-		CodeBoardDTO post = CodeBoardDTO.builder()
+		CodeBoardDTO cpost = CodeBoardDTO.builder()
 				.nickname(nickname)
 				.title(title)
 				.content(content)
-				.ip(Ip)
+				.ip(cIp)
 				.build();
 		
-		int result = codeboardMapper.insertCodeBoard(post);
+		int result = codeboardMapper.insertCodeBoard(cpost);
 		
 		try {
 			
@@ -122,15 +128,15 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 			out.println("<script>");
 			if(result > 0) {
 				
-				String[] ImageNames = request.getParameterValues("ImageNames");
+				String[] cImageNames = request.getParameterValues("cImageNames");
 				
-				if(ImageNames != null) {
-					for(String filesystem : ImageNames) {
-						CodeImageDTO image = CodeImageDTO.builder()
-								.coNo(post.getCoNo())
+				if(cImageNames != null) {
+					for(String filesystem : cImageNames) {
+						CodeImageDTO cimage = CodeImageDTO.builder()
+								.coNo(cpost.getCoNo())
 								.filesystem(filesystem)
 								.build();
-						codeboardMapper.insertImage(image);
+						codeboardMapper.insertImage(cimage);
 					}
 				}
 				
@@ -160,12 +166,12 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	public CodeBoardDTO getCodeBoardByNo(int coNo) {
 		CodeBoardDTO code = codeboardMapper.selectCodeBoardByNo(coNo);
 
-		List<CodeImageDTO> ImageList = codeboardMapper.selectCodeImageListInCode(coNo);
+		List<CodeImageDTO> cImageList = codeboardMapper.selectCodeImageListInCode(coNo);
 		
-		if(ImageList != null && ImageList.isEmpty() == false) {
-			for(CodeImageDTO Image : ImageList) {
-				if(code.getContent().contains(Image.getFilesystem()) == false ) {
-					File file = new File("C:" + File.separator + "Image", Image.getFilesystem());
+		if(cImageList != null && cImageList.isEmpty() == false) {
+			for(CodeImageDTO cImage : cImageList) {
+				if(code.getContent().contains(cImage.getFilesystem()) == false ) {
+					File file = new File("C:" + File.separator + "cImage", cImage.getFilesystem());
 				}
 			}
 		}
@@ -196,15 +202,15 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 			
 			if(result > 0) {
 				
-				String[] ImageNames = request.getParameterValues("ImageNames");
+				String[] cImageNames = request.getParameterValues("ImageNames");
 				
-				if(ImageNames != null) {
-					for(String filesystem : ImageNames) {
-						CodeImageDTO Image = CodeImageDTO.builder()
+				if(cImageNames != null) {
+					for(String filesystem : cImageNames) {
+						CodeImageDTO cImage = CodeImageDTO.builder()
 								.coNo(code.getCoNo())
 								.filesystem(filesystem)
 								.build();
-						codeboardMapper.insertImage(Image);
+						codeboardMapper.insertImage(cImage);
 					}
 				}
 				
@@ -230,9 +236,9 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 	public void removeCodeBoard(HttpServletRequest request, HttpServletResponse response) {
 		int coNo = Integer.parseInt(request.getParameter("coNo"));
 		
-		List<CodeImageDTO> ImageList = codeboardMapper.selectCodeImageListInCode(coNo);
+		List<CodeImageDTO> cImageList = codeboardMapper.selectCodeImageListInCode(coNo);
 		
-		int result = codeboardMapper.deleteCodeBoard(coNo);   // 외래키 제약조건에 의해서 image도 모두 지워진다!
+		int result = codeboardMapper.deleteCodeBoard(coNo);   // 외래키 제약조건에 의해서 cimage도 모두 지워진다!
 		
 		try {
 
@@ -242,10 +248,10 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 			out.println("<script>");
 			if(result > 0) {
 			
-				if(ImageList != null && ImageList.isEmpty() == false) {
+				if(cImageList != null && cImageList.isEmpty() == false) {
 					
-					for(CodeImageDTO Image : ImageList) {
-						File file = new File("c:" + File.separator + "Image", Image.getFilesystem());
+					for(CodeImageDTO cImage : cImageList) {
+						File file = new File("c:" + File.separator + "cImage", cImage.getFilesystem());
 						if(file.exists()) {
 							file.delete();
 						}
@@ -269,6 +275,11 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Override
+	public void getCmtCount(int coNo) {
+		codeboardMapper.updateCmtCount(coNo);
 	}
 	
 	

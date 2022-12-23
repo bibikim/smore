@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gdu.smore.domain.code.CodeBoardDTO;
 import com.gdu.smore.service.CodeBoardService;
 
 @Controller
@@ -40,8 +41,9 @@ public class CodeBoardController {
 	
 	@ResponseBody
 	@PostMapping(value="/code/uploadImage", produces="application/json")
-	public Map<String, Object> uploadImage(MultipartHttpServletRequest Request) {
-		return codeBoardService.saveImage(Request);
+	public Map<String, Object> uploadImage(MultipartHttpServletRequest mRequest) {
+		// 방금 jsp에서 보낸 file을 서비스로 전달
+		return codeBoardService.savecImage(mRequest);
 	}
 	
 	@PostMapping("/code/save")
@@ -84,6 +86,14 @@ public class CodeBoardController {
 		codeBoardService.removeCodeBoard(request, response);
 	}
 	
+	@GetMapping("/code/list/cmtcnt")
+	public String readCmt(CodeBoardDTO code, @RequestParam(value="codeNo", required=false, defaultValue="0") int coNo, Model model) {
+		codeBoardService.getCmtCount(coNo);
+		model.addAttribute("code", codeBoardService.getCodeBoardByNo(coNo));
+		
+		//List<CodeCommentDTO> cmtList = code
+		return "/code/list";
+	}
 	
 	
 }

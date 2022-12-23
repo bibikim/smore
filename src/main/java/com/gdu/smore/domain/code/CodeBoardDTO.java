@@ -27,4 +27,5 @@ public class CodeBoardDTO {
 	private Date modifyDate;
 	private int hit;
 	private String ip;
+	private int cmtCount;
 }

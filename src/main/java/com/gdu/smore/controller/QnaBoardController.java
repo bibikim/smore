@@ -55,9 +55,10 @@ public class QnaBoardController {
 	}
 	
 	@GetMapping("/qna/pwPopup")
-	public String pwPopup(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, Model model) {
+	public String pwPopup(@RequestParam(value="qaNo", required=false, defaultValue="0") int qaNo, @RequestParam(value="cmtNo", required=false, defaultValue="0") int cmtNo, Model model) {
 		QnaBoardDTO qb = qnaBoardService.getQnaBoardByNo(qaNo);
 		model.addAttribute("question", qb);
+		model.addAttribute("cmtNo", cmtNo);
 		return "qna/pwPop";
 	}
 	

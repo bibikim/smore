@@ -16,8 +16,8 @@ public class CodeCommentDTO {
 	private int coNo;
 	private String nickname;
 	private String cmtContent;
-	private Date CreateDate;
-	private Date ModifyDate;
+	private Date createDate;
+	private Date omdifyDate;
 	private int state;
 	private int depth;
 	private String ip;

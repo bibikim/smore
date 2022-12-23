@@ -11,7 +11,7 @@ public interface CodeBoardMapper {
 	public int selectCodeBoardListCount();
 	public List<CodeBoardDTO> selectCodeBoardListByMap(Map<String, Object> map);
 	public int insertCodeBoard(CodeBoardDTO codeboard);
-	public int insertImage(CodeImageDTO image);
+	public int insertImage(CodeImageDTO cimage);
 	
 	public CodeBoardDTO selectCodeBoardByNo(int coNo);
 	public List<CodeImageDTO> selectCodeImageListInCode(int coNo);
@@ -21,4 +21,6 @@ public interface CodeBoardMapper {
 	
 	public int updateCodeBoard(CodeBoardDTO codeboard);
 	public int deleteCodeBoard(int coNo);
+	
+	public int updateCmtCount(int coNo);
 }
