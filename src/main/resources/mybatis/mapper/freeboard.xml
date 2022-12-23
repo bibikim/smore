@@ -15,7 +15,20 @@
 	    SELECT N.RW, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS RW, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM FREEBOARD) N
-		 WHERE N.RW BETWEEN #{begin} AND #{end}
+		 WHERE 1 = 1
+		<choose>
+			 	<when test="type != null and type.equals('TITLE')">
+			 		AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="type != null and type.equals('CONTENT')">
+			 		AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="type != null and type.equals('NICKNAME')">
+			 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>	
+		 </choose>
+		 ORDER BY N.FREE_NO DESC
+		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 
 	<!-- 글쓰기 -->

@@ -50,6 +50,19 @@ public class FreeServiceImpl implements FreeService {
 		Map<String, Object> mtomap = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) mtomap.get("request"); // 컨트롤러에서 model에 저장한 request 꺼내기
 		
+		// 검색기능
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		
+		
+		// 첫 페이지
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));
 		
@@ -57,9 +70,9 @@ public class FreeServiceImpl implements FreeService {
 
 		pageUtil.setPageUtil(page, totalRecord);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		//Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
 		// 페이징 처리
 		model.addAttribute("totalRecord", totalRecord);
@@ -72,7 +85,7 @@ public class FreeServiceImpl implements FreeService {
 		model.addAttribute("freeList", free);
 		//model.addAttribute("freeList", free);
 		
-		// list에 댓글 갯수
+		// list에 댓글 갯수 띄우기
 		List<Integer> freeNo = new ArrayList<Integer>();
 		List<Integer> cmtCount = new ArrayList<Integer>();
 		for(int i = 0; i < free.size(); i++) {

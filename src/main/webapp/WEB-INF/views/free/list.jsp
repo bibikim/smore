@@ -68,7 +68,23 @@
 </style>
 <script>
 	
+/* 	$(document).ready(funtion(){
+		
+		// 자동완성
+		//$('#keyword').keyup(funciton(){
+		//	if($('#type').val() == 'TITLE' || $('#type').val() == '')
+		//})
+		
+		
+	}) */
 	
+		$('#frm_search').submit(function(ev) {
+			if($('#type').val() == '' || $('#keyword').val() == '') {
+				alert('검색 조건을 확인하세요.');
+				ev.preventDefault();
+				return;
+			}
+		});
 	
 </script>
 </head>
@@ -127,15 +143,27 @@
 						</tr>
 					</c:forEach>
 				</c:if>
-			</tbody>
-			<tfoot>
-				<tr>
+<%-- 				<tr>
 					<td colspan="5">${paging}</td>
-				</tr>
-			</tfoot>
-			
+				</tr> --%>
+			</tbody>
 		</table>
-
+			<div class="paging">
+				<nav class="pagination">${paging}</nav>
+			</div>
+			<div class="searching">
+				<form id="frm_search" action="/free/list?page=${page}&type=${type}&keyword=${keyword}" method="get">
+					<select name="type" id="type">
+						<option value=""> 선택 </option>
+						<option value="TITLE" selected="${type} == TITLE" > 제목 </option>
+						<option value="CONTENT" selected="${type} == CONTENT"> 내용 </option>
+						<option value="NICKNAME" selected="${type} == NICKNAME"> 작성자 </option>
+					</select>
+					<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요" list="auto_complete">
+					<!-- <datalist id="auto_complete"></datalist> -->
+					<input type="submit" value="조회">
+				</form>
+			</div>
 	</div>
 
 </body>
