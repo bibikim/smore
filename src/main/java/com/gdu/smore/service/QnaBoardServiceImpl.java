@@ -16,7 +16,7 @@ import com.gdu.smore.domain.qna.QnaBoardDTO;
 import com.gdu.smore.domain.qna.QnaCommentDTO;
 import com.gdu.smore.mapper.QnaBoardMapper;
 import com.gdu.smore.util.MyFileUtil;
-import com.gdu.smore.util.PageUtil;
+import com.gdu.smore.util.QnaPageUtil;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -25,11 +25,11 @@ import lombok.extern.log4j.Log4j2;
 public class QnaBoardServiceImpl implements QnaBoardService {
 	
 	private QnaBoardMapper qnaboardMapper;
-	private PageUtil pageUtil;
+	private QnaPageUtil pageUtil;
 	private MyFileUtil myFileUtil;
 	
 	@Autowired
-	public void set(QnaBoardMapper qnaboardMapper, PageUtil pageUtil, MyFileUtil myFileUtil) {
+	public void set(QnaBoardMapper qnaboardMapper, QnaPageUtil pageUtil, MyFileUtil myFileUtil) {
 		this.qnaboardMapper = qnaboardMapper;
 		this.pageUtil = pageUtil;
 		this.myFileUtil = myFileUtil;
@@ -47,21 +47,25 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		
 		// 전체 블로그 개수
 		int totalRecord = qnaboardMapper.selectQnaBoardListCount();
-		log.info(totalRecord);
-		// 페이징 처리에 필요한 변수 계산
-		pageUtil.setPageUtil(page, totalRecord);
 		
-		log.info(pageUtil.getBegin() + "====" + pageUtil.getEnd());
+		// 페이지 출력 개수
+		int pageCount = 10;
+		// offset
+		int offset = (page - 1) * pageCount;
+		
+		log.info("pageCount ==>" + pageCount + "offset ==> " + offset + "totalRecord ==>" + totalRecord);
 		// 조회 조건으로 사용할 Map 만들기
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", 0);
-		map.put("end", 10);
+		map.put("begin", pageCount);
+		map.put("end", offset);
+		
+		pageUtil.setPageUtil(page, totalRecord);
 		
 		// 뷰로 전달할 데이터를 model에 저장하기 
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("qnaboardList", qnaboardMapper.selectQnaBoardListByMap(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/qnaboard/list"));
+		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/qna/list"));
 		
 	}
 

@@ -42,6 +42,10 @@
 	fn_editComment();
 	fn_switchEditcmtArea();
 	
+	fn_likeCheck();
+	fn_likeCount();
+	fn_pressLike();
+	
 	// 댓글 카운트
 	function fn_commentCnt() {
 		$.ajax({
@@ -284,8 +288,92 @@
 		})
 	}
 	 
+		
+ 		
+ 		// 좋아요 함수
+ 		// 내가 좋아요 누른 게시글인지 체크
+ 		function fn_likeCheck() {
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '${contextPath}/code/likeCheck',
+ 				data: 'coNo=${code.coNo}&nickname=${loginUser.nickname}',
+ 				dataType: 'json',
+ 				success: function(resData) {
+ 					if(resData.count == 0) {
+ 						$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
+ 						$('#like').removeClass("like_checked");
+ 					} else {
+ 						$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+ 						$('#good').addClass("like_checked");
+ 					}
+ 				}
+ 			});
+ 		}
+		
+ 		// 좋아요 개수
+ 		function fn_likeCount(){
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '${contextPath}/code/likeCnt',
+ 				data: 'coNo=${code.coNo}',
+ 				dataType: 'json',
+ 				success: function(resData){
+ 					$('#like_count').empty();
+ 					$('#like_count').text(resData.count + '개');
+ 				}
+ 			});
+ 		}
 	
 });
+	
+	// "좋아요" 개수 표시하기
+	function fn_likeCount(){
+		$.ajax({
+			url: '${contextPath}/code/getlikeCount',
+			type: 'get',
+			data: 'coNo=${code.coNo}',
+			dataType: 'json',
+			success: function(resData){
+				$('#like_count').empty();
+				$('#like_count').text(resData.count + '개');
+			}
+		});
+	}
+	
+	// "좋아요" 누른 경우
+	function fn_pressLike(){
+		$('#lnk_like').click(function(){
+			// 로그인을 해야 "좋아요"를 누를 수 있다.
+			if('${loginUser.nickname}' == ''){
+				alert('해당 기능은 로그인이 필요합니다.');
+				return;
+			}
+			// 셀프 좋아요 방지
+			if('${loginUser.nickname}' == '${code.nickname}'){
+				alert('본인의 게시글에서는 "좋아요"를 누를 수 없습니다.');
+				return;
+			}
+			// "좋아요" 선택/해제 상태에 따른 하트 변경
+			$('#good').toggleClass("like_checked");
+			if ($('#good').hasClass("like_checked")) {
+				$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+			} else {
+				$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
+			}
+			// "좋아요" 처리
+			$.ajax({
+				url: '${contextPath}/code/mark',
+				type: 'get',
+				data: 'coNo=${code.coNo}&nickname=${loginUser.nickname}',
+				dataType: 'json',
+				success: function(resData){
+					if(resData.isSuccess) {
+						fn_likeCount();							
+					}
+				}
+			});
+		});
+	}
 
 </script>
 <style>
@@ -303,8 +391,6 @@
 <div style="width: 800px; display: inline-block;" >
 	<div style="width: 300px;">
 		<input type="button" value="목록" onclick="location.href='/code/list'">
-		<input type="button" value="이전글">
-		<input type="button" value="다음글">
 	</div>
 	<div style="width: 200px; display: inline-block;">
 		<form id="frm_btn" method="post">
@@ -313,6 +399,7 @@
 			<input type="button" value="삭제" class="btn_remove">
 		</form>
 	</div>
+	<!-- <a id="imgDownload" href="#!" download><button>다운</button></a> -->
 </div>
 <div>
 	<table>
@@ -337,6 +424,9 @@
 			댓글 
 			<span class="cmt_cnt"></span>개
 		</span>
+		<a id="lnk_like">
+				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
+			</a>
 	</div>
 	
 	<hr>

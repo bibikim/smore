@@ -366,11 +366,11 @@
   }
   
   .btn.icon.prev {
-    background-image: url("./icon-prev.png");
+    background-image: url("../iamges/icon-prev.png");
   }
   
   .btn.icon.next {
-    background-image: url("./icon-next.png");
+    background-image: url("../images/icon-next.png");
   }
   
   .btn.icon:hover.prev {
@@ -827,11 +827,11 @@
   }
   
   .pagination>a.prev {
-    background-image: url("./p-prev.png");
+    background-image: url("../images/p-prev.png");
   }
   
   .pagination>a.next {
-    background-image: url("./p-next.png");
+    background-image: url("../images/p-next.png");
   }
   
   .pagination>a.last {

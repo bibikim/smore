@@ -112,7 +112,7 @@
 		UNION ALL
 		(select * from user_cmt)
 		ORDER BY QA_NO DESC, CMT_NO ASC
-		LIMIT #{begin}, #{end}
+		LIMIT #{begin} OFFSET #{end}
 	</select>
 	
 	

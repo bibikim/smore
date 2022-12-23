@@ -72,17 +72,9 @@
 							<td id="align">${beginNo - vs.index}</td>
 							<td>
 								<a href="/code/increase/hit?coNo=${code.coNo}">${code.title}</a>
-								<a href="#" class="cmt_cnt"></a>
-								<script>
-									$(function(){
-										// 댓글 카운트 list에 뿌리기
-									})
-										
-										
-		
+								<c:out value="${code.cmtCount}"/>
 								
-								</script>
-								
+				
 								<c:set var="now" value="${java.util.Date}"/>
 								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>
 								<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>

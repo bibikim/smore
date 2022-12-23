@@ -72,8 +72,16 @@
 	<delete id="deleteCodeBoard" parameterType="int">
 		DELETE
 		  FROM C_BOARD
-		 WHERE C_BOARD_NO = #{coNo}
+		 WHERE CO_NO = #{coNo}
 	</delete>
+	
+	<update id="updateCmtCount" parameterType="int">
+		 UPDATE C_BOARD C
+   			SET C.CMT_COUNT = (SELECT COUNT(CMT_NO) FROM C_CMT WHERE CO_NO = #{coNo})
+   		  WHERE C.CO_NO = #{coNo};
+	</update>
+	
+	
 	
 	
 	
