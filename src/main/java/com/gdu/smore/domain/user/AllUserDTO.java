@@ -11,4 +11,5 @@ public class AllUserDTO {
 	private int rowNum;
 	private UserDTO userDTO;
 	private SleepUserDTO sleepUserDTO;
+	private AccessLogDTO accessLogDTO;
 }

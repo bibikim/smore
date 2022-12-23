@@ -67,6 +67,7 @@
 		<result column="ROW_NUM" property="rowNum" />
 		<collection resultMap="UserMap" property="userDTO"></collection>
 		<collection resultMap="SleepUserMap" property="sleepUserDTO"></collection>
+		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
 	</resultMap> 
 
 	<select id="selectUserCount" resultType="int">
@@ -103,41 +104,14 @@
 		SELECT COUNT(*)
 		  FROM Q_BOARD
 	</select>	
-	
-<!--    	<select id="selectAllUserList" parameterType="Map" resultMap="AllUserMap">
-		SELECT D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, S.USER_NO, S.ID, S.NAME, S.GENDER, S.JOIN_DATE, S.LAST_LOGIN_DATE, S.USER_STATE
-		          FROM (SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, NULL SLEEP_DATE, U.USER_STATE,  A.LAST_LOGIN_DATE 
-		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                    ON U.ID = A.ID 
-		                 UNION ALL
-                		SELECT USER_NO, ID, NAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE, USER_STATE
-                  		  FROM SLEEP_USERS) S) D
-  		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end} 	                    
-	</select> 	 -->
-	
-<!--   	<select id="selectAllUserList" parameterType="Map" resultMap="AllUserMap">
-		SELECT D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, S.USER_NO, S.ID, S.NAME, S.GENDER, S.JOIN_DATE, S.LAST_LOGIN_DATE 
-		          FROM (SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, NULL SLEEP_DATE, A.LAST_LOGIN_DATE 
-		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                    ON U.ID = A.ID 
-		                 UNION ALL
-                		SELECT USER_NO, ID, NAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, SLEEP_DATE
-                  		  FROM SLEEP_USERS) S) D
-  		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end}
-  		 <if test="column=='ID'">AND ${column} LIKE '%' || #{query} || '%'</if>
-		 <if test="column=='JOIN_DATE'">AND D.${column} BETWEEN TO_DATE(#{start}, 'yyyy-mm-dd') AND TO_DATE(#{stop}, 'yyyy-mm-dd')</if>
-	</select>    -->
-	   
-	
+		   	
 	 <select id="selectUserByNo" parameterType="int" resultType="UserDTO">
 	 	SELECT USER_NO, ID, JOIN_DATE
 	 	  FROM USERS 
 	 	 WHERE USER_NO = #{userNo}
 	 </select> 
 	
-	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
+<!-- 	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
 			SELECT C.ROW_NUM, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.JOIN_DATE, C.INFO_MODIFY_DATE, C.USER_STATE, C.LAST_LOGIN_DATE
 		  	  FROM (SELECT ROW_NUMBER() OVER(ORDER BY B.USER_NO DESC) AS ROW_NUM, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.INFO_MODIFY_DATE, B.USER_STATE, B.LAST_LOGIN_DATE
 		  		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.INFO_MODIFY_DATE, U.USER_STATE, A.LAST_LOGIN_DATE
@@ -149,21 +123,84 @@
 		  		<if test="column=='ID'">AND C.${column} LIKE '%' || #{query} || '%'</if>
 		  		<if test="column=='JOIN_DATE'"> AND C.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND STR_TO_DATE(#{stop}, '%Y-%m-%d')</if>
 		  	</where>	         
-	</select>
+	</select> -->
 	
-	<select id="selectUserCountByQuery" parameterType="Map" resultType="int">
+<!--  	<select id="selectUsersByQuery" parameterType="Map" resultMap="AllUserMap">
+		 SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.USER_STATE 
+		   FROM (SELECT ROW_NUMBER() OVER(ORDER BY U.USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE 
+		           FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		             ON U.ID = A.ID) B		         
+		UNION ALL
+		  
+	    SELECT C.ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.JOIN_DATE, C.LAST_LOGIN_DATE, C.USER_STATE 
+	      FROM (SELECT ROW_NUMBER() OVER(ORDER BY U.USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.LAST_LOGIN_DATE
+	  		      FROM SLEEP_USERS U) c
+	     WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 
+		<where>
+			B.ROW_NUM BETWEEN #{begin} AND #{end}
+		  <if test="column=='ID'">AND B.${column} LIKE '%' #{query} '%' OR C.${column} LIKE '%' #{query} '%' </if>
+		  <if test="column=='ID'"> B.${column} = #{query}  </if>	
+		  <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND B.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if>
+		</where>            
+	</select>  -->
+	
+ 	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
+		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
+  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
+                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
+		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		                    ON U.ID = A.ID
+         UNION ALL
+        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
+          FROM SLEEP_USERS) C) D
+    	<where>
+    		D.ROW_NUM BETWEEN #{begin} AND #{end}  		
+   		  <if test="column=='ID'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
+
+		  <!-- <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND D.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if> -->
+		</where>  
+	</select>   
+	
+<!-- 	활동유저 조회 
+	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
+		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
+	              FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
+			              FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+				            ON U.ID = A.ID
+			             ORDER BY U.JOIN_DATE) C) D
+		<where>
+			D.ROW_NUM BETWEEN #{begin} AND #{end}
+			<if test="column=='ID'">AND ${column} = #{query}  </if> 	 
+			<if test="column=='ID'">AND ${column} LIKE '%' || #{query} || '%'</if>
+		</where>			               
+	</select> -->
+	
+<!-- 	<select id="selectUserCountByQuery" parameterType="Map" resultType="int">
 		SELECT COUNT(*)
 		  FROM USERS
 		<where>
-		  <if test="column=='ID'">#{column} LIKE '%' || #{query} || '%'</if>
-		  <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND STR_TO_DATE(#{start}, '%Y-%m-%d')</if>
+		  <if test="column=='ID'">${column} LIKE '%' || #{query} || '%'</if>
 		</where>
+	</select> -->
+		
+	<select id="selectAllUserCountByQuery" parameterType="Map" resultType="int">
+ <!-- 		 SELECT ( 
+		 (SELECT COUNT(*) from USERS) + 
+		 (SELECT COUNT(*) from SLEEP_USERS)
+	     )  -->
+	     SELECT COUNT(*) + (SELECT COUNT(*) FROM SLEEP_USERS)
+	       FROM USERS 
+	<where>
+	 	<!-- <if test="column=='ID'">AND ${column} = #{query}  </if>  -->	 
+	 	<!-- <if test="column=='ID'">AND ${column} LIKE '%' #{query} '%' </if>  -->
+	 	<!-- <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND ${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if> --> 
+	 	<if test="column=='ID'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
+ 	</where> 	 
 	</select>
 	
-
-
 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
-		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.LAST_LOGIN_DATE, NULL SLEEP_DATE
+<!-- 		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.LAST_LOGIN_DATE, NULL SLEEP_DATE
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
 		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                     		ON U.ID = A.ID) B	
@@ -174,10 +211,19 @@
 		 SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
 		   FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE
 		  		  FROM SLEEP_USERS U) B
-		  WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 
-		 		  		  
+		  WHERE B.ROW_NUM BETWEEN #{begin} AND #{end}  -->
+		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
+  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
+                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
+		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		                    ON U.ID = A.ID
+         UNION ALL
+        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
+          FROM SLEEP_USERS) C) D 
+		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end} 		  		  
 	</select>
 
+	<!-- 일반유저 조회 -->
 	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
 		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.INFO_MODIFY_DATE, B.LAST_LOGIN_DATE
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
@@ -186,7 +232,7 @@
 		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
 	</select>
 
-	
+	<!-- 휴면유저 조회 -->
 	<select id="selectSleepUserListByMap" parameterType="map" resultType="SleepUserDTO">
 		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE
@@ -219,9 +265,9 @@
 	</select>
 	
 	<!-- qna게시판 조회 -->
-	<select id="selectQnaListByMap" parameterType="map" resultType="CodeBoardDTO">
-		SELECT A.ROW_NUM, A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.PW, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDERY BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+	<select id="selectQnaListByMap" parameterType="map" resultType="QnaBoardDTO">
+		SELECT A.ROW_NUM, A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
 		          FROM Q_BOARD) A 
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}         
 	</select>
@@ -246,6 +292,19 @@
 		  </where>
 	</delete>
 	
+	<!-- 스터디게시판 다중 삭제 -->
+	<delete id="deleteStudyBoardList" parameterType="List">
+		DELETE
+		  FROM S_GROUP
+		  <where>
+		  	 STUD_NO IN
+		 	<foreach collection="list" item="studNo" open="(" close=")" separator=",">  
+		 		#{studNo}
+		 	</foreach>
+		  </where>
+	</delete>
+	
+	
 	<!-- 자유게시판 다중 삭제 -->
 	<delete id="deleteFreeBoardList" parameterType="List">
 		DELETE
@@ -258,8 +317,29 @@
 		  </where>
 	</delete>
 	
+	<!-- 코드게시판 다중 삭제  -->
+	<delete id="deleteCodeBoardList" parameterType="List">
+		DELETE
+		  FROM C_BOARD
+		 <where>
+		 	CO_NO IN
+	 		<foreach collection="list" item="coNo" open="(" close=")" separator=",">  
+		 		#{coNo}
+		 	</foreach>
+		 </where> 
+	</delete>
 	
-	
+	<!-- Qna게시판 다중 삭제 -->
+	<delete id="deleteQnaBoardList" parameterType="List">
+		DELETE
+		  FROM Q_BOARD
+		 <where>
+		 	QA_NO IN
+	 		<foreach collection="list" item="qaNo" open="(" close=")" separator=",">  
+		 		#{qaNo}
+		 	</foreach>
+		 </where> 
+	</delete>
 	
 	<!-- 휴면 복구 -->
 	
