@@ -6,34 +6,48 @@
 
 <mapper namespace="com.gdu.smore.mapper.ListMapper">
 
-	<select id="selectMyListCount" resultType="int">
-		SELECT COUNT(*)
+	<select id="selectStudyListCount" resultType="int">
+		SELECT COUNT (*)
 		  FROM S_GROUP
+	</select>
+
+	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
+		SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, TITLE, LANG, STUD_DATE, HIT, CREATE_DATE
+          FROM S_GROUP
 		 WHERE NICKNAME = #{nickname}
 	</select>
 
-	<select id="selectMyList" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.ROW_NUM, A.NICKNAME, A.TITLE, A.HIT, A.LANG, A.STUD_DATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, TITLE, HIT, LANG, STUD_DATE
-		          FROM S_GROUP) A
-		 WHERE NICKNAME = #{nickname}
-	</select>
+	<delete id="deleteStudyList" parameterType="List">
+		 DELETE
+		   FROM S_GROUP
+		<where>
+			STUD_NO IN
+			<foreach collection="list" item="studNo" open="(" close=")" separator=",">
+				#{studNo}
+			</foreach>
+		</where>
+	</delete>
 	
-	<select id="selectZCount" resultType="int">
-		SELECT COUNT(*)
+	<select id="selectZzimListCount" resultType="int">
+		SELECT COUNT (*)
 		  FROM S_ZZIM
+	</select>
+	
+	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
+		SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, TITLE, LANG, STUD_DATE, HIT, CREATE_DATE
+          FROM S_ZZIM
 		 WHERE NICKNAME = #{nickname}
 	</select>
 	
-	<select id="selectZList" parameterType="Map" resultType="StudyZzimDTO">
-		SELECT A.ROW_NUM, A.NICKNAME, A.STUD_NO
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, STUD_NO
-		        FROM S_ZZIM) A
-		 WHERE NICKNAME = #{nickname}
-		   AND STUD_NO = #{studNo}
-	</select>
-	
-   
-   
+	<delete id="deleteZzimList" parameterType="List">
+		 DELETE
+		   FROM S_ZZIM
+		<where>
+			STUD_NO IN
+			<foreach collection="list" item="studNo" open="(" close=")" separator=",">
+				#{studNo}
+			</foreach>
+		</where>
+	</delete>
    
 </mapper>

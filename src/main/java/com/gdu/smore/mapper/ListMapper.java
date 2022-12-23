@@ -11,9 +11,12 @@ import com.gdu.smore.domain.study.StudyZzimDTO;
 @Mapper
 public interface ListMapper {
 
-	public int selectMyListCount();
-	public List<StudyGroupDTO> selectMyList(Map<String, Object> map);
-	public int selectZCount();
-	public List<StudyZzimDTO> selectZList(Map<String, Object> map);
+	public int selectStudyListCount();
+	public List<StudyGroupDTO> selectStudyListByMap(Map<String, Object> map);
+	public int deleteStudyList(List<String> studylist);
+	
+	public int selectZzimListCount();
+	public List<StudyZzimDTO> selectZzimListByMap(Map<String, Object> map);
+	public int deleteZzimList(List<String> zzimlist);
 	
 }
