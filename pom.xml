@@ -19,6 +19,26 @@
    </properties>
    <dependencies>
    	
+	    <dependency>
+	      <groupId>org.webjars</groupId>
+	      <artifactId>stomp-websocket</artifactId>
+	      <version>2.3.3</version>
+	    </dependency>
+   	
+   	
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+ 		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		</dependency>
+   	
+   	
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 		    <groupId>org.json</groupId>

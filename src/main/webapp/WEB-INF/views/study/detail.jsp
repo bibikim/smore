@@ -52,6 +52,7 @@
 			</c:if>
 			<input type="button" value="목록" onclick="location.href='/study/list'">
 			<input type="button" value="신고하기" id="btn_red_study">
+			<input type="button" value="채팅하기" id="btn_chat">
 		</form>
 		<script>
 			$('#btn_edit_study').click(function(){
@@ -65,6 +66,10 @@
 				}
 			});
 
+			$('#btn_chat').click(function(){
+				
+				window.open('/chat', 'chatting', 'width=670,height=670,top=100,left=500,menubar=no,history=no');							
+			});
 		</script> 
 	</div>
 	

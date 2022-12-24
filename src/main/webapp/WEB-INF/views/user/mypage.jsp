@@ -75,7 +75,7 @@
 
 	$(function() {
 		fn_studylist();
-		fn_zzimlist();
+		//fn_zzimlist();
 	});
 
 	// html dom 이 다 로딩된 후 실행된다.
@@ -91,6 +91,11 @@
                 submenu.slideDown();
             }
         });
+        /* 찜 목록 */
+    	$('#chatlist').click(function(){
+    		$('#body_list').empty();
+    		fn_chatlist();
+    	});
     });
 	
     /* 체크박스 */
@@ -120,6 +125,9 @@
 		$('#body_list').empty();
 		fn_zzimlist();
 	});
+	
+	
+
 	
 	function fn_studylist() {
 		$.ajax({
@@ -163,6 +171,37 @@
 		});
 	}
 	
+	function fn_chatlist(){
+		$.ajax({
+			type: 'get',
+			url : '/chat/rooms',
+			dataType: 'json',
+			success: function(resData) {
+				console.log(resData);
+				$('#head_list').empty();
+				$('#body_list').empty();
+				var tr = '<tr>';
+				tr += '<th scope="col">' + '순번' + '</th>';
+				tr += '<th scope="col">' + '채팅방' + '</th>';
+				tr += '</tr>';
+				$('#head_list').append(tr);
+				if(resData == '') {
+					var tr = '<tr>';
+					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
+					$('#body_list').append(tr);
+				} else {
+					$.each(resData, function(i, list) {
+						var tr = '<tr>';
+						tr += '<td>' + list.roomId + '</td>';
+						tr += '<td>' + list.name  + '</td>';
+						tr += '</tr>';
+						$('#body_list').append(tr);
+					});
+				}
+			}
+		});
+	}
+	
 </script>
 
 </head>
@@ -176,6 +215,7 @@
 					<ul class="hide">					
 						<li><a class="studylist" href="${contextPath}/user/studylist">- My 스터디 목록</a></li>
 						<li><a class="zzimlist" href="#">- 찜 스터디 목록</a></li>
+						<li><a id="chatlist" href="javascript:void(0);">- 채팅 목록</a></li>
 					</ul>
 				</li>
 			</ul>
