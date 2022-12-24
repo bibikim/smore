@@ -8,38 +8,97 @@
     padding-left: 0;
 }
 
-#content {
-	width: 150px;
-	height: 100px;
-}
-
-	function closeTab() {
-		window.close();
-	}
-	
 
 </style>
 <script>
-	function closetab() {
-		window.close();
+
+	/*
+	// 신고
+	function report(){
+		
+		// 유저가 동일한 게시글을 신고한 이력이 있는지 조회
+		$.ajax({
+			url: '${contextPath}/red/check.json',
+			dataType:'json'
+			data: {
+				redNo: redNo,
+				nickname: "${loginUser.nickname}"
+			},
+			success: function(rep){
+				if(rep == null){ // 이력 없음
+					
+					// type이 1이면 게시글번호, type이 2면 댓글번호
+		    		let type = $("#rpType").val();
+    				let reportRefNo = "";
+		    		
+					if(type == 1){
+						reportRefNo = ${b.boardNo};
+					}else{
+						reportRefNo = $("#refNo").val();
+					}
+					
+		    		if($("#etcBtn").is(":checked")){
+		    			$("#real").val($("#rpEtc").val());
+		    		}
+		    		
+            		let value = $("#real").val();
+            		
+            		$.ajax({
+            			url: "report.bo",
+            			data: {
+            				reportType: type,
+            				reportRefNo: reportRefNo,
+            				userNo: "${loginUser.userNo}",
+            				reportContent: value
+            			},
+            			success: function(r){
+            				if(r.result > 0){
+            					
+            					toast("신고가 접수되었습니다.");
+            					
+            					$(".btn-jycancle").click();
+            					
+            				}else{
+            					console.log("신고 실패");
+            				}
+            			},error: function(){
+            				console.log("신고 ajax 실패");
+            			}
+            		});
+					
+				}else{ // 이력 있음
+					toast("이미 신고가 접수되었습니다.");
+				
+					$(".btn-jycancle").click();
+					
+				}
+				
+			},error: function(){
+				console.log("신고 여부 ajax 실패");
+			}
+		});
+		 
 	}
+	*/
+
 </script>
 <body>
 <div>
+
 	<h1>신고하기</h1>
 	<form id="frm_red" action="${contextPath}/study/sendred" method="post">
 	<div>
-		신고자 ▷ ${study.nickname}
+		<span>신고자 ▷ 여기${study.nickname}</span>
 	</div>
 	<div>
-		스터디번호 ▷ ${study.studNo}
+		스터디번호 ▷ 여기${grpred.study.studNo}
 	</div>
 	<div>
-		신고일자 ▷ ${study.stud_Date}
+		신고일자 ▷ 여기${study.stud_Date}
 	</div>
 
 	<div>
-		<h2>신고사유</h2>
+		<h2><label for="redContent">신고사유</label></h2>
 		<ul id="reason">
 			<li id="A">
 				<div class="RA">
@@ -65,12 +124,9 @@
 					<label for="R4">스팸</label>
 				</div>
 			</li>
+			
 		</ul>
 	</div>	
-	<div>
-		<label for="content">내용</label>
-		<textarea name="content" id="content"></textarea>				
-	</div>
 	
 	<br>
 	<br>
@@ -81,7 +137,7 @@
 	</div>
 	
 	</form>
-
+	 			    	
 </div>
 </body>
 

@@ -6,24 +6,29 @@
 
 <mapper namespace="com.gdu.smore.mapper.RedMapper">
 	
+	<!-- 
 	<select id="selectAllRedCnt" resultType="int">
 		SELECT COUNT(*)
 		  FROM GRP_REDBELL
 	</select>
-	
-	<select id="selectAllList" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
-		          FROM S_GROUP B) A
+	 -->
+
+	<!-- 
+	<select id="selectAllRedList" parameterType="Map" resultType="StudyGroupDTO">
+		SELECT A.ROW_NUM, A.RED_NO, A.ID, A.STUD_NO, A.RED_CONTENT, A.RED_DATE, A.USER_NO
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY RED_NO DESC) AS ROW_NUM, R.ID, R.STUD_NO, R.RED_CONTENT, R.RED_DATE, R.USER_NO
+		          FROM GRP_REDBELL B) A
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
-	</select>	
-	
+	</select>
+	 -->
+			
 	<insert id="insertRed" parameterType="GrpRedbellDTO">
 		INSERT INTO GRP_REDBELL
-			(RED_NO, ID, STUD_NO, RED_CONTENT, RED_DATE, USER_NO, NICKNAME)
+			(RED_NO, ID, STUD_NO, RED_CONTENT, RED_DATE, NICKNAME)
 		VALUES
-			(#{redNo}, #{id}, #{studNo}, #{redContent}, #{redDate}, #{userNo}, #{nickname})	
+			(#{redNo}, #{id}, #{studNo}, #{redContent}, #{redDate}, #{study.nickname})	
 	</insert>
+	
 	
 </mapper>
 
