@@ -90,14 +90,32 @@ input#btn_trans{
 <script>
 	$(function(){
 		fn_AlluserList();
-	//	fn_remove(); 
 		fn_searchList();
 		fn_changePage();
-	//	fn_trans();
-	//	fn_CodeList();
-		
+    	$('#form1').show();
+    	$('#form2').hide();	
+			
+		// 게시판 검색
+   		$('#area5').hide();
+   		$('#area6').hide();
+   		
+   		$('#area4').css('display', 'none');
 
-		
+   		$('#column2').change(function(){
+   			$('.input').val('');
+   			let combo = $(this);
+   			if(combo.val() == 'CREATE_DATE'){
+   				$('#area4').hide();
+   				$('#area5').hide();
+   				$('#area6').show();
+   			} else {
+   				$('#area4').show();
+   				$('#area5').hide();
+   				$('#area6').hide();
+   			}
+   		});
+
+	
 	    // html dom 이 다 로딩된 후 실행된다.
 	    $(document).ready(function(){
 	        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -113,6 +131,22 @@ input#btn_trans{
 	        });
 	    });
 		
+	    $('.board, .freeBoard_list, .StudyBoard_list, .CodeBoard_list, .Qna_List').click(function(){	    	
+	    	$('#form1').hide();
+	    	$('#form2').show();	    	
+	    });
+	    	    
+	    
+	    $('.user, .user_list, .sleepUser_list, .report_list').click(function(){	    	
+	    	$('#form2').hide();
+	    	$('#form1').show();	    	
+	    });
+	    
+
+	    
+	    
+	    
+	    
 		// 검색창 
 		$('#area1, #area2').css('display', 'none');
 		$('#column').change(function(){
@@ -725,16 +759,14 @@ input#btn_trans{
 			}
 		});
 	}
-		
-	
+			
  	function fn_searchList(){
 		$('#btn_search').click(function(e){
-			console.log('받음');
-			if($('#query').val() == ''){
+/* 			if($('#query').val() == ''){
 				alert('검색어를 입력해주세요.');
 				e.preventDefault();
 				return;
-			}
+			} */
 			$.ajax({
 				type : 'get',
 				url : '/users/search/page' + page,
@@ -765,11 +797,12 @@ input#btn_trans{
 							.append( $('<td>').text(user.userDTO.gender))
 							.append( $('<td>').text(user.userDTO.joinDate))
 							.append( $('<td>').text(user.userDTO.accessLogDTO.lastLoginDate))
-							.append( $('<td>').text(user.userDTO.userState))
+							/* tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>'; */
+							.append( $('<td>').text(user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')))
 							.appendTo('#user_list');
 						});
 					} else if(resData.status == 500){
-						alert('검색결과가 없습니다.');	
+						alert('검색결과가 없습니다.');
 					}
 					// 페이징
 					$('#paging').empty();
@@ -955,7 +988,7 @@ input#btn_trans{
         <div class="sidebar" >
            <ul>	    
 		        <li class="menu">
-		            <a>유저관리</a>
+		            <a class="user">유저관리</a>
 		            <ul class="hide">
 		                <li><a class="user_list" href="#"> - 일반유저</a></li>
 		                <li><a class="sleepUser_list" href="#"> - 휴면유저</a></li>
@@ -965,7 +998,7 @@ input#btn_trans{
 		        </li>
 		 
 		        <li class="menu">
-		            <a>게시판관리</a>
+		            <a class="board">게시판관리</a>
 		            <ul class="hide">
 		                <li><a class="freeBoard_list" href="#"> - 자유게시판</a></li>
 		                <li><a class="StudyBoard_list" href="#"> - 스터디게시판</a></li>
@@ -976,34 +1009,101 @@ input#btn_trans{
             </ul>
         </div>
      </div>
-
-	<form id="frm_search">
-		<div style="float: right;">
-			<select id="column" name="column">
-				<option value="">:::선택:::</option>
-				<option value="ID">ID</option>
-				<option value="JOIN_DATE">가입일</option>
+     
+   <div style="float: right;">
+     
+	<div id="form1">
+		<form id="frm_search">
+			<div >
+				<select id="column" name="column">
+					<option value="">:::선택:::</option>
+					<option value="ID">ID</option>
+					<option value="NICKNAME">닉네임</option>
+					<option value="JOIN_DATE">가입일</option>
+				</select>
+	
+			<span id="area1">
+				<input type="text" id="query" name="query">
+			</span>
+			
+			<span id="area2">
+				<input type="text" name="start" id="start">
+				~
+				<input type="text" name="stop" id="stop">
+			</span>
+			
+			<span>
+				<input type="button" id ="btn_userSearch"  value="검색">
+				<input type="button" value="전체유저조회" id="btn_all">			
+				<script>
+					$('#btn_all').click(function(){
+						fn_AlluserList();
+					});				
+				</script>
+			</span>
+			</div>	
+		</form>
+	</div>
+	
+	<div id="form2">
+		<form id="frm_search">
+			<select id="board" name="board">
+				<option value="">전체</option>
+				<option value="FREE">자유게시판</option>
+				<option value="STUDY">스터디게시판</option>
+				<option value="CODE">코드게시판</option>
+				<option value="QNA">QNA</option>
 			</select>
+			<select id="column2" name="column2" class="select">
+				<option value="">:::선택:::</option>
+				<option value="ID">작성자</option>
+				<option value="TITLE">제목</option>
+				<option value="CREATE_DATE">작성일자</option>
+			</select>
+			<span id="area4">
+				<input type="text" id="query" name="query" class="input searchBox">
+			</span>
+			<span id="area5">
+				<input type="text" id="first" name="first" class="input searchBox">
+				~
+				<input type="text" id="last" name="last" class="input searchBox">
+			</span>
+			<span id="area6">
+				<input type="text" id="start" name="start" class="start_datepicker input searchBox">
+				~
+				<input type="text" id="stop" name="stop" class="end_datepicker input searchBox">
+			</span>
+			<span>
+				<input type="button" value="검색" id="btn_search" class="btn_primary">
+			</span>
+		</form>
+	</div>
+	<script>
+	function fn_inputShow(){
+		
+		$('#area5').hide();
+		$('#area6').hide();
+		
+		$('#area4').css('display', 'none');
 
-		<span id="area1">
-			<input type="text" id="query" name="query">
-		</span>
-		<span id="area2">
-			<input type="text" id="start" name="start">
-			~
-			<input type="text" id="stop" name="stop">
-		</span>
-		<span>
-			<input type="button" id ="btn_search"  value="검색">
-			<input type="button" value="전체유저조회" id="btn_all">			
-			<script>
-				$('#btn_all').click(function(){
-					fn_AlluserList();
-				});				
-			</script>
-		</span>
-		</div>	
-	</form>
+		$('#column2').change(function(){
+			$('.input').val('');
+			let combo = $(this);
+			if(combo.val() == 'CREATE_DATE'){
+				$('#area4').hide();
+				$('#area5').hide();
+				$('#area6').show();
+			} else {
+				$('#area4').show();
+				$('#area5').hide();
+				$('#area6').hide();
+			}
+		});
+	};
+	</script>
+	
+	
+   </div>			
 
 	<div style="margin-left:225px;">	
 		<div>

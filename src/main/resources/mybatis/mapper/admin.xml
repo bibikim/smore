@@ -70,6 +70,9 @@
 		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
 	</resultMap> 
 
+	
+
+
 	<select id="selectUserCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM USERS
@@ -111,92 +114,69 @@
 	 	 WHERE USER_NO = #{userNo}
 	 </select> 
 	
-<!-- 	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
-			SELECT C.ROW_NUM, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.JOIN_DATE, C.INFO_MODIFY_DATE, C.USER_STATE, C.LAST_LOGIN_DATE
-		  	  FROM (SELECT ROW_NUMBER() OVER(ORDER BY B.USER_NO DESC) AS ROW_NUM, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.INFO_MODIFY_DATE, B.USER_STATE, B.LAST_LOGIN_DATE
-		  		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.INFO_MODIFY_DATE, U.USER_STATE, A.LAST_LOGIN_DATE
-		  		          FROM USERS U LEFT OUTER JOIN ACCESS_LOG A 
-		  		            ON U.ID = A.ID
-		  		         ORDER BY U.JOIN_DATE DESC) B) C
-		  	<where>
-		  		C.ROW_NUM BETWEEN #{begin} AND #{end}
-		  		<if test="column=='ID'">AND C.${column} LIKE '%' || #{query} || '%'</if>
-		  		<if test="column=='JOIN_DATE'"> AND C.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND STR_TO_DATE(#{stop}, '%Y-%m-%d')</if>
-		  	</where>	         
-	</select> -->
 	
-<!--  	<select id="selectUsersByQuery" parameterType="Map" resultMap="AllUserMap">
-		 SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.USER_STATE 
-		   FROM (SELECT ROW_NUMBER() OVER(ORDER BY U.USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE 
-		           FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		             ON U.ID = A.ID) B		         
-		UNION ALL
-		  
-	    SELECT C.ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.JOIN_DATE, C.LAST_LOGIN_DATE, C.USER_STATE 
-	      FROM (SELECT ROW_NUMBER() OVER(ORDER BY U.USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.LAST_LOGIN_DATE
-	  		      FROM SLEEP_USERS U) c
-	     WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 
-		<where>
-			B.ROW_NUM BETWEEN #{begin} AND #{end}
-		  <if test="column=='ID'">AND B.${column} LIKE '%' #{query} '%' OR C.${column} LIKE '%' #{query} '%' </if>
-		  <if test="column=='ID'"> B.${column} = #{query}  </if>	
-		  <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND B.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if>
-		</where>            
-	</select>  -->
-	
+	<!-- 검색기능 -->
  	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
-		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
+		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE 
   		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
                   FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
 		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
 		                    ON U.ID = A.ID
          UNION ALL
-        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
+        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE 
           FROM SLEEP_USERS) C) D
     	<where>
-    		D.ROW_NUM BETWEEN #{begin} AND #{end}  		
-   		  <if test="column=='ID'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
-
-		  <!-- <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND D.${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if> -->
-		</where>  
+    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
+   		  <if test="column=='ID' or column == 'NICKNAME'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
+		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
+		  <if test="column=='JOIN_DATE'">AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1</if>
+		</where> 
 	</select>   
-	
-<!-- 	활동유저 조회 
-	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
-		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
-	              FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
-			              FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-				            ON U.ID = A.ID
-			             ORDER BY U.JOIN_DATE) C) D
-		<where>
-			D.ROW_NUM BETWEEN #{begin} AND #{end}
-			<if test="column=='ID'">AND ${column} = #{query}  </if> 	 
-			<if test="column=='ID'">AND ${column} LIKE '%' || #{query} || '%'</if>
-		</where>			               
-	</select> -->
-	
-<!-- 	<select id="selectUserCountByQuery" parameterType="Map" resultType="int">
-		SELECT COUNT(*)
-		  FROM USERS
-		<where>
-		  <if test="column=='ID'">${column} LIKE '%' || #{query} || '%'</if>
-		</where>
-	</select> -->
-		
+			
 	<select id="selectAllUserCountByQuery" parameterType="Map" resultType="int">
- <!-- 		 SELECT ( 
-		 (SELECT COUNT(*) from USERS) + 
-		 (SELECT COUNT(*) from SLEEP_USERS)
-	     )  -->
 	     SELECT COUNT(*) + (SELECT COUNT(*) FROM SLEEP_USERS)
 	       FROM USERS 
 	<where>
 	 	<!-- <if test="column=='ID'">AND ${column} = #{query}  </if>  -->	 
 	 	<!-- <if test="column=='ID'">AND ${column} LIKE '%' #{query} '%' </if>  -->
 	 	<!-- <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND ${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if> --> 
-	 	<if test="column=='ID'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
+	 	<if test="column=='ID'">
+	 		${column} LIKE CONCAT('%', #{query}, '%')
+	 	</if>
+	 	<if test="column=='JOIN_DATE'">
+	 		AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1
+	 	</if> 
  	</where> 	 
+	</select>
+	
+	<!-- 자유게시판 검색 -->
+	<select id="selectFreeBoardByQuery" parameterType="map" resultType="FreeBoardDTO">
+		SELECT D.ROW_NUM, D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		          FROM FREEBOARD
+		 <where>
+		 	<if test="column =='ID' or column=='TITLE' or column=='CONTENT'">
+		 		${column} LIKE CONCAT('%', #{query}, '%')
+		 	</if>
+		 	<if test="column=='CREATE_DATE'">
+		 		AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1
+			</if>
+			D.ROW_NUM BETWEEN #{begin} AND #{end}
+		 </where>
+			) D
+	</select>
+	
+	<select id="selectFreeBoardByCountQuery">
+		SELECT COUNT(*)
+		  FROM FREEBOARD
+ 		 <where>
+		 	<if test="column =='ID' or column=='TITLE' or column=='CONTENT'">
+		 		${column} LIKE CONCAT('%', #{query}, '%')
+		 	</if>
+		 	<if test="column=='CREATE_DATE'">
+		 		AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1
+			</if>
+		 </where> 
 	</select>
 	
 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
