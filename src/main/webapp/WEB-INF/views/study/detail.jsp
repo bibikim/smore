@@ -26,7 +26,7 @@
 	<h1>${study.title}</h1>
 	
 	<div>
-		<span>▷ 작성자 ${study.nickname}</span>
+		<span>▷ 작성자 ${grpred.study.nickname}</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
 		&nbsp;&nbsp;&nbsp;
@@ -51,7 +51,7 @@
 				<input type="button" value="삭제" id="btn_remove_study">
 			</c:if>
 			<input type="button" value="목록" onclick="location.href='/study/list'">
-			<input type="button" value="신고하기" id="btn_red_study" onclick="showPopup();">
+			<input type="button" value="신고하기" id="btn_red_study">
 		</form>
 		<script>
 			$('#btn_edit_study').click(function(){
@@ -384,25 +384,25 @@
 			});
 		}
 		
-		function showPopup() { 
-			window.open("<%=request.getContextPath()%>/red/write", "신고창", "width=800, height=600, left=100, top=50"); 
-		}
-		
-		function pressRed() {
+		// 12.22 신고하기
+		function fn_pressRed() {
 			$('#btn_red_study').click(function(){
 				// 로그인을 해야 "신고하기"를 누를 수 있다.
 				if('${loginUser.nickname}' == ''){
 					alert('해당 기능은 로그인이 필요합니다.');
 					return;
 				}
-				
 				// 자기신고 불가
 				if('${loginUser.nickname}' == '${study.nickname}'){
 					alert('본인을 신고 할 수 없습니다.');
 					return;
+				} else {
+					window.open("<%=request.getContextPath()%>/red/write", "신고창", "width=800, height=600, left=100, top=50"); 
 				}
 			});
+
 		}
+		
 
 	</script>
 	
