@@ -96,8 +96,7 @@ public class AdminServiceImpl implements AdminService {
    public Map<String, Object> removeUserList(String userNoList) {
       List<String> list = Arrays.asList(userNoList.split(","));
       for(int i = 0; i < list.size(); i++) {
-         UserDTO userDTO =adminMapper.selectUserByNo(Integer.parseInt(list.get(i)));
-         
+         UserDTO userDTO =adminMapper.selectUserByNo(Integer.parseInt(list.get(i)));       
          RetireUserDTO retireUserDTO = new RetireUserDTO();
          retireUserDTO.setUserNo(userDTO.getUserNo());
          retireUserDTO.setId(userDTO.getId());
@@ -265,38 +264,38 @@ public class AdminServiceImpl implements AdminService {
    @Override
 	public Map<String, Object> findUsers(HttpServletRequest request, int page) {
 	   		
-		/* String state = request.getParameter("state"); */
 		String column = request.getParameter("column");
 		String query = request.getParameter("query");
 		String start = request.getParameter("start");
 		String stop = request.getParameter("stop");
-	 	System.out.println(query);
 	 	
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("column", column);
+		System.out.println(column);
 		map.put("query", query);
 		map.put("start", start);
+		System.out.println(start);
 		map.put("stop", stop);
 		
 		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
 		naverPageUtil.setNaverPageUtil(page, totalRecord);		
 		map.put("begin", naverPageUtil.getBegin());
 		map.put("end", naverPageUtil.getEnd());
+		
 		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
-				
+		System.out.println(users);
 		String path = null;
 		
 		switch(column) {
 		case "ID":
+		case "NICKNAME" : 	
 			path = "/users/search?column=" + column + "&query=" + query;
 			break;
 		case "JOIN_DATE":
 			path = "/users/search?column=" + column + "&start=" + start + "&stop=" + stop;
 			break;	
 		}
-		
-		System.out.println(path);
-		
+				
 		Map<String, Object> result = new HashMap<>();
 		if(users.size() == 0) {
 			result.put("message", "조회된 결과가 없습니다.");
@@ -310,6 +309,14 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 		
 	}
+   
+   @Override
+	public Map<String, Object> findFreeBoard(HttpServletRequest request) {
+		
+		return null;
+	}
+   
+   
    
    
    

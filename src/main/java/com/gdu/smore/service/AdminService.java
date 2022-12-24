@@ -11,8 +11,11 @@ public interface AdminService {
 	public Map<String, Object> getSleepUserList(int page);
 	public Map<String, Object> getreportUserList(int page);
 	
-	// 검색
+	// 유저 검색
 	public Map<String, Object> findUsers(HttpServletRequest request, int page);
+	
+	// 게시판 검색
+	public Map<String, Object> findFreeBoard(HttpServletRequest request);
 	
 	// 게시판 리스트
 	public Map<String, Object> getFreeBoardList(int page);
