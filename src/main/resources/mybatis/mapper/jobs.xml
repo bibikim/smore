@@ -22,8 +22,8 @@
 	<!-- 상세 보기 -->
 	<select id="selectJobsByNo" parameterType="int" resultType="JobsDTO">
 		select JOB_NO, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER
-		  from jobs
-		 where jobs_no = #{jobsNo}
+		  FROM JOBS
+		 WHERE JOB_NO = #{jobNo}
 	</select>
 	
 	<!-- 글 삽입 -->
@@ -31,7 +31,7 @@
 		insert into jobs
 			(TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER)
 		values
-			(#{title}, #{companyName}, #{contact}, #{homepge}, #{profile}, #{hrName}, #{hrContanct}, #{hrEamil}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career})	
+			(#{title}, #{companyName}, #{contact}, #{homepage}, #{profile}, #{hrName}, #{hrContact}, #{hrEmail}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career})	
 	</insert>
 	
 	<!-- 조회수 -->

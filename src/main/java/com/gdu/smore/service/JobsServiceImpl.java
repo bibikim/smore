@@ -82,7 +82,7 @@ public class JobsServiceImpl implements JobsService{
 			if(result > 0) {
 				
 				out.println("alert('구인 공고 게시글이 등록되었습니다.');");
-				out.println("location.href='/free/list/job/list';");
+				out.println("location.href='/job/list';");
 				
 			} else {
 				
