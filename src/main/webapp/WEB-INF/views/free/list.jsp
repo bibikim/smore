@@ -67,16 +67,7 @@
 	
 </style>
 <script>
-	
-/* 	$(document).ready(funtion(){
-		
-		// 자동완성
-		//$('#keyword').keyup(funciton(){
-		//	if($('#type').val() == 'TITLE' || $('#type').val() == '')
-		//})
-		
-		
-	}) */
+
 	
 		$('#frm_search').submit(function(ev) {
 			if($('#type').val() == '' || $('#keyword').val() == '') {
@@ -91,12 +82,18 @@
 <body>
 	
 	
+	<div>
+		<a href="/job/list">JOBS</a>
+	</div>
 	
 	<div>
 		<div>
-
+			<c:if test="${loginUser != null}">
 				<span><a id="f_write" href="/free/write">글쓰기</a></span>
-
+			</c:if>
+			<c:if test="${loginUser == null}">
+				<span>글 작성은<a id="f_write" href="/user/login/form">로그인</a>후에 가능합니다.</span>
+			</c:if>
 		</div>
 	</div>
 	
@@ -127,7 +124,6 @@
 								<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
 								<span>[${freeCmtCnt[vs.index]}]</span>
 								
-								
 								<c:set var="now" value="${java.util.Date}"/>
 								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>
 								<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>
@@ -155,16 +151,18 @@
 				<form id="frm_search" action="/free/list?page=${page}&type=${type}&keyword=${keyword}" method="get">
 					<select name="type" id="type">
 						<option value=""> 선택 </option>
-						<option value="TITLE" selected="${type} == TITLE" > 제목 </option>
-						<option value="CONTENT" selected="${type} == CONTENT"> 내용 </option>
-						<option value="NICKNAME" selected="${type} == NICKNAME"> 작성자 </option>
+						<option value="TITLE"> 제목 </option>
+						<option value="CONTENT"> 내용 </option>
+						<option value="NICKNAME"> 작성자 </option>
 					</select>
 					<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요" list="auto_complete">
 					<!-- <datalist id="auto_complete"></datalist> -->
-					<input type="submit" value="조회">
+					<input type="submit" value="search">
 				</form>
 			</div>
 	</div>
+	
+	
 
 </body>
 </html>

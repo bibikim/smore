@@ -14,7 +14,7 @@
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 	    SELECT N.RW, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS RW, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		  		FROM FREEBOARD) N
+		  		  FROM FREEBOARD) N
 		 WHERE 1 = 1
 		<choose>
 			 	<when test="type != null and type.equals('TITLE')">
@@ -78,7 +78,7 @@
 	</delete>
 	
 	<!-- 수정 -->
-	<update id="updateFree">
+	<update id="updateFree" parameterType="FreeBoardDTO">
 		UPDATE FREEBOARD
 		   SET TITLE = #{title}, CONTENT = #{content}, MODIFY_DATE = NOW()
 		 WHERE FREE_NO = #{freeNo}
@@ -91,10 +91,6 @@
 		 WHERE FREE_NO = #{freeNo}
 	</delete>
 	
-	<!-- 검색 및 조회 -->
-	<select id="select">
-		
-	</select>
 	
 </mapper>
 	

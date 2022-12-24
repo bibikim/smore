@@ -71,7 +71,7 @@ public class FreeServiceImpl implements FreeService {
 		pageUtil.setPageUtil(page, totalRecord);
 		
 		//Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", pageUtil.getBegin());
+		map.put("begin", pageUtil.getBegin() - 1);   // mySQL은 begin이 0부터 시작. 따라서 - 1 을 해줘야 한다.
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
 		// 페이징 처리
@@ -170,7 +170,7 @@ public class FreeServiceImpl implements FreeService {
 				out.println("alert('게시글이 등록되었습니다.');");
 				out.println("location.href='/free/list';");
 			} else {
-				out.println("alert('게시글 등록이 되지 않았습니다.);");
+				out.println("alert('게시글이 등록되지 않았습니다.);");
 				out.println("history.back();");
 			}
 			
@@ -208,7 +208,7 @@ public class FreeServiceImpl implements FreeService {
 		return free;
 	}
 	
-
+	@Transactional
 	@Override
 	public void modifyFree(HttpServletRequest request, HttpServletResponse response) {
 		
