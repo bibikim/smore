@@ -65,11 +65,9 @@ public class RedServiceImpl implements RedService {
 		String id = request.getParameter("id");
 		String redContent = request.getParameter("redContent");
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
-		String nickname = request.getParameter("nickname");
 		
 		GrpRedbellDTO grpred = GrpRedbellDTO.builder()
 				.id(id)
-				.nickname(nickname)
 				.redContent(redContent)
 				.studNo(studNo)
 				.build();
