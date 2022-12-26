@@ -127,7 +127,9 @@
           FROM SLEEP_USERS) C) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-   		  <if test="column=='ID' or column == 'NICKNAME'">AND ${column} LIKE CONCAT('%', #{query}, '%')</if> 
+   		  <if test="column=='ID' or column == 'NICKNAME'">
+   		  	${column} LIKE CONCAT('%', #{query}, '%')
+   		  </if> 
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column=='JOIN_DATE'">AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1</if>
 		</where> 
@@ -137,10 +139,7 @@
 	     SELECT COUNT(*) + (SELECT COUNT(*) FROM SLEEP_USERS)
 	       FROM USERS 
 	<where>
-	 	<!-- <if test="column=='ID'">AND ${column} = #{query}  </if>  -->	 
-	 	<!-- <if test="column=='ID'">AND ${column} LIKE '%' #{query} '%' </if>  -->
-	 	<!-- <if test="column=='JOIN_DATE' or column=='SLEEP_DATE'">AND ${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') STR_TO_DATE(#{stop}, '%Y-%m-%d')</if> --> 
-	 	<if test="column=='ID'">
+	 	<if test="column=='ID' or column== 'NICKNAME'">
 	 		${column} LIKE CONCAT('%', #{query}, '%')
 	 	</if>
 	 	<if test="column=='JOIN_DATE'">
@@ -152,29 +151,27 @@
 	<!-- 자유게시판 검색 -->
 	<select id="selectFreeBoardByQuery" parameterType="map" resultType="FreeBoardDTO">
 		SELECT D.ROW_NUM, D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM FREEBOARD
-		 <where>
-		 	<if test="column =='ID' or column=='TITLE' or column=='CONTENT'">
-		 		${column} LIKE CONCAT('%', #{query}, '%')
-		 	</if>
-		 	<if test="column=='CREATE_DATE'">
-		 		AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1
-			</if>
-			D.ROW_NUM BETWEEN #{begin} AND #{end}
-		 </where>
-			) D
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		          FROM FREEBOARD) D
+    	<where>
+    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
+   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
+		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
+		</where> 
 	</select>
 	
-	<select id="selectFreeBoardByCountQuery">
+	<select id="selectFreeBoardByCountQuery" parameterType="Map" resultType="int">
 		SELECT COUNT(*)
-		  FROM FREEBOARD
+		  FROM FREEBOARD  
  		 <where>
-		 	<if test="column =='ID' or column=='TITLE' or column=='CONTENT'">
-		 		${column} LIKE CONCAT('%', #{query}, '%')
-		 	</if>
-		 	<if test="column=='CREATE_DATE'">
-		 		AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1
+  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		 	<if test="column2=='CREATE_DATE'">
+		 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 			</if>
 		 </where> 
 	</select>
@@ -209,7 +206,8 @@
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
 		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                     		ON U.ID = A.ID) B
-		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
+		  WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 
+<!-- 		 LIMIT #{begin} OFFSET #{end}  -->		  
 	</select>
 
 	<!-- 휴면유저 조회 -->

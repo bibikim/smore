@@ -32,9 +32,9 @@ public class AdminController {
 		return adminService.getSleepUserList(page);
 	}
 	
-	@GetMapping(value="/commomUsers", produces = "application/json")
+	@GetMapping(value="/commomUsers/page{page}", produces = "application/json")
 	public Map<String, Object> getCommonUserList(@PathVariable(value="page", required = false) Optional<String> opt){
-		 int page = Integer.parseInt(opt.orElse("1")); 
+		int page = Integer.parseInt(opt.orElse("1")); 
 		return adminService.getCommonUserList(page);
 	}
 		
@@ -99,11 +99,16 @@ public class AdminController {
 	}
 	
 	@GetMapping(value="/users/search/page{page}", produces = "application/json")
-	public Map<String, Object> search(HttpServletRequest request,@PathVariable(value="page", required = false) Optional<String> opt) {
+	public Map<String, Object> searchUsers(HttpServletRequest request,@PathVariable(value="page", required = false) Optional<String> opt) {
 		int page = Integer.parseInt(opt.orElse("1"));
 		return adminService.findUsers(request, page);
 	}
-
+	
+	@GetMapping(value="/boards/search/page{page}", produces = "application/json")
+	public Map<String, Object> searchFreeBoard(HttpServletRequest request, @PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return adminService.findFreeBoard(request, page);
+	}
 
 	
 	
