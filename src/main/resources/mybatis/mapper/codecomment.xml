@@ -18,7 +18,8 @@
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
 		   	      FROM C_CMT
 			     WHERE CO_NO = #{coNo}) C
-		 WHERE C.RN BETWEEN #{begin} AND #{end}
+	       LIMIT #{begin}, #{recordPerPage}
+		 <!-- WHERE C.RN BETWEEN #{begin} AND #{end} -->
 	</select>
 
 
@@ -34,10 +35,8 @@
 		INSERT INTO C_CMT
 			(CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
 		  VALUES
-		  	(#{coNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{cmtNo})
-		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
+		  	(#{coNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, 0)
+		
 	</insert>
 	
 	<!--  
@@ -66,5 +65,12 @@
 		  VALUES
 		  	(#{coNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 1, #{ip}, #{groupNo})
 	</insert>
+	
+		<!-- 댓글계층 -->
+	<!-- 댓글이 삽입될 때(saveComment())마다 그때 insert된 group_no에 +1을 해줌. saveComment에서 update, insert 동시에 -->
+    <update id="updateGroupNo" parameterType="CodeCommentDTO">
+		UPDATE C_CMT
+		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
+	</update>
 	
 </mapper>

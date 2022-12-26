@@ -70,7 +70,7 @@ public class CodeBoardController {
 	}
 	
 	@PostMapping("/code/modify")
-	public void modifyCodeBoard(HttpServletRequest request, HttpServletResponse response) {
+	public void modifyCode(HttpServletRequest request, HttpServletResponse response) {
 		codeBoardService.modifyCodeBoard(request, response);
 	}
 	
@@ -82,18 +82,10 @@ public class CodeBoardController {
 	
 	
 	@PostMapping("/code/remove")
-	public void removeCodeBoard(HttpServletRequest request, HttpServletResponse response) {
+	public void removeCode(HttpServletRequest request, HttpServletResponse response) {
 		codeBoardService.removeCodeBoard(request, response);
 	}
 	
-	@GetMapping("/code/list/cmtcnt")
-	public String readCmt(CodeBoardDTO code, @RequestParam(value="codeNo", required=false, defaultValue="0") int coNo, Model model) {
-		codeBoardService.getCmtCount(coNo);
-		model.addAttribute("code", codeBoardService.getCodeBoardByNo(coNo));
-		
-		//List<CodeCommentDTO> cmtList = code
-		return "/code/list";
-	}
-	
+
 	
 }

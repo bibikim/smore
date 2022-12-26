@@ -22,5 +22,5 @@ public interface CodeBoardMapper {
 	public int updateCodeBoard(CodeBoardDTO codeboard);
 	public int deleteCodeBoard(int coNo);
 	
-	public int updateCmtCount(int coNo);
+	
 }
