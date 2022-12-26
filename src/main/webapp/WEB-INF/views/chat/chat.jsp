@@ -11,7 +11,7 @@
 <body>
 	<div class="container">
 		<div class="col-6">
-			<h1>[[${room.name}]]</h1>
+			<h1>${room.roomId}</h1>
 		</div>
 		<div>
 			<div id="msgArea" class="col"></div>

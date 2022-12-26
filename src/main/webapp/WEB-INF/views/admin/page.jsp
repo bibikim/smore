@@ -90,32 +90,13 @@ input#btn_trans{
 <script>
 	$(function(){
 		fn_AlluserList();
-		fn_searchList();
+		fn_searchUserList();
 		fn_changePage();
-    	$('#form1').show();
-    	$('#form2').hide();	
-			
-		// 게시판 검색
-   		$('#area5').hide();
-   		$('#area6').hide();
-   		
-   		$('#area4').css('display', 'none');
+    	fn_searchBoardList();
+    	fn_inputShow();	
+    	
 
-   		$('#column2').change(function(){
-   			$('.input').val('');
-   			let combo = $(this);
-   			if(combo.val() == 'CREATE_DATE'){
-   				$('#area4').hide();
-   				$('#area5').hide();
-   				$('#area6').show();
-   			} else {
-   				$('#area4').show();
-   				$('#area5').hide();
-   				$('#area6').hide();
-   			}
-   		});
-
-	
+    	 	
 	    // html dom 이 다 로딩된 후 실행된다.
 	    $(document).ready(function(){
 	        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -131,6 +112,10 @@ input#btn_trans{
 	        });
 	    });
 		
+	    
+    	$('#form1').show();
+    	$('#form2').hide();	
+	    
 	    $('.board, .freeBoard_list, .StudyBoard_list, .CodeBoard_list, .Qna_List').click(function(){	    	
 	    	$('#form1').hide();
 	    	$('#form2').show();	    	
@@ -147,7 +132,7 @@ input#btn_trans{
 	    
 	    
 	    
-		// 검색창 
+		// 유저 검색창 
 		$('#area1, #area2').css('display', 'none');
 		$('#column').change(function(){
 			let combo = $(this);
@@ -266,19 +251,19 @@ input#btn_trans{
 				var paging = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
 						paging += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging += '</div>';
 				// 페이징 표시
@@ -289,7 +274,7 @@ input#btn_trans{
 	}	
 	
 	function fn_changePage(){
-		$(document).on('click', '.lnk_enable', function(){
+		$(document).on('click', '.lnk_enable2', function(){
 			page = $(this).data('page');
 			fn_AlluserList();
 		});
@@ -299,7 +284,7 @@ input#btn_trans{
 	function fn_userList(){
 		$.ajax({
 			type : 'get',
-			url : '/commomUsers',
+			url : '/commomUsers/page' + page,
 			dataType : 'json',			
 			success : function(resData){
 				$('#head_list').empty();
@@ -315,7 +300,6 @@ input#btn_trans{
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
-				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */				
 				tr += '<th scope="col" class="btn_userRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';				
 				tr += '</tr>';
 				$('#head_list').append(tr);
@@ -336,28 +320,28 @@ input#btn_trans{
 					$('#user_list').append(tr);
 				});
 				// 페이징
-				$('#paging').empty();
+ 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
 				var paging2 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging2 += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging2 += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
 						paging2 += '<strong>' + p + '</strong>';
 					} else {
-						paging2 += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+						paging2 += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging2 += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging2 += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging2 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging2);	
+				$('#paging').append(paging2);	 
 			}
 		});
 		
@@ -577,6 +561,13 @@ input#btn_trans{
 		});		
 	}
 
+	function fn_changePage3(){
+		$(document).on('click', '.lnk_enable', function(){
+			page = $(this).data('page');
+			fn_FreeBoardList();
+		});
+	}
+	
 	function fn_StudyList(){
 		$.ajax({
 			type : 'get',
@@ -760,17 +751,17 @@ input#btn_trans{
 		});
 	}
 			
- 	function fn_searchList(){
-		$('#btn_search').click(function(e){
-/* 			if($('#query').val() == ''){
+ 	function fn_searchUserList(){
+		$('#btn_userSearch').click(function(e){
+ 			if($('#query').val() == ''){
 				alert('검색어를 입력해주세요.');
 				e.preventDefault();
 				return;
-			} */
+			} 
 			$.ajax({
 				type : 'get',
 				url : '/users/search/page' + page,
-				data : $('#frm_search').serialize(),
+				data : $('#frm_searchUser').serialize(),
 				dataType : 'json',
 				success : function(resData){
 					$('#head_list').empty();
@@ -797,7 +788,6 @@ input#btn_trans{
 							.append( $('<td>').text(user.userDTO.gender))
 							.append( $('<td>').text(user.userDTO.joinDate))
 							.append( $('<td>').text(user.userDTO.accessLogDTO.lastLoginDate))
-							/* tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>'; */
 							.append( $('<td>').text(user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')))
 							.appendTo('#user_list');
 						});
@@ -832,7 +822,78 @@ input#btn_trans{
 		});		
 	}	 
 	
-	
+ 	
+ 	function fn_searchBoardList(){
+		$('#btn_searchBoard').click(function(e){
+ 			if($('#query2').val() == ''){
+				alert('검색어를 입력해주세요.');
+				e.preventDefault();
+				return;
+			} 
+			$.ajax({
+				type : 'get',
+				url : '/boards/search/page' + page,
+				data : $('#frm_searchboard').serialize(),
+				dataType : 'json',
+				success : function(resData){
+					$('#head_list').empty();
+					$('#user_list').empty();				
+					var tr = '<tr>';
+					tr += '<th scope="col">' + '#' + '</th>';
+					tr += '<th scope="col">' + '닉네임' + '</th>';
+					tr += '<th scope="col">' + '제목' + '</th>';
+					tr += '<th scope="col">' + '작성일' + '</th>';
+					tr += '<th scope="col">' + '수정일' + '</th>';
+					tr += '<th scope="col">' + '조회수' + '</th>';
+					tr += '<th scope="col">' + '작성자 IP' + '</th>';
+					tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
+					tr += '</tr>';
+					$('#head_list').append(tr); 
+					if(resData.status == 200){
+						$.each(resData.boards, function(i, board){
+							$('<tr>')
+							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.nickname))
+							.append( $('<td>').text(board.title))
+							.append( $('<td>').text(board.createDate))
+							.append( $('<td>').text(board.modifyDate))
+							.append( $('<td>').text(board.hit))
+							.append( $('<td>').text(board.ip))
+							.appendTo('#user_list');
+						});
+					} else if(resData.status == 500){
+						alert(resData.message);
+					}
+					// 페이징
+					$('#paging').empty();
+					var naverPageUtil = resData.naverPageUtil;
+					var paging = '<div>';
+					// 이전 페이지
+					if(page != 1) {
+						paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+					}
+					// 페이지번호
+					for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
+						if(p == page){
+							paging += '<strong>' + p + '</strong>';
+						} else {
+							paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+						}
+					}
+					// 다음 페이지
+					if(page != naverPageUtil.totalPage){
+						paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					}
+					paging += '</div>';
+					// 페이징 표시
+					$('#paging').append(paging);	
+				}
+			});
+		});		
+	}	 
+ 	
+ 	
+ 	
 	
 	
   	// 일반회원 다중탈퇴
@@ -1013,7 +1074,7 @@ input#btn_trans{
    <div style="float: right;">
      
 	<div id="form1">
-		<form id="frm_search">
+		<form id="frm_searchUser">
 			<div >
 				<select id="column" name="column">
 					<option value="">:::선택:::</option>
@@ -1046,7 +1107,7 @@ input#btn_trans{
 	</div>
 	
 	<div id="form2">
-		<form id="frm_search">
+		<form id="frm_searchboard">
 			<select id="board" name="board">
 				<option value="">전체</option>
 				<option value="FREE">자유게시판</option>
@@ -1054,35 +1115,28 @@ input#btn_trans{
 				<option value="CODE">코드게시판</option>
 				<option value="QNA">QNA</option>
 			</select>
-			<select id="column2" name="column2" class="select">
+			<select id="column2" name="column2">
 				<option value="">:::선택:::</option>
-				<option value="ID">작성자</option>
+				<option value="NICKNAME">작성자</option>
 				<option value="TITLE">제목</option>
 				<option value="CREATE_DATE">작성일자</option>
 			</select>
 			<span id="area4">
-				<input type="text" id="query" name="query" class="input searchBox">
+				<input type="text" id="query2" name="query2">
 			</span>
 			<span id="area5">
-				<input type="text" id="first" name="first" class="input searchBox">
+				<input type="text" id="start2" name="start2" >
 				~
-				<input type="text" id="last" name="last" class="input searchBox">
-			</span>
-			<span id="area6">
-				<input type="text" id="start" name="start" class="start_datepicker input searchBox">
-				~
-				<input type="text" id="stop" name="stop" class="end_datepicker input searchBox">
+				<input type="text" id="stop2" name="stop2" >
 			</span>
 			<span>
-				<input type="button" value="검색" id="btn_search" class="btn_primary">
+				<input type="button" value="검색" id="btn_searchBoard">
 			</span>
 		</form>
 	</div>
 	<script>
 	function fn_inputShow(){
-		
 		$('#area5').hide();
-		$('#area6').hide();
 		
 		$('#area4').css('display', 'none');
 
@@ -1092,11 +1146,9 @@ input#btn_trans{
 			if(combo.val() == 'CREATE_DATE'){
 				$('#area4').hide();
 				$('#area5').hide();
-				$('#area6').show();
 			} else {
 				$('#area4').show();
 				$('#area5').hide();
-				$('#area6').hide();
 			}
 		});
 	};

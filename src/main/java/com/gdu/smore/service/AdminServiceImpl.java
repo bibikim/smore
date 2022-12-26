@@ -12,6 +12,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdu.smore.domain.code.CodeBoardDTO;
+import com.gdu.smore.domain.free.FreeBoardDTO;
+import com.gdu.smore.domain.qna.QnaBoardDTO;
+import com.gdu.smore.domain.study.StudyGroupDTO;
 import com.gdu.smore.domain.user.AllUserDTO;
 import com.gdu.smore.domain.user.RetireUserDTO;
 import com.gdu.smore.domain.user.SleepUserDTO;
@@ -60,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
    
    @Override
 	public Map<String, Object> getCommonUserList(int page) {  
-		
+	   
 	   int totalRecord = adminMapper.selectUserCount();
 	   naverPageUtil.setNaverPageUtil(page, totalRecord);
 		      
@@ -265,16 +269,15 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> findUsers(HttpServletRequest request, int page) {
 	   		
 		String column = request.getParameter("column");
+		System.out.println(column);
 		String query = request.getParameter("query");
 		String start = request.getParameter("start");
 		String stop = request.getParameter("stop");
 	 	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("column", column);
-		System.out.println(column);
 		map.put("query", query);
 		map.put("start", start);
-		System.out.println(start);
 		map.put("stop", stop);
 		
 		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
@@ -283,7 +286,6 @@ public class AdminServiceImpl implements AdminService {
 		map.put("end", naverPageUtil.getEnd());
 		
 		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
-		System.out.println(users);
 		String path = null;
 		
 		switch(column) {
@@ -311,9 +313,59 @@ public class AdminServiceImpl implements AdminService {
 	}
    
    @Override
-	public Map<String, Object> findFreeBoard(HttpServletRequest request) {
+	public Map<String, Object> findFreeBoard(HttpServletRequest request, int page) {
 		
-		return null;
+		String board = request.getParameter("board");
+		String column2 = request.getParameter("column2");
+		String query2 = request.getParameter("query2");
+		String start2 = request.getParameter("start2");
+		String stop2 = request.getParameter("stop2");
+	   
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("column2", column2);
+		map.put("query2", query2);
+		map.put("start2", start2);
+		map.put("stop2", stop2);
+		
+		int totalRecord = 0;
+		
+		List<FreeBoardDTO> freeboards = null;
+		List<StudyGroupDTO> studyboards = null;
+		List<CodeBoardDTO> codeboards = null;
+		List<QnaBoardDTO> qnaboards = null;
+				
+		if(board.equals("FREE")) {
+			totalRecord  = adminMapper.selectFreeBoardByCountQuery(map);
+			naverPageUtil.setNaverPageUtil(page, totalRecord);		
+			map.put("begin", naverPageUtil.getBegin());
+			map.put("end", naverPageUtil.getEnd());
+			freeboards = adminMapper.selectFreeBoardByQuery(map);
+		}
+		
+		System.out.println(freeboards);
+		String path = null;
+		
+		switch(column2) {
+		case "NICKNAME":
+		case "TITLE" : 	
+			path = "/boards/search/page?column2=" + column2 + "&query2=" + query2;
+			break;
+		case "CREATE_DATE":
+			path = "/boards/search/page?column2=" + column2 + "&start2=" + start2 + "&stop2=" + stop2;
+			break;	
+		}
+				
+		Map<String, Object> result = new HashMap<>();
+		if((freeboards.size() == 0)) {
+			result.put("message", "조회된 결과가 없습니다.");
+			result.put("status", 500);
+		} else {
+			result.put("boards", freeboards);
+			result.put("naverPageUtil", naverPageUtil.getNaverPaging(path));
+			result.put("status", 200);
+		}
+		
+		return result;
 	}
    
    
