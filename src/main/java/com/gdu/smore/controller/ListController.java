@@ -1,20 +1,34 @@
 package com.gdu.smore.controller;
 
-import org.springframework.stereotype.Controller;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import com.gdu.smore.service.ListService;
+
+@RestController
 public class ListController {
+	
+	@Autowired
+	private ListService listService;
 
-	@GetMapping("/user/studylist")
-	public String requiredLogin_studyList() {
-		return "/user/studylist";
+	@GetMapping(value="/user/mypage/studylist/page{page}", produces = "application/json")
+	public Map<String, Object> getStudyList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return listService.getStudyList(page);
 	}
 	
-	@GetMapping("/user/zzimlist")
-	public String requiredLogin_zzimList() {
-		return "/user/zzimlist";
+	@GetMapping(value="/user/mypage/zzimlist/page{page}", produces = "application/json")
+	public Map<String, Object> getZzimList(@PathVariable(value="page", required = false) Optional<String> opt){
+		int page = Integer.parseInt(opt.orElse("1"));
+		return listService.getZzimList(page);
 	}
+	
+	
 	
 	
 }

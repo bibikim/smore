@@ -9,10 +9,29 @@
 
 <style>
 
+	/* 페이징 */
+	#paging  {
+		font-size: 12px;
+		color: gray;
+	}
+	#paging span, #paging strong {
+		margin: 0 3px;
+	}
+	.lnk_enable {
+		cursor: pointer;
+	}
+	.lnk_enable:hover {
+		color: limegreen;
+	}
+
 	.menu a{cursor:pointer;}
 	.menu .hide{display:none;}
 	
 	input#btn_remove{
+		display: none;
+	}
+	
+	input#btn_trans{
 		display: none;
 	}
 	
@@ -112,19 +131,51 @@
 	    } else{
 	       $('#chk_all').prop('checked',false);
 	    }
+
+		// html dom 이 다 로딩된 후 실행된다.
+	    $(document).ready(function(){
+	        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+	        $(".menu>a").click(function(){
+	            var submenu = $(this).next("ul");
+	 
+	            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+	            if( submenu.is(":visible") ){
+	                submenu.slideUp();
+	            } else{
+	                submenu.slideDown();
+	            }
+	        });
+	    });
+		
+	    /* 체크박스 */
+		$(document).on('click','#chk_all',function(){
+		    if($('#chk_all').is(':checked')){
+		       $('.del-chk').prop('checked', true);
+		    } else{
+		       $('.del-chk').prop('checked', false);
+		    }
+		});
+		$(document).on('click','.del-chk',function(){
+		    if($('input[class=del-chk]:checked').length==$('.del-chk').length){
+		        $('#chk_all').prop('checked', true);
+		    } else{
+		       $('#chk_all').prop('checked', false);
+		    }
+		});
+		
+		/* 스터디 목록 */
+		$(document).on('click','.studylist',function(){
+			fn_studylist();
+		});
+		
+		/* 찜 목록 */
+		$(document).on('click','.zzimlist',function(){
+			fn_zzimlist();
+		});
+		
 	});
 	
-	/* 스터디 목록 */
-	$('.studylist').click(function(){
-		$('#body_list').empty();
-		fn_studylist();
-	});
-	
-	/* 찜 목록 */
-	$('.zzimlist').click(function(){
-		$('#body_list').empty();
-		fn_zzimlist();
-	});
+	var page = 1;
 	
 	
 
@@ -132,14 +183,14 @@
 	function fn_studylist() {
 		$.ajax({
 			type: 'get',
-			url: '/user/mypage',
+			url: '/user/mypage/studylist/page' + page,
 			dataType: 'json',
 			success: function(resData) {
 				$('#head_list').empty();
 				$('#body_list').empty();
 				
 				var tr = '<tr>';
-				tr += '<th scope="col">' + '순번' + '</th>';
+				tr += '<th scope="col">' + 'No' + '</th>';
 				tr += '<th scope="col">' + '모임장' + '</th>';
 				tr += '<th scope="col">' + '제목' + '</th>';
 				tr += '<th scope="col">' + '개발언어' + '</th>';
@@ -153,19 +204,111 @@
 					var tr = '<tr>';
 					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
 					$('#body_list').append(tr);
-				} else {
-					$.each(resData.studylist, function(i, list) {
+				}
+				if('${loginUser.nickname}' == '${sGroup.nickname}'){
+					$.each(resData.studylist, function(i, study) {
 						var tr = '<tr>';
 						tr += '<td>' + study.rowNum + '</td>';
 						tr += '<td>' + study.nickname  + '</td>';
-						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a></td>';
+						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
 						tr += '<td>' + study.lang + '</td>'; 
 						tr += '<td>' + study.studDate + '</td>'; 
 						tr += '<td>' + study.hit + '</td>'; 
-						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.studNo + '"</td>';
+						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
 						tr += '</tr>';
 						$('#body_list').append(tr);
 					});
+					
+					// 페이징
+					$('#paging').empty();
+					var pageUtil = resData.pageUtil;
+					var paging = '<div>';
+					// 이전 페이지
+					if(page != 1) {
+						paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					}
+					// 페이지번호
+					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
+						if(p == page){
+							paging += '<strong>' + p + '</strong>';
+						} else {
+							paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						}
+					}
+					// 다음 페이지
+					if(page != pageUtil.totalPage){
+						paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					}
+					paging += '</div>';
+					// 페이징 표시
+					$('#paging').append(paging);
+				}
+			}
+		});
+	}
+	
+ 	function fn_zzimlist() {
+		$.ajax({
+			type: 'get',
+			url: '/user/mypage/zzimlist/page' + page,
+			dataType: 'json',
+			success: function(resData) {
+				$('#head_list').empty();
+				$('#body_list').empty();
+				
+				var tr = '<tr>';
+				tr += '<th scope="col">' + 'No' + '</th>';
+				tr += '<th scope="col">' + '모임장' + '</th>';
+				tr += '<th scope="col">' + '제목' + '</th>';
+				tr += '<th scope="col">' + '개발언어' + '</th>';
+				tr += '<th scope="col">' + '시작예정일' + '</th>';
+				tr += '<th scope="col">' + '조회수' + '</th>';
+				tr += '<th scope="col" class="btn_zzimRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '</tr>';
+				$('#head_list').append(tr);
+				
+				if(resData.zzimlist == '') {
+					var tr = '<tr>';
+					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
+					$('#body_list').append(tr);
+				}
+				if(zzimlist.nickname == loginUser.nickname) {
+					$.each(resData.zzimlist, function(i, zzim) {
+						var tr = '<tr>';
+						tr += '<td>' + zzim.rowNum + '</td>';
+						tr += '<td>' + zzim.nickname  + '</td>';
+						tr += '<td><a href="/study/detail?studNo=' + zzim.studNo + '">' + zzim.title  + '</a></td>';
+						tr += '<td>' + zzim.lang + '</td>'; 
+						tr += '<td>' + zzim.studDate + '</td>'; 
+						tr += '<td>' + zzim.hit + '</td>'; 
+						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + zzim.studNo + '"</td>';
+						tr += '</tr>';
+						$('#body_list').append(tr);
+					});
+					
+					// 페이징
+					$('#paging').empty();
+					var pageUtil = resData.pageUtil;
+					var paging = '<div>';
+					// 이전 페이지
+					if(page != 1) {
+						paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					}
+					// 페이지번호
+					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
+						if(p == page){
+							paging += '<strong>' + p + '</strong>';
+						} else {
+							paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						}
+					}
+					// 다음 페이지
+					if(page != pageUtil.totalPage){
+						paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					}
+					paging += '</div>';
+					// 페이징 표시
+					$('#paging').append(paging);
 				}
 			}
 		});
@@ -213,7 +356,7 @@
 				<li class="menu">
 					<a>My 스터디</a>
 					<ul class="hide">					
-						<li><a class="studylist" href="${contextPath}/user/studylist">- My 스터디 목록</a></li>
+						<li><a class="studylist" href="#">- My 스터디 목록</a></li>
 						<li><a class="zzimlist" href="#">- 찜 스터디 목록</a></li>
 						<li><a id="chatlist" href="javascript:void(0);">- 채팅 목록</a></li>
 					</ul>

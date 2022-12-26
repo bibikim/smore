@@ -7,7 +7,7 @@
 <mapper namespace="com.gdu.smore.mapper.ListMapper">
 
 	<select id="selectStudyListCount" resultType="int">
-		SELECT COUNT (*)
+		SELECT COUNT(*)
 		  FROM S_GROUP
 	</select>
 
@@ -29,7 +29,7 @@
 	</delete>
 	
 	<select id="selectZzimListCount" resultType="int">
-		SELECT COUNT (*)
+		SELECT COUNT(*)
 		  FROM S_ZZIM
 	</select>
 	
