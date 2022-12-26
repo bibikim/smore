@@ -1,6 +1,8 @@
 package com.gdu.smore.domain.qna;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,9 @@ public class QnaBoardDTO {
 	private String title;
 	private String content;
 	private int pw;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private String createDate;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private String modifyDate;
 	private int hit;
 	private String ip;
