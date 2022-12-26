@@ -47,11 +47,22 @@ public class JobsController {
 		}
 	}
 
-	
-	@GetMapping
+	@GetMapping("/job/detail")
 	public String detailJob(@RequestParam(value="jobNo", required=false, defaultValue="0") int jobNo, Model model) {
-		model.addAttribute("jobs", jobService.getJobsByNo(jobNo));
+		model.addAttribute("job", jobService.getJobsByNo(jobNo));
 		return "jobs/detail";
 	}
 	
+	@PostMapping("/job/edit")
+	public String editJob(int jobNo, Model model) {
+		model.addAttribute("job", jobService.getJobsByNo(jobNo));
+		return "jobs/edit";
+	}
+		
+	
+	@PostMapping("/job/modify")
+	public void modifyJob(HttpServletRequest request, HttpServletResponse response) {
+		jobService.editJobs(request, response);
+	}
+
 }

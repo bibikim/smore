@@ -44,7 +44,7 @@
 	<!-- 글 수정 -->
 	<update id="modifyJobs" parameterType ="JobsDTO">
 		update jobs
-		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEamil}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}
+		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}
 		 where job_no = #{jobNo} 
 	</update>
 	

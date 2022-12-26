@@ -111,57 +111,65 @@
 			]
 		});
 	
-		$('#btn_list').click(function(){
-			location.href='/job/list';	
-		});
-		
-		$('#btn_cancel').click(function(){
-			history.back();
-		});
-	
-	
-	
 	});
+	
+ 	$(document).ready(function(){
+
+		  $('#career').each(function(){
+
+		    if($(this).val()=='${job.career}'){
+
+		      $(this).prop('selected', true); // attr적용안될경우 prop으로 
+
+		    }
+
+		  });
+
+		}); 
+/* 		
+	$(function() {
+		$('#career').val() == '${job.career}'
+	}) */
 	
 </script>
 
 </head>
 <body>
 
-	<div class="write-main">
+	<div class="edit-main">
 		
 		<hr>
 		
 			<div class="div-line">
-				<span><a href="/job/list">JOB</a></span>
+				<span><a href="/job/list"> JOB </a></span>
 			</div>
 			
-				<form id="frm_write" action="/job/save" method="post">
+				<form id="frm_edit" action="/job/modify" method="post">
 				
-				<div class="part-wrapper">
+				<div>
 
 					<div class="part1">
-	
+						<input type="hidden" name="jobNo" value="${job.jobNo}">
 						<div class="h-div">
 							<h5> 회사 정보 </h5>
 						</div>
 						<div>
 							<label for="name"> 회사명 </label>
 							<div>
-								<input type="text" id="name" name="companyName">
+								<input type="text" id="name" name="companyName" value="${job.companyName}" readonly>
 							</div>
 						</div>
 						<div class="float">
 							<label for="contact"> 대표 연락처 </label>
 							<div>
-								<input type="text" id="contact" name="contact">
+								<input type="text" id="contact" name="contact" value="${job.contact}">
 							</div>
 						</div>
 						<div>
 							<!-- detail => link로 바로 연결 되게 -->
 							<label for="homepage"> 홈페이지 </label>
 							<div>
-								<input type="text" id="homepage" name="homepage">
+								<input type="text" id="homepage" name="homepage" value="${job.homepage}">
 							</div>
 						</div>
 					</div>
@@ -173,61 +181,53 @@
 					<div>
 						<label for="hrName"> 담당자명 </label>
 						<div>
-							<input type="text" id="hrName" name="hrName">
+							<input type="text" id="hrName" name="hrName" value="${job.hrName}">
 						</div>
 					</div>
 					<div class="float">
 						<label for="hrContact"> 담당자 연락처 </label>
 						<div>
-							<input type="text" id="hrContact" name="hrContact">
+							<input type="text" id="hrContact" name="hrContact" value="${job.hrContact}">
 						</div>
 					</div>
 					<div>
 						<!-- 정규식 조건 걸어보기 -->
 						<label for="hrEmail"> 담당자 이메일 </label>
 						<div>
-							<input type="text" id="hrEmail" name="hrEmail">
+							<input type="text" id="hrEmail" name="hrEmail" value="${job.hrEmail}">
 						</div>
 					</div>
 					<div class="float">
 						<label for="position"> 채용 포지션 </label>
 						<div>
-							<input type="text" id="position" name="position">
+							<input type="text" id="position" name="position" value="${job.position}">
 						</div>
 					</div>
 					<div>
 						<label for="jobType"> 고용 형태 </label>
 						<div>
-							<!-- <input type="text" id="jobType" name="jobType"> -->
-							<select id="jobType" name="jobType">
-								<option value="" selected>선택</option>
-								<option value="정규직">정규직</option>
-								<option value="계약직">계약직</option>
-							</select>
+							<input type="text" id="jobType" name="jobType" value="${job.jobType}">
 						</div>
 					</div>
 					<div>
 						<label for="location"> 근무 지역 </label>
-						<div>
+						<div></div>
 							<span style="font-size: 9px;">'시, 구, 군' 까지만 적어주세요. 상세 주소는 하단의 본문에 적어주세요.</span>
 						</div>
 						<div>
-							<input type="text" id="location" name="location">
+							<input type="text" id="location" name="location" value="${job.location}">
 						</div>
 					</div>
-					
-					
-					
 					<div>
 						<label for="career"> 요구 경력 </label>
 						<div>
 							<!-- <input type="text" id="career" name="career"> -->
-							<select id="career" name="career">
-								<option value="경력 무관" selected>경력 무관</option>
-								<option value="신입 ~ 2년 이하">신입 ~ 2년 이하</option>
-								<option value="2년 이상 ~ 4년 이하">2년 이상 ~ 4년 이하</option>
-								<option value="4년 이상 ~ 6년 이하">4년 이상 ~ 6년 이하</option>
-								<option value="6년 이상 ~ 무관">6년 이상 ~ 무관</option>
+							<select id="career" name="career" >
+								<option id="opt" value="경력 무관">경력 무관</option>
+								<option id="opt" value="신입 ~ 2년 이하">신입 ~ 2년 이하</option>
+								<option id="opt" value="2년 이상 ~ 4년 이하">2년 이상 ~ 4년 이하</option>
+								<option id="opt" value="4년 이상 ~ 6년 이하">4년 이상 ~ 6년 이하</option>
+								<option id="opt" value="6년 이상 ~ 무관">6년 이상 ~ 무관</option>
 							</select>
 						</div>
 					</div>
@@ -236,27 +236,27 @@
 				<div style="margin: 10px 0 10px 0;">
 					<label for="title">제목</label>
 					<div>
-						<input type="text" id="title" name="title" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
+						<input type="text" id="title" name="title" value="${job.title}" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;" >
 					</div>
 				</div>
 
 				  <div>
 					  <label for="content">채용 정보</label>
-					  <textarea id="content" name="content"></textarea>
+					  <textarea id="content" name="content">${job.content}</textarea>
 			      </div>
 				  <div class="float">
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
 				  	  <input type="button" id="btn_list" value="목록">
 				  </div>
 				  <div>
-				  	  <button style="margin-left: 540px;">작성 완료</button>
+				  	  <button style="margin-left: 540px;">수정 완료</button>
 				  </div>
 					
 				  <div>
 				  		<!-- 기업 profile은 ajax 처리해서 토글버튼 할거얌!!! -->
-						<input type="text" name="profile" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
+						<input type="text" name="profile" value="${job.profile}" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
 			      </div>
-			   </div>
+			      
 			</form>
 		
 	</div>	

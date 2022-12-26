@@ -124,8 +124,6 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		 * 
 		 * cmtMapper.updateGroupNo(comment);
 		 */
-		 
-		
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSaveRe", cmtMapper.insertRecomment(recomment) == 1);

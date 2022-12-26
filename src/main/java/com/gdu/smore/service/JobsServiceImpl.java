@@ -109,13 +109,58 @@ public class JobsServiceImpl implements JobsService{
 	
 	@Override
 	public int increaseHit(int jobNo) {
-		
 		return jobMapper.updateHit(jobNo);
 	}
 	
 	@Override
 	public void editJobs(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		
+		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
+		
+		JobsDTO job = JobsDTO.builder()
+				.jobNo(jobNo)
+				.title(request.getParameter("title"))
+				.contact(request.getParameter("contact"))
+				.homepage(request.getParameter("homepage"))
+				.profile(request.getParameter("profile"))
+				.hrName(request.getParameter("hrName"))
+				.hrContact(request.getParameter("hrContact"))
+				.hrEmail(request.getParameter("hrEmail"))
+				.location(request.getParameter("location"))
+				.position(request.getParameter("position"))
+				.jobType(request.getParameter("jobType"))
+				.content(request.getParameter("content"))
+				.career(request.getParameter("career"))
+				.build();
+		
+		
+		int result = jobMapper.modifyJobs(job);
+		
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			
+			if(result > 0) {
+				
+				out.println("alert('채용 공고 게시글이 수정되었습니다.');");
+				out.println("location.href='/job/detail?jobNo=" + jobNo + "';");
+				
+			} else {
+				
+				out.println("alert('게시글 수정에 실패했습니다. 확인해주세요');");
+				out.println("history.back();");
+				
+			}
+			
+			out.println("</script>");
+			out.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
