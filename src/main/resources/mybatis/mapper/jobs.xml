@@ -13,15 +13,15 @@
 
 	<!-- 목록 보기 -->
 	<select id="selectJobsListByMap" parameterType="Map" resultType="JobsDTO">
-		SELECT A.RW, A.JOB_NO, A.TITLE, A.COMPANY_NAME, A.CONTACT, A.HOMEPAGE, A.PROFILE, A.HR_NAME, A.HR_CONTACT, A.HR_EMAIL, A.LOCATION, A.POSITION, A.JOB_TYPE, A.CONTENT, A.CREATE_DATE, A.HIT, A.CAREER
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOB_NO DESC) AS RW, JOB_NO, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER 
+		SELECT A.RW, A.JOB_NO, A.NICKNAME A.TITLE, A.COMPANY_NAME, A.CONTACT, A.HOMEPAGE, A.PROFILE, A.HR_NAME, A.HR_CONTACT, A.HR_EMAIL, A.LOCATION, A.POSITION, A.JOB_TYPE, A.CONTENT, A.CREATE_DATE, A.HIT, A.CAREER, A.STATUS, A.SKILL_STACK
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOB_NO DESC) AS RW, JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
 		  	      FROM JOBS) A
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<!-- 상세 보기 -->
 	<select id="selectJobsByNo" parameterType="int" resultType="JobsDTO">
-		select JOB_NO, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER
+		select JOB_NO, TITLE, NICKNAME, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
 		  FROM JOBS
 		 WHERE JOB_NO = #{jobNo}
 	</select>
@@ -29,9 +29,9 @@
 	<!-- 글 삽입 -->
 	<insert id="insertJobs" parameterType="JobsDTO">
 		insert into jobs
-			(TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER)
+			(TITLE, NICKNAME, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK )
 		values
-			(#{title}, #{companyName}, #{contact}, #{homepage}, #{profile}, #{hrName}, #{hrContact}, #{hrEmail}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career})	
+			(#{title}, #{nickname} , #{companyName}, #{contact}, #{homepage}, #{profile}, #{hrName}, #{hrContact}, #{hrEmail}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career}, 0, #{skillStack})	
 	</insert>
 	
 	<!-- 조회수 -->
@@ -44,7 +44,14 @@
 	<!-- 글 수정 -->
 	<update id="modifyJobs" parameterType ="JobsDTO">
 		update jobs
-		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}
+		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}, SKILL_STACK = #{skillStack}
+		 where job_no = #{jobNo} 
+	</update>
+	
+	<!-- 채용 완료(status = 1) 업데이트 -->
+	<update id="">
+		update jobs
+		   set status = 1
 		 where job_no = #{jobNo} 
 	</update>
 	
