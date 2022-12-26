@@ -70,7 +70,7 @@
 		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
 	</resultMap> 
 
-	
+
 
 
 	<select id="selectUserCount" resultType="int">
