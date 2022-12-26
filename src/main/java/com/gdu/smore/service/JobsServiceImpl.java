@@ -55,8 +55,12 @@ public class JobsServiceImpl implements JobsService{
 	@Override
 	public void saveJobs(HttpServletRequest request, HttpServletResponse response) {
 	
+		int status = Integer.parseInt(request.getParameter("status"));
+
+		
 		JobsDTO job = JobsDTO.builder()
 				.title(request.getParameter("title"))
+				.nickname(request.getParameter("nickname"))
 				.companyName(request.getParameter("companyName"))
 				.contact(request.getParameter("contact"))
 				.homepage(request.getParameter("homepage"))
@@ -69,6 +73,8 @@ public class JobsServiceImpl implements JobsService{
 				.jobType(request.getParameter("jobType"))
 				.content(request.getParameter("content"))
 				.career(request.getParameter("career"))
+				.status(status)
+				.skillStack(request.getParameter("skillStack"))
 				.build();
 		
 		int result = jobMapper.insertJobs(job);
@@ -116,10 +122,12 @@ public class JobsServiceImpl implements JobsService{
 	public void editJobs(HttpServletRequest request, HttpServletResponse response) {
 		
 		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
+		int status = Integer.parseInt(request.getParameter("status"));
 		
 		JobsDTO job = JobsDTO.builder()
 				.jobNo(jobNo)
 				.title(request.getParameter("title"))
+				.nickname(request.getParameter("nickname"))
 				.contact(request.getParameter("contact"))
 				.homepage(request.getParameter("homepage"))
 				.profile(request.getParameter("profile"))
@@ -131,6 +139,8 @@ public class JobsServiceImpl implements JobsService{
 				.jobType(request.getParameter("jobType"))
 				.content(request.getParameter("content"))
 				.career(request.getParameter("career"))
+				.status(status)
+				.skillStack(request.getParameter("skillStack"))
 				.build();
 		
 		
