@@ -15,6 +15,7 @@ public class JobsDTO {
 
 	private int jobNo;
 	private String title;
+	private String nickname;
 	private String companyName;
 	private String contact;
 	private String homepage;
@@ -28,6 +29,8 @@ public class JobsDTO {
 	private String content;
 	private Date createDate;
 	private String career;
+	private int status;
+	private String skillStack;
 	private int hit;
 	
 }
