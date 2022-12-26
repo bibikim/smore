@@ -50,7 +50,7 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("freeNo", freeNo);
 		map.put("ip", ip);
-		map.put("begin", pageUtil.getBegin());
+		map.put("begin", pageUtil.getBegin() - 1);
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -124,8 +124,6 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		 * 
 		 * cmtMapper.updateGroupNo(comment);
 		 */
-		 
-		
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSaveRe", cmtMapper.insertRecomment(recomment) == 1);

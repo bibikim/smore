@@ -46,6 +46,8 @@
 		<typeAlias type="com.gdu.smore.domain.code.CodeImageDTO" alias="CodeImageDTO"/>
 		<typeAlias type="com.gdu.smore.domain.code.CodeLikedDTO" alias="CodeLikedDTO"/>
 		
+		<!-- 구인 게시판 -->
+		<typeAlias type="com.gdu.smore.domain.jobs.JobsDTO" alias="JobsDTO"/>
 		
 	</typeAliases>
 

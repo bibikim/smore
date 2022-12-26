@@ -61,7 +61,6 @@ public class FreeController {
 	}
 	
 	@GetMapping("/free/detail")
-
 	public String detailFree(@RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
 		model.addAttribute("free", freeService.getFreeByNo(freeNo));
 		return "free/detail";
@@ -83,6 +82,7 @@ public class FreeController {
 	public void removeFree(HttpServletRequest request, HttpServletResponse response) {
 		freeService.removeFree(request, response);
 	}
+	
 	
 	
 }

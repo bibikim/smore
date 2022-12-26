@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.JobsMapper">
+
+	<select id="selectListCount" resultType="int">
+		select count(*)
+		  from jobs
+	</select>
+
+	<!-- 목록 보기 -->
+	<select id="selectJobsListByMap" parameterType="Map" resultType="JobsDTO">
+		SELECT A.RW, A.JOB_NO, A.TITLE, A.COMPANY_NAME, A.CONTACT, A.HOMEPAGE, A.PROFILE, A.HR_NAME, A.HR_CONTACT, A.HR_EMAIL, A.LOCATION, A.POSITION, A.JOB_TYPE, A.CONTENT, A.CREATE_DATE, A.HIT, A.CAREER
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOB_NO DESC) AS RW, JOB_NO, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER 
+		  	      FROM JOBS) A
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<!-- 상세 보기 -->
+	<select id="selectJobsByNo" parameterType="int" resultType="JobsDTO">
+		select JOB_NO, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER
+		  FROM JOBS
+		 WHERE JOB_NO = #{jobNo}
+	</select>
+	
+	<!-- 글 삽입 -->
+	<insert id="insertJobs" parameterType="JobsDTO">
+		insert into jobs
+			(TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER)
+		values
+			(#{title}, #{companyName}, #{contact}, #{homepage}, #{profile}, #{hrName}, #{hrContact}, #{hrEmail}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career})	
+	</insert>
+	
+	<!-- 조회수 -->
+	<update id="updateHit" parameterType="int">
+		UPDATE JOBS
+		   SET HIT = HIT + 1
+		 WHERE JOB_NO = #{jobNo}
+	</update>
+	
+	<!-- 글 수정 -->
+	<update id="modifyJobs" parameterType ="JobsDTO">
+		update jobs
+		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}
+		 where job_no = #{jobNo} 
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="deleteJobs" parameterType="int">
+		DELETE
+		  FROM JOBS
+		 WHERE JON_NO = #{jobNo}
+	</delete>
+	
+</mapper>
