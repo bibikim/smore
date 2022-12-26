@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.gdu.smore.mapper.ListMapper;
 import com.gdu.smore.util.PageUtil;
@@ -23,7 +22,7 @@ public class ListServiceImpl implements ListService {
 	private PageUtil pageUtil;
 	
 	@Override
-	public Map<String, Object> getStudyList(int page, Model model) {
+	public Map<String, Object> getStudyList(int page) {
 		int totalRecord = listMapper.selectStudyListCount();
 		pageUtil.setPageUtil(page, totalRecord);
 		
@@ -33,14 +32,13 @@ public class ListServiceImpl implements ListService {
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("studylist", listMapper.selectStudyListByMap(map));
-		model.addAttribute("studylist", listMapper.selectStudyListByMap(map));
 		result.put("PageUtil", pageUtil);
 		
 		return result;
 	}
 	
 	@Override
-	public Map<String, Object> getZzimList(int page, Model model) {
+	public Map<String, Object> getZzimList(int page) {
 		int totalRecord = listMapper.selectZzimListCount();
 		pageUtil.setPageUtil(page, totalRecord);
 		
@@ -50,7 +48,6 @@ public class ListServiceImpl implements ListService {
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("studylist", listMapper.selectZzimListByMap(map));
-		model.addAttribute("studylist", listMapper.selectZzimListByMap(map));
 		result.put("PageUtil", pageUtil);
 		
 		return result;
