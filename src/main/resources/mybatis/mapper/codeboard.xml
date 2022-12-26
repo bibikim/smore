@@ -15,7 +15,20 @@
 	    SELECT N.RW, N.CO_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS RW, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM C_BOARD) N
-		 WHERE N.RW BETWEEN #{begin} AND #{end}
+		 WHERE 1 = 1
+		<choose>
+			 	<when test="type != null and type.equals('TITLE')">
+			 		AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="type != null and type.equals('CONTENT')">
+			 		AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="type != null and type.equals('NICKNAME')">
+			 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>	
+		 </choose>
+		 ORDER BY N.CO_NO DESC
+		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
@@ -75,12 +88,7 @@
 		 WHERE CO_NO = #{coNo}
 	</delete>
 	
-	<update id="updateCmtCount" parameterType="int">
-		 UPDATE C_BOARD C
-   			SET C.CMT_COUNT = (SELECT COUNT(CMT_NO) FROM C_CMT WHERE CO_NO = #{coNo})
-   		  WHERE C.CO_NO = #{coNo};
-	</update>
-	
+
 	
 	
 	

@@ -17,4 +17,5 @@ public interface CodeCmtMapper {
 	public int modifyComment(CodeCommentDTO comment);
 	public int insertRecomment(CodeCommentDTO recomment);
 	
+	public int updateGroupNo(CodeCommentDTO recomment);
 }

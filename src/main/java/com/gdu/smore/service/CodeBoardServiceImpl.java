@@ -2,6 +2,7 @@ package com.gdu.smore.service;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.gdu.smore.domain.code.CodeBoardDTO;
 import com.gdu.smore.domain.code.CodeImageDTO;
 import com.gdu.smore.mapper.CodeBoardMapper;
+import com.gdu.smore.mapper.CodeCmtMapper;
 import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.PageUtil;
 
@@ -28,11 +30,13 @@ import com.gdu.smore.util.PageUtil;
 public class CodeBoardServiceImpl implements CodeBoardService {
 	
 	private CodeBoardMapper codeboardMapper;
+	private CodeCmtMapper cmtMapper;
 	private PageUtil pageUtil;
 	private MyFileUtil fileUtil;
 	
 	@Autowired
-	public void set(CodeBoardMapper codeboardMapper, PageUtil pageUtil, MyFileUtil fileUtil) {
+	public void set(CodeBoardMapper codeboardMapper, CodeCmtMapper cmtMapper, PageUtil pageUtil, MyFileUtil fileUtil) {
+		this.cmtMapper = cmtMapper;
 		this.codeboardMapper = codeboardMapper;
 		this.pageUtil = pageUtil;
 		this.fileUtil = fileUtil;
@@ -44,27 +48,49 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		Map<String, Object> mtoMap = model.asMap();  // model을 map으로 변신
 		HttpServletRequest request = (HttpServletRequest) mtoMap.get("request");
 		
-		// page 파라미터
-		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-		int page = Integer.parseInt(opt.orElse("1"));
-		
-		// 전체 블로그 개수
-		int totalRecord = codeboardMapper.selectCodeBoardListCount();
-		
-		// 페이징 처리에 필요한 변수 계산
-		pageUtil.setPageUtil(page, totalRecord);
-		
-		// 조회 조건으로 사용할 Map 만들기
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
-		
-		// 뷰로 전달할 데이터를 model에 저장하기 
-		model.addAttribute("totalRecord", totalRecord);
-		model.addAttribute("codeboardList", codeboardMapper.selectCodeBoardListByMap(map));
-		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/code/list"));
-		
+		// 검색기능
+				String type = request.getParameter("type");
+				String keyword = request.getParameter("keyword");
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("type", type);
+				map.put("keyword", keyword);
+				
+				model.addAttribute("type", type);
+				model.addAttribute("keyword", keyword);
+				
+				
+				// 첫 페이지
+				Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+				int page = Integer.parseInt(opt.orElse("1"));
+				
+				int totalRecord = codeboardMapper.selectCodeBoardListCount();
+
+				pageUtil.setPageUtil(page, totalRecord);
+				
+				//Map<String, Object> map = new HashMap<String, Object>();
+				map.put("begin", pageUtil.getBegin() - 1);   // mySQL은 begin이 0부터 시작. 따라서 - 1 을 해줘야 한다.
+				map.put("recordPerPage", pageUtil.getRecordPerPage());
+				
+				// 페이징 처리
+				model.addAttribute("totalRecord", totalRecord);
+				//model.addAttribute("freeList", freeMapper.selectFreeListByMap(map));
+				model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
+				model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/code/list"));
+				
+				// 게시글 목록
+				List<CodeBoardDTO> code = codeboardMapper.selectCodeBoardListByMap(map);
+				model.addAttribute("codeList", code);
+				//model.addAttribute("freeList", free);
+				
+				// list에 댓글 갯수 띄우기
+				List<Integer> coNo = new ArrayList<Integer>();
+				List<Integer> cmtCount = new ArrayList<Integer>();
+				for(int i = 0; i < code.size(); i++) {
+					coNo.add(code.get(i).getCoNo());
+					cmtCount.add(cmtMapper.selectCommentCnt(coNo.get(i)));
+				}
+				model.addAttribute("codeCmtCnt", cmtCount);
 	}
 	
 	@Override
@@ -72,7 +98,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		// 1. 코드게시판에서 보낸 파일 담아준다.
 		MultipartFile mpFile = mRequest.getFile("file");
 		// 2. 저장할 경로 설정
-		String path = mRequest.getRealPath("/resources/" + File.separator + "upload");
+		String path = "c:" + File.separator + "summernoteImage";
 		// 3. 저장할 파일명
 		String filesystem = fileUtil.getFilename(mpFile.getOriginalFilename());
 		
@@ -108,6 +134,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		String nickname = request.getParameter("nickname");
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
+		
 		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
 		String cIp = opt.orElse(request.getRemoteAddr());
 		
@@ -277,10 +304,6 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		
 	}
 	
-	@Override
-	public void getCmtCount(int coNo) {
-		codeboardMapper.updateCmtCount(coNo);
-	}
 	
 	
 	

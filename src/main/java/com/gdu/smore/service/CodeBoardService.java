@@ -19,7 +19,7 @@ public interface CodeBoardService {
 	public CodeBoardDTO getCodeBoardByNo(int coNo);
 	public void modifyCodeBoard(HttpServletRequest request, HttpServletResponse response);
 	public void removeCodeBoard(HttpServletRequest request, HttpServletResponse response);
-	public void getCmtCount(int coNo);
+	
 	
 	
 }
