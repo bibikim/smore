@@ -60,19 +60,22 @@
 
 	<c:if test="${loginUser == null}">
 		<nav class="navbar navbar-light bg-light" >
-			<a class="navbar-brand" href="/"><img alt="" src="${contextPath}/resources/images/logo.PNG" width="150px"></a>
+			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo.PNG" width="150px"></a>
 			<ul class="nav justify-content-end">
 				<li class="nav-item">
-					<a class="nav-link active" href="${contextPath}/free/list">자유게시판</a>
+					<a class="nav-link active" href="/free/list">자유게시판</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="${contextPath}/code/list">코드게시판</a>
+					<a class="nav-link" href="/code/list">코드게시판</a>
 				</li>
 				<li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/qna/list">QnA</a>
+				    <a class="nav-link" href="/qna/list">QnA</a>
 				</li>
 				<li class="nav-item">
-				    <a class="nav-link" href="${contextPath}/user/login/form" tabindex="-1" aria-disabled="true">login</a>
+				    <a class="nav-link" href="/job/list">Jobs</a>
+				</li>
+				<li class="nav-item">
+				    <a class="nav-link" href="/user/login/form" tabindex="-1" aria-disabled="true">login</a>
 				</li>
 			</ul>
 			<div style="clear: both;"></div>

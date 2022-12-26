@@ -526,11 +526,20 @@
             alert('이메일 인증을 받으세요.');
             event.preventDefault();
             return;
+         } else if ($(':radio[name="grade"]:checked').length < 1) {
+        	   alert('회원 유형을 선택해주세요.');
+               event.preventDefault();
+               return;
          }
+         
+         
          
       });  // submit
       
    }  // fn_join
+   
+
+   
    
 </script>
 </head>
@@ -613,6 +622,19 @@
          </div>
          
          <br>
+      
+      	<div>
+         <div>
+            <label for="grade">회원 유형</label><br>
+            &nbsp;
+			<input type="radio" name="grade" id="common" value="2">
+	        <label for="common">일반회원</label>
+	        &nbsp;&nbsp;&nbsp;
+	        <input type="radio" name="grade" id="company" value="3">
+	        <label for="company">기업회원</label>
+         </div>
+      	</div>
+      
       
          <!-- 생년월일 -->
          <div>

@@ -94,6 +94,8 @@ public class UserServiceImpl implements UserService {
 		String nickname = request.getParameter("nickname");
 		String gender = request.getParameter("gender");
 		String mobile = request.getParameter("mobile");
+		int grade = Integer.parseInt(request.getParameter("grade"));
+//		String grade = request.getParameter("grade");
 		String birthyear = request.getParameter("birthyear");
 		String birthmonth = request.getParameter("birthmonth");
 		String birthdate = request.getParameter("birthdate");
@@ -106,6 +108,7 @@ public class UserServiceImpl implements UserService {
 		String location = request.getParameter("location");
 		String promotion = request.getParameter("promotion");
             
+
 		pw = securityUtil.sha256(pw);
 		name = securityUtil.preventXSS(name);
 		nickname = securityUtil.preventXSS(nickname);
@@ -128,6 +131,7 @@ public class UserServiceImpl implements UserService {
             .gender(gender)
             .email(email)
             .mobile(mobile)
+            .grade(grade)
             .birthyear(birthyear)
             .birthday(birthday)
             .postcode(postcode)
