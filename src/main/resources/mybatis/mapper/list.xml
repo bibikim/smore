@@ -35,30 +35,39 @@
 		<result column="SESSION_LIMIT_DATE" property="sessionLimitDate" />
 		<result column="BLACK_CNT" property="blackCnt" />
 		<result column="USER_STATE" property="userState" />
-		<collection resultMap="FreeMap" property="FreeBoardDTO"></collection>
+		<collection resultMap="StudyMap" property="studyGroupDTO"></collection>
 	</resultMap>
 	
-   <resultMap type="FreeBoardDTO" id="FreeMap">
+   <resultMap type="StudyGroupDTO" id="StudyMap">
       <result column="ROW_NUM" property="rowNum" />
-      <result column="FREE_NO" property="freeNo" />
+      <result column="STUD_NO" property="studNo" />
       <result column="NICKNAME" property="nickname" />
       <result column="TITLE" property="title" />
       <result column="CONTENT" property="content" />
       <result column="CREATE_DATE" property="createDate" />
       <result column="MODIFY_DATE" property="modifyDate" />
       <result column="HIT" property="hit" />
+      <result column="GENDER" property="gender" />
+      <result column="REGION" property="region" />
+      <result column="WIDO" property="wido" />
+      <result column="GDO" property="gdo" />
+      <result column="LANG" property="lang" />
+      <result column="PEOPLE" property="people" />
+      <result column="CONTACT" property="contact" />
+      <result column="STUD_DATE" property="studDate" />
       <result column="IP" property="ip" />
    </resultMap>
 	
-	<select id="selectStudyListCount" resultType="int">
+	<select id="selectStudyListCount"  parameterType="Map" resultType="int">
 		SELECT COUNT(*)
-		  FROM S_GROUP
+		  FROM S_GROUP S
+		 WHERE S.NICKNAME = #{nickname}   
 	</select>
 
 	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT STUD_NO, NICKNAME, TITLE, LANG, STUD_DATE, HIT
-  		  FROM S_GROUP
-<!--   		 WHERE NICKNAME = #{nickname} -->
+		SELECT ROW_NUMBER() OVER(ORDER BY STUD_DATE DESC) AS ROW_NUM, NICKNAME, STUD_NO, NICKNAME, TITLE, CONTENT, HIT, REGION, LANG, STUD_DATE 
+  	      FROM S_GROUP              
+         WHERE NICKNAME = #{nickname}
 	</select>
 
 	<delete id="deleteStudyList" parameterType="List">
