@@ -58,7 +58,6 @@ public class JobsController {
 		model.addAttribute("job", jobService.getJobsByNo(jobNo));
 		return "jobs/edit";
 	}
-		
 	
 	@PostMapping("/job/modify")
 	public void modifyJob(HttpServletRequest request, HttpServletResponse response) {

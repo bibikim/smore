@@ -232,7 +232,7 @@
 		
 		$('.btn_expire').click(function() {
 			if(confirm('해당 공고를 마감하시겠습니까?')) {
-				location.href = '/job/change/status';
+				location.href = '/job/change/status?jobNo=' + ${job.jobNo} ;
 			}
 		})
 		

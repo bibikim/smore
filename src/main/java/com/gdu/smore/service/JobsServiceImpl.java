@@ -26,7 +26,7 @@ public class JobsServiceImpl implements JobsService{
 	private PageUtil pageUtil;
 	
 	@Override
-	public void getJobsList(HttpServletRequest request, Model model) {
+	public void getJobsList(HttpServletRequest request, Model model) {  // map만 ajax 가능.. model은 jsp 화면에 뿌리기 위함이라 ${}로 가져오는게 model을 매개변수로 받아왔을때
 		
 		// 전체 구인 공고 개수
 		int totalRecord = jobMapper.selectListCount();
@@ -207,8 +207,11 @@ public class JobsServiceImpl implements JobsService{
 			
 	}
 	
+	//
+	
 	@Override
-	public void changeStatus(HttpServletRequest request ,HttpServletResponse response) {
+	public void changeStatus(HttpServletRequest request ,HttpServletResponse response) { // request는 서버로 보내고, response가 화면에 뿌려주는것..
+		System.out.println(request.getParameter("jobNo"));
 		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
 		int result = jobMapper.updateStatus(jobNo);
 		
@@ -222,7 +225,8 @@ public class JobsServiceImpl implements JobsService{
 			if(result > 0) {
 				
 				out.println("alert('채용 마감 처리 되었습니다.');");
-				out.println("location.href='/job/detail?jobNo" + jobNo);
+				out.println("location.href='/job/list'");
+				//out.println("location.href='/job/detail?jobNo" + jobNo);
 				
 			} else {
 				

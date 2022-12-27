@@ -112,14 +112,14 @@
 		margin-top: 15px;
 	}
 	.status1 {
-		background-color: 
+		background-color : rgb(51,153,204); opacity : 0.5;
 	}
 	
 </style>
 <script>
 
 	$(function(){
-		$('#job_write').click(function(ev){
+		$('#job_write').click(function(ev) {
 			if('${loginUser.grade}' != 3) {
 				alert('기업회원만 글 작성이 가능합니다.');
 				ev.preventDefault();
@@ -177,7 +177,7 @@
 				</c:if>
 				
 				<c:forEach items="${jobList}" var="job">
-					<c:if test="${jobList ne null}">
+					<c:if test="${jobList ne null && job.status == 0}">
 						<li>
 							<div style="margin: 20px 0 10px 0;">
 								<div class="div-comp">⊹&nbsp;${job.companyName}</div>
@@ -208,9 +208,32 @@
 					<c:if test="${job.status == 1}">
 						<ul>
 							<li class="status1"> 채용 완료된 공고입니다. 
-								<div>
-									
-								</div>							
+							
+								<div style="margin: 20px 0 10px 0;">
+									<div class="div-comp">⊹&nbsp;${job.companyName}</div>
+									<div style="margin: 10px 0 10px 18px;">
+										<a href="#">${job.title}</a>
+									</div>
+									<div style="width:90%;">
+										<div class="li-bottom1">
+											<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
+											<span>${job.location}</span>
+										</div>
+										<div class="li-bottom2">
+											<img style="margin-top: 8px;" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/18/null/external-Career-achievements-and-badges-flatarticons-blue-flatarticons.png"/>
+											<span>${job.career}</span>
+										</div>
+									</div>
+									<div class="skill">
+										<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
+										<span>${job.skillStack}</span>
+									</div>
+									<div>
+										<input type="hidden" name="status" value="0">
+									</div>
+								</div>
+							
+								
 							</li>
 						</ul>
 					</c:if>

@@ -48,7 +48,7 @@
 				data: 'freeNo=${free.freeNo}',
 				dataType: 'json',
 				success: function(resData) {
-					$('.cmt_cnt').text(resData.commentCnt);
+					$('.cmt_cnt').text(resData.commentCnt);  // 실제들어있는 값은 아닌데 key 자체를 써야 실제 값(value == db에서 꺼내온 값)을 꺼내올수 있다.
 				}
 			})
 		}
