@@ -25,9 +25,9 @@ public class ListController {
 	}
 	
 	@GetMapping(value="/user/mypage/zzimlist/page{page}", produces = "application/json")
-	public Map<String, Object> getZzimList(@PathVariable(value="page", required = false) Optional<String> opt){
+	public Map<String, Object> getZzimList(HttpServletRequest request,@PathVariable(value="page", required = false) Optional<String> opt){
 		int page = Integer.parseInt(opt.orElse("1"));
-		return listService.getZzimList(page);
+		return listService.getZzimList(request, page);
 	}
 	
 	

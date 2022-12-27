@@ -175,8 +175,8 @@
 						tr += '</tr>';
 						$('#body_list').append(tr);
 				});
-				//	
-					/* // 페이징
+
+/* 					/* // 페이징
 					$('#paging').empty();
 					var pageUtil = resData.pageUtil;
 					var paging = '<div>';
@@ -198,7 +198,7 @@
 					}
 					paging += '</div>';
 					// 페이징 표시
-					$('#paging').append(paging); */
+					$('#paging').append(paging);  */
 
 			}
 		});

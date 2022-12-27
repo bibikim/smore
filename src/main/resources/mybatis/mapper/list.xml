@@ -55,8 +55,13 @@
       <result column="PEOPLE" property="people" />
       <result column="CONTACT" property="contact" />
       <result column="STUD_DATE" property="studDate" />
-      <result column="IP" property="ip" />
+      <collection resultMap="zzimMap" property="StudyZzimDTO"></collection>
    </resultMap>
+	
+	<resultMap type="StudyZzimDTO" id="zzimMap">
+		 <result column="STUD_NO" property="studNo"/>
+		 <result column="NICKNAME" property="nickname"/>
+	</resultMap>
 	
 	<select id="selectStudyListCount"  parameterType="Map" resultType="int">
 		SELECT COUNT(*)
@@ -91,7 +96,7 @@
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, G.STUD_NO, Z.NICKNAME, G.TITLE, G.LANG, G.STUD_DATE, G.HIT
                   FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP G
           	        ON Z.NICKNAME = G.NICKNAME) A
-		 WHERE NICKNAME = #{nickname}
+		 WHERE A.NICKNAME = #{nickname}
 	</select>
 	
 	<delete id="deleteZzimList" parameterType="List">

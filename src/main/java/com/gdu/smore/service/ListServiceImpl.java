@@ -47,13 +47,19 @@ public class ListServiceImpl implements ListService {
 	}
 	
 	@Override
-	public Map<String, Object> getZzimList(int page) {
+	public Map<String, Object> getZzimList(HttpServletRequest request, int page) {
 		int totalRecord = listMapper.selectZzimListCount();
 		pageUtil.setPageUtil(page, totalRecord);
+		
+        HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		String nickname = loginUser.getNickname();
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
+		map.put("nickname", nickname);
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("zzimlist", listMapper.selectZzimListByMap(map));
