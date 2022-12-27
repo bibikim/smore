@@ -76,6 +76,9 @@
 					studyList += '<div>번호 ' + study.studNo + '</div>';
 					studyList += '<div>닉네임 ' + study.nickname + '</div>';
 					studyList += '<div>개발언어 ' + study.lang + '</div>';
+					studyList += '<div>지역 ' + study.region + '</div>';
+                    studyList += '<a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a>';
+                    studyList += '<a href="/study/increse/hit?studNo=' + study.studNo + '">' + study.title + '</a>';
 					studyList += '</div>';
 					$('.study_list_container').append(studyList);
 				});
@@ -119,15 +122,21 @@
 		});
 		
 	});
-
+	
+	$(document).ready(function(){
+	    $(".study").on("click", function(){  
+	        alert("테스트입니다요.");
+	    });    
+	});
 </script>
 </head>
 <body>
 
-	
+	<!-- 
 	<div>	
 		<input type="button" value="조회화면으로이동" onclick="location.href='/study/list'">
 	</div>
+	 -->
 
 	<hr>
 

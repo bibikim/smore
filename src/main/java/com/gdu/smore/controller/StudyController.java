@@ -118,5 +118,16 @@ public class StudyController {
 		return studyService.mark(request);
 	}
 	
+
+	@GetMapping("/study/map")
+	public String map() {
+		return "study/map";
+	}
+
+	@GetMapping("/study/location")
+	public String location() {
+		return "study/location";
+	}
+	
 }
 
