@@ -54,7 +54,7 @@
 		
 		<div>
 			<button>수정완료</button>
-			<input type="button" value="목록" onclick="location.href='/study/list'">
+			<input type="button" value="목록" onclick="location.href='/'">
 		</div>
 		
 	</form>

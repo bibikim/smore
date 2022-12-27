@@ -11,14 +11,21 @@
 	.blind {
 		display: none;
 	}
+	
 	#lnk_Z:hover span {
 		cursor: pointer;
 		color: #f83030;
 	}
+	
 	#heart {
 		width: 16px;
 		margin-right: 5px;
 	}
+	#map {
+        width: 300px;
+        height: 300px;
+        background-color: grey;
+      }
 </style>
 
 <div>
@@ -26,7 +33,7 @@
 	<h1>${study.title}</h1>
 	
 	<div>
-		<span>▷ 작성자 ${grpred.study.nickname}</span>
+		<span>▷ 작성자 ${study.nickname}</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
 		&nbsp;&nbsp;&nbsp;
@@ -42,7 +49,7 @@
 	<div>
 		${study.content}
 	</div>
-	
+	<div id="map"></div> <!-- 지도가 붙을 위치 -->
 	<div>
 		<form id="frm_btn" method="post">
 			<input type="hidden" name="studNo" value="${study.studNo}">
@@ -50,7 +57,7 @@
 				<input type="button" value="수정" id="btn_edit_study">
 				<input type="button" value="삭제" id="btn_remove_study">
 			</c:if>
-			<input type="button" value="목록" onclick="location.href='/study/list'">
+			<input type="button" value="목록" onclick="location.href='/'">
 			<input type="button" value="신고하기" id="btn_red_study">
 			<input type="button" value="채팅하기" id="btn_chat">
 		</form>
@@ -81,7 +88,7 @@
 		<span id="comment_count"></span>개
 	</span>
 	<a id="lnk_Z">
-		<span id="heart"></span><span id="good">찜하기 </span><span id="Z_count"></span>
+		<span id="heart"></span><span id="z">찜하기 </span><span id="z_count"></span>
 	</a>
 	
 	<hr>
@@ -112,6 +119,7 @@
 	
 	<!-- 현재 페이지 번호를 저장하고 있는 hidden -->
 	<input type="hidden" id="page" value="1">
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA04EQzcwD9wp_TDVwnp-owrOYASb6u4Z8&callback=initMap&region=kr"></script>
 	
 	<script>
 	
@@ -322,7 +330,7 @@
 		// 내가 "좋아요"를 누른 게시글인가?(좋아요 테이블에 사용자와 게시글 정보가 있는지 확인, 눌렀으면 빨간하트, 안 눌렀으면 빈하트)
 		function fn_ZCheck() { 
 			$.ajax({
-				url: '${contextPath}/study/getZCheck',
+				url: '/study/getZCheck',
 				type: 'get',
 				data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
 				dataType: 'json',
@@ -341,13 +349,13 @@
 		// "좋아요" 개수 표시하기
 		function fn_ZCount(){
 			$.ajax({
-				url: '${contextPath}/study/getZCount',
+				url: '/study/getZCount',
 				type: 'get',
 				data: 'studNo=${study.studNo}',
 				dataType: 'json',
 				success: function(resData){
-					$('#Z_count').empty();
-					$('#Z_count').text(resData.count + '개');
+					$('#z_count').empty();
+					$('#z_count').text(resData.count + '개');
 				}
 			});
 		}
@@ -368,15 +376,16 @@
 				}
 				
 				// "좋아요" 선택/해제 상태에 따른 하트 변경
-				$('#good').toggleClass("z_checked");
-				if ($('#good').hasClass("z_checked")) {
+				$('#z').toggleClass("z_checked");
+				if ($('#z').hasClass("z_checked")) {
 					$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
 				} else {
 					$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
 				}
+				
 				// "좋아요" 처리
 				$.ajax({
-					url: '${contextPath}/study/mark',
+					url: '/study/mark',
 					type: 'get',
 					data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
 					dataType: 'json',
@@ -407,11 +416,21 @@
 			});
 
 		}
-		
-
+		// 지도
+	    function initMap() {
+	        var location = { lat: 37.4779823 ,lng: 126.8792585 };
+	        var map = new google.maps.Map(
+	          document.getElementById('map'), {
+	            zoom: 12,
+	            center: location
+	          });
+	        
+	      }
 	</script>
+
 	
 </div>
+<body>
 
 </body>
 </html>

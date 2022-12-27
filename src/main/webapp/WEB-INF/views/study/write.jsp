@@ -20,7 +20,7 @@
 
 		// 목록
 		$('#btn_list').click(function(){
-			location.href = getContextPath() + '/list';
+			history.back();
 		});
 
 		
@@ -34,6 +34,26 @@
 		});
 	});
 	
+	function getLocation() {
+		if (navigator.geolocation) { // GPS를 지원하면
+			navigator.geolocation.getCurrentPosition(function(position) {
+		        var lat= position.coords.latitude;
+				var lng= position.coords.longitude;
+				alert('현재 위치는 ' + position.coords.latitude + ' , ' + position.coords.longitude + '입니다.');
+				}, function(error) {
+				  console.error(error);
+				}, {
+			      enableHighAccuracy: false,
+			      maximumAge: 0,
+			      timeout: Infinity
+			    });
+			} else {
+				alert('GPS를 지원하지 않습니다');
+			}
+			var wido = $('#wido').val() = lat;
+			var gdo = $('#gdo').val() = coords.longitude;
+ 		}
+	// getLocation();	
 </script>
 
 
@@ -72,23 +92,15 @@
 		
 		<div>
 			<label for="region">지역</label>
+			
 			<select name="region" id="region">
-				<option value = "경기" selected>경기</option>
+				<option value = "서울" selected>서울</option>
 				<option value = "부산" >부산</option>
 				<option value = "대구" >대구</option>
 				<option value = "광주" >광주</option>
 			</select>
 		</div>
-		
-		<div>
-			<label for="wido">위도</label>
-			<input type="text" name="wido" id="wido">	
-		</div>
-		
-		<div>
-			<label for="gdo">경도</label>
-			<input type="text" name="gdo" id="gdo">
-		</div>
+
 		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) 
 		<div id="summernote_image_list"></div>
 		-->
@@ -118,9 +130,19 @@
 		<div>
 			<button>작성완료</button>
 			<input type="reset" value="입력초기화">
-			<input type="button" value="목록" id="btn_list" onclick="location.href='/study/list';">
+			<input type="button" value="목록" id="btn_list" onclick="location.href='/index';">
 		</div>
 		
+				
+		<div>
+			<label for="wido"></label>
+			<input type="hidden" name="wido" id="wido" value="wido">	
+		</div>
+		
+		<div>
+			<label for="gdo"></label>
+			<input type="hidden" name="gdo" id="gdo" value="gdo">
+		</div>
 	</form>
 	
 </div>

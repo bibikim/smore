@@ -119,7 +119,7 @@ public class StudyServiceImpl implements StudyService {
 				
 				
 				out.println("alert('삽입 성공');");
-				out.println("location.href='" + request.getContextPath() + "/study/list';");
+				out.println("location.href='" + request.getContextPath() + "/';");
 			} else {
 				out.println("alert('삽입 실패');");
 				out.println("history.back();");
@@ -156,7 +156,7 @@ public class StudyServiceImpl implements StudyService {
 		String content = request.getParameter("content");
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		
-		// DB로 보낼 BlogDTO
+		// DB로 보낼 StudyGroupDTO
 		StudyGroupDTO study = StudyGroupDTO.builder()
 				.title(title)
 				.content(content)
@@ -190,7 +190,7 @@ public class StudyServiceImpl implements StudyService {
 				*/
 				out.println("<script>");
 				out.println("alert('수정 성공');");
-				out.println("location.href='" + request.getContextPath() + "/study/list';");
+				out.println("location.href='" + request.getContextPath() + "/';");
 				out.println("</script>");
 			} else {
 				out.println("<script>");
@@ -336,9 +336,7 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public Map<String, Object> getZCheck(HttpServletRequest request) {
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
-		HttpSession session = request.getSession();
-		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
-		String nickname = loginUser.getNickname();
+		String nickname = request.getParameter("nickname");
 		Map<String, Object> map = new HashMap<>();
 		map.put("studNo", studNo);
 		map.put("nickname", nickname);
@@ -357,9 +355,7 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public Map<String, Object> mark(HttpServletRequest request) {
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
-		HttpSession session = request.getSession();
-		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
-		String nickname = loginUser.getNickname();
+		String nickname = request.getParameter("nickname");
 		Map<String, Object> map = new HashMap<>();
 		map.put("studNo", studNo);
 		map.put("nickname", nickname);

@@ -80,7 +80,9 @@
 		 
 	}
 	*/
-
+    function closetab() {
+        window.close();
+    }
 </script>
 <body>
 <div>
