@@ -70,4 +70,9 @@ public class JobsController {
 		jobService.removeJobs(request, response);
 	}
 	
+	@GetMapping("/job/change/status")
+	public void changeStatus(HttpServletRequest request, HttpServletResponse response) {
+		jobService.changeStatus(request, response);
+	}
+	
 }

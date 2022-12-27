@@ -205,8 +205,43 @@ public class JobsServiceImpl implements JobsService{
 				e.printStackTrace();
 			}
 			
-
 	}
+	
+	@Override
+	public void changeStatus(HttpServletRequest request ,HttpServletResponse response) {
+		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
+		int result = jobMapper.updateStatus(jobNo);
+		
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			
+			if(result > 0) {
+				
+				out.println("alert('채용 마감 처리 되었습니다.');");
+				out.println("location.href='/job/detail?jobNo" + jobNo);
+				
+			} else {
+				
+				out.println("alert('요청이 제대로 들어가지 않았습니다. 다시 한번 확인해해주세요.');");
+				out.println("history.back();");
+				
+			}
+			
+			out.println("</script>");
+			out.close();
+		
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
+	
+	
 	
 	
 }

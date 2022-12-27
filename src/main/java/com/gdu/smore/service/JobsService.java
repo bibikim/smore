@@ -28,6 +28,6 @@ public interface JobsService {
 	public void removeJobs(HttpServletRequest reuqest, HttpServletResponse response);
 	
 	// 채용 완료
-	//public vo
+	public void changeStatus(HttpServletRequest request, HttpServletResponse response);
 	
 }

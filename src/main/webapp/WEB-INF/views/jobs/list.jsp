@@ -10,6 +10,13 @@
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
 <style>
+
+	body
+	{
+	  margin: 0 auto;
+	  width: 1000px;
+	}
+	
 	a {
 		text-decoration-line: none ;
 		cursor: pointer;

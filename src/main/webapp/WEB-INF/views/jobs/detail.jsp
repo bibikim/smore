@@ -230,6 +230,12 @@
 			}
 		})
 		
+		$('.btn_expire').click(function() {
+			if(confirm('해당 공고를 마감하시겠습니까?')) {
+				location.href = '/job/change/status';
+			}
+		})
+		
 		
 		// 링크 공유
 		$('#btnFacebook').click(function() {
@@ -384,12 +390,12 @@
 		
 		<div style="width: 200px; display: inline-block;">
 			<form id="frm_btn" method="post">
-				${job.nickname}
 				<c:if test="${loginUser.nickname == job.nickname}">
 					<input type="hidden" name="jobNo" value="${job.jobNo}">
 					<input type="hidden" name="nickname" value="${job.nickname}">
 					<div style="float: left;">
 						<input type="button" value="수정" class="btn_modify">
+						<input type="button" value="채용 완료" class="btn_expire">
 					</div>
 				</c:if>
 				<c:if test="${loginUser.grade == 0}">
@@ -398,8 +404,11 @@
 				</c:if>
 			</form>
 			<div>
-				<span style="font-size: 14px;">채용 공고 삭제는 관리자에게 문의주세요.</span>
+				<c:if test="${loginUSer.grade == 3}">
+					<span style="font-size: 14px;">채용 공고 삭제는 관리자에게 문의주세요.</span>
+				</c:if>
 			</div>
+			
 		</div>
 		
 		

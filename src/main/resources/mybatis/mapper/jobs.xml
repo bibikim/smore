@@ -62,4 +62,6 @@
 		 WHERE JOB_NO = #{jobNo}
 	</delete>
 	
+	
+	
 </mapper>
