@@ -26,12 +26,13 @@ public class ListServiceImpl implements ListService {
 		int totalRecord = listMapper.selectStudyListCount();
 		pageUtil.setPageUtil(page, totalRecord);
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("studylist", listMapper.selectStudyListByMap(map));
+	    System.out.println(result);
 		result.put("PageUtil", pageUtil);
 		
 		return result;
@@ -42,12 +43,13 @@ public class ListServiceImpl implements ListService {
 		int totalRecord = listMapper.selectZzimListCount();
 		pageUtil.setPageUtil(page, totalRecord);
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
-	    result.put("studylist", listMapper.selectZzimListByMap(map));
+	    result.put("zzimlist", listMapper.selectZzimListByMap(map));
+	    System.out.println(result);
 		result.put("PageUtil", pageUtil);
 		
 		return result;

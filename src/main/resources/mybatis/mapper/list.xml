@@ -6,15 +6,59 @@
 
 <mapper namespace="com.gdu.smore.mapper.ListMapper">
 
+	
+
+	<resultMap type="UserDTO" id="UserMap">
+		<result column="ROW_NUM" property="rowNum" />
+		<result column="USER_NO" property="userNo" />
+		<result column="ID" property="id" />
+		<result column="PW" property="pw" />
+		<result column="NAME" property="name" />
+		<result column="NICKNAME" property="nickname" />
+		<result column="GRADE" property="grade" />
+		<result column="GENDER" property="gender" />
+		<result column="EMAIL" property="email" />
+		<result column="MOBILE" property="mobile" />
+		<result column="BIRTH_YEAR" property="birthYear" />
+		<result column="BIRTHDAY" property="birthday" />
+		<result column="POSTCODE" property="postcode" />
+		<result column="ROAD_ADDRESS" property="roadAddress" />
+		<result column="JIBUN_ADDRESS" property="jibunAddress" />
+		<result column="DETAIL_ADDRESS" property="detailAddress" />
+		<result column="EXTRA_ADDRESS" property="extraAddress" />
+		<result column="AGREE_CODE" property="agreeCode" />
+		<result column="SNS_TYPE" property="snsType" />
+		<result column="JOIN_DATE" property="joinDate" />
+		<result column="PW_MODIFY_DATE" property="pwModifyDate" />
+		<result column="INFO_MODIFY_DATE" property="infoModifyDate" />
+		<result column="SESSION_ID" property="sessionId" />
+		<result column="SESSION_LIMIT_DATE" property="sessionLimitDate" />
+		<result column="BLACK_CNT" property="blackCnt" />
+		<result column="USER_STATE" property="userState" />
+		<collection resultMap="FreeMap" property="FreeBoardDTO"></collection>
+	</resultMap>
+	
+   <resultMap type="FreeBoardDTO" id="FreeMap">
+      <result column="ROW_NUM" property="rowNum" />
+      <result column="FREE_NO" property="freeNo" />
+      <result column="NICKNAME" property="nickname" />
+      <result column="TITLE" property="title" />
+      <result column="CONTENT" property="content" />
+      <result column="CREATE_DATE" property="createDate" />
+      <result column="MODIFY_DATE" property="modifyDate" />
+      <result column="HIT" property="hit" />
+      <result column="IP" property="ip" />
+   </resultMap>
+	
 	<select id="selectStudyListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_GROUP
 	</select>
 
 	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, TITLE, LANG, STUD_DATE, HIT, CREATE_DATE
-          FROM S_GROUP
-		 WHERE NICKNAME = #{nickname}
+		SELECT STUD_NO, NICKNAME, TITLE, LANG, STUD_DATE, HIT
+  		  FROM S_GROUP
+<!--   		 WHERE NICKNAME = #{nickname} -->
 	</select>
 
 	<delete id="deleteStudyList" parameterType="List">
@@ -34,8 +78,10 @@
 	</select>
 	
 	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
-		SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, NICKNAME, TITLE, LANG, STUD_DATE, HIT, CREATE_DATE
-          FROM S_ZZIM
+		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.LANG, A.STUD_DATE, A.HIT
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, G.STUD_NO, Z.NICKNAME, G.TITLE, G.LANG, G.STUD_DATE, G.HIT
+                  FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP G
+          	        ON Z.NICKNAME = G.NICKNAME) A
 		 WHERE NICKNAME = #{nickname}
 	</select>
 	

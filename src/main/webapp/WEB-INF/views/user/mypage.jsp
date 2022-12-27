@@ -93,44 +93,9 @@
 <script>
 
 	$(function() {
-		fn_studylist();
+		//fn_studylist();
 		//fn_zzimlist();
-	});
-
-	// html dom 이 다 로딩된 후 실행된다.
-    $(document).ready(function(){
-        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-        $(".menu>a").click(function(){
-            var submenu = $(this).next("ul");
- 
-            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
-            if( submenu.is(":visible") ){
-                submenu.slideUp();
-            } else{
-                submenu.slideDown();
-            }
-        });
-        /* 찜 목록 */
-    	$('#chatlist').click(function(){
-    		$('#body_list').empty();
-    		fn_chatlist();
-    	});
-    });
 	
-    /* 체크박스 */
-	$(document).on('click','#chk_all',function(){
-	    if($('#chk_all').is(':checked')){
-	       $('.del-chk').prop('checked',true);
-	    } else{
-	       $('.del-chk').prop('checked',false);
-	    }
-	});
-	$(document).on('click','.del-chk',function(){
-	    if($('input[class=del-chk]:checked').length==$('.del-chk').length){
-	        $('#chk_all').prop('checked',true);
-	    } else{
-	       $('#chk_all').prop('checked',false);
-	    }
 
 		// html dom 이 다 로딩된 후 실행된다.
 	    $(document).ready(function(){
@@ -138,7 +103,7 @@
 	        $(".menu>a").click(function(){
 	            var submenu = $(this).next("ul");
 	 
-	            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+	            // submenu 가 화면상에 보일때는 위로 접고 아니면 아래로 펼치기
 	            if( submenu.is(":visible") ){
 	                submenu.slideUp();
 	            } else{
@@ -146,40 +111,34 @@
 	            }
 	        });
 	    });
-		
-	    /* 체크박스 */
-		$(document).on('click','#chk_all',function(){
-		    if($('#chk_all').is(':checked')){
-		       $('.del-chk').prop('checked', true);
-		    } else{
-		       $('.del-chk').prop('checked', false);
-		    }
-		});
-		$(document).on('click','.del-chk',function(){
-		    if($('input[class=del-chk]:checked').length==$('.del-chk').length){
-		        $('#chk_all').prop('checked', true);
-		    } else{
-		       $('#chk_all').prop('checked', false);
-		    }
-		});
-		
-		/* 스터디 목록 */
-		$(document).on('click','.studylist',function(){
+        
+        /* 스터디 목록 */
+		/*$(document).on('click','#studylist',function(){
+			$('#body_list').empty();
 			fn_studylist();
-		});
+		});*/
+		$('#studylist').click(function(){
+    		$('#body_list').empty();
+    		fn_studylist();
+    	});
 		
 		/* 찜 목록 */
-		$(document).on('click','.zzimlist',function(){
+		$(document).on('click','#zzimlist',function(){
+			$('#body_list').empty();
 			fn_zzimlist();
 		});
-		
-	});
+        
+        /* 채팅 목록 */
+    	$('#chatlist').click(function(){
+    		$('#body_list').empty();
+    		fn_chatlist();
+    	});
+        
+    });
+	
 	
 	var page = 1;
-	
-	
 
-	
 	function fn_studylist() {
 		$.ajax({
 			type: 'get',
@@ -188,10 +147,10 @@
 			success: function(resData) {
 				$('#head_list').empty();
 				$('#body_list').empty();
-				
+
 				var tr = '<tr>';
 				tr += '<th scope="col">' + 'No' + '</th>';
-				tr += '<th scope="col">' + '모임장' + '</th>';
+				tr += '<th scope="col">' + '작성자' + '</th>';
 				tr += '<th scope="col">' + '제목' + '</th>';
 				tr += '<th scope="col">' + '개발언어' + '</th>';
 				tr += '<th scope="col">' + '시작예정일' + '</th>';
@@ -205,21 +164,23 @@
 					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
 					$('#body_list').append(tr);
 				}
-				if('${loginUser.nickname}' == '${sGroup.nickname}'){
-					$.each(resData.studylist, function(i, study) {
-						var tr = '<tr>';
-						tr += '<td>' + study.rowNum + '</td>';
-						tr += '<td>' + study.nickname  + '</td>';
-						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
-						tr += '<td>' + study.lang + '</td>'; 
-						tr += '<td>' + study.studDate + '</td>'; 
-						tr += '<td>' + study.hit + '</td>'; 
-						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
-						tr += '</tr>';
-						$('#body_list').append(tr);
-					});
-					
-					// 페이징
+
+						$.each(resData.studylist, function(i, study) {
+							if('${loginUser.nickname}' == '${study.nickname}'){
+								var tr = '<tr>';
+								tr += '<td>' + study.rowNum + '</td>';
+								tr += '<td>' + study.nickname  + '</td>';
+								tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
+								tr += '<td>' + study.lang + '</td>'; 
+								tr += '<td>' + study.studDate + '</td>'; 
+								tr += '<td>' + study.hit + '</td>'; 
+								tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
+								tr += '</tr>';
+								$('#body_list').append(tr);
+							}
+						});
+				//	
+					/* // 페이징
 					$('#paging').empty();
 					var pageUtil = resData.pageUtil;
 					var paging = '<div>';
@@ -241,13 +202,13 @@
 					}
 					paging += '</div>';
 					// 페이징 표시
-					$('#paging').append(paging);
-				}
+					$('#paging').append(paging); */
+
 			}
 		});
 	}
 	
- 	function fn_zzimlist() {
+	function fn_zzimlist() {
 		$.ajax({
 			type: 'get',
 			url: '/user/mypage/zzimlist/page' + page,
@@ -269,10 +230,10 @@
 				
 				if(resData.zzimlist == '') {
 					var tr = '<tr>';
-					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
+					tr += '<td colspan="7" style="text-align: center;">게시물이 없다.</td>';
 					$('#body_list').append(tr);
 				}
-				if(zzimlist.nickname == loginUser.nickname) {
+				if(resData.zzimlist.nickname == ${loginUser.nickname}) {
 					$.each(resData.zzimlist, function(i, zzim) {
 						var tr = '<tr>';
 						tr += '<td>' + zzim.rowNum + '</td>';
@@ -350,14 +311,15 @@
 </head>
 <body>
 
+
 	<div class="wrapper">
 		<div class="sidebar">
 			<ul>
 				<li class="menu">
 					<a>My 스터디</a>
 					<ul class="hide">					
-						<li><a class="studylist" href="#">- My 스터디 목록</a></li>
-						<li><a class="zzimlist" href="#">- 찜 스터디 목록</a></li>
+						<li><a id="studylist" href="#"> - My 스터디 목록</a></li>
+						<li><a id="zzimlist" href="#">- 찜 스터디 목록</a></li>
 						<li><a id="chatlist" href="javascript:void(0);">- 채팅 목록</a></li>
 					</ul>
 				</li>
