@@ -147,7 +147,6 @@
 			success: function(resData) {
 				$('#head_list').empty();
 				$('#body_list').empty();
-
 				var tr = '<tr>';
 				tr += '<th scope="col">' + 'No' + '</th>';
 				tr += '<th scope="col">' + '작성자' + '</th>';
@@ -164,21 +163,18 @@
 					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
 					$('#body_list').append(tr);
 				}
-
-						$.each(resData.studylist, function(i, study) {
-							if('${loginUser.nickname}' == '${study.nickname}'){
-								var tr = '<tr>';
-								tr += '<td>' + study.rowNum + '</td>';
-								tr += '<td>' + study.nickname  + '</td>';
-								tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
-								tr += '<td>' + study.lang + '</td>'; 
-								tr += '<td>' + study.studDate + '</td>'; 
-								tr += '<td>' + study.hit + '</td>'; 
-								tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
-								tr += '</tr>';
-								$('#body_list').append(tr);
-							}
-						});
+				$.each(resData.studylist, function(i, study) {
+						var tr = '<tr>';
+						tr += '<td>' + study.rowNum + '</td>';
+						tr += '<td>' + study.nickname  + '</td>';
+						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
+						tr += '<td>' + study.lang + '</td>'; 
+						tr += '<td>' + study.studDate + '</td>'; 
+						tr += '<td>' + study.hit + '</td>'; 
+						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
+						tr += '</tr>';
+						$('#body_list').append(tr);
+				});
 				//	
 					/* // 페이징
 					$('#paging').empty();

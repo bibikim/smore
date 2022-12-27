@@ -1,8 +1,11 @@
 package com.gdu.smore.domain.user;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gdu.smore.domain.free.FreeBoardDTO;
+import com.gdu.smore.domain.study.StudyGroupDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,4 +48,6 @@ public class UserDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date lastLoginDate;
 	private AccessLogDTO accessLogDTO;
+	
+	private List<StudyGroupDTO> studyGroupDTO;
 }
