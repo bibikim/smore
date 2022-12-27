@@ -110,6 +110,9 @@ public class UserServiceImpl implements UserService {
             
 
 		pw = securityUtil.sha256(pw);
+		 
+		System.out.println(pw);
+		
 		name = securityUtil.preventXSS(name);
 		nickname = securityUtil.preventXSS(nickname);
 		String birthday = birthmonth + birthdate;

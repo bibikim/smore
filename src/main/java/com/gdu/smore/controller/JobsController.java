@@ -32,7 +32,7 @@ public class JobsController {
 	}
 	
 	@PostMapping("/job/save")
-	public void saveJob(HttpServletRequest request, HttpServletResponse response) {
+	public void requiredLogin_saveJob(HttpServletRequest request, HttpServletResponse response) {
 		jobService.saveJobs(request, response);
 	}
 	
@@ -48,7 +48,7 @@ public class JobsController {
 	}
 
 	@GetMapping("/job/detail")
-	public String detailJob(@RequestParam(value="jobNo", required=false, defaultValue="0") int jobNo, Model model) {
+	public String requiredLogin_detailJob(@RequestParam(value="jobNo", required=false, defaultValue="0") int jobNo, Model model) {
 		model.addAttribute("job", jobService.getJobsByNo(jobNo));
 		return "jobs/detail";
 	}
@@ -58,11 +58,20 @@ public class JobsController {
 		model.addAttribute("job", jobService.getJobsByNo(jobNo));
 		return "jobs/edit";
 	}
-		
 	
 	@PostMapping("/job/modify")
 	public void modifyJob(HttpServletRequest request, HttpServletResponse response) {
 		jobService.editJobs(request, response);
 	}
 
+	@PostMapping("/job/remv")
+	public void removeJob(HttpServletRequest request, HttpServletResponse response) {
+		jobService.removeJobs(request, response);
+	}
+	
+	@GetMapping("/job/change/status")
+	public void changeStatus(HttpServletRequest request, HttpServletResponse response) {
+		jobService.changeStatus(request, response);
+	}
+	
 }

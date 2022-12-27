@@ -81,6 +81,15 @@
 	    line-height: 16px;
 	}
 	
+	.profile {
+		width: 800px; 
+		height:300px;
+		background-color: white; 
+		border: 1px solid #C4C4C4;
+		border-radius: 7px;
+	}
+	
+	
 </style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
@@ -218,6 +227,14 @@
 							<input type="text" id="location" name="location" value="${job.location}">
 						</div>
 					</div>
+					
+					<div class="float">
+						<label for="skillStack"> 기술 스택 </label>
+						<div>
+							<input type="text" id="skillStack" name="skillStack" value="${job.skillStack}">
+						</div>
+					</div>
+					
 					<div>
 						<label for="career"> 요구 경력 </label>
 						<div>
@@ -244,6 +261,12 @@
 					  <label for="content">채용 정보</label>
 					  <textarea id="content" name="content">${job.content}</textarea>
 			      </div>
+			      <div style="margin-bottom: 30px;">
+					  <label for="profile">회사 소개</label>
+					  <div>
+						  <textarea name="profile" id="profile" class="profile">${job.profile}</textarea>
+					  </div>
+			      </div>
 				  <div class="float">
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
 				  	  <input type="button" id="btn_list" value="목록">
@@ -251,12 +274,8 @@
 				  <div>
 				  	  <button style="margin-left: 540px;">수정 완료</button>
 				  </div>
-					
-				  <div>
-				  		<!-- 기업 profile은 ajax 처리해서 토글버튼 할거얌!!! -->
-						<input type="text" name="profile" value="${job.profile}" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
-			      </div>
-			      
+
+
 			</form>
 		
 	</div>	

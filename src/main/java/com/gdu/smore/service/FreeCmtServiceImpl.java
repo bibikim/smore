@@ -29,10 +29,10 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 	
 	
 	@Override
-	public Map<String, Object> getCmtCnt(int freeNo) {
+	public Map<String, Object> getCmtCnt(int freeNo) {   // 반환용 map
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("commentCnt",  cmtMapper.selectCommentCnt(freeNo));
+		result.put("commentCnt",  cmtMapper.selectCommentCnt(freeNo));  // 키, 값 
 		
 		return result;
 	}

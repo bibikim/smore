@@ -36,7 +36,7 @@ public class FreeCmtController {
 	 @ResponseBody
 
 	 @PostMapping(value = "/free/comment/add", produces = "application/json")
-	 public Map<String, Object> saveCmt(FreeCommentDTO comment) { 
+	 public Map<String, Object> requiredLogin_saveCmt(FreeCommentDTO comment) { 
 		 return cmtService.saveComment(comment);
 	 }
 
@@ -61,6 +61,6 @@ public class FreeCmtController {
 		return cmtService.saveRecomment(recomment);
 	}
 	
-
+	
 
 }
