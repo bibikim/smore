@@ -80,6 +80,13 @@
 	    font-size: 14px;
 	    line-height: 16px;
 	}
+	.profile {
+		width: 800px; 
+		height:300px;
+		background-color: white; 
+		border: 1px solid #C4C4C4;
+		border-radius: 7px;
+	}
 	
 </style>
 
@@ -100,7 +107,7 @@
 			height: 400,
 			lang: 'ko-KR',
 			toolbar: [
-			    // [groupName, [list of button]]
+			    
 			    ['style', ['bold', 'italic', 'underline', 'clear']],
 			    ['font', ['strikethrough', 'superscript', 'subscript']],
 			    ['fontsize', ['fontsize']],
@@ -137,12 +144,13 @@
 			</div>
 			
 				<form id="frm_write" action="/job/save" method="post">
-				
+				<input type="hidden" name="nickname" value="${loginUser.nickname}">
 				<div class="part-wrapper">
 
 					<div class="part1">
 	
 						<div class="h-div">
+							<input type="hidden" name="${job.status}">
 							<h5> 회사 정보 </h5>
 						</div>
 						<div>
@@ -216,6 +224,12 @@
 						</div>
 					</div>
 					
+					<div class="float">
+						<label for="skillStack"> 기술 스택 </label>
+						<div>
+							<input type="text" id="skillStack" name="skillStack">
+						</div>
+					</div>
 					
 					
 					<div>
@@ -233,16 +247,22 @@
 					</div>
 				</div>
 
-				<div style="margin: 10px 0 10px 0;">
+				<div style="margin: 10px 0 30px 0;">
 					<label for="title">제목</label>
 					<div>
 						<input type="text" id="title" name="title" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
 					</div>
 				</div>
 
-				  <div>
+				  <div style="margin-bottom: 30px;">
 					  <label for="content">채용 정보</label>
 					  <textarea id="content" name="content"></textarea>
+			      </div>
+				  <div style="margin-bottom: 30px;">
+						<label for="profile">회사 소개</label>
+						<div>
+							<textarea name="profile" id="profile" class="profile"></textarea>
+						</div>
 			      </div>
 				  <div class="float">
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
@@ -252,10 +272,6 @@
 				  	  <button style="margin-left: 540px;">작성 완료</button>
 				  </div>
 					
-				  <div>
-				  		<!-- 기업 profile은 ajax 처리해서 토글버튼 할거얌!!! -->
-						<input type="text" name="profile" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
-			      </div>
 			   </div>
 			</form>
 		

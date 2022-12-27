@@ -34,7 +34,7 @@ public class FreeController {
 	}
 	
 	@GetMapping("/free/write")
-	public String write() {
+	public String requiredLogin_write() {
 		return "free/write";
 	}
 	
@@ -61,7 +61,7 @@ public class FreeController {
 	}
 	
 	@GetMapping("/free/detail")
-	public String detailFree(@RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
+	public String requiredLogin_detailFree(@RequestParam(value="freeNo", required=false, defaultValue="0") int freeNo, Model model) {
 		model.addAttribute("free", freeService.getFreeByNo(freeNo));
 		return "free/detail";
 	}

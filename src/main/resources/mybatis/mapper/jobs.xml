@@ -7,8 +7,8 @@
 <mapper namespace="com.gdu.smore.mapper.JobsMapper">
 
 	<select id="selectListCount" resultType="int">
-		select count(*)
-		  from jobs
+		SELECT COUNT(*)
+		  FROM JOBS
 	</select>
 
 	<!-- 목록 보기 -->
@@ -21,16 +21,16 @@
 	
 	<!-- 상세 보기 -->
 	<select id="selectJobsByNo" parameterType="int" resultType="JobsDTO">
-		select JOB_NO, TITLE, NICKNAME, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
+		SELECT JOB_NO, TITLE, NICKNAME, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
 		  FROM JOBS
 		 WHERE JOB_NO = #{jobNo}
 	</select>
 	
 	<!-- 글 삽입 -->
 	<insert id="insertJobs" parameterType="JobsDTO">
-		insert into jobs
+		INSERT INTO JOBS
 			(TITLE, NICKNAME, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK )
-		values
+		VALUES
 			(#{title}, #{nickname} , #{companyName}, #{contact}, #{homepage}, #{profile}, #{hrName}, #{hrContact}, #{hrEmail}, #{location}, #{position}, #{jobType}, #{content}, NOW(), 0, #{career}, 0, #{skillStack})	
 	</insert>
 	
@@ -43,23 +43,23 @@
 	
 	<!-- 글 수정 -->
 	<update id="modifyJobs" parameterType ="JobsDTO">
-		update jobs
-		   set title = #{title}, contact = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}, SKILL_STACK = #{skillStack}
-		 where job_no = #{jobNo} 
+		UPDATE JOBS
+		   SET TITLE = #{title}, CONTACT = #{contact}, HOMEPAGE = #{homepage}, PROFILE = #{profile}, HR_NAME = #{hrName}, HR_CONTACT = #{hrContact}, HR_EMAIL = #{hrEmail}, LOCATION = #{location}, POSITION = #{position}, JOB_TYPE = #{jobType}, CONTENT = #{content}, CAREER = #{career}, SKILL_STACK = #{skillStack}
+		 WHERE JOB_No = #{jobNo} 
 	</update>
 	
-	<!-- 채용 완료(status = 1) 업데이트 -->
-	<update id="">
-		update jobs
-		   set status = 1
-		 where job_no = #{jobNo} 
+	<!-- 채용 완료(status = 1) 업데이트   -->
+	<update id="updateStatus" parameterType ="int">
+		UPDATE JOBS
+		   SET STATUS = 1
+		 WHERE JOB_NO = #{jobNo} 
 	</update>
 	
-	<!-- 글 삭제 -->
+	<!-- 글 삭제(관리자만 가능) -->
 	<delete id="deleteJobs" parameterType="int">
 		DELETE
 		  FROM JOBS
-		 WHERE JON_NO = #{jobNo}
+		 WHERE JOB_NO = #{jobNo}
 	</delete>
 	
 </mapper>

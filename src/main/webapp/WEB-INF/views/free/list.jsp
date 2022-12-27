@@ -81,11 +81,6 @@
 </head>
 <body>
 	
-	
-	<div>
-		<a href="/job/list">JOBS</a>
-	</div>
-	
 	<div>
 		<div>
 			<c:if test="${loginUser != null}">
@@ -162,7 +157,7 @@
 			</div>
 	</div>
 	
-	
 
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="자유게시판" name="title"/>
+</jsp:include>

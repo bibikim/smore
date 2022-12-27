@@ -26,4 +26,8 @@ public interface JobsService {
 	
 	// 글 삭제
 	public void removeJobs(HttpServletRequest reuqest, HttpServletResponse response);
+	
+	// 채용 완료
+	//public vo
+	
 }

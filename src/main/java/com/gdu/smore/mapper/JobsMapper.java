@@ -16,4 +16,5 @@ public interface JobsMapper {
 	public int updateHit(int jobNo);
 	public int modifyJobs(JobsDTO job);
 	public int deleteJobs(int jobNo);
+	public int updateStatus(int jobNo);  // 채용완료
 }

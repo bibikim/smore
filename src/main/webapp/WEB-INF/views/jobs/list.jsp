@@ -91,7 +91,7 @@
 		font-size: 14px;
 		font-size: bold;
 		color: gray;
-		margin: 8px 0px 0px 15px;
+		margin: 3px 0px 0px 15px;
 	}
 	
 	#a-title {
@@ -104,9 +104,23 @@
 		height: 1px; 
 		margin-top: 15px;
 	}
+	.status1 {
+		background-color: 
+	}
 	
 </style>
 <script>
+
+	$(function(){
+		$('#job_write').click(function(ev){
+			if('${loginUser.grade}' != 3) {
+				alert('기업회원만 글 작성이 가능합니다.');
+				ev.preventDefault();
+				return;
+			}
+		})
+		
+	});
 
 </script>
 
@@ -121,13 +135,13 @@
 
 		<div>
 			<!-- && loginUser == 3 이어야 글쓰기 가능 -->
-			<c:if test="${loginUser != null}">
-				<span><a id="j_write" href="/job/write">구인 공고 등록</a></span>
-			</c:if>
+			<%-- <c:if test="${loginUser.grade == 3}"> --%>
+				<span><a id="job_write" href="/job/write">구인 공고 등록</a></span>
+			<%-- </c:if> --%>
 		</div>
 		<div>
 			<c:if test="${loginUser == null}">
-				<span>글 작성은<a id="j_write" href="/user/login/form">로그인</a> 후에 가능합니다.</span>
+				<span>글 작성은<a href="/user/login/form">로그인</a> 후에 가능합니다.</span>
 			</c:if>
 		</div>
 	
@@ -155,11 +169,11 @@
 					<li> 게시물이 없습니다. </li>
 				</c:if>
 				
-				<c:if test="${jobList ne null}">
-					<c:forEach items="${jobList}" var="job">
+				<c:forEach items="${jobList}" var="job">
+					<c:if test="${jobList ne null}">
 						<li>
 							<div style="margin: 20px 0 10px 0;">
-								<div class="div-comp">* ${job.companyName}</div>
+								<div class="div-comp">⊹&nbsp;${job.companyName}</div>
 								<div style="margin: 10px 0 10px 18px;">
 									<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
 								</div>
@@ -175,23 +189,29 @@
 								</div>
 								<div class="skill">
 									<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
-									<span>기술스택</span>
+									<span>${job.skillStack}</span>
+								</div>
+								<div>
+									<input type="hidden" name="status" value="0">
 								</div>
 							</div>
 						</li>
 						<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
-					</c:forEach>
-				</c:if>
+					</c:if>
+					<c:if test="${job.status == 1}">
+						<ul>
+							<li class="status1"> 채용 완료된 공고입니다. 
+								<div>
+									
+								</div>							
+							</li>
+						</ul>
+					</c:if>
+				</c:forEach>
 			</ul>
 		</div>
-		
-		
-		
-		
-		
-		
-		
 	</div>	
 
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="자유게시판" name="title"/>
+</jsp:include>
