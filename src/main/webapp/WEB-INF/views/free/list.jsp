@@ -26,10 +26,10 @@
 		text-align: center;
 	}
 	
-	td:nth-of-type(1) { width: 100px; }
-	td:nth-of-type(2) { width: 500px; }
-	td:nth-of-type(3) { width: 200px; }
-	td:nth-of-type(4) { width: 100px; }
+	th:nth-of-type(1) { width: 100px; }
+	th:nth-of-type(2) { width: 500px; }
+	th:nth-of-type(3) { width: 200px; }
+	th:nth-of-type(4) { width: 100px; }
 	
 	#align {
 		text-align: center;
@@ -151,7 +151,6 @@
 						<option value="NICKNAME"> 작성자 </option>
 					</select>
 					<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요" list="auto_complete">
-					<!-- <datalist id="auto_complete"></datalist> -->
 					<input type="submit" value="search">
 				</form>
 			</div>

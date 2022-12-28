@@ -112,7 +112,7 @@
 		margin-top: 15px;
 	}
 	.status1 {
-		background-color : rgb(51,153,204); opacity : 0.5;
+		background-color : #bdbdbd; opacity : 0.5;
 	}
 	
 </style>
@@ -126,6 +126,16 @@
 				return;
 			}
 		})
+		
+		$('#frm_search').submit(function(ev){
+			if($('#type').val() == '' || $('#keyword').val() == '') {
+				alert('검색 조건을 확인하세요.');
+				ev.preventDefault();
+				return;
+			}
+			
+		})
+		
 		
 	});
 
@@ -165,8 +175,18 @@
 			<div id="gubun"></div>
 		</div>	
 		
-		<div>
+		<div class="searching">
 			<!-- 검색 input 위치 -->
+			<form id="frm_search" action="/job/list?page=${page}&type=${type}&keyword=${keyword}">
+				<select name="type" id="type">
+					<option value="">선택</option>
+					<option value="TITLE">제목</option>
+					<option value="CONTENT">내용</option>
+					<option value="COMPANY_NAME">기업명</option>
+				</select>
+				<input type="text" name="keyword">
+				<input type="submit" value="search">
+			</form>
 		</div>
 		
 		
@@ -207,7 +227,10 @@
 					</c:if>
 					<c:if test="${job.status == 1}">
 						<ul>
-							<li class="status1"> 채용 완료된 공고입니다. 
+								
+							<li class="status1"> 
+								
+								<div>채용 완료된 공고입니다.</div>
 							
 								<div style="margin: 20px 0 10px 0;">
 									<div class="div-comp">⊹&nbsp;${job.companyName}</div>
@@ -232,8 +255,6 @@
 										<input type="hidden" name="status" value="0">
 									</div>
 								</div>
-							
-								
 							</li>
 						</ul>
 					</c:if>

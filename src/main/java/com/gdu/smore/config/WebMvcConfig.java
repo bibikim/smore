@@ -1,6 +1,5 @@
 package com.gdu.smore.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -9,24 +8,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.gdu.smore.interceptor.KeepLoginInterceptor;
 import com.gdu.smore.interceptor.PreventLoginInterceptor;
 import com.gdu.smore.interceptor.SleepUserCheckingInterceptor;
+import com.gdu.smore.util.MyFileUtil;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	@Autowired
 	private KeepLoginInterceptor keepLoginInterceptor;
-	
-	@Autowired 
 	private PreventLoginInterceptor preventLoginInterceptor;
-	
-	@Autowired
 	private SleepUserCheckingInterceptor sleepUserCheckingInterceptor;
-	
+	private MyFileUtil myFileUtil;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/load/image/**")
-			    .addResourceLocations("file:///C:/summernoteImage/");
+			    .addResourceLocations("file:" + myFileUtil.getSummernotePath() + "/");
 	}
 	
 	@Override

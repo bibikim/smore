@@ -47,9 +47,16 @@ public class JobsServiceImpl implements JobsService{
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
 		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/job/list"));
 		
+		// 검색기능
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
 		// 글 목록
 		List<JobsDTO> jobs = jobMapper.selectJobsListByMap(map);
 		model.addAttribute("jobList" ,jobs);
+		
 	}
 	
 	@Override
