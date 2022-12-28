@@ -79,6 +79,9 @@
 		});
 		
 		
+		$("#btn_file").on('click', function(){
+			$("#dvFiles").append('<input type="file" id="files" name="files" multiple="multiple">');
+		});
 		
 		$('#frm_write').submit(function(ev){
 			if($('#title').val() == '') {
@@ -101,7 +104,7 @@
 <body>
 	
 	<div>
-		<form id="frm_write" action="/code/save" method="post">
+		<form id="frm_write" action="/code/save" method="post" enctype="multipart/form-data">
 			
 			<input type="hidden" name="nickname" value="${loginUser.nickname}">
 
@@ -116,6 +119,12 @@
 			<div>
 				<label for="content">내용</label>
 				<textarea id="content" name="content"></textarea>
+			</div>
+			
+			<div>
+				<label for="title">첨부</label>
+				<input type="button" id="btn_file" value="첨부하기">
+				<div id="dvFiles"></div>
 			</div>
 			
 			<div id="sumnote_image_list"></div>

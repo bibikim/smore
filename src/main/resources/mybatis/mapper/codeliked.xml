@@ -7,19 +7,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectUserLikeCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		  FROM CODELIKED
+		  FROM C_LIKED
 		 WHERE CO_NO = #{coNo}
 		   AND NICKNAME = #{nickname}
 	</select>
 	
 	<select id="selectCodeLikeCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
-		  FROM CODELIKED
+		  FROM C_LIKED
 		 WHERE CO_NO = #{coNo}
 	</select>
 	
 	<insert id="insertLike" parameterType="map">
-		INSERT INTO CODELIKED
+		INSERT INTO C_LIKED
 			(CO_NO, NICKNAME)
 		VALUES
 			(#{coNo}, #{nickname})
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<delete id="deleteLike" parameterType="map">
 		DELETE
-		  FROM CODELIKED
+		  FROM C_LIKED
 		 WHERE CO_NO = #{coNo}
 		   AND NICKNAME = #{nickname}
 	</delete>

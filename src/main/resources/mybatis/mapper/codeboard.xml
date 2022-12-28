@@ -6,7 +6,7 @@
 
 <mapper namespace="com.gdu.smore.mapper.CodeBoardMapper">
 
-	<select id="selectCodeBoardListCount" resultType="int">
+	<select id="selectListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM C_BOARD
 	</select>
@@ -31,7 +31,7 @@
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
-	<insert id="insertCodeBoard" parameterType="CodeBoardDTO">
+	<insert id="insertCodeBoard" parameterType="CodeBoardDTO" useGeneratedKeys="true" keyProperty="coNo">
 		INSERT INTO C_BOARD
 			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP)
 		VALUES
@@ -89,9 +89,31 @@
 	</delete>
 	
 
+	<select id="selectAllUploadCount" resultType="int"> 
+		SELECT COUNT(*)
+		  FROM UPLOAD  
+	</select>
 	
+	<select id="selectAttachByNo" parameterType="int" resultType="CodeAttachDTO">
+		SELECT ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, CO_NO
+		  FROM C_ATTACH
+		 WHERE ATTACH_NO = #{attachNo}
+	</select>
 	
-	
-	
-	
+	<update id="updateDownloadCnt" parameterType="int">
+		UPDATE C_ATTACH 
+		   SET DOWNLOAD_CNT = DOWNLOAD_CNT +1
+		 WHERE ATTACH_NO = #{attachNo}  
+	</update>
+<select id="selectAttachList" parameterType="int" resultType="CodeAttachDTO">
+		SELECT ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, CO_NO
+		  FROM C_ATTACH
+		 WHERE CO_NO = #{coNo}  
+	</select>
+	<insert id="insertAttach" parameterType="CodeAttachDTO">
+		INSERT INTO C_ATTACH
+			(PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, CO_NO)
+		VALUES
+			(#{path}, #{origin}, #{filesystem}, 0, #{coNo})	
+	</insert>
 </mapper>

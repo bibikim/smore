@@ -36,17 +36,63 @@
 		text-align: center;
 	}
 	
+	.ul-paging{
+	list-style:none;
+	float:left;
+	display:inline;
+	}
+	
+	.li-page {
+	    float: left;
+	    margin-right: 20px;
+	}
+	
+	.li-page a {
+		float:left;
+		padding:4px;
+		margin-right:3px;
+		width:15px;
+		color:#000;
+		font:bold 12px tahoma;
+		border:1px solid #eee;
+		text-align:center;
+		text-decoration:none;
+	}
+	
+	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
+		color:#fff;
+		border:1px solid #1e90ff;
+		background-color:#1e90ff;
+	}
+		
+	
 </style>
+<script>
+
+	
+		$('#frm_search').submit(function(ev) {
+			if($('#type').val() == '' || $('#keyword').val() == '') {
+				alert('검색 조건을 확인하세요.');
+				ev.preventDefault();
+				return;
+			}
+		});
+	
+</script>
 </head>
 <body>
 	
+		
 	
 	
-	<div>
 		<div>
-			<span><a href="/code/write">등록하기</a></span>
+			<c:if test="${loginUser != null}">
+				<span><a id="c_write" href="/code/write">등록하기</a></span>
+			</c:if>
+			<c:if test="${loginUser == null}">
+				<span>글 작성은<a id="c_write" href="/user/login/form">로그인</a>후에 가능합니다.</span>
+			</c:if>
 		</div>
-	</div>
 	
 	<div>
 		<table>
@@ -72,7 +118,7 @@
 							<td id="align">${beginNo - vs.index}</td>
 							<td>
 								<a href="/code/increase/hit?coNo=${code.coNo}">${code.title}</a>
-								<c:out value="${code.cmtCount}"/>
+								<span>[${codeCmtCnt[vs.index]}]</span>
 								
 				
 								<c:set var="now" value="${java.util.Date}"/>
@@ -91,14 +137,23 @@
 					</c:forEach>
 				</c:if>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="5"></td>
-				</tr>
-			</tfoot>
-			
-		</table>
-
+			</table>
+			<div class="paging">
+				<nav class="pagination">${paging}</nav>
+			</div>
+			<div class="searching">
+				<form id="frm_search" action="/code/list?page=${page}&type=${type}&keyword=${keyword}" method="get">
+					<select name="type" id="type">
+						<option value=""> 선택 </option>
+						<option value="TITLE"> 제목 </option>
+						<option value="CONTENT"> 내용 </option>
+						<option value="NICKNAME"> 작성자 </option>
+					</select>
+					<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요" list="auto_complete">
+					<!-- <datalist id="auto_complete"></datalist> -->
+					<input type="submit" value="search">
+				</form>
+			</div>
 	</div>
 
 </body>
