@@ -74,14 +74,18 @@
 				totalPage = resData.totalPage;  // 목록을 가져올 때 전체 페이지 수를 저장해 둠
 				page = page + 1;                // 스크롤을 통해서 한 페이지를 가져올때마다 다음 스크롤에서는 다음 페이지를 가져올 수 있도록 page를 증가시킴
 				$.each(resData.S_group, function(i, study){
-					var studyList = '<div class="study" style="cursor:pointer;">' + '<a href="/study/increse/hit?studNo=' + study.studNo + '">';
+					// var studyList = '<div class="study" style="cursor:pointer;">' + '<a href="/study/increse/hit?studNo=' + study.studNo + '">';
+					var studyList = '<div class="study" onclick=location.href="/study/increse/hit?studNo=' + study.studNo + '">';
 					studyList += '<div>번호 : ' + study.studNo + '</div>';
 					studyList += '<div>닉네임 : ' + study.nickname + '</div>';
 					studyList += '<div>개발언어 : ' + study.lang + '</div>';
 					studyList += '<div>지역 : ' + study.region + '</div>';
                     // studyList += '<a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a>';
                     // studyList += '<div><a href="/study/increse/hit?studNo=' + study.studNo + '">' + study.title + '</a></div>';
-					studyList += '</a>' + '</div>';
+					// onclick="location.href='/study/increse/hit?studNo=${study.studNo}'"
+					// location="/study/increse/hit?studNo=${study.studNo}"
+                    // studyList += '</a>' + '</div>';
+                    studyList += '</div>';
 					$('.study_list_container').append(studyList);
 				});
 				$('.study_list').removeClass('blind'); // 목록 보여주기

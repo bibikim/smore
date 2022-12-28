@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 
@@ -25,8 +26,11 @@ public interface StudyMapper {
 	// 댓글
 	
 	public int selectCommentCount(int studNo);
-	public int insertComment(StudyCommentDTO comment);
 	public List<StudyCommentDTO> selectCommentList(Map<String, Object> map);
+	public int insertComment(StudyCommentDTO scomment);
+	public int deleteComment(int cmtNo);  // 댓글 삭제는 update로
+	public int insertRecomment(StudyCommentDTO recomment);
+	public int updateGroupNo(StudyCommentDTO recomment);
 
 	public int selectNickZCount(Map<String, Object> map);
 	public int selectStudZCount(int studNo);
