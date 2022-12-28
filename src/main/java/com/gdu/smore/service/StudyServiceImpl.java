@@ -284,51 +284,28 @@ public class StudyServiceImpl implements StudyService {
 		
 		return resultMap;
 	}
+
 	
 	// 댓글
 	@Override
-	public Map<String, Object> getCommentCount(int studNo) {
+	public Map<String, Object> getCmtCnt(int studNo) {   // 반환용 map
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("commentCount", studyMapper.selectCommentCount(studNo));
+		result.put("commentCnt",  studyMapper.selectCommentCnt(studNo));  // 키, 값 
+		
 		return result;
 	}
 	
-	@Transactional
-	@Override
-	public Map<String, Object> addComment(StudyCommentDTO comment) {
-		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		HttpSession session = request.getSession();
-		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
-		 
-		 int groupNo = Integer.parseInt(request.getParameter("groupNo"));
-		 comment.setGroupNo(groupNo);
-		 comment.setNickname(loginUser.getNickname());
-		 // 원댓 group_no
-		 
-		 
-		 StudyCommentDTO cmt2 = StudyCommentDTO.builder() 
-		//		 .cmtNo(cmtNo)
-				 .groupNo(groupNo)
-				 .build();
-		 
-		 studyMapper.updateGroupNo(cmt2);
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAdd", studyMapper.insertComment(comment) == 1);
-		return result;
-		
-	}
 	
 	@Override
-	public Map<String, Object> getCommentList(HttpServletRequest request) {
+	public Map<String, Object> getCmtList(HttpServletRequest request) {
 		
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		String ip = request.getRemoteAddr();
 		
-		int cmtCount = studyMapper.selectCommentCount(studNo);
-		pageUtil.setPageUtil(page, cmtCount);
+		int cmtCnt = studyMapper.selectCommentCnt(studNo);
+		pageUtil.setPageUtil(page, cmtCnt);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("studNo", studNo);
@@ -336,13 +313,37 @@ public class StudyServiceImpl implements StudyService {
 		map.put("begin", pageUtil.getBegin() - 1);
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("commentList", studyMapper.selectCommentList(map));
-		result.put("pageUtil", pageUtil);
+		System.out.println("result" + result);
+		result.put("pageUtil", pageUtil);  // pageUtil은 왜 Map에 넣는걸까?
 		
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> saveComment(HttpServletRequest request) {
+		
+		String content = request.getParameter("content");
+		int studNo = Integer.parseInt(request.getParameter("studNo"));
+		String nickname = request.getParameter("nickname");
+		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
+		String ip = opt.orElse(request.getRemoteAddr());
+		
+		StudyCommentDTO comment = StudyCommentDTO.builder()
+				.cmtContent(content)
+				.studNo(studNo)
+				.nickname(nickname)
+				.ip(ip)
+				.build();
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isAdd", studyMapper.insertStudycmt(comment) == 1);
 		return result;
 		
 	}
+	
 	@Override
 	public Map<String, Object> removeComment(int cmtNo) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -375,6 +376,8 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 	
+	
+	// 좋아요
 	@Override
 	public Map<String, Object> getZCheck(HttpServletRequest request) {
 		int studNo = Integer.parseInt(request.getParameter("studNo"));

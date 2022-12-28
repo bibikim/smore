@@ -101,14 +101,14 @@
 	<hr>
 	
 	<div>
-		<form id="frm_addcomment">
-			<div class="addcomment">
-				<div class="addcomment_input">
+		<form id="frm_add_comment">
+			<div class="add_comment">
+				<div class="add_comment_input">
 					<input type="text" name="content" id="content" placeholder="댓글을 작성하려면 로그인 해 주세요">
 				</div>
 				<div class="add_comment_btn">
 					<c:if test="${loginUser != null}">
-						<input type="button" value="작성완료" id="btn_addcomment">
+						<input type="button" value="작성완료" id="btn_add_comment">
 					</c:if>
 				</div>
 			</div>
@@ -142,7 +142,7 @@
 		function fn_commentCount(){
 			$.ajax({
 				type: 'get',
-				url: '${contextPath}/study/comment/getCount',
+				url: '/study/comment/getCount',
 				data: 'studNo=${study.studNo}',
 				dataType: 'json',
 				success: function(resData){  // resData = {"commentCount": 개수}
@@ -158,15 +158,15 @@
 		}
 		
 		function fn_addComment(){
-			$('#btn_addcomment').click(function(){
+			$('#btn_add_comment').click(function(){
 				if($('#content').val() == ''){
-					alert('댓글 내용을 입력하세요.');
+					alert('댓글 내용을 입력하세요');
 					return;
 				}
 				$.ajax({
 					type: 'post',
 					url: '/study/comment/add',
-					data: $('#frm_addcomment').serialize(),
+					data: $('#frm_add_comment').serialize(),
 					dataType: 'json',
 					success: function(resData){  // resData = {"isAdd", true}
 						if(resData.isAdd){
@@ -175,7 +175,7 @@
 							fn_commentList();   // 댓글 목록 가져와서 뿌리는 함수
 							fn_commentCount();  // 댓글 목록 개수 갱신하는 함수
 						}
-					}, 
+					}
 				});
 			});
 		}
@@ -302,11 +302,11 @@
 		
 		function fn_removeComment(){
 			$(document).on('click', '.btn_comment_remove', function(){
-				if(confirm('삭제된 댓글은 복구할 수 없습니다. 댓글을 삭제할까요?')){
+				if(confirm('댓글을 삭제할까요?')){
 					$.ajax({
 						type: 'post',
-						url: '${contextPath}/comment/remove',
-						data: 'commentNo=' + $(this).data('comment_no'),
+						url: '/study/comment/remove',
+						data: 'cmtNo=' + $(this).data('comment_no'),
 						dataType: 'json',
 						success: function(resData){  // resData = {"isRemove": true}
 							if(resData.isRemove){
@@ -334,7 +334,7 @@
 				}
 				$.ajax({
 					type: 'post',
-					url: '${contextPath}/comment/reply/add',
+					url: '/study/comment/reply/add',
 					data: $(this).closest('.frm_reply').serialize(),  // 이건 안 됩니다 $('.frm_reply').serialize(),
 					dataType: 'json',
 					success: function(resData){  // resData = {"isAdd", true}

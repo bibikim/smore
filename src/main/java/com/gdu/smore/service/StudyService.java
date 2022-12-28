@@ -23,10 +23,10 @@ public interface StudyService {
 	
 	public Map<String, Object> getStudyScroll(HttpServletRequest request, Model model);
 	
-	// 댓글
-	public Map<String, Object> getCommentCount(int studNo);
-	public Map<String, Object> addComment(StudyCommentDTO comment);
-	public Map<String, Object> getCommentList(HttpServletRequest request);
+	// jsp에서 ajax 처리하기 위해 map으로 반환. map으로 반환하면 jackson이 json형태를 map으로 잘 바꿔주니까!
+	public Map<String, Object> getCmtCnt(int studNo);
+	public Map<String, Object> saveComment(HttpServletRequest request);
+	public Map<String, Object> getCmtList(HttpServletRequest request);  // fNo, page 다 받아오기 위해서 request를 받아옴
 	public Map<String, Object> removeComment(int cmtNo);
 	public Map<String, Object> saveRecomment(StudyCommentDTO recomment);
 	

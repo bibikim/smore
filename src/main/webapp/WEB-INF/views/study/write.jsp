@@ -8,7 +8,11 @@
 </jsp:include>
 
 <script>
-	
+	$(function() {	
+		fn_year();
+		fn_month();
+		fn_date();
+	});
 	// contextPath를 반환하는 자바스크립트 함수
 	function getContextPath() {
 		var begin = location.href.indexOf(location.origin) + location.origin.length;
@@ -33,6 +37,18 @@
 			}
 		});	
 		
+		$('#frm_write').change(function(event){
+			if($('#region').val() == '서울'){
+				$('.wido').val('37.566535') && $('.gdo').val('126.9779692');
+			} else if ($('#region').val() == '부산'){
+				$('.wido').val('35.1795543') && $('.gdo').val('129.0756416');
+			} else if ($('#region').val() == '강남'){
+				$('.wido').val('37.498095') && $('.gdo').val('127.027610');
+			} else if ($('#region').val() == '잠실'){
+				$('.wido').val('37.513272317072') && $('.gdo').val('127.09431687965');
+			}
+		});
+	
 	});
 	
 	function getLocation() {
@@ -54,16 +70,67 @@
  		}
 	// getLocation();
 	
+	/*
 	$(document).ready(function() {
 	  $('#region').change(function() {
 	    var result = $('#region option:selected').val();
-	    if (result == '부산') {
-	      $('.부산').show();
+	    if (result == '서울') {
+	      $('.서울').val() == ;
 	    } else {
 	      $('.부산').hide();
 	    }
 	  }); 
-	}); 	
+	}); 
+	*/
+	function fn_year(){
+		let year = new Date().getFullYear();
+		let strYear = '<option value="">년</option>';
+		for(let y = year - 100; y <= year + 1; y++){
+			strYear += '<option value="' + y + '">' + y + '</option>';
+		}
+		$('#year').append(strYear);
+		$('#year').val('${loginUser.birthyear}').prop('selected', true);
+	}
+	
+	function fn_month(){
+		let strMonth = '<option value="">월</option>';
+		for(let m = 1; m <= 12; m++){
+			if(m < 10){
+				strMonth += '<option value="0' + m + '">' + m + '월</option>';
+			} else {
+				strMonth += '<option value="' + m + '">' + m + '월</option>';
+			}
+		}
+		$('#month').append(strMonth);
+		$('#month').val('${loginUser.birthday.substring(0,2)}').prop('selected', true);
+	}
+	
+	function fn_date(){
+		$('#date').empty();
+		$('#date').append('<option value="">일</option>');
+		let endDay = 0;
+		let strDay = '';
+		switch($('#birthmonth').val()){
+		case '02':
+			endDay = 29; break;
+		case '04':
+		case '06':
+		case '09':
+		case '11':
+			endDay = 30; break;
+		default:
+			endDay = 31; break;
+		}
+		for(let d = 1; d <= endDay; d++){
+			if(d < 10){
+				strDay += '<option value="0' + d + '">' + d + '일</option>';
+			} else {
+				strDay += '<option value="' + d + '">' + d + '일</option>';
+			}
+		}
+		$('#date').append(strDay);
+		$('#date').val('${loginUser.birthday.substring(2)}').prop('selected', true);
+	}
 </script>
 
 
@@ -100,31 +167,40 @@
                <label for="both">상관없음</label>
 		</div>
 		
+		
+		
+		
+		
+		
+		
+		
+		
 		<div>
 			<label for="region">지역</label>
 			
-			<select name="region" id="region">
+			<select name="region" id="region" class="region">
 
 				<option value = "서울" selected>서울</option>
 				<option value = "부산" >부산</option>
-				<option value = "대구" >대구</option>
-				<option value = "광주" >광주</option>
+				<option value = "강남" >강남</option>
+				<option value = "잠실" >잠실</option>
 
 			</select>
 
-
-			<div class="서울" id="region">
-				<label for="wido"></label>
-				<input type="hidden" name="wido" id="wido" value="37.566535">	
-				<label for="gdo"></label>
-				<input type="hidden" name="gdo" id="gdo" value="126.9779692">		
+			<div>
+				<label for="wido" class="wido"></label>
+				<input type="hidden" class = "wido" name="wido" id="wido" value="">	
+				<label for="gdo" class="gdo"></label>
+				<input type="hidden" class = "gdo" name="gdo" id="gdo" value="">		
 			</div>
+			<!-- 
 			<div class="부산" id="region">
 				<label for="wido"></label>
 				<input type="hidden" name="wido" id="wido" value="35.1795543">	
 				<label for="gdo"></label>
 				<input type="hidden" name="gdo" id="gdo" value="129.0756416">		
 			</div>			
+			 -->
 			<!-- 
 			<c:if test="${study.region == '서울'}">
 				<label for="wido"></label>
@@ -134,7 +210,10 @@
 			</c:if>
 			 -->	
 		</div>
-
+		
+		
+		
+		
 
 		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) 
 		<div id="summernote_image_list"></div>
@@ -156,7 +235,15 @@
 				<option value = "4" >4</option>
 			</select>
 		</div>
-		
+		<!-- 
+		<div>
+			<label for="studDate">시작예정일자</label>
+			<select name="year" id="year"></select>
+			<select name="month" id="month"></select>
+			<select name="date" id="date"></select>				
+		</div>
+		 -->
+				
 		<div>
 			<label for="contact">연락방법</label>
 			<input type="text" name="contact" id="contact">

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.smore.mapper.StudyMapper">
+	
+	<select id="selectCommentCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_CMT
+		 WHERE STUD_NO = #{studNo} AND STATE = 1
+	</select>
+	
+	<select id="selectCommentList" parameterType="Map" resultType="StudyCommentDTO">
+		SELECT A.ROW_NUM, A.CMT_NO, A.STUD_NO, A.NICKNAME, A.CMT_CONTENT, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE DESC) AS ROW_NUM, CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
+		          FROM S_CMT
+		         WHERE STUD_NO = #{studNo}) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<insert id="insertStudycmt" parameterType="StudyCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO S_CMT
+			(STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, IP , GROUP_NO)
+		VALUES
+			(#{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{ip}, #{groupNo})
+	</insert>	
+
+<!-- 댓삭 -->
+	<update id="deleteComment" parameterType="int">
+		UPDATE S_CMT
+		   SET STATE = -1
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 대댓 -->
+	<insert id="insertRecomment" parameterType="StudyCommentDTO">
+		INSERT INTO S_CMT
+			(STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 1, #{ip}, #{groupNo})
+	</insert>
+	
+	<!-- 댓글계층 -->
+	<!-- 댓글이 삽입될 때(saveComment())마다 그때 insert된 group_no에 +1을 해줌. saveComment에서 update, insert 동시에 -->
+    <update id="updateGroupNo" parameterType="FreeCommentDTO">
+		UPDATE S_CMT
+		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
+	</update>
+			
+	
+</mapper>
+
+	
+	
+	

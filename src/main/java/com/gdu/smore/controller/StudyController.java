@@ -87,19 +87,20 @@ public class StudyController {
 	@ResponseBody
 	@GetMapping(value="/study/comment/getCount", produces="application/json")
 	public Map<String, Object> getCount(@RequestParam("studNo") int studNo) {
-		return studyService.getCommentCount(studNo);
-	}
-	
-	@ResponseBody
-	@PostMapping(value="/study/comment/add", produces="application/json")
-	public Map<String, Object> add(StudyCommentDTO comment) {
-		return studyService.addComment(comment);
+		return studyService.getCmtCnt(studNo);
 	}
 	
 	@ResponseBody
 	@GetMapping(value="/study/comment/list", produces="application/json")
 	public Map<String, Object> list(HttpServletRequest request) {
-		return studyService.getCommentList(request);
+		System.out.println("aa");
+		return studyService.getCmtList(request);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/study/comment/add", produces="application/json")
+	public Map<String, Object> save(HttpServletRequest request) {
+		return studyService.saveComment(request);
 	}
 	
 	@ResponseBody
