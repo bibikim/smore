@@ -15,7 +15,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 import com.gdu.smore.domain.user.UserDTO;
@@ -282,6 +285,7 @@ public class StudyServiceImpl implements StudyService {
 		return resultMap;
 	}
 	
+	// 댓글
 	@Override
 	public Map<String, Object> getCommentCount(int studNo) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -289,21 +293,26 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 	
+	@Transactional
 	@Override
-	public Map<String, Object> addComment(HttpServletRequest request) {
+	public Map<String, Object> addComment(StudyCommentDTO comment) {
 		
-		String content = request.getParameter("content");
-		int studNo = Integer.parseInt(request.getParameter("studNo"));
-		String nickname = request.getParameter("nickname");
-		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String ip = opt.orElse(request.getRemoteAddr());
-		
-		StudyCommentDTO comment = StudyCommentDTO.builder()
-				.cmtContent(content)
-				.studNo(studNo)
-				.nickname(nickname)
-				.ip(ip)
-				.build();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		 
+		 int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+		 comment.setGroupNo(groupNo);
+		 comment.setNickname(loginUser.getNickname());
+		 // 원댓 group_no
+		 
+		 
+		 StudyCommentDTO cmt2 = StudyCommentDTO.builder() 
+		//		 .cmtNo(cmtNo)
+				 .groupNo(groupNo)
+				 .build();
+		 
+		 studyMapper.updateGroupNo(cmt2);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isAdd", studyMapper.insertComment(comment) == 1);
@@ -316,14 +325,16 @@ public class StudyServiceImpl implements StudyService {
 		
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		int page = Integer.parseInt(request.getParameter("page"));
+		String ip = request.getRemoteAddr();
 		
 		int cmtCount = studyMapper.selectCommentCount(studNo);
 		pageUtil.setPageUtil(page, cmtCount);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("studNo", studNo);
-		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("ip", ip);
+		map.put("begin", pageUtil.getBegin() - 1);
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("commentList", studyMapper.selectCommentList(map));
@@ -331,6 +342,37 @@ public class StudyServiceImpl implements StudyService {
 		
 		return result;
 		
+	}
+	@Override
+	public Map<String, Object> removeComment(int cmtNo) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isRemove", studyMapper.deleteComment(cmtNo) == 1);
+		return result;
+	}
+	
+	
+	@Override
+	public Map<String, Object> saveRecomment(StudyCommentDTO recomment) {
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		recomment.setNickname(loginUser.getNickname());
+		
+		
+		/*
+		 * int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); int groupNo =
+		 * Integer.parseInt(request.getParameter("groupNo"));
+		 * 
+		 * FreeCommentDTO comment = FreeCommentDTO.builder() .cmtNo(cmtNo)
+		 * .groupNo(groupNo) .build();
+		 * 
+		 * cmtMapper.updateGroupNo(comment);
+		 */
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isSaveRe", studyMapper.insertRecomment(recomment) == 1);
+		return result;
 	}
 	
 	@Override

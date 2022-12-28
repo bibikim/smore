@@ -65,15 +65,8 @@
 	<select id="selectCommentCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_CMT
-		 WHERE STUD_NO = #{studNo}
+		 WHERE STUD_NO = #{studNo} AND STATE = 1
 	</select>
-	
-	<insert id="insertComment" parameterType="StudyCommentDTO">
-		INSERT INTO S_CMT
-			(CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP)
-		VALUES
-			(#{cmtNo}, #{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{cmtNo}, #{ip})
-	</insert>	
 	
 	<select id="selectCommentList" parameterType="Map" resultType="StudyCommentDTO">
 		SELECT A.ROW_NUM, A.CMT_NO, A.STUD_NO, A.NICKNAME, A.CMT_CONTENT, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.IP
@@ -83,6 +76,35 @@
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
 	
+	<insert id="insertComment" parameterType="StudyCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
+		INSERT INTO S_CMT
+			(STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP, GROUP_NO)
+		VALUES
+			(#{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{cmtNo}, #{ip}, 0)
+	</insert>	
+
+<!-- 댓삭 -->
+	<update id="deleteComment" parameterType="int">
+		UPDATE S_CMT
+		   SET STATE = -1
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<!-- 대댓 -->
+	<insert id="insertRecomment" parameterType="StudyCommentDTO">
+		INSERT INTO S_CMT
+			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), 1, 1, #{ip}, #{groupNo})
+	</insert>
+	
+	<!-- 댓글계층 -->
+	<!-- 댓글이 삽입될 때(saveComment())마다 그때 insert된 group_no에 +1을 해줌. saveComment에서 update, insert 동시에 -->
+    <update id="updateGroupNo" parameterType="FreeCommentDTO">
+		UPDATE S_CMT
+		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
+	</update>
+			
 	<select id="selectNickZCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_ZZIM

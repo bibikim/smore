@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdu.smore.domain.free.FreeCommentDTO;
+import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.service.StudyService;
 
 
@@ -90,8 +92,8 @@ public class StudyController {
 	
 	@ResponseBody
 	@PostMapping(value="/study/comment/add", produces="application/json")
-	public Map<String, Object> add(HttpServletRequest request) {
-		return studyService.addComment(request);
+	public Map<String, Object> add(StudyCommentDTO comment) {
+		return studyService.addComment(comment);
 	}
 	
 	@ResponseBody
@@ -99,6 +101,18 @@ public class StudyController {
 	public Map<String, Object> list(HttpServletRequest request) {
 		return studyService.getCommentList(request);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/study/comment/remove", produces = "application/json")
+	public Map<String, Object> removeCmt(@RequestParam("cmtNo") int cmtNo) {
+		return studyService.removeComment(cmtNo);
+	}
+
+	@ResponseBody
+	@PostMapping(value = "/study/comment/reply/save", produces = "application/json")
+	public Map<String, Object> saveRecmt(StudyCommentDTO recomment) {
+		return studyService.saveRecomment(recomment);
+	}	
 	
 	@ResponseBody	
 	@GetMapping(value="/study/getZCheck", produces="application/json")
