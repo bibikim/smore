@@ -139,8 +139,8 @@
                    	 </c:if>
                      <c:if test="${chkBtn eq 'reg'}">
                   	 	<button type="submit" class="btn btn-success">등록</button>
-                  	 </c:if>
-                       <button type="button" id="btn_list" class="btn btn-info">목록</button>
+                  	 </c:if>                
+                       <button type="button" id="btn_list" class="btn btn-info">목록</button>                     
                    </div>
                </div>
                <!-- 버튼  -->
