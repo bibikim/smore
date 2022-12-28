@@ -8,11 +8,13 @@
 </jsp:include>
 
 <script>
+/*
 	$(function() {	
 		fn_year();
 		fn_month();
 		fn_date();
 	});
+*/
 	// contextPath를 반환하는 자바스크립트 함수
 	function getContextPath() {
 		var begin = location.href.indexOf(location.origin) + location.origin.length;
@@ -82,6 +84,7 @@
 	  }); 
 	}); 
 	*/
+	/*
 	function fn_year(){
 		let year = new Date().getFullYear();
 		let strYear = '<option value="">년</option>';
@@ -131,6 +134,7 @@
 		$('#date').append(strDay);
 		$('#date').val('${loginUser.birthday.substring(2)}').prop('selected', true);
 	}
+	*/
 </script>
 
 
@@ -238,15 +242,52 @@
 		<!-- 
 		<div>
 			<label for="studDate">시작예정일자</label>
-			<select name="year" id="year"></select>
-			<select name="month" id="month"></select>
-			<select name="date" id="date"></select>				
+			<select id="year" name="year" class="form-control">
+			  <option value="year">년</option>
+			  <c:forEach var="i" begin="2020" end="2030">
+			    <option value="${i}">${i}</option>
+			  </c:forEach>
+			</select>
+			  
+			<select id="month" name="month" class="form-control">
+			  <option value="month">월</option>
+			  <c:forEach var="i" begin="1" end="12">
+			  <c:choose>
+			      <c:when test="${i lt 10 }">
+			          <option value="0${i}">0${i}</option>
+			      </c:when>
+			      <c:otherwise>
+			          <option value="${i}">${i}</option>
+			      </c:otherwise>
+			  </c:choose>
+			  </c:forEach>
+			</select>
+			  
+			<select id="day" name="day" class="form-control">
+			  <option value="day">일</option>
+			  <c:forEach var="i" begin="1" end="31">
+			  <c:choose>
+			      <c:when test="${i lt 10 }">
+			          <option value="0${i}">0${i}</option>
+			      </c:when>
+			      <c:otherwise>
+			          <option value="${i}">${i}</option>
+			      </c:otherwise>
+			  </c:choose>
+			  </c:forEach>
+			</select>
+			
 		</div>
 		 -->
+
 				
 		<div>
 			<label for="contact">연락방법</label>
-			<input type="text" name="contact" id="contact">
+			<select name="contact" id="contact">
+				<option value = "1" selected>전화번호</option>
+				<option value = "2" >카카오톡</option>
+				<option value = "3" >이메일</option>
+			</select>
 		</div>
 		
 		<div>

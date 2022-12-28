@@ -24,7 +24,7 @@
 		INSERT INTO S_GROUP
 			(NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP)
 		VALUES
-			(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{gender}, #{region}, #{wido}, #{gdo}, #{lang}, #{people}, #{contact}, #{stud_date}, #{ip})
+			(#{nickname}, #{title}, #{content}, NOW(), NOW(), 0, #{gender}, #{region}, #{wido}, #{gdo}, #{lang}, #{people}, #{contact}, #{studDate}, #{ip})
 	</insert>
 	
 	<update id="updateHit" parameterType="int">
