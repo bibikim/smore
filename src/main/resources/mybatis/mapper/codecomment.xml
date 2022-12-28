@@ -39,15 +39,12 @@
 		
 	</insert>
 	
-	<!--  
-		https://chobopark.tistory.com/289
-	-->
 	
 	
 	<!-- 댓삭 -->
 	<update id="deleteComment" parameterType="int">
 		UPDATE C_CMT
-		   SET STATE = 0
+		   SET STATE = -1
 		 WHERE CMT_NO = #{cmtNo}
 	</update>
 	

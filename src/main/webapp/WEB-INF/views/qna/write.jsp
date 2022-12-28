@@ -101,7 +101,7 @@
                                </tr>
                                <tr>
                                		<th scope="row" class="text-left">비밀번호</th>
-                                   <td colspan="3">
+                                   	<td colspan="3">
                                        <div class="input expanded">
                                        		<c:choose>
                                        			<c:when test="${chkBtn eq 'mod' && question.pw ne 0}">

@@ -1,43 +1,4 @@
-@font-face {
-    font-family: 'NotoSans';
-    font-style: normal;
-    font-weight: 400;
-    src: url("../fonts/notokr-regular.eot");
-    src: url("../fonts/notokr-regular.eot?#iefix") format("embedded-opentype"),url("../fonts/notokr-regular.woff2") format("woff2"),url("../fonts/notokr-regular.woff") format("woff"),url("../fonts/notokr-regular.ttf") format("truetype");
-  }
-  
-  @font-face {
-    font-family: 'NotoSans';
-    font-style: normal;
-    font-weight: 600;
-    src: url("../fonts/notokr-medium.eot");
-    src: url("../fonts/notokr-medium.eot?#iefix") format("embedded-opentype"),url("../fonts/notokr-medium.woff2") format("woff2"),url("../fonts/notokr-medium.woff") format("woff"),url("../fonts/notokr-medium.ttf") format("truetype");
-  }
-  
-  @font-face {
-    font-family: 'NotoSans';
-    font-style: normal;
-    font-weight: 700;
-    src: url("../fonts/notokr-bold.eot");
-    src: url("../fonts/notokr-bold.eot?#iefix") format("embedded-opentype"),url("../fonts/notokr-bold.woff2") format("woff2"),url("../fonts/notokr-bold.woff") format("woff"),url("../fonts/notokr-bold.ttf") format("truetype");
-  }
-  
-  @font-face {
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    src: url("../fonts/Lato-Regular.eot");
-    src: url("../fonts/Lato-Regular.eot?#iefix") format("embedded-opentype"),url("../fonts/Lato-Regular.woff2") format("woff2"),url("../fonts/Lato-Regular.woff") format("woff"),url("../fonts/Lato-Regular.ttf") format("truetype");
-  }
-  
-  @font-face {
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 700;
-    src: url("../fonts/Lato-Bold.eot");
-    src: url("../fonts/Lato-Bold.eot?#iefix") format("embedded-opentype"),url("../fonts/Lato-Bold.woff2") format("woff2"),url("../fonts/Lato-Bold.woff") format("woff"),url("../fonts/Lato-Bold.ttf") format("truetype");
-  }
-  
+
   *,
   *:before,
   *:after {
