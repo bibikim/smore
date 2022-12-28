@@ -75,7 +75,7 @@
 		width : 390px;
 		display: block;
 	    height: 50px;
-	    background-color: #6495ed;
+	    background-color: rgba(104,177,255,0.7);
 	    color: #fff;
 	    font-size: 14px;
 	    font-weight: bold;
