@@ -137,7 +137,7 @@
 	*/
 </script>
 <body>
-인덱스페이지야 모두들 즐거운 크리스마스 보내세요~~~
+
 <br>
 <input type="button" value="지도연습" onclick="location.href='/study/map'">
 <input type="button" value="현재위치연습" onclick="location.href='/study/location'">
@@ -145,7 +145,7 @@
 	<hr>
 
 	<div>
-		<h1>스터디 목록 조회하기</h1>
+		<h1>스터디 목록</h1>
 	</div>
 	
 	<hr>
