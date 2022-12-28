@@ -87,95 +87,118 @@
 			})
 		}
 		
-		// 댓글 리스트
-		function fn_commentList(){
+  		// 댓글 리스트
+		function fn_cmtList(){
 			$.ajax({
 				type: 'get',
-				url: '/study/comment/list',
-				data: 'studNo=${study.studNo}&page=' + $('#page').val(),
+				url: '/free/comment/list',
+				data: 'freeNo=${free.freeNo}&page=' + $('#page').val(),
 				dataType: 'json',
-				success: function(resData){
-					/*
-						resData = {
-							"commentList": [
-								{댓글하나},
-								{댓글하나},
-								...
-							],
-							"pageUtil": {
-								page: x,
-								...
-							}
+				success: function(resData) {
+					
+					$('#cmt_list').empty();
+					$.each(resData.cmtList, function(i, comment) {
+						var div ='';
+						if(comment.depth == 0) {   // 댓글
+							div += '<div>';
+						} else {
+							div += '<div style="margin-left: 40px;">';
 						}
-					*/
-					// 화면에 댓글 목록 뿌리기
-					$('#comment_list').empty();
-					$.each(resData.commentList, function(i, comment){
-						var div = '';
-						if(comment.state == -1) {
+						if(comment.state == 1) {   // 정상(삭제한 상태가 아니면)
+							div += '<div class="comment_area">';
+							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
+							div += '<br>&nbsp;&nbsp;'
+							div += '<input type="hidden" name="cmtNo" value="' + comment.cmtNo +'">';
+							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
+							if( '${loginUser.nickname}' == comment.nickname || '${loginUser.nickname}' == '관리자') {
+								// a링크 태그로 바꾸기
+								div += '<input type="button" value="삭제" class="btn_removecmt" data-comment_no="' + comment.cmtNo + '">';
+								div += '<input type="button" value="수정" class="btn_editcmt_area" data-comment_no="' + comment.cmtNo + '">';	
+							}
+							if(comment.depth == 0) {
+								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area">'  // 대댓존
+							}
+							div += '</div>';
+						} else {
 							if(comment.depth == 0) {
 								div += '<div>삭제된 댓글입니다.</div>';
 							} else {
-								div += '<div style="margin-left: 40px;">삭제된 답글입니다.</div>';
+								div += '<div>삭제된 댓글입니다.</div>';  // 대댓 삭제
 							}
-						} else {
-							if(comment.depth == 0) {
-								div += '<div>';
-							} else {
-								div += '<div style="margin-left:40px;">';
-							}
-							div += '  <span>' + comment.nickname + '</span>';
-							moment.locale('ko-KR');
-							div += '  <span style="font-size:12px; color:silver;">' + moment(comment.createDate).format('YYYY년 MM월 DD일 A h:mm:ss') + '</span>';
-							div += '<div>' + comment.cmtContent + '</div>';
-							if('${loginUser.nickname}' != '') {
-								if('${loginUser.nickname}' == comment.nickname && comment.state == 1) {
-									div += '<input type="button" value="삭제" class="btn_comment_remove" data-comment_no="' + comment.cmtNo + '">';
-								} else if('${loginUser.nickname}' != comment.nickname && comment.depth == 0) {
-									div += '<input type="button" value="답글" class="btn_reply_area">';
-								}
-							}
-							div += '</div>';
 						}
-						div += '<div style="margin-left: 40px;" class="reply_area blind">';
-						div += '<form class="frm_reply">';
-						div += '<input type="hidden" name="studNo" value="' + comment.studNo + '">';
-						div += '<input type="hidden" name="nickname" value="${loginUser.nickname}">';
-						div += '<input type="text" name="content" placeholder="답글을 작성하려면 로그인을 해주세요">';
-						if('${loginUser.nickname}' != '') {
-							div += '<input type="button" value="답글작성완료" class="btn_reply_add">';
+						div += '<div>';
+						moment.locale('ko-KR');
+						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.createDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '</div>';
+						
+						/********************************** 대댓 ****************************************/
+						if(comment.state == 1) {
+							div += '<div style="margin-left; 40px" class="recomment_area blind">';
+							div += '<form class="frm_recomment">';
+							div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
+							div += '<input type="hidden" name="groupNo" value="' +  comment.groupNo + '">';
+							div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
+							div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
+							if( '${loginUser.nickname}' != '') {
+								div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요."></textarea>';
+								div += '<input type="button" value="등록" class="btn_addrecmt">';
+							} else {
+								div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
+							}
 						}
 						div += '</form>';
 						div += '</div>';
-						$('#comment_list').append(div);
-						$('#comment_list').append('<div style="border-bottom: 1px dotted gray;"></div>');
+						/****************************************************************************/
+						
+						
+						
+						/****************************  댓 수정 ***************************************/
+						div += '<div style="margin-left; 40px" class="edit_cmt_area blind">';
+						div += '<form class="frm_editcmt">';
+						div += '<input type="hidden" name="freeNo" value="' +  comment.freeNo + '">';
+						//div += '<input type="hidden" name="groupNo" id="cogroupNo" value="' +  comment.groupNo + '">';
+						div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
+						div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
+						div += '<input type="hidden" name="cmtNo" value="' +  comment.cmtNo + '">';
+						if( '${loginUser.nickname}' == comment.nickname ) {
+							div += '<textarea name="cmtContent">' + comment.cmtContent + '</textarea>';
+							div += '<input type="button" value="등록" class="btn_editcmt">';
+						} 
+						div += '</form>';
+						div += '</div>';
+						/****************************************************************************/
+						
+						
+						
+						div += '</div>';
+						$('#cmt_list').append(div);
+						$('#cmt_list').append('<div style="border-bottom: 1px dotted gray;"></div>');
 					});
+					
 					// 페이징
 					$('#paging').empty();
 					var pageUtil = resData.pageUtil;
-					var paging = '<div>';
-					// 이전 블록
+					var paging = '';
+					// 이전블록
 					if(pageUtil.beginPage != 1) {
-						paging += '<span class="lnk_enable" data-page="' + (pageUtil.beginPage - 1) + '">◀</span>';
+						paging += '<span class="enable_link" data-page="'+ (pageUtil.beginPage - 1) +'">prev</sapn>';
 					}
-					// 페이지번호
+					// 페이지 번호
 					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
-						if(p == $('#page').val()){
+						if(p == $('#page').val()) {
 							paging += '<strong>' + p + '</strong>';
 						} else {
-							paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+							paging += '<span class="enable_link" data-page="' + p + '">' + p + '</span>';
 						}
 					}
-					// 다음 블록
-					if(pageUtil.endPage != pageUtil.totalPage){
-						paging += '<span class="lnk_enable" data-page="'+ (pageUtil.endPage + 1) +'">▶</span>';
+					// 다음블록
+					if(pageUtil.endPage != pageUtil.totalPage) {
+						paging += '<span class="enable_link" data-page="' + (pageUtil.endPage + 1) +'">next</span>';
 					}
-					paging += '</div>';
-					// 페이징 표시
 					$('#paging').append(paging);
 				}
-			});
-		}  // fn_commentList
+			})
+		}
 		
 		function fn_changePage(){
 			$(document).on('click', '.enable_link', function(){

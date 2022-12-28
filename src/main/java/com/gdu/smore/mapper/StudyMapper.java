@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 
@@ -24,12 +23,13 @@ public interface StudyMapper {
 	public List<StudyGroupDTO> selectStudyPaging(Map<String, Object> map);
 
 	// 댓글
-	
-	public int selectCommentCount(int studNo);
+	public int selectCommentCnt(int studNo);   // 해당 게시글 카운트를 가져와야 하니까 fno을 파라미터로 받아와야함
 	public List<StudyCommentDTO> selectCommentList(Map<String, Object> map);
-	public int insertComment(StudyCommentDTO scomment);
+	public int insertStudycmt(StudyCommentDTO scmt);
 	public int deleteComment(int cmtNo);  // 댓글 삭제는 update로
 	public int insertRecomment(StudyCommentDTO recomment);
+	
+	
 	public int updateGroupNo(StudyCommentDTO recomment);
 
 	public int selectNickZCount(Map<String, Object> map);
