@@ -9,7 +9,20 @@
 
 <style>
 
+select {
+  box-sizing: border-box;
+  width: 100px;
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 6px;
+}
 
+option {
+  padding: 4px;
+  font-size: 14px;
+  color: #fff;
+  background: #272822;
+}
 
 /* 페이징 */
 #paging  {
@@ -95,14 +108,14 @@ input#btn_trans{
 </style>
 <script>
 	$(function(){
-		fn_AlluserList();
-		fn_userList();
-		fn_sleepUserList();
-		fn_searchUserList();
+ 		fn_AlluserList();
+/* 		fn_userList();
+		fn_sleepUserList();		
 		fn_FreeBoardList();
 		fn_CodeList();
 		fn_StudyList();
-		fn_QnaList();
+		fn_QnaList(); 
+ */
 		fn_changePage(); 
     	fn_changePage2();
     	fn_changePage3();
@@ -110,6 +123,8 @@ input#btn_trans{
     	fn_changePage5();
     	fn_changePage6();
     	fn_changePage7();
+    	fn_changePage8();
+		fn_searchUserList();
     	fn_searchBoardList();
     	fn_inputShow();	
 	    // html dom 이 다 로딩된 후 실행된다.
@@ -233,6 +248,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '닉네임' + '</th>';
 				tr += '<th scope="col">' + '성별' + '</th>';
 				tr += '<th scope="col">' + '가입일' + '</th>';
+				tr += '<th scope="col">' + '가입방법' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
@@ -242,11 +258,16 @@ input#btn_trans{
 				$.each(resData.allUserList, function(i, user){
 					var tr = '<tr>';
 					tr += '<td>' + user.rowNum + '</td>';
-					tr += '<td>' + user.userDTO.id  + '</td>';
+					if(user.userDTO.snsType !=null){
+						tr += '<td>네이버회원</td>';
+					} else{
+						tr += '<td>' + user.userDTO.id  + '</td>';
+					}					
 					tr += '<td>' + user.userDTO.name + '</td>';
 					tr += '<td>' + user.userDTO.nickname + '</td>';
 					tr += '<td>' + (user.userDTO.gender == 'M' ? '남자' : '여자') + '</td>';
-					tr += '<td>' + user.userDTO.joinDate + '</td>'; 
+					tr += '<td>' + user.userDTO.joinDate + '</td>';
+					tr += '<td>' + (user.userDTO.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
 					tr += '<td>' + user.userDTO.accessLogDTO.lastLoginDate + '</td>'; 
 					tr += '<td>' + user.userDTO.infoModifyDate + '</td>'; 
 					tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
@@ -306,6 +327,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '닉네임' + '</th>';
 				tr += '<th scope="col">' + '성별' + '</th>';
 				tr += '<th scope="col">' + '가입일' + '</th>';
+				tr += '<th scope="col">' + '가입방법' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
@@ -315,11 +337,16 @@ input#btn_trans{
 				$.each(resData.userList, function(i, user){
 					var tr = '<tr>';
 					tr += '<td>' + user.rowNum + '</td>';
-					tr += '<td>' + user.id  + '</td>';
+					if(user.snsType !=null){
+						tr += '<td>네이버회원</td>';
+					} else{
+						tr += '<td>' + user.id  + '</td>';
+					}	
 					tr += '<td>' + user.name + '</td>';
 					tr += '<td>' + user.nickname + '</td>';
 					tr += '<td>' + (user.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.joinDate + '</td>'; 
+					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
 					tr += '<td>' + user.lastLoginDate + '</td>'; 
 					tr += '<td>' + user.infoModifyDate + '</td>'; 
 					/* tr += '<td>' + (user.userState == 1 ? '일반회원' : '휴면회원') + '</td>'; */
@@ -377,6 +404,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '이름' + '</th>';
 				tr += '<th scope="col">' + '성별' + '</th>';
 				tr += '<th scope="col">' + '가입일' + '</th>';
+				tr += '<th scope="col">' + '가입방법' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '휴면전환일' + '</th>';
 				tr += '<th scope="col" class="btn_trans"><input type="button" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
@@ -385,10 +413,15 @@ input#btn_trans{
 				$.each(resData.sleepUserList, function(i, user){
 					var tr = '<tr>';
 					tr += '<td>' + user.rowNum + '</td>';
-					tr += '<td>' + user.id  + '</td>';
+					if(user.snsType !=null){
+						tr += '<td>네이버회원</td>';
+					} else{
+						tr += '<td>' + user.id  + '</td>';
+					}
 					tr += '<td>' + user.name  + '</td>';
 					tr += '<td>' + (user.gender == 'M' ? '남자' : '여자') + '</td>';
-					tr += '<td>' + user.joinDate + '</td>'; 
+					tr += '<td>' + user.joinDate + '</td>';
+					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
 					tr += '<td>' + user.lastLoginDate + '</td>'; 
 					tr += '<td>' + user.sleepDate + '</td>'; 
 					tr += '<td><input type="checkbox" name="chk" class="trans-chk" value="' + user.userNo + '"</td>';
@@ -637,9 +670,9 @@ input#btn_trans{
 				if(page != naverPageUtil.totalPage){
 					paging5 += '<span class="lnk_enable5" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
-				paging += '</div>';
+				paging5 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);	
+				$('#paging').append(paging5);	
 			}
 		});		
 	}
@@ -757,7 +790,7 @@ input#btn_trans{
 				// 페이징
 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
-				var paging = '<div>';
+				var paging7 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
 					paging7 += '<span class="lnk_enable7" data-page="' + (page - 1) + '">&lt;이전</span>';
@@ -1187,90 +1220,7 @@ input#btn_trans{
         </div>
      </div>
      
-   <div style="float: right;">
-     
-	<div id="form1">
-		<form id="frm_searchUser">
-			<div>
-				<select id="column" name="column">
-					<option value="">:::선택:::</option>
-					<option value="ID">ID</option>
-					<option value="NICKNAME">닉네임</option>
-					<option value="JOIN_DATE">가입일</option>
-				</select>
-	
-			<span id="area1">
-				<input type="text" id="query" name="query">
-			</span>
-			
-			<span id="area2">
-				<input type="text" name="start" id="start">
-				~
-				<input type="text" name="stop" id="stop">
-			</span>
-			
-			<span>
-				<input type="button" id ="btn_userSearch"  value="검색">
-				<input type="button" value="전체유저조회" id="btn_all">			
-				<script>
-					$('#btn_all').click(function(){
-						fn_AlluserList();
-					});				
-				</script>
-			</span>
-			</div>	
-		</form>
-	</div>
-	
-	<div id="form2">
-		<form id="frm_searchboard">
-			<select id="board" name="board">
-				<option value="">전체</option>
-				<option value="FREE">자유게시판</option>
-				<option value="STUDY">스터디게시판</option>
-				<option value="CODE">코드게시판</option>
-				<option value="QNA">QNA</option>
-			</select>
-			<select id="column2" name="column2">
-				<option value="">:::선택:::</option>
-				<option value="NICKNAME">작성자</option>
-				<option value="TITLE">제목</option>
-				<option value="CREATE_DATE">작성일자</option>
-			</select>
-			<span id="area4">
-				<input type="text" id="query2" name="query2">
-			</span>
-			<span id="area5">
-				<input type="text" id="start2" name="start2" >
-				~
-				<input type="text" id="stop2" name="stop2" >
-			</span>
-			<span>
-				<input type="button" value="검색" id="btn_searchBoard">
-			</span>
-		</form>
-	</div>
-	<script>
-	function fn_inputShow(){
-		$('#area5').hide();
-		
-		$('#area4').css('display', 'none');
-
-		$('#column2').change(function(){
-			$('.input').val('');
-			let combo = $(this);
-			if(combo.val() == 'CREATE_DATE'){
-				$('#area4').hide();
-				$('#area5').show();
-			} else {
-				$('#area4').show();
-				$('#area5').hide();
-			}
-		});
-	};
-	</script>
-		
-   </div>			
+   			
 
 	<div style="margin-left:225px;">	
 		<div>
@@ -1281,7 +1231,88 @@ input#btn_trans{
 			<tfoot>
 				<tr>
 					<td colspan="10">
-						<div id="paging"></div>						
+						<div id="paging"></div>					
+						<div style="text-align: center;">    
+						<div id="form1">
+							<form id="frm_searchUser">
+								<div>
+									<select id="column" name="column">
+										<option value="">:::선택:::</option>
+										<option value="ID">ID</option>
+										<option value="NICKNAME">닉네임</option>
+										<option value="JOIN_DATE">가입일</option>
+									</select>
+								<span id="area1">
+									<input type="text" id="query" name="query" placeholder="아이디/닉네임 입력" class="form-control">
+								</span>
+								<span id="area2">
+									<input type="text" name="start" id="start" placeholder="시작일자">
+									~
+									<input type="text" name="stop" id="stop" placeholder="마지막일자">
+								</span>
+								
+								<span>
+									<input type="button" id ="btn_userSearch"  value="검색" class="btn btn-primary">
+									<input type="button" value="전체유저조회" id="btn_all">			
+									<script>
+										$('#btn_all').click(function(){
+											fn_AlluserList();
+										});				
+									</script>
+								</span>
+								</div>	
+							</form>
+						</div>
+						
+						<div id="form2">
+							<form id="frm_searchboard">
+								<select id="board" name="board">
+									<option value="">전체</option>
+									<option value="FREE">자유게시판</option>
+									<option value="STUDY">스터디게시판</option>
+									<option value="CODE">코드게시판</option>
+									<option value="QNA">QNA</option>
+								</select>
+								<select id="column2" name="column2">
+									<option value="">:::선택:::</option>
+									<option value="NICKNAME">작성자</option>
+									<option value="TITLE">제목</option>
+									<option value="CREATE_DATE">작성일자</option>
+								</select>
+								<span id="area4">
+									<input type="text" id="query2" name="query2" placeholder="아이디 입력">
+								</span>
+								<span id="area5">
+									<input type="text" id="start2" name="start2" >
+									~
+									<input type="text" id="stop2" name="stop2" >
+								</span>
+								<span>
+									<input type="button" value="검색" id="btn_searchBoard" class="btn btn-primary">
+								</span>
+							</form>
+						</div>	
+					   </div>
+					   
+					   	<script>
+							function fn_inputShow(){
+								$('#area5').hide();
+								
+								$('#area4').css('display', 'none');
+								$('#column2').change(function(){
+									$('.input').val('');
+									let combo = $(this);
+									if(combo.val() == 'CREATE_DATE'){
+										$('#area4').hide();
+										$('#area5').show();
+									} else {
+										$('#area4').show();
+										$('#area5').hide();
+									}
+								});
+							};
+						</script>
+					   						
 					</td>
 				</tr>
 			</tfoot>
