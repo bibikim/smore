@@ -53,6 +53,19 @@
 		display: none;
 	}	
 	
+	/* footer */
+	.py-5 {
+		padding: 40px 0 !important;
+	}
+	
+	/* slide */
+	#img_area1, #img_area2, #img_area3 {
+		width: 1200px !important;
+		height: 400px !important;
+		margin: auto !important;
+		display: block !important;
+	}
+	
 </style>
 <script>
 
@@ -138,11 +151,27 @@
 </script>
 <body>
 
-<br>
-<input type="button" value="지도연습" onclick="location.href='/study/map'">
-<input type="button" value="현재위치연습" onclick="location.href='/study/location'">
-
-	<hr>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+	  <div class="carousel-inner">
+	    <div class="carousel-item active">
+	      <img src="../../resources/images/study01.png" id="img_area2" class="d-block w-100" alt="이미지2">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="../../resources/images/study02.jpg" id="img_area1" class="d-block w-100" alt="이미지1">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="../../resources/images/study03.jpg" id="img_area3" class="d-block w-100" alt="이미지3">
+	    </div>
+	  </div>
+	  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	    <span class="sr-only">Previous</span>
+	  </a>
+	  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	    <span class="sr-only">Next</span>
+	  </a>
+	</div>
 
 	<div>
 		<h1>스터디 목록</h1>
@@ -156,7 +185,7 @@
 		</c:if>
 	</div>
 	
-	<!-- 사원목록 -->
+	<!-- 스터디 목록 -->
 	<div id="study_list" class="study_list">
 		<div class="study_list_container"></div>
 	</div>
@@ -166,6 +195,12 @@
 		<div class="loading_bar"></div>
 	</div>
 	
+	<!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+        	<p class="m-0 text-center text-white">&nbsp; ⓒ 2022 &nbsp; s'more copyright</p>
+        </div>
+    </footer>
 	
 </body>
 
