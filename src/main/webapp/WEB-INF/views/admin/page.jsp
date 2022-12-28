@@ -23,6 +23,11 @@ option {
   color: #fff;
   background: #272822;
 }
+#query, #query2, #start, #start2, #stop, #stop2{
+  border-radius: 6px;
+  width: 180px;
+  margin-bottom: 12px;
+}
 
 /* 페이징 */
 #paging  {
@@ -32,6 +37,13 @@ option {
 #paging span, #paging strong {
 	margin: 0 3px;
 }
+
+#btn_userSearch{
+	margin-bottom: 12px;
+	border: 1px soild #fff;
+	border-radius: 6px;
+}
+
 .lnk_enable {
 	cursor: pointer;
 }
@@ -1242,24 +1254,24 @@ input#btn_trans{
 										<option value="NICKNAME">닉네임</option>
 										<option value="JOIN_DATE">가입일</option>
 									</select>
-								<span id="area1">
-									<input type="text" id="query" name="query" placeholder="아이디/닉네임 입력" class="form-control">
-								</span>
-								<span id="area2">
-									<input type="text" name="start" id="start" placeholder="시작일자">
-									~
-									<input type="text" name="stop" id="stop" placeholder="마지막일자">
-								</span>
-								
-								<span>
-									<input type="button" id ="btn_userSearch"  value="검색" class="btn btn-primary">
-									<input type="button" value="전체유저조회" id="btn_all">			
-									<script>
-										$('#btn_all').click(function(){
-											fn_AlluserList();
-										});				
-									</script>
-								</span>
+									<span id="area1">
+										<input type="text" id="query" name="query" placeholder="아이디/닉네임 입력">
+									</span>
+									<span id="area2">
+										<input type="text" name="start" id="start" placeholder="시작일자">
+										~
+										<input type="text" name="stop" id="stop" placeholder="마지막일자">
+									</span>
+									
+									<span>
+										<input type="button" id ="btn_userSearch"  value="검색" >
+										<input type="button" value="전체유저조회" id="btn_all">			
+										<script>
+											$('#btn_all').click(function(){
+												fn_AlluserList();
+											});				
+										</script>
+									</span>
 								</div>	
 							</form>
 						</div>

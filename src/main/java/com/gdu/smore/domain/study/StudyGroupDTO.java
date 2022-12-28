@@ -34,4 +34,5 @@ public class StudyGroupDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date studDate;
 	private String ip;
+	private String jang;
 }

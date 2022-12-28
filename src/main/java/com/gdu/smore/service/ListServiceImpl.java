@@ -61,13 +61,6 @@ public class ListServiceImpl implements ListService {
 		String nickname = loginUser.getNickname();
 		map.put("nickname", nickname);
 		
-		
-		StudyZzimDTO zzim = new StudyZzimDTO();
-		if(loginUser.getNickname().equals(zzim.getNickname())) {
-			int studNo = zzim.getStudNo();
-			map.put("studNo", studNo);			
-		}
-
 		int totalRecord = listMapper.selectZzimListCount(map);
 		pageUtil.setPageUtil(page, totalRecord);
 		

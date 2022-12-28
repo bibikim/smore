@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class StudyZzimDTO {
+	private int rowNum;
 	private String nickname;
 	private int studNo;
+	private String jang;
 	private StudyGroupDTO studyGroupDTO;
 }
