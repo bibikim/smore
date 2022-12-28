@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gdu.smore.mapper.JobZzimMapper">
+	
+	<!--  -->
+	<select id="selectUserZzimCnt" parameterType="map" resultType="int" >
+		SELECT COUNT(*)
+		  FROM JOB_ZZIM
+		 WHERE JOB_NO = #{jobNo}
+		   AND NICKNAME = #{nickname}
+	</select>
+	
+	<select id="selectJobZzimCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM JOB_ZZIM
+		 WHERE JOB_NO = #{jobNo}
+	</select>
+	
+	<insert id="insertScrap" parameterType="map">
+		INSERT INTO JOB_ZZIM
+			(JOB_NO, NICKNAME)
+		VALUES
+			(#{jobNo}, #{nickname})
+	</insert>
+	
+	<delete id="deleteScrap" parameterType="map">
+		DELETE
+		  FROM JOB_ZZIM
+		 WHERE JOB_NO = #{jobNo}
+		   AND NICKNAME = #{nickname}
+	</delete>
+	
+</mapper>

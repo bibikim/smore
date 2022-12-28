@@ -12,6 +12,7 @@ public class MyFileUtil {
 
 	// 파일명 : UUID값을 사용
 	// 경로명 : 현재 날짜를 디렉터리로 생성해서 사용
+	private String sep = Matcher.quoteReplacement(File.separator);
 	
 	public String getFilename(String filename) {
 		
@@ -43,7 +44,6 @@ public class MyFileUtil {
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		String sep = Matcher.quoteReplacement(File.separator);
 		return "storage" + sep + year + sep + makeZero(month) + sep + makeZero(day);
 	}
 	
@@ -54,7 +54,6 @@ public class MyFileUtil {
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		String sep = Matcher.quoteReplacement(File.separator);
 		return "storage" + sep + year + sep + makeZero(month) + sep + makeZero(day);
 	}
 	
@@ -62,5 +61,16 @@ public class MyFileUtil {
 	public String makeZero(int n) {
 		return (n < 10) ? "0" + n : "" + n;
 	}
+	
+	// 써머노트 이미지 경로
+	public String getSummernotePath() {
+		return "storage" + sep + "summernote";
+	}
+	
+	// 임시 경로
+	public String getTempPath() {
+		return "storage" + sep + "temp";
+	}
+	
 	
 }

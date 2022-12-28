@@ -102,7 +102,7 @@ public class FreeServiceImpl implements FreeService {
 		// 파라미터 files
 		MultipartFile mpFile = mRequest.getFile("file");
 		// 저장경로
-		String path = "c:" + File.separator + "summernoteImage";
+		String path = fileUtil.getSummernotePath();
 		// 저장할 파일명
 		String filesystem = fileUtil.getFilename(mpFile.getOriginalFilename());
 		
@@ -120,7 +120,7 @@ public class FreeServiceImpl implements FreeService {
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("src", mRequest.getContextPath() + "/load/image/" + filesystem);
+		map.put("src", "/load/image/" + filesystem);
 		map.put("filesystem", filesystem);
 		
 		return map;
@@ -152,6 +152,7 @@ public class FreeServiceImpl implements FreeService {
 			
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
+			
 			out.println("<script>");
 			if(result > 0) {
 				
@@ -200,7 +201,11 @@ public class FreeServiceImpl implements FreeService {
 		if(fImageList != null && fImageList.isEmpty() == false) {
 			for(FreeImageDTO fImage : fImageList) {
 				if(free.getContent().contains(fImage.getFilesystem()) == false ) {
-					File file = new File("C:" + File.separator + "fImage", fImage.getFilesystem());
+					File file = new File(fileUtil.getSummernotePath(), fImage.getFilesystem());
+					if(file.exists()) {
+						file.delete();
+					}
+					freeMapper.deleteFreeImage(fImage.getFilesystem());
 				}
 			}
 		}
@@ -283,7 +288,7 @@ public class FreeServiceImpl implements FreeService {
 				if(fImageList != null && fImageList.isEmpty() == false) {
 					
 					for(FreeImageDTO fImage : fImageList) {
-						File file = new File("c:" + File.separator + "fImage", fImage.getFilesystem());
+						File file = new File(fileUtil.getSummernotePath(), fImage.getFilesystem());
 						if(file.exists()) {
 							file.delete();
 						}

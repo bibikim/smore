@@ -251,6 +251,69 @@
 		})
 		
 		
+		// 스크랩 함수 호출
+		fn_scrapCheck();
+/* 		fn_scrapCount(); */
+		fn_pressScrap(); 
+		
+		function fn_scrapCheck() {
+			console.log('스크랩체크')
+			$.ajax ({
+				type: 'get',
+				url: '/job/scrapCheck',
+				data: 'jobNo=${job.jobNo}&nickname=${loginUser.nickname}',
+				dataType: 'json',
+				success: function(resData) {
+					if(resData.count == 0) {
+						$('#scrap').html('<img src="../resources/images/b-bookmark.png" width="20px">');
+						$('#scrap').removeClass("zzim_checked");
+					} else {
+						$('#scrap').html('<img src="../resources/images/f-bookmark.png" width="20px">');
+						$('#scrap').addClass("zzim_checked");
+					}
+				}
+			})
+		}
+		
+		
+		// 스크랩을 누른 경우
+		function fn_pressScrap() {
+			console.log('스크랩누르기')
+
+			$('#lnk_scrap').click(function(){
+				if('${loginUser.nickname}' == '') {
+					alert('해당 기능은 로그인이 필요합니다.');
+					return;
+				} 
+				// 셀프 스크랩 방지
+				if('${loginUser.grade}' == 3) {
+					alert('작성자의 게시글에서는 스크랩이 불가합니다.');
+					return;
+				}
+				// 스크랩 선택/해제 상태 변경
+				$('#zzim').toggleClass("zzim_checked");
+				if($('#zzim').hasClass("zzim_checked")) {
+					$('#scrap').html('<img src="../resources/images/f-bookmark.png" width="20px">');
+				} else {
+					$('#scrap').html('<img src="../resources/images/b-bookmark.png" width="20px">');
+				}
+			
+				// 스크랩 처리
+				$.ajax({
+					type: 'get',
+					url: '/job/scrap',
+					data: 'jobNo=${job.jobNo}&nickname=${loginUser.nickname}',
+					dataType: 'json',
+					success: function(resData) {
+						if(resData.isScrap) {
+							alert('스크랩 되었습니다.');
+
+						}
+					}
+				}); // ajax
+			})
+		}
+		
 		
 	});
 	
@@ -277,20 +340,29 @@
 						<div>
 							<img src="https://img.icons8.com/external-anggara-outline-color-anggara-putra/26/null/external-share-user-interface-basic-anggara-outline-color-anggara-putra.png"/>
 						</div>
+						<div>
 							<ul class="sns">
 								<li class="facebook">
-								<a id="btnFacebook"><img src="https://img.icons8.com/ios-glyphs/25/null/facebook-new.png"/>&nbsp;&nbsp;facebook</a> 
+									<a id="btnFacebook"><img src="https://img.icons8.com/ios-glyphs/25/null/facebook-new.png"/>&nbsp;&nbsp;facebook</a> 
 								</li>
 								<li class="twitter">
-								<a id="btnTwitter"><img src="https://img.icons8.com/ios-filled/25/null/twitter.png"/>&nbsp;&nbsp;twitter</a>
+									<a id="btnTwitter"><img src="https://img.icons8.com/ios-filled/25/null/twitter.png"/>&nbsp;&nbsp;twitter</a>
 								</li>
 								<li class="kakao">
-								<a id="btnKakao"><img src="https://img.icons8.com/ios/25/null/kakao-talk.png"/>&nbsp;&nbsp;kakao</a>
+									<a id="btnKakao"><img src="https://img.icons8.com/ios/25/null/kakao-talk.png"/>&nbsp;&nbsp;kakao</a>
 								</li>
 							</ul>
-						<a href="#" onclick="fn_linkCopy()">
-						<img src="https://img.icons8.com/windows/25/null/clone-figure.png"/>
-						</a>
+						</div>
+						<div>
+							<a href="#" onclick="fn_linkCopy()">
+							<img src="https://img.icons8.com/windows/25/null/clone-figure.png"/></a>
+						</div>
+						<div>
+							<!-- 스크랩 버튼 -->
+							<a id="lnk_scrap">
+								<span id="scrap"></span><span id="zzim">스크랩</span>
+							</a>
+						</div>
 					</div>
 				</div>
 		

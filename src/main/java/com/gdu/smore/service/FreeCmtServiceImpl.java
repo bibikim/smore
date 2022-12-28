@@ -115,16 +115,6 @@ public class FreeCmtServiceImpl implements FreeCmtService {
 		recomment.setNickname(loginUser.getNickname());
 		
 		
-		/*
-		 * int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); int groupNo =
-		 * Integer.parseInt(request.getParameter("groupNo"));
-		 * 
-		 * FreeCommentDTO comment = FreeCommentDTO.builder() .cmtNo(cmtNo)
-		 * .groupNo(groupNo) .build();
-		 * 
-		 * cmtMapper.updateGroupNo(comment);
-		 */
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSaveRe", cmtMapper.insertRecomment(recomment) == 1);
 		return result;
