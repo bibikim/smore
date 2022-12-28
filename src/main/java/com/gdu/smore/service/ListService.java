@@ -12,4 +12,4 @@ public interface ListService {
 	public Map<String, Object> removeStudyList(String studylist);
 	public Map<String, Object> removeZzimList(String zzimlist);
 	
-}
+} 
