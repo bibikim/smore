@@ -70,8 +70,79 @@
 		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
 	</resultMap> 
 
-
-
+	<resultMap type="FreeBoardDTO" id="FreeMap">
+		<result column="ROW_NUM" property="rowNum" />
+		<result column="FREE_NO" property="freeNo" />
+		<result column="NICKNAME" property="nickname" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="HIT" property="hit" />
+		<result column="IP" property="ip" />
+	</resultMap>
+	<resultMap type="CodeBoardDTO" id="CodeMap">
+		<result column="ROW_NUM" property="rowNum" />
+		<result column="CO_NO" property="coNo" />
+		<result column="NICKNAME" property="nickname" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="HIT" property="hit" />
+		<result column="IP" property="ip" />
+	</resultMap>
+	<resultMap type="QnaBoardDTO" id="QnaMap">
+		<result column="ROW_NUM" property="rowNum" />
+		<result column="QA_NO" property="qaNo" />
+		<result column="NICKNAME" property="nickname" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="PW" property="pw" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="HIT" property="hit" />
+		<result column="IP" property="ip" />
+		<result column="ANSWER" property="answer" />
+	</resultMap>
+	<resultMap type="StudyGroupDTO" id="StudyMap">
+		<result column="ROW_NUM" property="rowNum" />
+		<result column="STUD_NO" property="studNo" />
+		<result column="NICKNAME" property="nickname" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="HIT" property="hit" />
+		<result column="GENDER" property="gender" />
+		<result column="REGION" property="region" />
+		<result column="WIDO" property="wido" />
+		<result column="GDO" property="gdo" />
+		<result column="LANG" property="lang" />
+		<result column="PEOPLE" property="people" />
+		<result column="CONTACT" property="contact" />
+		<result column="STUD_DATE" property="studDate" />
+		<result column="IP" property="ip" />
+	</resultMap>
+		
+	<resultMap type="AllBoardDTO" id="AllBoardMap">
+		<result column="ROW_NUM" property="rowNum"/>
+		<result column="FREE_NO" property="freeNo"/>
+		<result column="QA_NO" property="qaNo"/>
+		<result column="STUD_NO" property="studNo"/>
+		<result column="CO_NO" property="coNo"/>
+		<result column="NICKNAME" property="nickname"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="HIT" property="hit"/>
+		<result column="IP" property="ip"/>
+<!-- 		<collection resultMap="FreeMap" property="freeBoardDTO"></collection>
+		<collection resultMap="CodeMap" property="codeBoardDTO"></collection>
+		<collection resultMap="QnaMap" property="qnaBoardDTO"></collection>
+		<collection resultMap="StudyMap" property="studyGroupDTO"></collection> -->
+	</resultMap> 
 
 	<select id="selectUserCount" resultType="int">
 		SELECT COUNT(*)
@@ -113,8 +184,7 @@
 	 	  FROM USERS 
 	 	 WHERE USER_NO = #{userNo}
 	 </select> 
-	
-	
+		
 	<!-- 검색기능 -->
  	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
 		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE 
@@ -149,10 +219,40 @@
 	</select>
 	
 	<!-- 자유게시판 검색 -->
-	<select id="selectFreeBoardByQuery" parameterType="map" resultType="FreeBoardDTO">
+	<select id="selectFreeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
 		SELECT D.ROW_NUM, D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM FREEBOARD) D
+    	<where>
+    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
+	    	  <if test="column2=='ID' or column2 == 'NICKNAME'">
+	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+	   		  </if> 
+   		  
+		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
+		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
+		</where> 
+	</select>
+	
+	<select id="selectFreeBoardByCountQuery" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM FREEBOARD  
+ 		 <where>
+	    	  <if test="column2=='ID' or column2 == 'NICKNAME'">
+	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+	   		  </if> 
+ 		   
+		  <if test="column2=='CREATE_DATE'">
+		 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
+		 </where> 
+	</select>
+	
+	<!-- 코드게시판 검색 -->
+	<select id="selectCodeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
+		SELECT D.ROW_NUM, D.CO_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		          FROM C_BOARD) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
    		  <if test="column2=='ID' or column2 == 'NICKNAME'">
@@ -163,42 +263,112 @@
 		</where> 
 	</select>
 	
-	<select id="selectFreeBoardByCountQuery" parameterType="Map" resultType="int">
+	<select id="selectCodeBoardByCountQuery" parameterType="Map" resultType="int">
 		SELECT COUNT(*)
-		  FROM FREEBOARD  
+		  FROM C_BOARD  
  		 <where>
   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
    		  </if> 
-		 	<if test="column2=='CREATE_DATE'">
-		 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
-			</if>
+		  <if test="column2=='CREATE_DATE'">
+		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
 		 </where> 
 	</select>
 	
-	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
-<!-- 		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.LAST_LOGIN_DATE, NULL SLEEP_DATE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
-		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-                    		ON U.ID = A.ID) B	
-        WHERE B.ROW_NUM BETWEEN #{begin} AND #{end}
-           			 
-		UNION ALL
-		 
-		 SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
-		   FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE
-		  		  FROM SLEEP_USERS U) B
-		  WHERE B.ROW_NUM BETWEEN #{begin} AND #{end}  -->
+	<!-- 스터디게시판 검색 -->
+	<select id="selectStudyBoardByQuery" parameterType="map" resultMap="AllBoardMap">
+		SELECT D.ROW_NUM, D.STUD_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		          FROM S_GROUP) D
+    	<where>
+    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
+   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
+		  <if test="column2=='CREATE_DATE'">
+		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
+		</where> 
+	</select>
+	
+	<select id="selectStudyBoardByCountQuery" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM S_GROUP  
+ 		 <where>
+  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		 	 ${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		  <if test="column2=='CREATE_DATE'">
+		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
+		 </where> 
+	</select>
+	
+	<!-- QNA게시판 검색 -->
+	<select id="selectQnaBoardByQuery" parameterType="map" resultMap="AllBoardMap">
+		SELECT D.ROW_NUM, D.QA_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		          FROM Q_BOARD) D
+    	<where>
+    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
+   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
+		  <if test="column2=='CREATE_DATE'">
+		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
+		</where> 
+	</select>
+	
+	<select id="selectQnaBoardByCountQuery" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM Q_BOARD  
+ 		 <where>
+  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if> 
+		  <if test="column2=='CREATE_DATE'">
+		 	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
+		 </where> 
+	</select>
+	
+	
+	
+<!-- 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
 		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
-  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
+  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
                   FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
 		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
 		                    ON U.ID = A.ID
          UNION ALL
         SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
           FROM SLEEP_USERS) C) D 
-		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end} 		  		  
+		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end} 
+		LIMIT #{begin}, 
+		LIMIT #{begin}, #{end}		  		  
+	</select> -->
+	
+	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
+		SELECT D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
+  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
+                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
+		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		                    ON U.ID = A.ID
+         UNION ALL
+         
+        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
+          FROM SLEEP_USERS) C) D 
+<!--          WHERE D.ROW_NUM BETWEEN #{begin} AND #{end}   -->
+
+		WHERE D.ROW_NUM > #{begin} and D.ROW_NUM <![CDATA[<=]]> #{end}
+		 <!-- LIMIT #{begin}, #{end}   -->
+<!-- 		LIMIT #{begin},  -->	  		  
 	</select>
+	
 
 	<!-- 일반유저 조회 -->
 	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
@@ -206,7 +376,7 @@
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE
 		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                     		ON U.ID = A.ID) B
-		  WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 
+		 WHERE B.ROW_NUM > #{begin} and B.ROW_NUM <![CDATA[<=]]> #{end}
 <!-- 		 LIMIT #{begin} OFFSET #{end}  -->		  
 	</select>
 
@@ -215,7 +385,7 @@
 		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE
 		  		  FROM SLEEP_USERS U) B
-		 WHERE B.ROW_NUM BETWEEN #{begin} AND #{end} 		  
+		 WHERE B.ROW_NUM > #{begin} and B.ROW_NUM <![CDATA[<=]]> #{end}		  
 	</select> 
 		
 	<!-- 자유게시판 조회 -->
@@ -223,7 +393,7 @@
 	    SELECT N.ROW_NUM, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM FREEBOARD) N
-		 WHERE N.ROW_NUM BETWEEN #{begin} AND #{end}
+		 WHERE N.ROW_NUM > #{begin} and N.ROW_NUM <![CDATA[<=]]> #{end}	
 	</select>
 	
 	<!-- 스터디모집게시판 조회 -->
@@ -231,7 +401,7 @@
 		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
 		          FROM S_GROUP B) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	
 	</select>
 	
 	<!-- 코드게시판 조회 -->
@@ -239,7 +409,7 @@
 		SELECT A.ROW_NUM, A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM C_BOARD) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}         
+		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	       
 	</select>
 	
 	<!-- qna게시판 조회 -->
@@ -247,7 +417,7 @@
 		SELECT A.ROW_NUM, A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
 		          FROM Q_BOARD) A 
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}         
+		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	        
 	</select>
 
 	<!-- 유저 다중 탈퇴 -->

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdu.smore.domain.AllBoardDTO;
 import com.gdu.smore.domain.code.CodeBoardDTO;
 import com.gdu.smore.domain.free.FreeBoardDTO;
 import com.gdu.smore.domain.qna.QnaBoardDTO;
@@ -29,10 +30,17 @@ public interface AdminMapper {
 	// 모든 유저 검색 카운트
 	public int selectAllUserCountByQuery(Map<String, Object> map);
 	
+	// 게시판검색
+	public List<AllBoardDTO> selectFreeBoardByQuery(Map<String, Object> map);
+	public List<AllBoardDTO> selectCodeBoardByQuery(Map<String, Object> map);
+	public List<AllBoardDTO> selectStudyBoardByQuery(Map<String, Object> map);
+	public List<AllBoardDTO> selectQnaBoardByQuery(Map<String, Object> map);
+	
 	// 게시판 검색 카운트
 	public int selectFreeBoardByCountQuery(Map<String, Object> map);
-	// 게시판검색
-	public List<FreeBoardDTO> selectFreeBoardByQuery(Map<String, Object> map);
+	public int selectCodeBoardByCountQuery(Map<String, Object> map);
+	public int selectStudyBoardByCountQuery(Map<String, Object> map);
+	public int selectQnaBoardByCountQuery(Map<String, Object> map);
 	
 	// 게시판 리스트
 	public List<FreeBoardDTO> selectFreeListByMap(Map<String, Object> map);
@@ -44,11 +52,7 @@ public interface AdminMapper {
 	public int selectUserCount();
 	public int selectSleepUserCount();
 	public int selectReportUserCount();
-	
-	
-
-	
-		
+			
 	// 게시판 카운트
 	public int selectFreeBoardCount();
 	public int selectSGroupBoardCount();
