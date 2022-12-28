@@ -60,7 +60,7 @@
 
 	<c:if test="${loginUser == null}">
 		<nav class="navbar navbar-light bg-light" >
-			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo.PNG" width="75px"></a>
+			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" width="150px"></a>
 			<ul class="nav justify-content-end">
 				<li class="nav-item">
 					<a class="nav-link active" href="/free/list">자유게시판</a>
@@ -86,7 +86,7 @@
 	<div>
     	<div style="text-align: right"> 
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo2.png" width="150px"></a>
+				<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" width="150px"></a>
 				<ul class="nav justify-content-end">
 					<li class="nav-item">
 						<a class="nav-link active" href="/free/list">자유게시판</a>
