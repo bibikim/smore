@@ -94,7 +94,7 @@
 
 	$(function() {
 		//fn_studylist();
-		fn_zzimlist();
+		//fn_zzimlist();
 	
 
 		// html dom 이 다 로딩된 후 실행된다.
@@ -150,7 +150,6 @@
 				tr += '<th scope="col">' + '개발언어' + '</th>';
 				tr += '<th scope="col">' + '시작예정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
-				tr += '<th scope="col" class="btn_studyRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				
@@ -167,7 +166,6 @@
 						tr += '<td>' + study.lang + '</td>'; 
 						tr += '<td>' + study.studDate + '</td>'; 
 						tr += '<td>' + study.hit + '</td>'; 
-						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + study.studNo + '"</td>';
 						tr += '</tr>';
 						$('#body_list').append(tr);
 				});
@@ -182,16 +180,13 @@
 			dataType: 'json',
 			success: function(resData) {
 				$('#head_list').empty();
-				$('#body_list').empty();
-				
+				$('#body_list').empty();				
 				var tr = '<tr>';
 				tr += '<th scope="col">' + 'No' + '</th>';
-				tr += '<th scope="col">' + '작성자' + '</th>';
 				tr += '<th scope="col">' + '제목' + '</th>';
 				tr += '<th scope="col">' + '개발언어' + '</th>';
 				tr += '<th scope="col">' + '시작예정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
-				tr += '<th scope="col" class="btn_zzimRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				
@@ -202,56 +197,22 @@
 				}
 				$.each(resData.zzimlist, function(i, zzim) {
 					var tr = '<tr>';
-					tr += '<td>' + zzim.rowNum + '</td>';
-					tr += '<td>' + zzim.studyZzimDTO.nickname  + '</td>';
-					tr += '<td><a href="/zzim/detail?studNo=' + zzim.StudyZzimDTO.studNo + '">' + zzim.title  + '</a></td>';
-					tr += '<td>' + zzim.lang + '</td>';
-					tr += '<td>' + zzim.studDate + '</td>'; 
-					tr += '<td>' + zzim.hit + '</td>'; 
-					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + zzim.studNo + '"</td>';
+					tr += '<td>' + zzim.studyGroupDTO.rowNum + '</td>';
+   					tr += '<td><a href="/study/detail?studNo=' + zzim.studyGroupDTO.studNo + '">' + zzim.studyGroupDTO.title  + '</a></td>';
+					tr += '<td>' + zzim.studyGroupDTO.lang + '</td>';
+					tr += '<td>' + zzim.studyGroupDTO.studDate + '</td>'; 
+					tr += '<td>' + zzim.studyGroupDTO.hit + '</td>'; 
 					tr += '</tr>';
 					$('#body_list').append(tr);
 				});
 			}
 		});
-	}
-	
-	function fn_chatlist(){
-		$.ajax({
-			type: 'get',
-			url : '/chat/rooms',
-			dataType: 'json',
-			success: function(resData) {
-				console.log(resData);
-				$('#head_list').empty();
-				$('#body_list').empty();
-				var tr = '<tr>';
-				tr += '<th scope="col">' + '순번' + '</th>';
-				tr += '<th scope="col">' + '채팅방' + '</th>';
-				tr += '</tr>';
-				$('#head_list').append(tr);
-				if(resData == '') {
-					var tr = '<tr>';
-					tr += '<td colspan="7" style="text-align: center;">게시물이 없습니다.</td>';
-					$('#body_list').append(tr);
-				} else {
-					$.each(resData, function(i, list) {
-						var tr = '<tr>';
-						tr += '<td>' + list.roomId + '</td>';
-						tr += '<td>' + list.name  + '</td>';
-						tr += '</tr>';
-						$('#body_list').append(tr);
-					});
-				}
-			}
-		});
-	}
+	}	
 	
 </script>
 
 </head>
 <body>
-
 
 	<div class="wrapper">
 		<div class="sidebar">
@@ -261,7 +222,6 @@
 					<ul class="hide">					
 						<li><a id="studylist" href="#"> - My 스터디 목록</a></li>
 						<li><a id="zzimlist" href="#">- 찜 스터디 목록</a></li>
-						<li><a id="chatlist" href="javascript:void(0);">- 채팅 목록</a></li>
 					</ul>
 				</li>
 			</ul>

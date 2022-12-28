@@ -53,12 +53,12 @@
       <result column="PEOPLE" property="people" />
       <result column="CONTACT" property="contact" />
       <result column="STUD_DATE" property="studDate" />
-      <collection resultMap="zzimMap" property="StudyZzimDTO"></collection>
    </resultMap>
 	
 	<resultMap type="StudyZzimDTO" id="zzimMap">
-		 <result column="STUD_NO" property="studNo"/>
-		 <result column="NICKNAME" property="nickname"/>
+		<result column="STUD_NO" property="studNo"/>
+		<result column="NICKNAME" property="nickname"/>
+		<collection resultMap="StudyMap" property="studyGroupDTO"></collection>
 	</resultMap>
 	
 	<select id="selectStudyListCount" parameterType="Map" resultType="int">
@@ -90,13 +90,27 @@
 		 WHERE Z.NICKNAME = #{nickname}
 	</select>
 	
-	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
+<!-- 	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
 		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.HIT, A.LANG, A.STUD_DATE
   		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, Z.STUD_NO, S.NICKNAME, S.TITLE, S.CONTENT, S.HIT, S.LANG, S.STUD_DATE
 		  		  FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP S
 		    		ON Z.STUD_NO = S.STUD_NO
 		 		 WHERE Z.NICKNAME = #{nickname}) A
-<!--  		 WHERE A.STUD_NO = #{studNo}; -->
+ 		 WHERE A.STUD_NO = #{studNo};
+	</select> -->
+	
+<!-- 	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
+	   SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME
+		 FROM S_ZZIM  
+		WHERE NICKNAME = #{nickname}  		  
+	</select> -->
+	
+	<select id="selectZzimListByMap" parameterType="Map" resultMap="zzimMap">
+	SELECT A.ROW_NUM, A.STUD_NO, A.JANG, A.TITLE, A.CONTENT, A.HIT, A.LANG, A.STUD_DATE
+	  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_DATE DESC) AS ROW_NUM, Z.STUD_NO, Z.NICKNAME, S.NICKNAME AS JANG, S.TITLE, S.CONTENT, S.HIT, S.LANG, S.STUD_DATE
+		      FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP S
+		        ON Z.STUD_NO = S.STUD_NO) A 
+	 WHERE A.NICKNAME = #{nickname} 		  
 	</select>
 	
 	<delete id="deleteZzimList" parameterType="List">
