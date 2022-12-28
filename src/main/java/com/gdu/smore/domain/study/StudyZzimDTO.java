@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class StudyZzimDTO {
 	private String nickname;
 	private int studNo;
+	private StudyGroupDTO studyGroupDTO;
 }

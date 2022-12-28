@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gdu.smore.domain.study.StudyGroupDTO;
+import com.gdu.smore.domain.study.StudyZzimDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.ListMapper;
 import com.gdu.smore.util.PageUtil;
@@ -43,23 +45,31 @@ public class ListServiceImpl implements ListService {
 	    result.put("studylist", listMapper.selectStudyListByMap(map));
 	    System.out.println(result);
 		result.put("PageUtil", pageUtil);
+		
 		return result;
 	}
 	
 	@Override
 	public Map<String, Object> getZzimList(HttpServletRequest request, int page) {
-		int totalRecord = listMapper.selectZzimListCount();
-		pageUtil.setPageUtil(page, totalRecord);
-		
-        HttpSession session = request.getSession();
-		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
-		String nickname = loginUser.getNickname();
-		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
+		
+        HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		String nickname = loginUser.getNickname();
 		map.put("nickname", nickname);
+		
+		
+		StudyZzimDTO zzim = new StudyZzimDTO();
+		if(loginUser.getNickname().equals(zzim.getNickname())) {
+			int studNo = zzim.getStudNo();
+			map.put("studNo", studNo);			
+		}
+
+		int totalRecord = listMapper.selectZzimListCount(map);
+		pageUtil.setPageUtil(page, totalRecord);
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("zzimlist", listMapper.selectZzimListByMap(map));

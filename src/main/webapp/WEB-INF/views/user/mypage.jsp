@@ -94,7 +94,7 @@
 
 	$(function() {
 		//fn_studylist();
-		//fn_zzimlist();
+		fn_zzimlist();
 	
 
 		// html dom 이 다 로딩된 후 실행된다.
@@ -113,20 +113,16 @@
 	    });
         
         /* 스터디 목록 */
-		/*$(document).on('click','#studylist',function(){
-			$('#body_list').empty();
-			fn_studylist();
-		});*/
 		$('#studylist').click(function(){
     		$('#body_list').empty();
     		fn_studylist();
     	});
 		
 		/* 찜 목록 */
-		$(document).on('click','#zzimlist',function(){
-			$('#body_list').empty();
-			fn_zzimlist();
-		});
+		$('#zzimlist').click(function(){
+    		$('#body_list').empty();
+    		fn_zzimlist();
+    	});
         
         /* 채팅 목록 */
     	$('#chatlist').click(function(){
@@ -175,31 +171,6 @@
 						tr += '</tr>';
 						$('#body_list').append(tr);
 				});
-
-/* 					/* // 페이징
-					$('#paging').empty();
-					var pageUtil = resData.pageUtil;
-					var paging = '<div>';
-					// 이전 페이지
-					if(page != 1) {
-						paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
-					}
-					// 페이지번호
-					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
-						if(p == page){
-							paging += '<strong>' + p + '</strong>';
-						} else {
-							paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
-						}
-					}
-					// 다음 페이지
-					if(page != pageUtil.totalPage){
-						paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
-					}
-					paging += '</div>';
-					// 페이징 표시
-					$('#paging').append(paging);  */
-
 			}
 		});
 	}
@@ -215,7 +186,7 @@
 				
 				var tr = '<tr>';
 				tr += '<th scope="col">' + 'No' + '</th>';
-				tr += '<th scope="col">' + '모임장' + '</th>';
+				tr += '<th scope="col">' + '작성자' + '</th>';
 				tr += '<th scope="col">' + '제목' + '</th>';
 				tr += '<th scope="col">' + '개발언어' + '</th>';
 				tr += '<th scope="col">' + '시작예정일' + '</th>';
@@ -229,44 +200,18 @@
 					tr += '<td colspan="7" style="text-align: center;">게시물이 없다.</td>';
 					$('#body_list').append(tr);
 				}
-				if(resData.zzimlist.nickname == ${loginUser.nickname}) {
-					$.each(resData.zzimlist, function(i, zzim) {
-						var tr = '<tr>';
-						tr += '<td>' + zzim.rowNum + '</td>';
-						tr += '<td>' + zzim.nickname  + '</td>';
-						tr += '<td><a href="/study/detail?studNo=' + zzim.studNo + '">' + zzim.title  + '</a></td>';
-						tr += '<td>' + zzim.lang + '</td>'; 
-						tr += '<td>' + zzim.studDate + '</td>'; 
-						tr += '<td>' + zzim.hit + '</td>'; 
-						tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + zzim.studNo + '"</td>';
-						tr += '</tr>';
-						$('#body_list').append(tr);
-					});
-					
-					// 페이징
-					$('#paging').empty();
-					var pageUtil = resData.pageUtil;
-					var paging = '<div>';
-					// 이전 페이지
-					if(page != 1) {
-						paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
-					}
-					// 페이지번호
-					for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
-						if(p == page){
-							paging += '<strong>' + p + '</strong>';
-						} else {
-							paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
-						}
-					}
-					// 다음 페이지
-					if(page != pageUtil.totalPage){
-						paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
-					}
-					paging += '</div>';
-					// 페이징 표시
-					$('#paging').append(paging);
-				}
+				$.each(resData.zzimlist, function(i, zzim) {
+					var tr = '<tr>';
+					tr += '<td>' + zzim.rowNum + '</td>';
+					tr += '<td>' + zzim.studyZzimDTO.nickname  + '</td>';
+					tr += '<td><a href="/zzim/detail?studNo=' + zzim.StudyZzimDTO.studNo + '">' + zzim.title  + '</a></td>';
+					tr += '<td>' + zzim.lang + '</td>';
+					tr += '<td>' + zzim.studDate + '</td>'; 
+					tr += '<td>' + zzim.hit + '</td>'; 
+					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + zzim.studNo + '"</td>';
+					tr += '</tr>';
+					$('#body_list').append(tr);
+				});
 			}
 		});
 	}

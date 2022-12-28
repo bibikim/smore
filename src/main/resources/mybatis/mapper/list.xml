@@ -6,8 +6,6 @@
 
 <mapper namespace="com.gdu.smore.mapper.ListMapper">
 
-	
-
 	<resultMap type="UserDTO" id="UserMap">
 		<result column="ROW_NUM" property="rowNum" />
 		<result column="USER_NO" property="userNo" />
@@ -63,14 +61,14 @@
 		 <result column="NICKNAME" property="nickname"/>
 	</resultMap>
 	
-	<select id="selectStudyListCount"  parameterType="Map" resultType="int">
+	<select id="selectStudyListCount" parameterType="Map" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_GROUP S
 		 WHERE S.NICKNAME = #{nickname}   
 	</select>
 
 	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT ROW_NUMBER() OVER(ORDER BY STUD_DATE DESC) AS ROW_NUM, NICKNAME, STUD_NO, NICKNAME, TITLE, CONTENT, HIT, REGION, LANG, STUD_DATE 
+		SELECT ROW_NUMBER() OVER(ORDER BY STUD_DATE DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, HIT, LANG, STUD_DATE 
   	      FROM S_GROUP              
          WHERE NICKNAME = #{nickname}
 	</select>
@@ -86,17 +84,19 @@
 		</where>
 	</delete>
 	
-	<select id="selectZzimListCount" resultType="int">
+	<select id="selectZzimListCount" parameterType="Map" resultType="int">
 		SELECT COUNT(*)
-		  FROM S_ZZIM
+		  FROM S_ZZIM Z
+		 WHERE Z.NICKNAME = #{nickname}
 	</select>
 	
 	<select id="selectZzimListByMap" parameterType="Map" resultType="StudyZzimDTO">
-		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.LANG, A.STUD_DATE, A.HIT
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, G.STUD_NO, Z.NICKNAME, G.TITLE, G.LANG, G.STUD_DATE, G.HIT
-                  FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP G
-          	        ON Z.NICKNAME = G.NICKNAME) A
-		 WHERE A.NICKNAME = #{nickname}
+		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.HIT, A.LANG, A.STUD_DATE
+  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, Z.STUD_NO, S.NICKNAME, S.TITLE, S.CONTENT, S.HIT, S.LANG, S.STUD_DATE
+		  		  FROM S_ZZIM Z RIGHT OUTER JOIN S_GROUP S
+		    		ON Z.STUD_NO = S.STUD_NO
+		 		 WHERE Z.NICKNAME = #{nickname}) A
+<!--  		 WHERE A.STUD_NO = #{studNo}; -->
 	</select>
 	
 	<delete id="deleteZzimList" parameterType="List">
