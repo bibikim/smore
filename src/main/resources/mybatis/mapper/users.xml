@@ -50,16 +50,9 @@
 		INSERT INTO USERS
 			(ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
 		VALUES
-			(#{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, NULL, NULL, NULL, NULL, NULL, #{agreeCode}, NULL, NOW(), NOW(), NOW(), NULL, NULL, 0, 1)
+			(#{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, NULL, NULL, NULL, NULL, NULL, #{agreeCode}, #{snsType}, NOW(), NOW(), NOW(), NULL, NULL, 0, 1)
 	</insert>
 	
-	<!-- 카카오 회원가입 -->
-	<insert id="insertKakaoUser" parameterType="UserDTO">
-		INSERT INTO USERS
-			(ID, NICKNAME, PW, NAME, GRADE, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE, BLACK_CNT, USER_STATE)
-		VALUES
-			(#{id}, #{nickname}, #{pw}, #{name}, 2, #{gender}, #{email}, #{mobile}, #{birthyear}, #{birthday}, NULL, NULL, NULL, NULL, NULL, #{agreeCode}, NULL, NOW(), NOW(), NOW(), NULL, NULL, 0, 1)
-	</insert>
    
 	<!-- 로그인 기록(ACCESS_LOG) 남기기 -->
 	<update id="updateAccessLog" parameterType="String">

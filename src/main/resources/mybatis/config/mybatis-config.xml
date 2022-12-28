@@ -24,10 +24,14 @@
 		<typeAlias type="com.gdu.smore.domain.study.StudyGroupDTO" alias="StudyGroupDTO"/>
 		<typeAlias type="com.gdu.smore.domain.study.StudyMemberDTO" alias="StudyStudyMemberDTO"/>
 		<typeAlias type="com.gdu.smore.domain.study.StudyZzimDTO" alias="StudyZzimDTO"/>
+
 		
 		<!-- 신고목록 -->
 		<typeAlias type="com.gdu.smore.domain.redbell.CmtRedbellDTO" alias="CmtRedbellDTO"/>
 		<typeAlias type="com.gdu.smore.domain.redbell.GrpRedbellDTO" alias="GrpRedbellDTO"/>
+		
+		<!-- 전체게시판 -->
+		<typeAlias type="com.gdu.smore.domain.AllBoardDTO" alias="AllBoardDTO"/>
 		
 		<!-- qna 게시판 -->
 		<typeAlias type="com.gdu.smore.domain.qna.QnaBoardDTO" alias="QnaBoardDTO"/>

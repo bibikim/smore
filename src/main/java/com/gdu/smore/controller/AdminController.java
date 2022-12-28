@@ -107,7 +107,7 @@ public class AdminController {
 	@GetMapping(value="/boards/search/page{page}", produces = "application/json")
 	public Map<String, Object> searchFreeBoard(HttpServletRequest request, @PathVariable(value="page", required = false) Optional<String> opt){
 		int page = Integer.parseInt(opt.orElse("1"));
-		return adminService.findFreeBoard(request, page);
+		return adminService.findBoards(request, page);
 	}
 
 	

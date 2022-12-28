@@ -9,6 +9,8 @@
 
 <style>
 
+
+
 /* 페이징 */
 #paging  {
 	font-size: 12px;
@@ -26,6 +28,10 @@
 
 .menu a{cursor:pointer;}
 .menu .hide{display:none;}
+
+input.remove_free1{
+	display: none;
+}
 
 input#btn_remove{
 	display: none;
@@ -90,13 +96,22 @@ input#btn_trans{
 <script>
 	$(function(){
 		fn_AlluserList();
+		fn_userList();
+		fn_sleepUserList();
 		fn_searchUserList();
-		fn_changePage();
+		fn_FreeBoardList();
+		fn_CodeList();
+		fn_StudyList();
+		fn_QnaList();
+		fn_changePage(); 
+    	fn_changePage2();
+    	fn_changePage3();
+    	fn_changePage4();
+    	fn_changePage5();
+    	fn_changePage6();
+    	fn_changePage7();
     	fn_searchBoardList();
     	fn_inputShow();	
-    	
-
-    	 	
 	    // html dom 이 다 로딩된 후 실행된다.
 	    $(document).ready(function(){
 	        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -126,12 +141,7 @@ input#btn_trans{
 	    	$('#form2').hide();
 	    	$('#form1').show();	    	
 	    });
-	    
-
-	    
-	    
-	    
-	    
+	    	    
 		// 유저 검색창 
 		$('#area1, #area2').css('display', 'none');
 		$('#column').change(function(){
@@ -239,47 +249,46 @@ input#btn_trans{
 					tr += '<td>' + user.userDTO.joinDate + '</td>'; 
 					tr += '<td>' + user.userDTO.accessLogDTO.lastLoginDate + '</td>'; 
 					tr += '<td>' + user.userDTO.infoModifyDate + '</td>'; 
-					/*  tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : '휴면회원') + '</td>';  */
 					tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
 					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + user.userNo + '"</td>';
 					tr += '</tr>';
 					$('#user_list').append(tr);
 				});
 				// 페이징
-				$('#paging').empty();
-				var naverPageUtil = resData.naverPageUtil;
+ 				$('#paging').empty();
+ 				var naverPageUtil = resData.naverPageUtil;
 				var paging = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
 						paging += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);								
+				$('#paging').append(paging);						
 			}
 		});
 		
 	}	
 	
 	function fn_changePage(){
-		$(document).on('click', '.lnk_enable2', function(){
+		$(document).on('click', '.lnk_enable', function(){
 			page = $(this).data('page');
 			fn_AlluserList();
 		});
-	}
-	
+	}	
+		
 	
 	function fn_userList(){
 		$.ajax({
@@ -321,34 +330,34 @@ input#btn_trans{
 				});
 				// 페이징
  				$('#paging').empty();
-				var naverPageUtil = resData.naverPageUtil;
+ 				var naverPageUtil = resData.naverPageUtil;
 				var paging2 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging2 += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging2 += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
 						paging2 += '<strong>' + p + '</strong>';
 					} else {
-						paging2 += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging2 += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging2 += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging2 += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging2 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging2);	 
+				$('#paging').append(paging2);	  
 			}
 		});
 		
 	}
 	
 	function fn_changePage2(){
-		$(document).on('click', '.lnk_enable', function(){
+		$(document).on('click', '.lnk_enable2', function(){
 			page = $(this).data('page');
 			fn_userList();
 		});
@@ -389,30 +398,37 @@ input#btn_trans{
 				// 페이징
 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
-				var paging = '<div>';
+				var paging3 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging3 += '<span class="lnk_enable3" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
-						paging += '<strong>' + p + '</strong>';
+						paging3 += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging3 += '<span class="lnk_enable3" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging3 += '<span class="lnk_enable3" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
-				paging += '</div>';
+				paging3 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);	
+				$('#paging').append(paging3);	
 			}
 		});
 		
 	}
+	
+	function fn_changePage3(){
+		$(document).on('click', '.lnk_enable3', function(){
+			page = $(this).data('page');
+			fn_sleepUserList();
+		});
+	}	
 	
 	
   	function fn_reportList(){
@@ -537,32 +553,32 @@ input#btn_trans{
 				// 페이징
 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
-				var paging = '<div>';
+				var paging4 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging4 += '<span class="lnk_enable4" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
-						paging += '<strong>' + p + '</strong>';
+						paging4 += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging4 += '<span class="lnk_enable4" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging4 += '<span class="lnk_enable4" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
-				paging += '</div>';
+				paging4 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);	
+				$('#paging').append(paging4);	
 			}
 		});		
 	}
 
-	function fn_changePage3(){
-		$(document).on('click', '.lnk_enable', function(){
+	function fn_changePage4(){
+		$(document).on('click', '.lnk_enable4', function(){
 			page = $(this).data('page');
 			fn_FreeBoardList();
 		});
@@ -574,7 +590,6 @@ input#btn_trans{
 			url : '/studyList/page' + page,
 			dataType : 'json',
 			success : function(resData){
-				console.log('받음');
 				$('#head_list').empty();
 				$('#user_list').empty();
 				 var tr = '<tr>';
@@ -605,22 +620,22 @@ input#btn_trans{
 				// 페이징
 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
-				var paging = '<div>';
+				var paging5 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging5 += '<span class="lnk_enable5" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
-						paging += '<strong>' + p + '</strong>';
+						paging5 += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging5 += '<span class="lnk_enable5" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging5 += '<span class="lnk_enable5" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging += '</div>';
 				// 페이징 표시
@@ -628,6 +643,14 @@ input#btn_trans{
 			}
 		});		
 	}
+	
+	function fn_changePage5(){
+		$(document).on('click', '.lnk_enable5', function(){
+			page = $(this).data('page');
+			fn_StudyList();
+		});
+	}
+	
 	
 	function fn_CodeList(){
 		$.ajax({
@@ -665,27 +688,34 @@ input#btn_trans{
 				// 페이징
 				$('#paging').empty();
 				var naverPageUtil = resData.naverPageUtil;
-				var paging = '<div>';
+				var paging6 = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging6 += '<span class="lnk_enable6" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
-						paging += '<strong>' + p + '</strong>';
+						paging6 += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging6 += '<span class="lnk_enable6" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging6 += '<span class="lnk_enable6" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);	
+				$('#paging').append(paging6);	
 			}
+		});
+	}
+	
+	function fn_changePage6(){
+		$(document).on('click', '.lnk_enable6', function(){
+			page = $(this).data('page');
+			fn_CodeList();
 		});
 	}
 	
@@ -730,27 +760,35 @@ input#btn_trans{
 				var paging = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging7 += '<span class="lnk_enable7" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
-						paging += '<strong>' + p + '</strong>';
+						paging7 += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable" data-page="'+ p +'">' + p + '</span>';
+						paging7 += '<span class="lnk_enable7" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging7 += '<span class="lnk_enable7" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
-				paging += '</div>';
+				paging7 += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);	
+				$('#paging').append(paging7);	
 			}
 		});
 	}
 			
+	function fn_changePage7(){
+		$(document).on('click', '.lnk_enable7', function(){
+			page = $(this).data('page');
+			fn_QnaList();
+		});
+	}
+	
+	
  	function fn_searchUserList(){
 		$('#btn_userSearch').click(function(e){
  			if($('#query').val() == ''){
@@ -775,7 +813,7 @@ input#btn_trans{
 					tr += '<th scope="col">' + '가입일' + '</th>';
 					tr += '<th scope="col">' + '마지막접속일' + '</th>';
 					tr += '<th scope="col">' + '회원상태' + '</th>';
-					tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
+					/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
 					tr += '</tr>';
 					$('#head_list').append(tr); 
 					if(resData.status == 200){
@@ -794,108 +832,186 @@ input#btn_trans{
 					} else if(resData.status == 500){
 						alert('검색결과가 없습니다.');
 					}
+		
 					// 페이징
 					$('#paging').empty();
 					var naverPageUtil = resData.naverPageUtil;
-					var paging = '<div>';
+					var paging8 = '<div>';
 					// 이전 페이지
 					if(page != 1) {
-						paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+						paging8 += '<span class="lnk_enable8" data-page="' + (page - 1) + '">&lt;이전</span>';
 					}
 					// 페이지번호
 					for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 						if(p == page){
-							paging += '<strong>' + p + '</strong>';
+							paging8 += '<strong>' + p + '</strong>';
 						} else {
-							paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+							paging8 += '<span class="lnk_enable8" data-page="'+ p +'">' + p + '</span>';
 						}
 					}
 					// 다음 페이지
 					if(page != naverPageUtil.totalPage){
-						paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+						paging8 += '<span class="lnk_enable8" data-page="'+ (page + 1) +'">다음&gt;</span>';
 					}
-					paging += '</div>';
+					paging8 += '</div>';
 					// 페이징 표시
-					$('#paging').append(paging);	
+					$('#paging').append(paging8);	
 				}
 			});
 		});		
 	}	 
-	
+		
+	function fn_changePage8(){
+		$(document).on('click', '.lnk_enable8', function(){
+			page = $(this).data('page');
+			fn_searchUserList();
+		});
+	}
+ 	
  	
  	function fn_searchBoardList(){
 		$('#btn_searchBoard').click(function(e){
- 			if($('#query2').val() == ''){
+  			if($('#query2').val() == ''){
 				alert('검색어를 입력해주세요.');
 				e.preventDefault();
 				return;
-			} 
-			$.ajax({
-				type : 'get',
-				url : '/boards/search/page' + page,
-				data : $('#frm_searchboard').serialize(),
-				dataType : 'json',
-				success : function(resData){
-					$('#head_list').empty();
-					$('#user_list').empty();				
-					var tr = '<tr>';
-					tr += '<th scope="col">' + '#' + '</th>';
-					tr += '<th scope="col">' + '닉네임' + '</th>';
-					tr += '<th scope="col">' + '제목' + '</th>';
-					tr += '<th scope="col">' + '작성일' + '</th>';
-					tr += '<th scope="col">' + '수정일' + '</th>';
-					tr += '<th scope="col">' + '조회수' + '</th>';
-					tr += '<th scope="col">' + '작성자 IP' + '</th>';
-					tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
-					tr += '</tr>';
-					$('#head_list').append(tr); 
-					if(resData.status == 200){
-						$.each(resData.boards, function(i, board){
+			}  
+		$.ajax({
+			type : 'get',
+			url : '/boards/search/page' + page,
+			data : $('#frm_searchboard').serialize(),
+			dataType : 'json',
+			success : function(resData){
+				$('#head_list').empty();
+				$('#user_list').empty();
+				var tr = '<tr>';
+				tr += '<th scope="col">' + '#' + '</th>';
+				tr += '<th scope="col">' + '닉네임' + '</th>';
+				tr += '<th scope="col">' + '제목' + '</th>';
+				tr += '<th scope="col">' + '작성일' + '</th>';
+				tr += '<th scope="col">' + '수정일' + '</th>';
+				tr += '<th scope="col">' + '조회수' + '</th>';
+				tr += '<th scope="col">' + '작성자 IP' + '</th>';
+				tr += '<th scope="col">' + '삭제' + '</th>'
+				tr += '</tr>';
+				$('#head_list').append(tr); 
+				if(resData.status == 200){
+					$.each(resData.boards, function(i, board){
+						if(board.freeNo != 0){
 							$('<tr>')
 							.append( $('<td>').text(board.rowNum))
 							.append( $('<td>').text(board.nickname))
-							.append( $('<td>').text(board.title))
+							/* tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.qaNo + '"></td>'; */
+							.append( $('<td>').html('<a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a>'))
 							.append( $('<td>').text(board.createDate))
 							.append( $('<td>').text(board.modifyDate))
 							.append( $('<td>').text(board.hit))
 							.append( $('<td>').text(board.ip))
+							/* .append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<input type="button" class="remove_free" value="' + board.freeNo + '">' + '<label for="remove_free"><i class="fa-solid fa-trash"></i></label>')) */
+							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_free"><i class="fa-solid fa-trash"></i></a>' + '<input type="button" class="remove_free1" value="' + board.freeNo + '">'))
 							.appendTo('#user_list');
-						});
-					} else if(resData.status == 500){
-						alert(resData.message);
-					}
-					// 페이징
-					$('#paging').empty();
-					var naverPageUtil = resData.naverPageUtil;
-					var paging = '<div>';
-					// 이전 페이지
-					if(page != 1) {
-						paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
-					}
-					// 페이지번호
-					for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
-						if(p == page){
-							paging += '<strong>' + p + '</strong>';
-						} else {
-							paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+				 			console.log($('.remove_free1').val());
 						}
+						if(board.coNo != 0){
+							$('<tr>')
+							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.nickname))
+							.append( $('<td>').html('<a href="/code/detail?coNo=' + board.coNo + '">' + board.title   + '</a>'))
+							.append( $('<td>').text(board.createDate))
+							.append( $('<td>').text(board.modifyDate))
+							.append( $('<td>').text(board.hit))
+							.append( $('<td>').text(board.ip))
+							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_code"><i class="fa-solid fa-trash"></i></a>' + '<input type="button" class="remove_free" value="' + board.freeNo + '">'))
+							.appendTo('#user_list');
+						}
+						if(board.qaNo != 0){
+							$('<tr>')
+							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.nickname))
+							.append( $('<td>').html('<a href="/qna/detail?qaNo=' + board.qaNo + '">' + board.title   + '</a>'))
+							.append( $('<td>').text(board.createDate))
+							.append( $('<td>').text(board.modifyDate))
+							.append( $('<td>').text(board.hit))
+							.append( $('<td>').text(board.ip))
+							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_qna"><i class="fa-solid fa-trash"></i></a>'))
+							.appendTo('#user_list');
+						}
+						if(board.studNo != 0){
+							$('<tr>')
+							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.nickname))
+							.append( $('<td>').html('<a href="/study/detail?studNo=' + board.studNo + '">' + board.title   + '</a>'))
+							.append( $('<td>').text(board.createDate))
+							.append( $('<td>').text(board.modifyDate))
+							.append( $('<td>').text(board.hit))
+							.append( $('<td>').text(board.ip))
+							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_study"><i class="fa-solid fa-trash"></i></a>'))
+							.appendTo('#user_list');
+						} 
+					});				
+				} else if(resData.status == 500){
+					alert(resData.message);
+				}
+				// 페이징
+				$('#paging').empty();
+				var naverPageUtil = resData.naverPageUtil;
+				var paging = '<div>';
+				// 이전 페이지
+				if(page != 1) {
+					paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+				}
+				// 페이지번호
+				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
+					if(p == page){
+						paging += '<strong>' + p + '</strong>';
+					} else {
+						paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
 					}
-					// 다음 페이지
-					if(page != naverPageUtil.totalPage){
-						paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
-					}
-					paging += '</div>';
-					// 페이징 표시
-					$('#paging').append(paging);	
+				}
+				// 다음 페이지
+				if(page != naverPageUtil.totalPage){
+					paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+				}
+				paging += '</div>';
+				// 페이징 표시
+				$('#paging').append(paging);
+			}
+		});
+		});		
+	}
+ 	
+ 	
+ 	
+/*  	function fn_removeFree(){
+ 		$('remove_free').click(function(e){
+ 			if(confirm('해당 게시물을 삭제하시겠습니까?')){
+ 				$.ajax({
+ 					type : 'post',
+ 					url : '/free/freemove',
+ 					dataType : 'json',
+ 					
+ 				}); // ajax
+ 			}
+ 		}); // 
+ 	} */
+ 	
+	$(document).on('click', '.remove_free', function(e){
+		if(confirm('해당 게시글을 삭제할까요?')){
+			freeNo = $('.remove_free1').val();
+			$.ajax({
+				type : 'delete',
+				url : '/freeremove' + freeNo,
+				dataType : 'json',
+				success : function(resData){
+					
 				}
 			});
-		});		
-	}	 
+		}
+	});
  	
  	
  	
-	
-	
+ 	
   	// 일반회원 다중탈퇴
 	$(document).on('click','.btn_userRemove',function(){			
 		if(confirm('선택한 회원을 탈퇴시킬까요?')){						
@@ -1075,7 +1191,7 @@ input#btn_trans{
      
 	<div id="form1">
 		<form id="frm_searchUser">
-			<div >
+			<div>
 				<select id="column" name="column">
 					<option value="">:::선택:::</option>
 					<option value="ID">ID</option>
@@ -1145,7 +1261,7 @@ input#btn_trans{
 			let combo = $(this);
 			if(combo.val() == 'CREATE_DATE'){
 				$('#area4').hide();
-				$('#area5').hide();
+				$('#area5').show();
 			} else {
 				$('#area4').show();
 				$('#area5').hide();
@@ -1153,8 +1269,7 @@ input#btn_trans{
 		});
 	};
 	</script>
-	
-	
+		
    </div>			
 
 	<div style="margin-left:225px;">	
@@ -1166,15 +1281,12 @@ input#btn_trans{
 			<tfoot>
 				<tr>
 					<td colspan="10">
-						<div id="paging">${paging}</div>						
+						<div id="paging"></div>						
 					</td>
 				</tr>
 			</tfoot>
 		</table>
 	</div>
-
-	
-
 
 </body>
 </html>
