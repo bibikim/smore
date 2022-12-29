@@ -50,9 +50,10 @@
 				$('.wido').val('37.513272317072') && $('.gdo').val('127.09431687965');
 			}
 		});
-	
+		
 	});
 	
+	/*
 	function getLocation() {
 		if (navigator.geolocation) { // GPS를 지원하면
 			navigator.geolocation.getCurrentPosition(function(position) {
@@ -70,6 +71,7 @@
 				alert('GPS를 지원하지 않습니다');
 			}
  		}
+	*/
 	// getLocation();
 	
 	/*
@@ -171,14 +173,6 @@
                <label for="both">상관없음</label>
 		</div>
 		
-		
-		
-		
-		
-		
-		
-		
-		
 		<div>
 			<label for="region">지역</label>
 			
@@ -197,22 +191,7 @@
 				<label for="gdo" class="gdo"></label>
 				<input type="hidden" class = "gdo" name="gdo" id="gdo" value="">		
 			</div>
-			<!-- 
-			<div class="부산" id="region">
-				<label for="wido"></label>
-				<input type="hidden" name="wido" id="wido" value="35.1795543">	
-				<label for="gdo"></label>
-				<input type="hidden" name="gdo" id="gdo" value="129.0756416">		
-			</div>			
-			 -->
-			<!-- 
-			<c:if test="${study.region == '서울'}">
-				<label for="wido"></label>
-				<input type="hidden" name="wido" id="wido" value="37.566535">	
-				<label for="gdo"></label>
-				<input type="hidden" name="gdo" id="gdo" value="126.9779692">
-			</c:if>
-			 -->	
+
 		</div>
 		
 		
@@ -239,17 +218,17 @@
 				<option value = "4" >4</option>
 			</select>
 		</div>
-		<!-- 
+
 		<div>
 			<label for="studDate">시작예정일자</label>
-			<select id="year" name="year" class="form-control">
+			<select id="year" name= "studDate" class="form-control">
 			  <option value="year">년</option>
 			  <c:forEach var="i" begin="2020" end="2030">
 			    <option value="${i}">${i}</option>
 			  </c:forEach>
 			</select>
 			  
-			<select id="month" name="month" class="form-control">
+			<select id="month" class="form-control">
 			  <option value="month">월</option>
 			  <c:forEach var="i" begin="1" end="12">
 			  <c:choose>
@@ -263,7 +242,7 @@
 			  </c:forEach>
 			</select>
 			  
-			<select id="day" name="day" class="form-control">
+			<select id="day" class="form-control">
 			  <option value="day">일</option>
 			  <c:forEach var="i" begin="1" end="31">
 			  <c:choose>
@@ -278,7 +257,6 @@
 			</select>
 			
 		</div>
-		 -->
 
 				
 		<div>
@@ -295,14 +273,6 @@
 			<input type="reset" value="입력초기화">
 			<input type="button" value="목록" id="btn_list" onclick="location.href='/';">
 		</div>
-		<!-- 
-		<div>
-			<label for="wido"></label>
-			<input type="hidden" name="wido" id="wido" value="wido">	
-			<label for="gdo"></label>
-			<input type="hidden" name="gdo" id="gdo" value="gdo">	
-		</div>
-		 -->
 		
 	</form>
 	

@@ -144,5 +144,10 @@ public class StudyController {
 		return "study/location";
 	}
 	
+	@GetMapping("/study/css")
+	public String css() {
+		return "study/css";
+	}
+	
 }
 

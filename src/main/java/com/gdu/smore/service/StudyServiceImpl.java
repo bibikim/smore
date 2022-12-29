@@ -78,6 +78,7 @@ public class StudyServiceImpl implements StudyService {
 		String lang = request.getParameter("lang");
 		String people = request.getParameter("people");
 		String contact = request.getParameter("contact");
+		String studDate = request.getParameter("studDate");
 
 		// 작성자의 ip
 		// 작성된 내용이 어딘가를 경유해서 도착하면 원래 ip가 X-Forwarded-For라는 요청헤더에 저장된다.
@@ -106,6 +107,7 @@ public class StudyServiceImpl implements StudyService {
 				.people(people)
 				.contact(contact)
 				.ip(ip)
+				.studDate(studDate)
 				.build();
 		
 		// DB에 Study 저장
