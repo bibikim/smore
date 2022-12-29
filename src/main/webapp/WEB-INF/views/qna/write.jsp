@@ -29,7 +29,7 @@
 		var _html = '<c:out value="${question.content}"/>';
 		$('#content').summernote('code', _html);
 		
-		$('#content').summernote('pasteHTML', _html);
+		//$('#content').summernote('pasteHTML', _html);
 		
 		// summernote
 		$('#content').summernote({
@@ -52,6 +52,8 @@
 		$('#btn_list').click(function(){
 			location.href='/qna/list';	
 		});
+		
+		
 		
 		$('#frm_write').submit(function(ev){
 			if($('#title').val() == '') {
