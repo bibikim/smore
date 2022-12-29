@@ -50,7 +50,6 @@
 						$.ajax({
 							// 2번 참조 
 							type: 'post',
-							// 등록할떄 테이블 두곳에 데이터 넣어야 할듯 지금 몇개 넣어 몇개 넣었냐고 몇개넣으라고? ㄴㄴ 너가 등록 했짜나 ㅇㅇ 어느테이블에 들어감 ? 여긴가 
 							url: '/code/uploadImage',
 							// 위에서 생성한 formData 를 /code/uploadImage 컨트롤러에 전달 
 							data: formData,
@@ -58,7 +57,7 @@
 							processData: false,
 							dataType: 'json',
 							success: function(resData) {
-								// 아나는 저기 리소스에 폴더따로 만들자고 한줄 임플쪾 소스만 바꾸면됨 
+								// 아나는 저기 리소스에 폴더따로 만들자고 한줄 임플쪽 소스만 바꾸기 
 								$('#content').summernote('insertImage', resData.src);
 								$('#sumnote_image_list').append($('<input type="hidden" name="cImageNames" value="' + resData.filesystem + '">'));
 								//console.log(resData);

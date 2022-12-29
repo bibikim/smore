@@ -1,6 +1,5 @@
 package com.gdu.smore.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.gdu.smore.domain.free.FreeBoardDTO;
-import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.service.FreeService;
 
 @Controller

@@ -3,68 +3,97 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="/resources/css/base.css">
+
 
 
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="코드게시판" name="title"/>
 </jsp:include>
 <style>
-	* {
-		box-sizing: border-box;
-	}
-	
-	table {
-		margin-left: auto;
-		margin-right: auto;
-	}
-	
-	th {
-		padding: 5px;
-		border-top: 1px solid silver;
-		border-bottom: 1px solid silver;
-		text-align: center;
-	}
-	
-	td:nth-of-type(1) { width: 100px; }
-	td:nth-of-type(2) { width: 500px; }
-	td:nth-of-type(3) { width: 200px; }
-	td:nth-of-type(4) { width: 100px; }
-	
-	#align {
-		text-align: center;
-	}
-	
-	.ul-paging{
-	list-style:none;
-	float:left;
-	display:inline;
-	}
-	
-	.li-page {
-	    float: left;
-	    margin-right: 20px;
-	}
-	
-	.li-page a {
-		float:left;
-		padding:4px;
-		margin-right:3px;
-		width:15px;
-		color:#000;
-		font:bold 12px tahoma;
-		border:1px solid #eee;
-		text-align:center;
-		text-decoration:none;
-	}
-	
-	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
-		color:#fff;
-		border:1px solid #1e90ff;
-		background-color:#1e90ff;
-	}
-		
+	body {
+  padding:1.5em;
+  background: #f5f5f5
+}
+
+table {
+  border: 1px #a39485 solid;
+  font-size: .9em;
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+th {
+  text-align: left;
+}
+  
+thead {
+  font-weight: bold;
+  color: #fff;
+  background: #73685d;
+}
+  
+ td, th {
+  padding: 1em .5em;
+  vertical-align: middle;
+}
+  
+ td {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  background: #fff;
+}
+
+a {
+  color: #73685d;
+}
+  
+ @media all and (max-width: 768px) {
+    
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  th {
+    text-align: right;
+  }
+  
+  table {
+    position: relative; 
+    padding-bottom: 0;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+  }
+  
+  thead {
+    float: left;
+    white-space: nowrap;
+  }
+  
+  tbody {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    white-space: nowrap;
+  }
+  
+  tr {
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  th {
+    border-bottom: 1px solid #a39485;
+  }
+  
+  td {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  
+  }
 	
 </style>
 <script>

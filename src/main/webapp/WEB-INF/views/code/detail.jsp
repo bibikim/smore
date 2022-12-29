@@ -405,12 +405,12 @@
 			<c:forEach items="${attachList}" var="attach">
 				<div>
 					<a
-						href="${contextPath}/upload/download?attachNo=${attach.attachNo}">${attach.origin}</a>
+						href="/upload/download?attachNo=${attach.attachNo}">${attach.origin}</a>
 				</div>
 			</c:forEach>
 			<br>
 			<div>
-				<a href="${contextPath}/upload/downloadAll?coNo=${upload.coNo}">ZIP
+				<a href="/upload/downloadAll?coNo=${upload.coNo}">ZIP
 					다운로드</a>
 			</div>
 		</div>

@@ -88,7 +88,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		// 페이징 처리
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/code/list"));
+		model.addAttribute("paging", pageUtil.getPaging("/code/list"));
 				
 		// 게시글 목록
 		List<CodeBoardDTO> code = codeboardMapper.selectCodeBoardListByMap(map);
@@ -128,7 +128,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 				}
 				
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("src", mRequest.getContextPath() + "/load/image/" + filesystem);
+				map.put("src",  "/load/image/" + filesystem);
 				map.put("filesystem", filesystem);
 				
 				return map;
