@@ -12,20 +12,23 @@
 		 WHERE STUD_NO = #{studNo} AND STATE = 1
 	</select>
 	
+
 	<select id="selectCommentList" parameterType="Map" resultType="StudyCommentDTO">
-		SELECT A.ROW_NUM, A.CMT_NO, A.STUD_NO, A.NICKNAME, A.CMT_CONTENT, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE DESC) AS ROW_NUM, CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
-		          FROM S_CMT
-		         WHERE STUD_NO = #{studNo}) A
-		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+		
+		SELECT S.RN, S.CMT_NO, S.STUD_NO, S.NICKNAME, S.CMT_CONTENT, S.CREATE_DATE, S.STATE, S.DEPTH, S.GROUP_NO, S.IP
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
+		   	      FROM S_CMT
+			     WHERE STUD_NO = #{studNo}) S
+	     LIMIT #{begin}, #{recordPerPage}
+		 <!-- WHERE C.RN BETWEEN #{begin} AND #{end} -->
 	</select>
 	
 	<insert id="insertStudycmt" parameterType="StudyCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
 		INSERT INTO S_CMT
-			(STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, IP , GROUP_NO)
-		VALUES
-			(#{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{ip}, #{groupNo})
-	</insert>	
+			(STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, IP, GROUP_NO)
+		  VALUES
+		  	(#{studNo}, #{nickname}, #{cmtContent}, NOW(), 1, 0, #{ip}, 0)
+	</insert>
 
 <!-- 댓삭 -->
 	<update id="deleteComment" parameterType="int">
@@ -44,7 +47,7 @@
 	
 	<!-- 댓글계층 -->
 	<!-- 댓글이 삽입될 때(saveComment())마다 그때 insert된 group_no에 +1을 해줌. saveComment에서 update, insert 동시에 -->
-    <update id="updateGroupNo" parameterType="FreeCommentDTO">
+    <update id="updateGroupNo" parameterType="StudyCommentDTO">
 		UPDATE S_CMT
 		   SET GROUP_NO = LAST_INSERT_ID(GROUP_NO + 1)
 	</update>

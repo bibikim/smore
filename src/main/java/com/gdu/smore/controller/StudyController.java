@@ -85,8 +85,8 @@ public class StudyController {
 	
 	
 	@ResponseBody
-	@GetMapping(value="/study/comment/getCount", produces="application/json")
-	public Map<String, Object> getCount(@RequestParam("studNo") int studNo) {
+	@GetMapping(value = "/study/comment/getcnt", produces = "application/json")
+	public Map<String, Object> getCnt(@RequestParam("studNo") int studNo) {
 		return studyService.getCmtCnt(studNo);
 	}
 	
@@ -97,11 +97,12 @@ public class StudyController {
 		return studyService.getCmtList(request);
 	}
 	
-	@ResponseBody
-	@PostMapping(value="/study/comment/add", produces="application/json")
-	public Map<String, Object> save(HttpServletRequest request) {
-		return studyService.saveComment(request);
-	}
+	 @ResponseBody
+
+	 @PostMapping(value = "/study/comment/add", produces = "application/json")
+	 public Map<String, Object> requiredLogin_saveCmt(StudyCommentDTO comment) { 
+		 return studyService.saveComment(comment);
+	 }
 	
 	@ResponseBody
 	@PostMapping(value = "/study/comment/remove", produces = "application/json")
@@ -116,32 +117,21 @@ public class StudyController {
 	}	
 	
 	@ResponseBody	
-	@GetMapping(value="/study/getZCheck", produces="application/json")
-	public Map<String, Object> getZCheck(HttpServletRequest request) {
-		return studyService.getZCheck(request);
+	@GetMapping(value="/study/likeCheck", produces="application/json")
+	public Map<String, Object> getLikeCheck(HttpServletRequest request) {
+		return studyService.getLikeCheck(request);
 	}
 	
 	@ResponseBody	
-	@GetMapping(value="/study/getZCount", produces="application/json")
+	@GetMapping(value="/study/likeCnt", produces="application/json")
 	public Map<String, Object> getZCount(int studNo) {
-		return studyService.getZCount(studNo);
+		return studyService.getLikeCount(studNo);
 	}
 	
 	@ResponseBody	
 	@GetMapping(value="/study/mark", produces="application/json")
 	public Map<String, Object> mark(HttpServletRequest request) {
 		return studyService.mark(request);
-	}
-	
-
-	@GetMapping("/study/map")
-	public String map() {
-		return "study/map";
-	}
-
-	@GetMapping("/study/location")
-	public String location() {
-		return "study/location";
 	}
 	
 	@GetMapping("/study/css")

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 
-import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 
@@ -25,12 +24,12 @@ public interface StudyService {
 	
 	// jsp에서 ajax 처리하기 위해 map으로 반환. map으로 반환하면 jackson이 json형태를 map으로 잘 바꿔주니까!
 	public Map<String, Object> getCmtCnt(int studNo);
-	public Map<String, Object> saveComment(HttpServletRequest request);
+	public Map<String, Object> saveComment(StudyCommentDTO comment);
 	public Map<String, Object> getCmtList(HttpServletRequest request);  // fNo, page 다 받아오기 위해서 request를 받아옴
 	public Map<String, Object> removeComment(int cmtNo);
 	public Map<String, Object> saveRecomment(StudyCommentDTO recomment);
 	
-	public Map<String, Object> getZCheck(HttpServletRequest request);
-	public Map<String, Object> getZCount(int studNo);
+	public Map<String, Object> getLikeCheck(HttpServletRequest request);
+	public Map<String, Object> getLikeCount(int studNo);
 	public Map<String, Object> mark(HttpServletRequest request);
 }

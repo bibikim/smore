@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.study.StudyCommentDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 import com.gdu.smore.domain.user.UserDTO;
@@ -243,7 +242,7 @@ public class StudyServiceImpl implements StudyService {
 				*/
 				
 				out.println("alert('삭제 성공');");
-				out.println("location.href='" + request.getContextPath() + "/study/list';");
+				out.println("location.href='/';");
 			} else {
 				out.println("alert('삭제 실패');");
 				out.println("history.back();");
@@ -294,7 +293,7 @@ public class StudyServiceImpl implements StudyService {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("commentCnt",  studyMapper.selectCommentCnt(studNo));  // 키, 값 
-		
+		System.out.println(result);
 		return result;
 	}
 	
@@ -315,35 +314,42 @@ public class StudyServiceImpl implements StudyService {
 		map.put("begin", pageUtil.getBegin() - 1);
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
-		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("commentList", studyMapper.selectCommentList(map));
-		System.out.println("result" + result);
+		result.put("cmtList", studyMapper.selectCommentList(map));
 		result.put("pageUtil", pageUtil);  // pageUtil은 왜 Map에 넣는걸까?
 		
 		return result;
 	}
 
+	@Transactional
 	@Override
-	public Map<String, Object> saveComment(HttpServletRequest request) {
+	public Map<String, Object> saveComment(StudyCommentDTO comment) {
 		
-		String content = request.getParameter("content");
-		int studNo = Integer.parseInt(request.getParameter("studNo"));
-		String nickname = request.getParameter("nickname");
-		Optional<String> opt = Optional.ofNullable(request.getHeader("X-Forwarded-For"));
-		String ip = opt.orElse(request.getRemoteAddr());
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+		 
+		 int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+		 comment.setGroupNo(groupNo);
+		 comment.setNickname(loginUser.getNickname());
+		 // 원댓 group_no
+		 
+		 
+		 StudyCommentDTO cmt2 = StudyCommentDTO.builder() 
+		//		 .cmtNo(cmtNo)
+				 .groupNo(groupNo)
+				 .build();
+		 
+		 studyMapper.updateGroupNo(cmt2);
 		
-		StudyCommentDTO comment = StudyCommentDTO.builder()
-				.cmtContent(content)
-				.studNo(studNo)
-				.nickname(nickname)
-				.ip(ip)
-				.build();
+		 
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAdd", studyMapper.insertStudycmt(comment) == 1);
-		return result;
+		result.put("isSave", studyMapper.insertStudycmt(comment) == 1);
+					// insert 결과가 1이면 true, 아니면 false 반환
+	
 		
+		return result;
 	}
 	
 	@Override
@@ -363,16 +369,6 @@ public class StudyServiceImpl implements StudyService {
 		recomment.setNickname(loginUser.getNickname());
 		
 		
-		/*
-		 * int cmtNo = Integer.parseInt(request.getParameter("cmtNo")); int groupNo =
-		 * Integer.parseInt(request.getParameter("groupNo"));
-		 * 
-		 * FreeCommentDTO comment = FreeCommentDTO.builder() .cmtNo(cmtNo)
-		 * .groupNo(groupNo) .build();
-		 * 
-		 * cmtMapper.updateGroupNo(comment);
-		 */
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isSaveRe", studyMapper.insertRecomment(recomment) == 1);
 		return result;
@@ -381,21 +377,21 @@ public class StudyServiceImpl implements StudyService {
 	
 	// 좋아요
 	@Override
-	public Map<String, Object> getZCheck(HttpServletRequest request) {
+	public Map<String, Object> getLikeCheck(HttpServletRequest request) {
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		String nickname = request.getParameter("nickname");
 		Map<String, Object> map = new HashMap<>();
 		map.put("studNo", studNo);
 		map.put("nickname", nickname);
 		Map<String, Object> result = new HashMap<>();
-		result.put("count", studyMapper.selectNickZCount(map));
+		result.put("count", studyMapper.selectUserLikeCount(map));
 		return result;
 	}
 	
 	@Override
-	public Map<String, Object> getZCount(int studNo) {
+	public Map<String, Object> getLikeCount(int studNo) {
 		Map<String, Object> result = new HashMap<>();
-		result.put("count", studyMapper.selectStudZCount(studNo));
+		result.put("count", studyMapper.selectStudyLikeCount(studNo));
 		return result;
 	}
 	
@@ -407,10 +403,10 @@ public class StudyServiceImpl implements StudyService {
 		map.put("studNo", studNo);
 		map.put("nickname", nickname);
 		Map<String, Object> result = new HashMap<>();
-		if (studyMapper.selectNickZCount(map) == 0) {  // 해당 게시물의 "좋아요"를 처음 누른 상태
-			result.put("isSuccess",studyMapper.insertZ(map) == 1);  // 신규 삽입			
+		if (studyMapper.selectUserLikeCount(map) == 0) {  // 해당 게시물의 "좋아요"를 처음 누른 상태
+			result.put("isSuccess",studyMapper.insertLike(map) == 1);  // 신규 삽입			
 		} else {
-			result.put("isSuccess", studyMapper.deleteZ(map) == 1);  // 기존 정보 삭제		
+			result.put("isSuccess", studyMapper.deleteLike(map) == 1);  // 기존 정보 삭제		
 		}
 		return result;
 	}
