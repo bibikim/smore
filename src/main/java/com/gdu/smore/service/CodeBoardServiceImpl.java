@@ -110,7 +110,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		// 파라미터 files
 				MultipartFile mpFile = mRequest.getFile("file");
 				// 저장경로
-				String path = "c:" + File.separator + "summernoteImage";
+				String path = fileUtil.getSummernotePath();
 				// 저장할 파일명
 				String filesystem = fileUtil.getFilename(mpFile.getOriginalFilename());
 				
@@ -268,7 +268,11 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		if(cImageList != null && cImageList.isEmpty() == false) {
 			for(CodeImageDTO cImage : cImageList) {
 				if(code.getContent().contains(cImage.getFilesystem()) == false ) {
-					File file = new File("C:" + File.separator + "cImage", cImage.getFilesystem());
+					File file = new File(fileUtil.getSummernotePath(), cImage.getFilesystem());
+					if(file.exists()) {
+						file.delete();
+					}
+					codeboardMapper.deleteCodeImage(cImage.getFilesystem());
 				}
 			}
 		}
@@ -348,7 +352,7 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 				if(cImageList != null && cImageList.isEmpty() == false) {
 					
 					for(CodeImageDTO cImage : cImageList) {
-						File file = new File("c:" + File.separator + "cImage", cImage.getFilesystem());
+						File file = new File(fileUtil.getSummernotePath(), cImage.getFilesystem());
 						if(file.exists()) {
 							file.delete();
 						}
