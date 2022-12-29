@@ -431,8 +431,10 @@
 		<div style="width: 200px; display: inline-block;">
 			<form id="frm_btn" method="post">
 				<input type="hidden" name="studNo" value="${study.studNo}">
+			<c:if test="${loginUser.nickname == study.nickname}">
 				<input type="button" value="수정" class="btn_modify">
 				<input type="button" value="삭제" class="btn_remove">
+			</c:if>
 			</form>
 		</div>
 		<div style="width: 300px;">
