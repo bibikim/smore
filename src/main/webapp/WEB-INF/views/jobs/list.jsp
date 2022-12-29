@@ -8,6 +8,8 @@
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
+
+
 <style>
 
 	body
@@ -232,7 +234,7 @@
 					</c:if>
 					
  					<c:if test="${not empty jobList}">
-						<c:forEach items="${jobList}" var="job">
+						<c:forEach items="${jobList}" var="job" varStatus="vs">
 							<c:if test="${job.status == 0}">
 								<li>
 									<div style="margin: 20px 0 10px 0;">
@@ -240,6 +242,15 @@
 										<div style="margin: 10px 0 10px 18px;">
 											<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
 										</div>
+										
+										<!-- 찜 갯수 -->
+										<div>
+											<img src="../resources/images/f-bookmark.png" width="20px">
+										</div>
+										<div>
+											${zzimCnt[vs.index]}
+										</div>
+										
 										<div style="width:90%;">
 											<div class="li-bottom1">
 												<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
@@ -273,6 +284,12 @@
 											<div style="margin: 10px 0 10px 18px;">
 												<a class="a-title-a" href="#">${job.title}</a>
 											</div>
+											
+											<!-- 찜 갯수 -->
+											<div>
+												
+											</div>
+											
 											<div style="width:90%;">
 												<div class="li-bottom1">
 													<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>

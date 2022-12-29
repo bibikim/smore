@@ -9,60 +9,11 @@
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
+
+<link rel="stylesheet" type="text/css" href="../../../resources/css/freelist.css">
+
 <style>
-	* {
-		box-sizing: border-box;
-	}
-	
-	table {
-		margin-left: auto;
-		margin-right: auto;
-	}
-	
-	th {
-		padding: 5px;
-		border-top: 1px solid silver;
-		border-bottom: 1px solid silver;
-		text-align: center;
-	}
-	
-	th:nth-of-type(1) { width: 100px; }
-	th:nth-of-type(2) { width: 500px; }
-	th:nth-of-type(3) { width: 200px; }
-	th:nth-of-type(4) { width: 100px; }
-	
-	#align {
-		text-align: center;
-	}
-	
-	.ul-paging{
-	list-style:none;
-	float:left;
-	display:inline;
-	}
-	
-	.li-page {
-	    float: left;
-	    margin-right: 20px;
-	}
-	
-	.li-page a {
-		float:left;
-		padding:4px;
-		margin-right:3px;
-		width:15px;
-		color:#000;
-		font:bold 12px tahoma;
-		border:1px solid #eee;
-		text-align:center;
-		text-decoration:none;
-	}
-	
-	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
-		color:#fff;
-		border:1px solid #1e90ff;
-		background-color:#1e90ff;
-	}
+
 		
 	
 </style>

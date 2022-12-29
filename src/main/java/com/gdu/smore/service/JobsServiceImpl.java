@@ -1,6 +1,7 @@
 package com.gdu.smore.service;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gdu.smore.domain.jobs.JobsDTO;
+import com.gdu.smore.mapper.JobZzimMapper;
 import com.gdu.smore.mapper.JobsMapper;
 import com.gdu.smore.util.PageUtil;
 
@@ -24,6 +26,8 @@ public class JobsServiceImpl implements JobsService{
 
 	private JobsMapper jobMapper;
 	private PageUtil pageUtil;
+	
+	private JobZzimMapper zzimMapeer;
 	
 	@Override
 	public void getJobsList(HttpServletRequest request, Model model) {  // map만 ajax 가능.. model은 jsp 화면에 뿌리기 위함이라 ${}로 가져오는게 model을 매개변수로 받아왔을때
@@ -56,6 +60,15 @@ public class JobsServiceImpl implements JobsService{
 		// 글 목록
 		List<JobsDTO> jobs = jobMapper.selectJobsListByMap(map);
 		model.addAttribute("jobList" ,jobs);
+		
+		// 찜 갯수
+		List<Integer> jobNo = new ArrayList<Integer>();
+		List<Integer> zzimCnt = new ArrayList<Integer>();
+		for(int i = 0; i < jobs.size(); i++) {
+			jobNo.add(jobs.get(i).getJobNo());
+			zzimCnt.add(zzimMapeer.selectJobZzimCnt(jobNo.get(i)));
+		}
+		model.addAttribute("zzimCnt", zzimCnt);
 		
 	}
 	
