@@ -111,7 +111,7 @@
 			      
 				      	<c:if test="${loginUser.id != 'admin'}">
 				        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				          		${loginUser.nickname}
+				          		<img src="../../resources/images/cookie.png" >&nbsp;${loginUser.nickname}
 				        	</a>
 				        	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				          		<a class="dropdown-item" href="/user/checkpw">My회원정보</a>
