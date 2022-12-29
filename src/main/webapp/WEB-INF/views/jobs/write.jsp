@@ -237,7 +237,12 @@
 						<div>
 							<!-- <input type="text" id="career" name="career"> -->
 							<select id="career" name="career">
-								<option value="경력 무관" selected>경력 무관</option>
+<!-- 								<option value="0" selected>경력 무관</option>
+								<option value="1">신입 ~ 2년 이하</option>
+								<option value="2">2년 이상 ~ 4년 이하</option>
+								<option value="3">4년 이상 ~ 6년 이하</option>
+								<option value="4">6년 이상 ~ 무관</option> 								-->
+ 								<option value="경력 무관" selected>경력 무관</option>
 								<option value="신입 ~ 2년 이하">신입 ~ 2년 이하</option>
 								<option value="2년 이상 ~ 4년 이하">2년 이상 ~ 4년 이하</option>
 								<option value="4년 이상 ~ 6년 이하">4년 이상 ~ 6년 이하</option>

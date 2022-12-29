@@ -14,13 +14,18 @@
 	body
 	{
 	  margin: 0 auto;
-	  width: 1000px;
+	  /* width: 1000px; */
 	}
 	
 	a {
 		text-decoration-line: none ;
 		cursor: pointer;
 		color: black;
+	}
+	
+	.job-main {
+	    margin-left: 300px;
+	    margin-right: 300px;
 	}
 	
 	.div-comp {
@@ -31,7 +36,7 @@
 		font-weight: 600;
 	}
 
-	li a {
+	.a-title-a {
 		text-decoration-line: none ;
 		display: inline-block;
 		color: black;
@@ -101,10 +106,11 @@
 		margin: 3px 0px 0px 15px;
 	}
 	
-	#a-title {
+ 	#a-title {
 		font-size: 16px;
 		font-weight: 900;
-	}
+	} 
+	
 	
 	#gubun {
 		background: #bdbdbd; 
@@ -145,97 +151,64 @@
 <body>
 
 	<div class="job-main">
-	
-		<div class="div-line">
-			<span><a href="/job/list"> JOB </a></span>
-		</div>
-
-		<div>
-			<!-- && loginUser == 3 이어야 글쓰기 가능 -->
-			<%-- <c:if test="${loginUser.grade == 3}"> --%>
-				<span><a id="job_write" href="/job/write">구인 공고 등록</a></span>
-			<%-- </c:if> --%>
-		</div>
-		<div>
-			<c:if test="${loginUser == null}">
-				<span>글 작성은<a href="/user/login/form">로그인</a> 후에 가능합니다.</span>
-			</c:if>
-		</div>
-	
-	
-	
-	
-		<div>
-			<div class="board-name-wrapper">
-			<div class="board-name">
-				<span style="font-weight: bold;"> 구인 공고 </span>
-				<span style="font-weight: 200; font-size: 9px"> 구인 공고 </span>
+		
+			<div class="div-line">
+				<span><a href="/job/list"> JOB </a></span>
 			</div>
+	
+			<div>
+				<!-- && loginUser == 3 이어야 글쓰기 가능 -->
+				<%-- <c:if test="${loginUser.grade == 3}"> --%>
+					<span><a id="job_write" href="/job/write">구인 공고 등록</a></span>
+				<%-- </c:if> --%>
 			</div>
-			<div id="gubun"></div>
-		</div>	
-		
-		<div class="searching">
-			<!-- 검색 input 위치 -->
-			<form id="frm_search" action="/job/list?page=${page}&type=${type}&keyword=${keyword}">
-				<select name="type" id="type">
-					<option value="">선택</option>
-					<option value="TITLE">제목</option>
-					<option value="CONTENT">내용</option>
-					<option value="COMPANY_NAME">기업명</option>
-				</select>
-				<input type="text" name="keyword">
-				<input type="submit" value="search">
-			</form>
-		</div>
-		
-		
-		<div class="job-list">
-			<ul>
-				<c:if test="${empty jobList}">
-					<li> 게시물이 없습니다. </li>
+			<div>
+				<c:if test="${loginUser == null}">
+					<span>글 작성은<a href="/user/login/form">로그인</a> 후에 가능합니다.</span>
 				</c:if>
-				
-				<c:forEach items="${jobList}" var="job">
-					<c:if test="${jobList ne null && job.status == 0}">
-						<li>
-							<div style="margin: 20px 0 10px 0;">
-								<div class="div-comp">⊹&nbsp;${job.companyName}</div>
-								<div style="margin: 10px 0 10px 18px;">
-									<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
-								</div>
-								<div style="width:90%;">
-									<div class="li-bottom1">
-										<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
-										<span>${job.location}</span>
-									</div>
-									<div class="li-bottom2">
-										<img style="margin-top: 8px;" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/18/null/external-Career-achievements-and-badges-flatarticons-blue-flatarticons.png"/>
-										<span>${job.career}</span>
-									</div>
-								</div>
-								<div class="skill">
-									<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
-									<span>${job.skillStack}</span>
-								</div>
-								<div>
-									<input type="hidden" name="status" value="0">
-								</div>
-							</div>
-						</li>
-						<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
+			</div>
+		
+		
+		
+		
+			<div>
+				<div class="board-name-wrapper">
+				<div class="board-name">
+					<span style="font-weight: bold;"> 구인 공고 </span>
+					<span style="font-weight: 200; font-size: 9px"> 구인 공고 </span>
+				</div>
+				</div>
+				<div id="gubun"></div>
+			</div>	
+			
+			<div class="searching">
+				<!-- 검색 input 위치 -->
+				<form id="frm_search" action="/job/list?page=${page}&type=${type}&keyword=${keyword}">
+					<select name="type" id="type">
+						<option value="">선택</option>
+						<option value="TITLE">제목</option>
+						<option value="CONTENT">내용</option>
+						<option value="COMPANY_NAME">기업명</option>
+					</select>
+					<input type="text" name="keyword">
+					<input type="submit" value="search">
+				</form>
+			</div>
+			
+			
+			<div class="job-list">
+				<ul>
+					<c:if test="${empty jobList}">
+						<li> 게시물이 없습니다. </li>
 					</c:if>
-					<c:if test="${job.status == 1}">
-						<ul>
-								
-							<li class="status1"> 
-								
-								<div>채용 완료된 공고입니다.</div>
-							
+					
+					<c:forEach items="${jobList}" var="job">
+						<c:if test="${jobList ne null && job.status == 0}">
+							<li>
 								<div style="margin: 20px 0 10px 0;">
 									<div class="div-comp">⊹&nbsp;${job.companyName}</div>
 									<div style="margin: 10px 0 10px 18px;">
-										<a href="#">${job.title}</a>
+										<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
 									</div>
 									<div style="width:90%;">
 										<div class="li-bottom1">
@@ -256,11 +229,45 @@
 									</div>
 								</div>
 							</li>
-						</ul>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</div>
+							<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
+						</c:if>
+						<c:if test="${job.status == 1}">
+							<ul>
+									
+								<li class="status1"> 
+									
+									<div>채용 완료된 공고입니다.</div>
+								
+									<div style="margin: 20px 0 10px 0;">
+										<div class="div-comp">⊹&nbsp;${job.companyName}</div>
+										<div style="margin: 10px 0 10px 18px;">
+											<a class="a-title-a" href="#">${job.title}</a>
+										</div>
+										<div style="width:90%;">
+											<div class="li-bottom1">
+												<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
+												<span>${job.location}</span>
+											</div>
+											<div class="li-bottom2">
+												<img style="margin-top: 8px;" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/18/null/external-Career-achievements-and-badges-flatarticons-blue-flatarticons.png"/>
+												<span>${job.career}</span>
+											</div>
+										</div>
+										<div class="skill">
+											<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
+											<span>${job.skillStack}</span>
+										</div>
+										<div>
+											<input type="hidden" name="status" value="0">
+										</div>
+									</div>
+								</li>
+							</ul>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</div>
+			
 	</div>	
 
 <jsp:include page="../layout/footer.jsp">
