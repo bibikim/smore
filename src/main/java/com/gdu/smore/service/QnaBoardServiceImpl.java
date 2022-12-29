@@ -65,7 +65,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("qnaboardList", qnaboardMapper.selectQnaBoardListByMap(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/qna/list"));
+		model.addAttribute("paging", pageUtil.getPaging("/qna/list"));
 		
 	}
 
@@ -142,7 +142,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	         if(result > 0) {  // if(result == 1) {
 	            out.println("<script>");
 	            out.println("alert('게시글이 수정되었습니다.');");
-	            out.println("location.href='" + request.getContextPath() + "/qna/list';");
+	            out.println("location.href='" + "/qna/list';");
 	            out.println("</script>");
 	         } else {
 	            out.println("<script>");
@@ -168,7 +168,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
             if(result > 0) {  // if(result == 1) {
                out.println("<script>");
                out.println("alert('게시글이 삭제되었습니다.');");
-               out.println("location.href='" + request.getContextPath() + "/qna/list';");  
+               out.println("location.href='"  + "/qna/list';");  
                out.println("</script>");
             } else {
                out.println("<script>");
@@ -211,7 +211,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	    	   	
               out.println("<script>");
               out.println("alert('답변이 삭제되었습니다.');");
-              out.println("location.href='" + request.getContextPath() + "/qna/list';");  
+              out.println("location.href='" + "/qna/list';");  
               out.println("</script>");
            } else {
               out.println("<script>");

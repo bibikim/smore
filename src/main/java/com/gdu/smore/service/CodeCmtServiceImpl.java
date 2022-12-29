@@ -55,7 +55,7 @@ public class CodeCmtServiceImpl implements CodeCmtService {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("cmtList", cmtMapper.selectCommentList(map));
-		result.put("pageUtil", pageUtil);  // pageUtil은 왜 Map에 넣는걸까?
+		result.put("pageUtil", pageUtil); 
 		
 		return result;
 	}

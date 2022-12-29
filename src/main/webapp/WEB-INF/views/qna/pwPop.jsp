@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
+<link rel="stylesheet" href="/resources/css/base.css">
 <body>
 <form name="dataForm" id="dataForm" method="post" class="form-horizontal">
 	<input type="hidden" name="qaNo" id="qaNo" value="${question.qaNo}">

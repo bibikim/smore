@@ -3,9 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
+<link rel="stylesheet" href="/resources/css/base.css">
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="QNA게시판" name="title"/>
@@ -15,6 +15,7 @@
 a { text-decoration: none; outline: none}
 
  a:hover, a:active {text-decoration: none; }
+ 
 </style>
 
 <div class="cont-body">
@@ -94,7 +95,7 @@ a { text-decoration: none; outline: none}
 		                            <span>(비공개)</span> 
 		                            ${question.TITLE}
 		                            <c:if test="${question.NEW_YN eq 'Y'}">
-		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
+		                            	<span class="icon"><img class="icon-new" src="/resources/images/icon-new.png" alt="새글" /></span>
 		                            </c:if>
 		                        </a>
 	                        </c:if>
@@ -105,7 +106,7 @@ a { text-decoration: none; outline: none}
 		                            </c:if>
 		                        	${question.TITLE}
 		                            <c:if test="${question.NEW_YN eq 'Y'}">
-		                            	<span class="icon"><img class="icon-new" src="${contextPath}/resources/images/icon-new.png" alt="새글" /></span>
+		                            	<span class="icon"><img class="icon-new" src="/resources/images/icon-new.png" alt="새글" /></span>
 		                            </c:if>
 	                            </a>
 	                        </c:if>
