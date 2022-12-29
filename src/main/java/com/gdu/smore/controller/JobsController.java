@@ -3,7 +3,6 @@ package com.gdu.smore.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,7 @@ public class JobsController {
 	
 	@GetMapping("/job/list")
 	public String jobsList(HttpServletRequest request, Model model) {
-		model.addAttribute("request", request);
+		//model.addAttribute("request", request); 쓸데없는코드
 		jobService.getJobsList(request, model);
 		return "jobs/list";
 	}

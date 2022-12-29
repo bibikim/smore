@@ -129,7 +129,7 @@
 								</c:if>
 							</td>
 							<td id="align">${free.nickname}</td>
-							<td id="align"><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d a hh:m"/></td>
+							<td id="align"><fmt:formatDate value="${free.createDate}" pattern="yy.M.d hh:m"/></td>
 							<td id="align">${free.hit}</td>
 						</tr>
 					</c:forEach>

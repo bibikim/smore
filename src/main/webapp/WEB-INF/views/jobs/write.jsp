@@ -80,6 +80,12 @@
 	    font-size: 14px;
 	    line-height: 16px;
 	}
+	#title {
+		width: 800px; 
+		height:43px;
+		background-color: white; 
+		border: 1px solid #C4C4C4;
+	}
 	.profile {
 		width: 800px; 
 		height:300px;
@@ -150,26 +156,26 @@
 					<div class="part1">
 	
 						<div class="h-div">
-							<input type="hidden" name="${job.status}">
+							<input type="hidden" name="${job.status}" required>
 							<h5> 회사 정보 </h5>
 						</div>
 						<div>
 							<label for="name"> 회사명 </label>
 							<div>
-								<input type="text" id="name" name="companyName">
+								<input type="text" id="name" name="companyName" required>
 							</div>
 						</div>
 						<div class="float">
 							<label for="contact"> 대표 연락처 </label>
 							<div>
-								<input type="text" id="contact" name="contact">
+								<input type="text" id="contact" name="contact" required>
 							</div>
 						</div>
 						<div>
 							<!-- detail => link로 바로 연결 되게 -->
 							<label for="homepage"> 홈페이지 </label>
 							<div>
-								<input type="text" id="homepage" name="homepage">
+								<input type="text" id="homepage" name="homepage" required>
 							</div>
 						</div>
 					</div>
@@ -181,33 +187,33 @@
 					<div>
 						<label for="hrName"> 담당자명 </label>
 						<div>
-							<input type="text" id="hrName" name="hrName">
+							<input type="text" id="hrName" name="hrName" required>
 						</div>
 					</div>
 					<div class="float">
 						<label for="hrContact"> 담당자 연락처 </label>
 						<div>
-							<input type="text" id="hrContact" name="hrContact">
+							<input type="text" id="hrContact" name="hrContact" required>
 						</div>
 					</div>
 					<div>
 						<!-- 정규식 조건 걸어보기 -->
 						<label for="hrEmail"> 담당자 이메일 </label>
 						<div>
-							<input type="text" id="hrEmail" name="hrEmail">
+							<input type="text" id="hrEmail" name="hrEmail" required>
 						</div>
 					</div>
 					<div class="float">
 						<label for="position"> 채용 포지션 </label>
 						<div>
-							<input type="text" id="position" name="position">
+							<input type="text" id="position" name="position" required>
 						</div>
 					</div>
 					<div>
 						<label for="jobType"> 고용 형태 </label>
 						<div>
 							<!-- <input type="text" id="jobType" name="jobType"> -->
-							<select id="jobType" name="jobType">
+							<select id="jobType" name="jobType" required>
 								<option value="" selected>선택</option>
 								<option value="정규직">정규직</option>
 								<option value="계약직">계약직</option>
@@ -220,14 +226,14 @@
 							<span style="font-size: 9px;">'시, 구, 군' 까지만 적어주세요. 상세 주소는 하단의 본문에 적어주세요.</span>
 						</div>
 						<div>
-							<input type="text" id="location" name="location">
+							<input type="text" id="location" name="location" required>
 						</div>
 					</div>
 					
 					<div class="float">
 						<label for="skillStack"> 기술 스택 </label>
 						<div>
-							<input type="text" id="skillStack" name="skillStack">
+							<input type="text" id="skillStack" name="skillStack" required>
 						</div>
 					</div>
 					
@@ -236,7 +242,7 @@
 						<label for="career"> 요구 경력 </label>
 						<div>
 							<!-- <input type="text" id="career" name="career"> -->
-							<select id="career" name="career">
+							<select id="career" name="career" required>
 <!-- 								<option value="0" selected>경력 무관</option>
 								<option value="1">신입 ~ 2년 이하</option>
 								<option value="2">2년 이상 ~ 4년 이하</option>
@@ -255,18 +261,18 @@
 				<div style="margin: 10px 0 30px 0;">
 					<label for="title">제목</label>
 					<div>
-						<input type="text" id="title" name="title" style="width: 800px; height:43px;background-color: white; border: 1px solid #C4C4C4;">
+						<input type="text" id="title" name="title" required>
 					</div>
 				</div>
 
 				  <div style="margin-bottom: 30px;">
 					  <label for="content">채용 정보</label>
-					  <textarea id="content" name="content"></textarea>
+					  <textarea id="content" name="content" required></textarea>
 			      </div>
 				  <div style="margin-bottom: 30px;">
 						<label for="profile">회사 소개</label>
 						<div>
-							<textarea name="profile" id="profile" class="profile"></textarea>
+							<textarea name="profile" id="profile" class="profile" required></textarea>
 						</div>
 			      </div>
 				  <div class="float">
