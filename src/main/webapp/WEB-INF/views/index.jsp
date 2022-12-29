@@ -8,65 +8,8 @@
    <jsp:param value="" name="title"/>
 </jsp:include>
 
-<style>
-	* {
-		box-sizing: border-box;
-	}
-	a {
-		text-decoration: none;
-		color: black;
-	}
-	.study_list_container {
-		margin: 0 auto;
-		width: 1260px;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.study {
-		width: 400px;
-		height: 400px;
-		margin: 10px;
-		padding-top: 150px;
-		border: 1px solid gray;
-		border-radius: 5px;
-		text-align: center;
-		
-	}
-	.study:hover {
-		background-color: skyblue;
-	}
-	.wrapper {
-		display: flex;
-		justify-content: center;  /* wrapper의 자식을 가로 가운데 정렬 */
-		align-items: center;      /* wrapper의 자식을 세로 가운데 정렬 */
-		min-height: 100vh;
-	}
-	/*
-	.loading_bar {
-		width: 200px;
-		height: 200px;
-		background-image: url('../../../resources/images/loading.gif');
-		background-size: 200px 200px;
-	}
-	*/
-	.blind {
-		display: none;
-	}	
-	
-	/* footer */
-	.py-5 {
-		padding: 40px 0 !important;
-	}
-	
-	/* slide */
-	#img_area1, #img_area2, #img_area3 {
-		width: 1200px !important;
-		height: 400px !important;
-		margin: auto !important;
-		display: block !important;
-	}
-	
-</style>
+<link rel="stylesheet" type="text/css" href="../../resources/css/index.css">
+
 <script>
 
 	// 전역변수
@@ -89,10 +32,20 @@
 				$.each(resData.S_group, function(i, study){
 					// var studyList = '<div class="study" style="cursor:pointer;">' + '<a href="/study/increse/hit?studNo=' + study.studNo + '">';
 					var studyList = '<div class="study" onclick=location.href="/study/increse/hit?studNo=' + study.studNo + '">';
-					studyList += '<div>번호 : ' + study.studNo + '</div>';
-					studyList += '<div>닉네임 : ' + study.nickname + '</div>';
-					studyList += '<div>개발언어 : ' + study.lang + '</div>';
-					studyList += '<div>지역 : ' + study.region + '</div>';
+					studyList += '<div style="color: gray;">시작 예정일  ' + study.studDate + '</div>&nbsp;';
+					studyList += '<div class="stud_title">' + study.title + '</div>&nbsp;';
+					studyList += '<div class="stud_content">' + study.content + '</div>&nbsp;';
+					
+					
+					studyList += '<div class="tag"><span>#' + study.lang + '</span></div>';
+					studyList += '<div class="tag"><span>#' + study.region + '</span></div>';
+					studyList += '<div class="tag"><span>#' + study.people + '명</span></div>';
+					
+					
+					
+					studyList += '<div id="gubun"></div>';
+					//studyList += '<div>닉네임 : ' + study.nickname + '</div>';
+					//studyList += '<div>#' + study.region + '</div>';
                     // studyList += '<a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a>';
                     // studyList += '<div><a href="/study/increse/hit?studNo=' + study.studNo + '">' + study.title + '</a></div>';
 					// onclick="location.href='/study/increse/hit?studNo=${study.studNo}'"
@@ -156,10 +109,10 @@
 	    <div class="carousel-item active">
 	      <img src="../../resources/images/study01.png" id="img_area2" class="d-block w-100" alt="이미지2">
 	    </div>
-	    <div class="carousel-item">
+	    <div class="carousel-item" data-interval="3000">
 	      <img src="../../resources/images/study02.jpg" id="img_area1" class="d-block w-100" alt="이미지1">
 	    </div>
-	    <div class="carousel-item">
+	    <div class="carousel-item" data-interval="3000">
 	      <img src="../../resources/images/study03.jpg" id="img_area3" class="d-block w-100" alt="이미지3">
 	    </div>
 	  </div>
@@ -173,12 +126,6 @@
 	  </a>
 	</div>
 
-	<div>
-		<h1>스터디 목록</h1>
-	</div>
-	
-	<hr>
-	
 	<div>
 		<c:if test="${loginUser != null}">
 			<input type="button" value="글 작성하기" onclick="location.href='/study/write'">
@@ -195,12 +142,9 @@
 		<div class="loading_bar"></div>
 	</div>
 	
-	<!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-        	<p class="m-0 text-center text-white">&nbsp; ⓒ 2022 &nbsp; s'more copyright</p>
-        </div>
-    </footer>
+<jsp:include page="layout/footer.jsp">
+   <jsp:param value="" name="title"/>
+</jsp:include>
 	
 </body>
 

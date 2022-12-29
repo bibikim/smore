@@ -15,6 +15,7 @@
 <script src="https://kit.fontawesome.com/b9a2709031.js" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style type="text/css">
+
 	.bg-light {
 		background-color: #ffffff;
 	}	
@@ -52,11 +53,6 @@
 </style>
 <link rel="stylesheet" href="/resources/css/reset.css">
 <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-
-<script>
-
-
-</script>
 
 	<c:if test="${loginUser == null}">
 		<nav class="navbar navbar-light bg-light" >

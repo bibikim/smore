@@ -40,13 +40,13 @@
 		});	
 		
 		$('#frm_write').change(function(event){
-			if($('#region').val() == '서울'){
+			if($('#region').val() == 'Seoul'){
 				$('.wido').val('37.566535') && $('.gdo').val('126.9779692');
-			} else if ($('#region').val() == '부산'){
+			} else if ($('#region').val() == 'Busan'){
 				$('.wido').val('35.1795543') && $('.gdo').val('129.0756416');
-			} else if ($('#region').val() == '강남'){
+			} else if ($('#region').val() == 'Gangnam'){
 				$('.wido').val('37.498095') && $('.gdo').val('127.027610');
-			} else if ($('#region').val() == '잠실'){
+			} else if ($('#region').val() == 'Jam-sil'){
 				$('.wido').val('37.513272317072') && $('.gdo').val('127.09431687965');
 			}
 		});
@@ -184,10 +184,10 @@
 			
 			<select name="region" id="region" class="region">
 
-				<option value = "서울" selected>서울</option>
-				<option value = "부산" >부산</option>
-				<option value = "강남" >강남</option>
-				<option value = "잠실" >잠실</option>
+				<option value = "Seoul" selected>Seoul</option>
+				<option value = "Busan" >Busan</option>
+				<option value = "Gangnam" >Gangnam</option>
+				<option value = "Jam-sil" >Jam-sil</option>
 
 			</select>
 
@@ -223,11 +223,15 @@
 		<div id="summernote_image_list"></div>
 		-->
 		<div>
-			<label for="lang">개발언어</label>
+			<label for="lang">기술스택</label>
 			<select name="lang" id="lang">
-				<option value = "자바" selected>JAVA</option>
-				<option value = "파이썬" >PYTHON</option>
-				<option value = "C" >C</option>
+				<option value = "Java" selected>Java</option>
+				<option value = "Python" >Python</option>
+				<option value = "JavaScript" >JavaScript</option>
+				<option value = "HTML" >HTML</option>
+				<option value = "CSS" >CSS</option>
+				<option value = "Nodejs" >Nodejs</option>
+				<option value = "SpringBoot" >SpringBoot</option>
 			</select>
 		</div>
 		
