@@ -92,7 +92,7 @@
 		</div>
 	</div>
 	
-	<div>
+	<div style="margin-left: auto; margin-right: auto;">
 		<table>
 			<thead>
 				<tr>

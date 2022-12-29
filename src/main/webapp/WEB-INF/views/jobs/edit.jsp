@@ -119,14 +119,18 @@
 			    ['insert', ['link']]
 			]
 		});
-	
 	});
 	
  	$(document).ready(function(){
+ 		
+ 		var careerval = $('#careerval').val();
+ 		console.log(care);
 
 		  $('#career').each(function(){
 
-		    if($(this).val()=='${job.career}'){
+			  
+			  
+		    if($(this).val() == care){  // 값을 주고나서 
 
 		      $(this).prop('selected', true); // attr적용안될경우 prop으로 
 
@@ -240,11 +244,25 @@
 						<div>
 							<!-- <input type="text" id="career" name="career"> -->
 							<select id="career" name="career" >
-								<option id="opt" value="경력 무관">경력 무관</option>
-								<option id="opt" value="신입 ~ 2년 이하">신입 ~ 2년 이하</option>
-								<option id="opt" value="2년 이상 ~ 4년 이하">2년 이상 ~ 4년 이하</option>
-								<option id="opt" value="4년 이상 ~ 6년 이하">4년 이상 ~ 6년 이하</option>
-								<option id="opt" value="6년 이상 ~ 무관">6년 이상 ~ 무관</option>
+<%-- 									<option id="opt" value="경력 무관"
+										<c:if test="${job.career == '경력 무관'}" selected</c:if>>경력 무관</option>
+									<option id="opt" value="신입 ~ 2년 이하"
+										<c:if test="${job.career == '신입 ~ 2년 이하'}"> selected</c:if>>신입 ~ 2년 이하</option>
+									<option id="opt" value="2년 이상 ~ 4년 이하"
+										<c:if test="${job.career == '2년 이상 ~ 4년 이하'}"> selected</c:if>>2년 이상 ~ 4년 이하</option>
+									<option id="opt" value="6년 이상 ~ 무관"
+										<c:if test="${job.career == '6년 이상 ~ 무관'}"> selected</c:if>>6년 이상 ~ 무관</option> --%>
+										
+ 									<option id="opt" value="신입 ~ 2년 이하">신입 ~ 2년 이하</option>
+									<option id="opt" value="2년 이상 ~ 4년 이하">2년 이상 ~ 4년 이하</option>
+									<option id="opt" value="4년 이상 ~ 6년 이하">4년 이상 ~ 6년 이하</option>
+									<option id="opt" value="6년 이상 ~ 무관">6년 이상 ~ 무관</option> 
+							
+<!-- 								<option id="opt" value="1">경력 무관</option>
+								<option id="opt" value="2">신입 ~ 2년 이하</option>
+								<option id="opt" value="3">2년 이상 ~ 4년 이하</option>
+								<option id="opt" value="4">4년 이상 ~ 6년 이하</option>
+								<option id="opt" value="6년 이상 ~ 무관">6년 이상 ~ 무관</option> -->
 							</select>
 						</div>
 					</div>
@@ -275,9 +293,9 @@
 				  	  <button style="margin-left: 540px;">수정 완료</button>
 				  </div>
 
-
+				
 			</form>
-		
+			<input type="hidden" id="careerval" value="${job.career}">
 	</div>	
 
 </body>
