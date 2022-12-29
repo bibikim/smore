@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <style>
+
 	.footer {
 	  margin: 0 auto;
 	  width: 1000px;
@@ -10,16 +11,21 @@
 		margin: 0 auto;
 	}
 	
+	.py-5 {
+		padding: 40px 0 !important;
+	}
+	.bg-dark {
+		background-color: #F2E4C5 !important;
+	}
+	
 </style>
 
-	<footer class="footer">
-		<div class="wp-footer">
-			<div style="width: 200px; height: 200px; font-size: 13px; margin: auoto;">
-				<img src="https://img.icons8.com/external-flatart-icons-flat-flatarticons/30/null/external-cookie-christmas-flatart-icons-flat-flatarticons.png"/>
-				&nbsp; ⓒ 2022 &nbsp; s'more copyright
-			</div>
-		</div>
-	</footer>
+	<!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+        	<p class="m-0 text-center text-white"> <img src="../../resources/images/cookie.png" >&nbsp; ⓒ 2022 &nbsp; s'more copyright</p>
+        </div>
+    </footer>
 
 </body>
 </html>

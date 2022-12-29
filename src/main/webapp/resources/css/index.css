@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap');
+
+	* {
+		box-sizing: border-box;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	.study_list_container {
+		margin: 0 auto;
+		width: 1260px;
+		display: flex;
+		flex-wrap: wrap;
+		padding-left: 116px;
+	}
+	.study {
+		width: 320px;
+		height: 410px;
+		margin: 10px;
+		padding-top: 65px;
+		border-radius: 30px;
+		text-align: center;
+		box-shadow: 2px 2px 11px #cccccc;
+		
+	}
+	.wrapper {
+		display: flex;
+		justify-content: center;  /* wrapper의 자식을 가로 가운데 정렬 */
+		align-items: center;      /* wrapper의 자식을 세로 가운데 정렬 */
+		min-height: 100vh;
+	}
+	/*
+	.loading_bar {
+		width: 200px;
+		height: 200px;
+		background-image: url('../../../resources/images/loading.gif');
+		background-size: 200px 200px;
+	}
+	*/
+	.blind {
+		display: none;
+	}	
+	
+	/* slide */
+	#img_area1, #img_area2, #img_area3 {
+		width: 1200px !important;
+		height: 400px !important;
+		margin: auto !important;
+		display: block !important;
+	}
+	
+	#gubun {
+		background: #dedede;
+		height: 0.5px;
+		margin: 25px 20px 0 20px;
+	}
+	
+	.stud_title {
+		font-weight: 500; 
+		font-size: x-large;
+		width: 260px;
+	    height: 70px;
+	    margin-left: 30px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	
+	.stud_content {
+	    width: 260px;
+	    height: 50px;
+	    margin-left: 31px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	
+	.tag {
+		color: gray;
+	    height: 24px;
+	    font-family: Montserrat;
+	    display: inline-flex;
+	    padding: 2px 12px 0 12px;
+	    margin-right: 5px;
+	    vertical-align: middle;
+	    font-size: 13px;
+	    text-align: center;
+	    border-radius: 16px;
+	    background-color: #F2E4C5;
+	}
+	
+

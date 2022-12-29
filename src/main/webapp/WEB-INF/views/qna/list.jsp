@@ -160,6 +160,11 @@ a { text-decoration: none; outline: none}
         </div>
     </div>
 </div>
+
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="qna게시판" name="title"/>
+</jsp:include>
+
 </body>
 <script type="text/javascript">
 	/**
