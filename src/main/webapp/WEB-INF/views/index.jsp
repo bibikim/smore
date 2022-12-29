@@ -141,6 +141,7 @@
 <br>
 <input type="button" value="지도연습" onclick="location.href='/study/map'">
 <input type="button" value="현재위치연습" onclick="location.href='/study/location'">
+<input type="button" value="css연습" onclick="location.href='/study/css'">
 
 	<hr>
 
@@ -156,7 +157,7 @@
 		</c:if>
 	</div>
 	
-	<!-- 사원목록 -->
+	<!-- 모집목록 -->
 	<div id="study_list" class="study_list">
 		<div class="study_list_container"></div>
 	</div>

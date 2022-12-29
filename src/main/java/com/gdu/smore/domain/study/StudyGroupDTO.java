@@ -32,7 +32,7 @@ public class StudyGroupDTO {
 	private String people;
 	private String contact;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date studDate;
+	private String studDate;
 	private String ip;
 	private String jang;
 }

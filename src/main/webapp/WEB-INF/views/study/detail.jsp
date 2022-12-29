@@ -41,7 +41,9 @@
 	</div>
 	
 	<div>
-		<span>조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
+		<span>▷ 조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>▷ 시작예정일 ${study.studDate}</span>
 	</div>
 	
 	<hr>
