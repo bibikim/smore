@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap');
-
 	* {
 		box-sizing: border-box;
 	}
@@ -55,7 +53,7 @@
 	#gubun {
 		background: #dedede;
 		height: 0.5px;
-		margin: 25px 20px 0 20px;
+		margin: 56px 20px 0 20px;
 	}
 	
 	.stud_title {
@@ -85,15 +83,22 @@
 	.tag {
 		color: gray;
 	    height: 24px;
-	    font-family: Montserrat;
+	    font-family: 'Dongle', sans-serif;
 	    display: inline-flex;
-	    padding: 2px 12px 0 12px;
+	    padding: 0 12px 3px 12px;
 	    margin-right: 5px;
-	    vertical-align: middle;
-	    font-size: 13px;
 	    text-align: center;
+	    vertical-align: middle;
+	    font-size: 23px;
 	    border-radius: 16px;
 	    background-color: #F2E4C5;
+	}
+	.tag_span {
+		margin-bottom: 10px;
+	}
+	
+	.nick {
+		display: flex;
 	}
 	
 

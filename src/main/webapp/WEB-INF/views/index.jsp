@@ -9,7 +9,7 @@
 </jsp:include>
 
 <link rel="stylesheet" type="text/css" href="../../resources/css/index.css">
-
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap" rel="stylesheet">
 <script>
 
 	// 전역변수
@@ -37,14 +37,16 @@
 					studyList += '<div class="stud_content">' + study.content + '</div>&nbsp;';
 					
 					
-					studyList += '<div class="tag"><span>#' + study.lang + '</span></div>';
-					studyList += '<div class="tag"><span>#' + study.region + '</span></div>';
-					studyList += '<div class="tag"><span>#' + study.people + '명</span></div>';
-					
-					
-					
+					studyList += '<div class="tag"><div class="tag_span">#' + study.lang + '</div></div>';
+					studyList += '<div class="tag"><div class="tag_span">#' + study.region + '</div></div>';
+					studyList += '<div class="tag"><div class="tag_span">#max&nbsp;' + study.people + '</div></div>';
+
 					studyList += '<div id="gubun"></div>';
-					//studyList += '<div>닉네임 : ' + study.nickname + '</div>';
+					
+					studyList += '<div><div class="nick"><div><img src="../../resources/images/monster.png" ></div><div style="margin: 5px;">' + study.nickname + '</div><div><img src="../../resources/images/eye.png" >' + study.hit + '</div></div></div>';
+					
+					
+					
 					//studyList += '<div>#' + study.region + '</div>';
                     // studyList += '<a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a>';
                     // studyList += '<div><a href="/study/increse/hit?studNo=' + study.studNo + '">' + study.title + '</a></div>';
