@@ -3,10 +3,14 @@
 	* {
 		box-sizing: border-box;
 	}
+	
 	a {
-		text-decoration: none;
+		text-decoration-line: none ;
+		cursor: pointer;
 		color: black;
 	}
+	a:hover, a:active {text-decoration: none; color: black;}
+	
 	.study_list_container {
 		margin: 0 auto;
 		width: 1260px;
@@ -30,22 +34,15 @@
 		align-items: center;      /* wrapper의 자식을 세로 가운데 정렬 */
 		min-height: 100vh;
 	}
-	/*
-	.loading_bar {
-		width: 200px;
-		height: 200px;
-		background-image: url('../../../resources/images/loading.gif');
-		background-size: 200px 200px;
-	}
-	*/
+	
 	.blind {
 		display: none;
 	}	
 	
 	/* slide */
 	#img_area1, #img_area2, #img_area3 {
-		width: 1200px !important;
-		height: 400px !important;
+		width: 1600px !important;
+		height: 290px !important;
 		margin: auto !important;
 		display: block !important;
 	}
@@ -80,6 +77,24 @@
 		-webkit-box-orient: vertical;
 	}
 	
+	#btn_write {
+		width: 100%;
+	    height: 40px;
+	    
+	    color: white;
+	    border-radius: 10px;
+	    text-align: right;		
+	    margin-right: 300px;
+	}
+	.btn_write_a{
+		padding: 8px;
+    	border-radius: 30px;
+	    background-color: #78B9DA;
+	    margin-right: 300px;
+	    height: 100%;
+	    line-height: 40px;
+	}
+	
 	.tag {
 		color: gray;
 	    height: 24px;
@@ -94,11 +109,23 @@
 	    background-color: #F2E4C5;
 	}
 	.tag_span {
-		margin-bottom: 10px;
+		line-height: 27px;
 	}
 	
 	.nick {
 		display: flex;
+		margin-top: 18px;
+		margin-left: 7px;
+	}
+	.stud_nick {
+		display: flex;
+		margin-left: 20px;
+		margin-right: 140px;
+		
+	}
+	.stud_hit {
+		display: flex;
+		margin-top: 5px;
 	}
 	
-
+	

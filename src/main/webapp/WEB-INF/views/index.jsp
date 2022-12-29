@@ -10,6 +10,8 @@
 
 <link rel="stylesheet" type="text/css" href="../../resources/css/index.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+
 <script>
 
 	// 전역변수
@@ -37,14 +39,12 @@
 					studyList += '<div class="stud_content">' + study.content + '</div>&nbsp;';
 					
 					
-					studyList += '<div class="tag"><div class="tag_span">#' + study.lang + '</div></div>';
-					studyList += '<div class="tag"><div class="tag_span">#' + study.region + '</div></div>';
-					studyList += '<div class="tag"><div class="tag_span">#max&nbsp;' + study.people + '</div></div>';
+					studyList += '<div class="tag"><p class="tag_span">#' + study.lang + '</p></div>';
+					studyList += '<div class="tag"><p class="tag_span">#' + study.region + '</p></div>';
+					studyList += '<div class="tag"><p class="tag_span">#max&nbsp;' + study.people + '</p></div>';
 
 					studyList += '<div id="gubun"></div>';
-					
-					studyList += '<div><div class="nick"><div><img src="../../resources/images/monster.png" ></div><div style="margin: 5px;">' + study.nickname + '</div><div><img src="../../resources/images/eye.png" >' + study.hit + '</div></div></div>';
-					
+					studyList += '<div><div class="nick"><div class="stud_nick"><div><img src="../../resources/images/monster.png" ></div><div style="margin: 5px;">' + study.nickname + '</div></div><div class="stud_hit"><div><img src="../../resources/images/eye.png" ></div>&nbsp;<div>' + study.hit + '</div></div></div></div>';
 					
 					
 					//studyList += '<div>#' + study.region + '</div>';
@@ -57,7 +57,7 @@
 					$('.study_list_container').append(studyList);
 				});
 				$('.study_list').removeClass('blind'); // 목록 보여주기
-				$('.wrapper').addClass('blind');          // 로딩바 숨기기
+				$('.wrapper').addClass('blind'); // 로딩바 숨기기
 			}
 		});
 	}
@@ -96,41 +96,14 @@
 		});
 		
 	});
-	/*
-	$(document).ready(function(){
-	    $(".study").on("click", function(){  
-	        alert("테스트입니다요.");
-	    });    
-	});
-	*/
+
+	
 </script>
 <body>
 
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-	  <div class="carousel-inner">
-	    <div class="carousel-item active">
-	      <img src="../../resources/images/study01.png" id="img_area2" class="d-block w-100" alt="이미지2">
-	    </div>
-	    <div class="carousel-item" data-interval="3000">
-	      <img src="../../resources/images/study02.jpg" id="img_area1" class="d-block w-100" alt="이미지1">
-	    </div>
-	    <div class="carousel-item" data-interval="3000">
-	      <img src="../../resources/images/study03.jpg" id="img_area3" class="d-block w-100" alt="이미지3">
-	    </div>
-	  </div>
-	  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	    <span class="sr-only">Previous</span>
-	  </a>
-	  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	    <span class="sr-only">Next</span>
-	  </a>
-	</div>
-
-	<div>
+	<div id="btn_write">
 		<c:if test="${loginUser != null}">
-			<input type="button" value="글 작성하기" onclick="location.href='/study/write'">
+			<a class="btn_write_a" href="/study/write">등록하기</a>
 		</c:if>
 	</div>
 	
