@@ -238,9 +238,7 @@ input#btn_trans{
 			$('#user_list').empty();
 			fn_QnaList();
 		});
-		
 
-		
 	});
 	
 	var page = 1;
@@ -264,7 +262,6 @@ input#btn_trans{
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
-				tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				$.each(resData.allUserList, function(i, user){
@@ -280,10 +277,9 @@ input#btn_trans{
 					tr += '<td>' + (user.userDTO.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.userDTO.joinDate + '</td>';
 					tr += '<td>' + (user.userDTO.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
-					tr += '<td>' + user.userDTO.accessLogDTO.lastLoginDate + '</td>'; 
-					tr += '<td>' + user.userDTO.infoModifyDate + '</td>'; 
+					tr += '<td>' + (user.userDTO.accessLogDTO.lastLoginDate == null ? '' : user.userDTO.accessLogDTO.lastLoginDate) + '</td>'; 
+					tr += '<td>' + (user.userDTO.infoModifyDate == null ? '' : user.userDTO.infoModifyDate) + '</td>'; 
 					tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
-					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + user.userNo + '"</td>';
 					tr += '</tr>';
 					$('#user_list').append(tr);
 				});
@@ -343,7 +339,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '정보변경일' + '</th>';
 				tr += '<th scope="col">' + '회원상태' + '</th>';
-				tr += '<th scope="col" class="btn_userRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';				
+				tr += '<th scope="col" class="btn_userRemove"><input type="hidden" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';				
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				$.each(resData.userList, function(i, user){
@@ -359,8 +355,8 @@ input#btn_trans{
 					tr += '<td>' + (user.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.joinDate + '</td>'; 
 					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
-					tr += '<td>' + user.lastLoginDate + '</td>'; 
-					tr += '<td>' + user.infoModifyDate + '</td>'; 
+					tr += '<td>' + (user.lastLoginDate == null ? '' : user.lastLoginDate) + '</td>'; 
+					tr += '<td>' + (user.infoModifyDate == null ? '' : user.infoModifyDate) + '</td>'; 
 					/* tr += '<td>' + (user.userState == 1 ? '일반회원' : '휴면회원') + '</td>'; */
 					tr += '<td>' + (user.userState == 1 ? '일반회원' : (user.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
 					tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + user.userNo + '"</td>';
@@ -419,7 +415,8 @@ input#btn_trans{
 				tr += '<th scope="col">' + '가입방법' + '</th>';
 				tr += '<th scope="col">' + '마지막접속일' + '</th>';
 				tr += '<th scope="col">' + '휴면전환일' + '</th>';
-				tr += '<th scope="col" class="btn_trans"><input type="button" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
+				tr += '<th scope="col" class="btn_trans"><input type="hidden" id="btn_trans"><label for="btn_trans"><i class="fa-solid fa-user-group"></i></label></th>';
+				
 				tr += '</tr>';				
 				$('#head_list').append(tr); 
 				$.each(resData.sleepUserList, function(i, user){
@@ -434,7 +431,7 @@ input#btn_trans{
 					tr += '<td>' + (user.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.joinDate + '</td>';
 					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
-					tr += '<td>' + user.lastLoginDate + '</td>'; 
+					tr += '<td>' + (user.lastLoginDate == null ? '' : user.lastLoginDate) + '</td>';  					
 					tr += '<td>' + user.sleepDate + '</td>'; 
 					tr += '<td><input type="checkbox" name="chk" class="trans-chk" value="' + user.userNo + '"</td>';
 					tr += '</tr>';
@@ -534,7 +531,6 @@ input#btn_trans{
 	
   	// 일반회원 전환
 	$(document).on('click','.btn_trans',function(){	
-  		$('#btn_trans').click(function(){
   			if(confirm('선택한 회원을 일반회원으로 전환할까요?')){
 				let userNoList = '';
 				for(let i = 0; i < $('.trans-chk').length; i++){
@@ -558,7 +554,6 @@ input#btn_trans{
 					}
 				});
   			}
-  		});
 	});	
 
  
@@ -579,7 +574,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
-				tr += '<th scope="col" class="btn_freeRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_freeRemove"><input type="hidden" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				$.each(resData.freeBoardList, function(i, board){
@@ -646,7 +641,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '지역' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
-				tr += '<th scope="col" class="btn_studyRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_studyRemove"><input type="hidden" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				$.each(resData.studyList, function(i, board){
@@ -714,7 +709,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
-				tr += '<th scope="col" class="btn_codeRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_codeRemove"><input type="hidden" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				$.each(resData.codeList, function(i, board){
@@ -782,7 +777,7 @@ input#btn_trans{
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
 				tr += '<th scope="col">' + '답변여부' + '</th>';
 				/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
-				tr += '<th scope="col" class="btn_qnaRemove"><input type="button" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
+				tr += '<th scope="col" class="btn_qnaRemove"><input type="hidden" id="btn_remove"><label for="btn_remove"><i class="fa-solid fa-trash"></i></label></th>';
 				tr += '</tr>';
 				$('#head_list').append(tr);
 				$.each(resData.qnaList, function(i, board){
@@ -1025,20 +1020,7 @@ input#btn_trans{
 		});		
 	}
  	
- 	
- 	
-/*  	function fn_removeFree(){
- 		$('remove_free').click(function(e){
- 			if(confirm('해당 게시물을 삭제하시겠습니까?')){
- 				$.ajax({
- 					type : 'post',
- 					url : '/free/freemove',
- 					dataType : 'json',
- 					
- 				}); // ajax
- 			}
- 		}); // 
- 	} */
+
  	
 	$(document).on('click', '.remove_free', function(e){
 		if(confirm('해당 게시글을 삭제할까요?')){
@@ -1053,9 +1035,6 @@ input#btn_trans{
 			});
 		}
 	});
- 	
- 	
- 	
  	
   	// 일반회원 다중탈퇴
 	$(document).on('click','.btn_userRemove',function(){			
@@ -1110,7 +1089,6 @@ input#btn_trans{
 		}
 	});
   	
-  	
   	// 자유게시판 삭제
 	$(document).on('click','.btn_freeRemove',function(){			
 		if(confirm('선택한 게시판을 삭제할까요?')){						
@@ -1137,7 +1115,6 @@ input#btn_trans{
 			});
 		}
 	});
-  	
   	// 코드게시판 삭제
 	$(document).on('click','.btn_codeRemove',function(){			
 		if(confirm('선택한 게시판을 삭제할까요?')){						
@@ -1208,31 +1185,34 @@ input#btn_trans{
 	
 	<div class="wrapper" >
         <div class="sidebar" >
-           <ul>	    
+           <ul>
+	           <div style="text-align: center;">	    
+		           <a href="/admin/page" style="text-decoration-line: none ;"><img alt="" src="/resources/images/admin2.png" width="70px" style="text-align: center;"> <li style="font-style: oblique; font-size: 20px; color: #dee4ec;">Admin</li></a>
+		          
+	           </div>
+       		<hr>
 		        <li class="menu">
-		            <a class="user">유저관리</a>
+		            <a class="user"><i class="fa-regular fa-user" style="margin-bottom: 12px;"></i>&nbsp; 유저관리</a>
 		            <ul class="hide">
-		                <li><a class="user_list" href="#"> - 일반유저</a></li>
-		                <li><a class="sleepUser_list" href="#"> - 휴면유저</a></li>
-		                <li><a class="report_list" href="#"> - 신고된 회원</a></li>
-		                <li><a class="" href="#"> - 제재된 회원</a></li>
+		                <li><a class="user_list" href="#" style="font-size: 14px;"> - 일반유저</a></li>
+		                <li><a class="sleepUser_list" href="#" style="font-size: 14px;"> - 휴면유저</a></li>
+<!-- 		                <li><a class="report_list" href="#"> - 신고된 회원</a></li>
+		                <li><a class="" href="#"> - 제재된 회원</a></li> -->
 		            </ul>
 		        </li>
 		 
 		        <li class="menu">
-		            <a class="board">게시판관리</a>
+		            <a class="board"><i class="fa-solid fa-bars" style="margin-bottom: 12px;"></i>&nbsp;게시판관리</a>
 		            <ul class="hide">
-		                <li><a class="freeBoard_list" href="#"> - 자유게시판</a></li>
-		                <li><a class="StudyBoard_list" href="#"> - 스터디게시판</a></li>
-		                <li><a class="CodeBoard_list" href="#"> - 코드게시판</a></li>
-		                <li><a class="Qna_List" href="#"> - Qna</a></li>
+		                <li><a class="freeBoard_list" href="#" style="font-size: 14px;"> - 자유게시판</a></li>
+		                <li><a class="StudyBoard_list" href="#" style="font-size: 14px;"> - 스터디게시판</a></li>
+		                <li><a class="CodeBoard_list" href="#" style="font-size: 14px;"> - 코드게시판</a></li>
+		                <li><a class="Qna_List" href="#" style="font-size: 14px;"> - Qna</a></li>
 		            </ul>
 		        </li>                   
             </ul>
         </div>
      </div>
-     
-   			
 
 	<div style="margin-left:225px;">	
 		<div>
@@ -1264,8 +1244,7 @@ input#btn_trans{
 									</span>
 									
 									<span>
-										<input type="button" id ="btn_userSearch"  value="검색" >
-										<input type="button" value="전체유저조회" id="btn_all">			
+										<input type="button" id ="btn_userSearch"  value="검색" class="btn btn-primary">
 										<script>
 											$('#btn_all').click(function(){
 												fn_AlluserList();

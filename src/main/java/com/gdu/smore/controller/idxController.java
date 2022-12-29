@@ -12,8 +12,7 @@ public class idxController {
     }
 
 	@GetMapping("/admin/page")
-	public String adminPage() {
+	public String requiredLogin_adminPage() {
 		return "admin/page";
-	}
-	
+	}	
 }

@@ -1,191 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="../layout/header.jsp">
 	<jsp:param value="회원가입" name="title"/>
 </jsp:include>
+<link rel="stylesheet" href="/resources/css/userinfo.css">
+    <style>
+        /* @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
+        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');} 
+    </style>
 
-<style>
-   
-   a {
-      text-decoration-line: none;
-      cursor: pointer;
-      color: black;
-   }
 
-    a:visited { text-decoration: none; }
-    a:hover { text-decoration: none; }
-    a:focus { text-decoration: none; }
-    a:hover, a:active { text-decoration: none; }
-   
-   table {
-     border-collapse: collapse;
-     border-spacing: 0;
-   }
-   section.notice {
-     padding: 80px 0;
-   }
-   
-   .page-title {
-     margin-bottom: 60px;
-   }
-   .page-title h3 {
-     font-size: 28px;
-     color: #333333;
-     font-weight: 400;
-     text-align: center;
-   }
-   
-   #board-search .search-window {
-     padding: 15px 0;
-     background-color: #f9f7f9;
-   }
-   #board-search .search-window .search-wrap {
-     position: relative;
-   /*   padding-right: 124px; */
-     margin: 0 auto;
-     width: 80%;
-     max-width: 564px;
-   }
-   #board-search .search-window .search-wrap input {
-     height: 40px;
-     width: 100%;
-     font-size: 14px;
-     padding: 7px 14px;
-     border: 1px solid #ccc;
-   }
-   #board-search .search-window .search-wrap input:focus {
-     border-color: #333;
-     outline: 0;
-     border-width: 1px;
-   }
-   #board-search .search-window .search-wrap .btn {
-     position: absolute;
-     right: 0;
-     top: 0;
-     bottom: 0;
-     width: 108px;
-     padding: 0;
-     font-size: 16px;
-   }
-   
-   .board-table {
-     font-size: 13px;
-     width: 100%;
-     border-top: 1px solid #ccc;
-     border-bottom: 1px solid #ccc;
-   }
-   
-   .board-table a {
-     color: #333;
-     display: inline-block;
-     line-height: 1.4;
-     word-break: break-all;
-     vertical-align: middle;
-   }
-   .board-table a:hover {
-     text-decoration: underline;
-   }
-   .board-table th {
-     text-align: center;
-   }
-   
-   .board-table .th-num {
-     width: 100px;
-     text-align: center;
-   }
-   
-   .board-table .th-date {
-     width: 200px;
-   }
-   
-   .board-table th, .board-table td {
-     padding: 14px 0;
-   }
-   
-   .board-table tbody td {
-     border-top: 1px solid #e7e7e7;
-     text-align: center;
-   }
-   
-   .board-table tbody th {
-     padding-left: 28px;
-     padding-right: 14px;
-     border-top: 1px solid #e7e7e7;
-     text-align: left;
-   }
-   
-   .board-table tbody th p{
-     display: none;
-   }
-   
-   .btn {
-     display: inline-block;
-     padding: 0 30px;
-     font-size: 15px;
-     font-weight: 400;
-     background: transparent;
-     text-align: center;
-     white-space: nowrap;
-     vertical-align: middle;
-     -ms-touch-action: manipulation;
-     touch-action: manipulation;
-     cursor: pointer;
-     -webkit-user-select: none;
-     -moz-user-select: none;
-     -ms-user-select: none;
-     user-select: none;
-     border: 1px solid transparent;
-     text-transform: uppercase;
-     -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-     border-radius: 0;
-     -webkit-transition: all 0.3s;
-     -moz-transition: all 0.3s;
-     -ms-transition: all 0.3s;
-     -o-transition: all 0.3s;
-     transition: all 0.3s;
-   }
-   
-   .btn-dark {
-     background: #555;
-     color: #fff;
-   }
-   
-   .btn-dark:hover, .btn-dark:focus {
-     background: #373737;
-     border-color: #373737;
-     color: #fff;
-   }
-   
-   .btn-dark {
-     background: #555;
-     color: #fff;
-   }
-   
-   .btn-dark:hover, .btn-dark:focus {
-     background: #373737;
-     border-color: #373737;
-     color: #fff;
-   }
-   
-   #container {
-     width: 65%;
-     margin: 0 auto;
-   }
-   
-   #frm_join {
-     width: 777px;
-     margin: 0 auto;
-   }
-   
-   #btn_post_code, #btn_getAuthCode, #btn_verifyAuthCode, #btn_join, #btn_join, #btn_cancel {
-      background-color: rgba(255,255,255);
-   }
-   
-</style>
+
 
 <script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
 <script>
@@ -547,85 +375,147 @@
    
    <div id="container">
    
-      <h1 style="text-align: center">회원 가입</h1>
+      <h2 class="login" style="letter-spacing:-1px; text-align: center;">Sign up to Web</h2>
+
+
    
       <div style="text-align: center">* 표시는 필수 입력사항입니다.</div>
       
       <hr>
       
-      <form id="frm_join" action="${contextPath}/user/join" method="post">
+      <div id="all">
+      <form id="frm_join" action="/user/join" method="post">
       
          <!-- 약관 동의 여부 -->
          <input type="hidden" name="location" value="${location}">
          <input type="hidden" name="promotion" value="${promotion}">
       
          <!-- 아이디 -->
-         <div>
+<!--          <div>
             <label for="id">아이디*</label><br>
-            <input type="text" name="id" id="id">
+            <input type="text" name="id" id="id" class="size">
             <span id="msg_id"></span>
-         </div>
+         </div> -->
          
-         <br>
+                 <!-- <span>ID</span> -->
+        <!-- 아이디 -->         
+        <div>        
+        <label for="id">        
+        	<p style="text-align: left; font-size:15px; color:#666">아이디*</p>
+        	<input type="text"  name="id" id="id"placeholder="아이디" class="size">
+        	<span id="msg_id"></span>
+        </label><!--아이디-->
+		</div> 
          
-         <!-- 비밀번호 -->
+         
+         
+        <br>
+         
+        <!-- 비밀번호 --> 
+        <div> 
+        <label>
+	        <p style="text-align: left; font-size:15px; color:#666">비밀번호*</p>
+	        <input type="password" name="pw" id="pw" placeholder="비밀번호" class="size">
+	        <span id="msg_pw"></span>
+        </label>
+		</div>
+         
+         
+         
+         
+<!--          비밀번호
          <div>
             <label for="pw">비밀번호*</label><br>
-            <input type="password" name="pw" id="pw">
+            <input type="password" name="pw" id="pw" class="size">
             <span id="msg_pw"></span>
-         </div>
+         </div> -->
          
          <br>
          
          <!-- 비밀번호 재확인 -->
-         <div>
+         
+        <div> 
+        <label>
+	        <p style="text-align: left; font-size:15px; color:#666">비밀번호 확인*</p>
+	        <input type="password" id="re_pw" placeholder="비밀번호 확인" class="size">
+	        <span id="msg_re_pw"></span>
+        </label>
+		</div>
+         
+         
+<!--          <div>
             <label for="re_pw">비밀번호 확인*</label><br>
-            <input type="password" id="re_pw">
+            <input type="password" id="re_pw" class="size">
             <span id="msg_re_pw"></span>
-         </div>
+         </div> -->
          
          <br>
          
-         <!-- 이름 -->
-         <div>
+         <!-- 이름 -->        
+        <div> 
+        <label>
+	        <p style="text-align: left; font-size:15px; color:#666">이름*</p>
+	        <input type="text" name="name" id="name" placeholder="이름" class="size">
+        </label>
+		</div>
+         
+         
+<!--          <div>
             <label for="name">이름*</label><br>
-            <input type="text" name="name" id="name">
-         </div>
+            <input type="text" name="name" id="name" class="size">
+         </div> -->
          
          <br>
+        <!-- 별명 -->
+        <div> 
+        <label>
+	        <p style="text-align: left; font-size:15px; color:#666">별명*</p>
+	        <input type="text" name="nickname" id="nickname" placeholder="별명" class="size">
+        </label>
+		</div>
          
-         <!-- 별명 -->
-         <div>
+         
+
+<!--          <div>
             <label for="name">별명*</label><br>
-            <input type="text" name="nickname" id="nickname">
-         </div>
+            <input type="text" name="nickname" id="nickname" class="size">
+         </div> -->
          
          <br>
          <!-- 성별 -->
          <div>
-            <label for="gender">성별</label><br>
+            <label for="gender" style="text-align: left; font-size:15px; color:#666">성별</label><br>
             &nbsp;
 			<input type="radio" name="gender" id="male" value="M">
-	        <label for="male">남자</label>
+	        <label for="male" style="text-align: left; font-size:15px;">남자</label>
 	        &nbsp;&nbsp;&nbsp;
 	        <input type="radio" name="gender" id="female" value="F">
-	        <label for="female">여자</label>
+	        <label for="female" style="text-align: left; font-size:15px;">여자</label>
          </div>
          
          <br>
       
          <!-- 휴대전화 -->
-         <div>
+         
+        <div> 
+        <label>
+	        <p style="text-align: left; font-size:15px; color:#666">휴대전화*</p>
+	        <input type="text" name="mobile" id="mobile" placeholder="휴대전화" class="size">
+        </label>
+		</div>
+         
+         
+<!--          <div>
             <label for="mobile">휴대전화*</label><br>
-            <input type="text" name="mobile" id="mobile" maxlength=11>
+            <input type="text" name="mobile" id="mobile" maxlength=11 class="size">
             <span id="msg_mobile"></span>
-         </div>
+         </div> -->
          
          <br>
       
       	<div>
          <div>
-            <label for="grade">회원 유형</label><br>
+            <label for="grade" style="text-align: left; font-size:15px; color:#666">회원 유형</label><br>
             &nbsp;
 			<input type="radio" name="grade" id="common" value="2">
 	        <label for="common">일반회원</label>
@@ -638,23 +528,26 @@
       
          <!-- 생년월일 -->
          <div>
-            <label for="birthyear">생년월일*</label><br>
-            <select name="birthyear" id="birthyear"></select>
-            <select name="birthmonth" id="birthmonth"></select>
-            <select name="birthdate" id="birthdate"></select>            
+            <label for="birthyear" style="text-align: left; font-size:15px; color:#666">생년월일*</label><br>
+            <select name="birthyear" id="birthyear" class="size num1" style="width:100px;"></select>
+            <select name="birthmonth" id="birthmonth" class="size num1" style="width:100px;"></select>
+            <select name="birthdate" id="birthdate" class="size num1" style="width:100px;"></select>            
          </div>
          
          <br>
          
          <!-- 주소 -->
          <div>
-            <input type="text" onclick="fn_execDaumPostcode()" name="postcode" id="postcode" size=4 placeholder="우편번호" readonly="readonly">
-            <input type="button" onclick="fn_execDaumPostcode()" value="우편번호 찾기" id="btn_post_code"><br>
-            <input type="text" name="roadAddress" id="roadAddress" size=27 placeholder="도로명주소"  readonly="readonly">
-            <input type="text" name="jibunAddress" id="jibunAddress" size=27 placeholder="지번주소"  readonly="readonly"><br>
+         	<div></div>
+            <input type="text" onclick="fn_execDaumPostcode()" name="postcode" id="postcode" size=4 placeholder="우편번호" readonly="readonly" class="size">
+            <input type="button" onclick="fn_execDaumPostcode()" value="우편번호 찾기" id="btn_post_code" class="btn btn-outline-secondary" style="margin-bottom: 4px;"><br>
+            <br>
+            <input type="text" name="roadAddress" id="roadAddress" size=27 placeholder="도로명주소"  readonly="readonly" class="size">
+            <input type="text" name="jibunAddress" id="jibunAddress" size=27 placeholder="지번주소"  readonly="readonly" class="size"><br>
+            <br>
             <span id="guide" style="color:#999;display:none"></span>
-            <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-            <input type="text" name="extraAddress" id="extraAddress" size=30 placeholder="참고항목" readonly="readonly">
+            <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소" class="size">
+            <input type="text" name="extraAddress" id="extraAddress" size=30 placeholder="참고항목" readonly="readonly" class="size">
             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
             <script>
                 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -717,28 +610,35 @@
          
          <br>
          
-         <!-- 이메일 -->
-         <div>
-            <div>
+         <!-- 이메일 -->     
+         <div>         
+	        <div> 
+		        <label>
+		        	<p style="text-align: left; font-size:15px; color:#666">이메일*</p>
+			        <input type="text" name="email" id="email" placeholder="이메일" class="size" style="width:250px">	        
+			        <input type="button" value="인증번호받기" id="btn_getAuthCode" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
+				</label>
+			</div>
+<!--             <div>
                <label for="email">이메일*</label><br>
-               <input type="text" name="email" id="email">
+               <input type="text" name="email" id="email" class="size">
                <input type="button" value="인증번호받기" id="btn_getAuthCode">
-            </div>
+            </div> -->
             <span id="msg_email"></span><br>
-            <input type="text" id="authCode" size=9 placeholder="인증코드 입력">
-            <input type="button" value="인증하기" id="btn_verifyAuthCode">
-         </div>
-         
-         <hr>
-         
+            <input type="text" id="authCode" size=9 placeholder="인증코드 입력" class="size" style="width:150px">
+            <input type="button" value="인증하기" id="btn_verifyAuthCode" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
+         </div>       
+   
          <!-- 버튼 -->
-         <div>
-            <button id="btn_join">가입하기</button>
-            <input type="button" value="취소" id="btn_cancel" onclick="history.go(-2)">
+         <div>       	
+            <button id="btn_join" class="button" style="background-color:#217Af0; width: 100x; margin-top: 30px;">가입하기</button>
+            <input type="button" value="취소" id="btn_cancel" onclick="history.go(-2)" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
          </div>    
       </form>
-   
+   	</div> 
    </div>
+
+	
 
 </body>
 </html>
