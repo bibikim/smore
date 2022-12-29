@@ -4,180 +4,91 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="스터디게시판" name="title"/>
 </jsp:include>
 
-<style>
-	.blind {
-		display: none;
-	}
-	
-	#lnk_Z:hover span {
-		cursor: pointer;
-		color: #f83030;
-	}
-	
-	#heart {
-		width: 16px;
-		margin-right: 5px;
-	}
-	#map {
-        width: 300px;
-        height: 300px;
-        background-color: grey;
-      }
-</style>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
 
-<div>
-
-	<h1>${study.title}</h1>
+<script>
 	
-	<div>
-		<span>▷ 작성자 ${study.nickname}</span>
-		&nbsp;&nbsp;&nbsp;
-		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
-		&nbsp;&nbsp;&nbsp;
-		<span>▷ 수정일 <fmt:formatDate value="${study.modifyDate}" pattern="yyyy. M. d HH:mm" /></span>
-	</div>
-	
-	<div>
-		<span>▷ 조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span>▷ 시작예정일 ${study.studDate}</span>
-	</div>
-	
-	<hr>
-	
-	<div>
-		${study.content}
-	</div>
-	<div id="map"></div> <!-- 지도가 붙을 위치 -->
-	<div>
-		<form id="frm_btn" method="post">
-			<input type="hidden" name="studNo" value="${study.studNo}">
-			<c:if test="${loginUser.nickname == study.nickname}">
-				<input type="button" value="수정" id="btn_edit_study">
-				<input type="button" value="삭제" id="btn_remove_study">
-			</c:if>
-			<input type="button" value="목록" onclick="location.href='/'">
-			<input type="button" value="신고하기" id="btn_red_study">
-		</form>
-		<script>
-			$('#btn_edit_study').click(function(){
-				$('#frm_btn').attr('action', '${contextPath}/study/edit');
+	$(document).ready(function(){
+		
+		// 게시글 삭제
+		$('.btn_remove').click(function(){
+			if(confirm('게시글을 삭제하시겠습니까?')) {
+				$('#frm_btn').attr('action', '/study/remove');
 				$('#frm_btn').submit();
-			});
-			$('#btn_remove_study').click(function(){
-				if(confirm('이 게시판을 삭제하시겠습니까?')){
-					$('#frm_btn').attr('action', '${contextPath}/study/remove');
-					$('#frm_btn').submit();
-				}
-			});
-		</script> 
-	</div>
-	
-	<hr>
-	
-	<!-- 12.20 시작 -->
-	<span id="btn_comment_list">
-		댓글
-		<span id="comment_count"></span>개
-	</span>
-	<a id="lnk_Z">
-		<span id="heart"></span><span id="z">찜하기 </span><span id="z_count"></span>
-	</a>
-	
-	<hr>
-	
-	<div id="comment_area" class="blind">
-		<div id="comment_list"></div>
-		<div id="paging"></div>
-	</div>
-	
-	<hr>
-	
-	<div>
-		<form id="frm_add_comment">
-			<div class="add_comment">
-				<div class="add_comment_input">
-					<input type="text" name="content" id="content" placeholder="댓글을 작성하려면 로그인 해 주세요">
-				</div>
-				<div class="add_comment_btn">
-					<c:if test="${loginUser != null}">
-						<input type="button" value="작성완료" id="btn_add_comment">
-					</c:if>
-				</div>
-			</div>
-			<input type="hidden" name="studNo" value="${study.studNo}">
-			<input type="hidden" name="nickname" value="${loginUser.nickname}">
-		</form>
-	</div>
-	
-	<!-- 현재 페이지 번호를 저장하고 있는 hidden -->
-	<input type="hidden" id="page" value="1">
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA04EQzcwD9wp_TDVwnp-owrOYASb6u4Z8&callback=initMap&region=kr"></script>
-	
-	<script>
-	
-		// 함수 호출
-		fn_commentCount();
-		fn_switchCommentList();
+			}
+		})
+		
+		// 게시글 수정
+		$('.btn_modify').click(function(){
+			$('#frm_btn').attr('action', '/study/edit');
+			$('#frm_btn').submit();
+		})
+		
+		// 댓글 관련 함수 호출
+		fn_commentCnt();
+		fn_switchCmtList();
 		fn_addComment();
-		fn_commentList();
+		fn_cmtList();
 		fn_changePage();
+		fn_switchRecmtArea();
+		fn_addRecomment();
 		fn_removeComment();
-		fn_switchReplyArea();
-		fn_addReply();
+ 		fn_editComment();
+ 		fn_switchEditcmtArea();
 		
-		fn_ZCheck();
-		fn_ZCount();
-		fn_pressZ();
-		fn_pressRed();
-		
-		// 함수 정의
-		function fn_commentCount(){
+		// 댓글 카운트
+		function fn_commentCnt() {
 			$.ajax({
 				type: 'get',
-				url: '/study/comment/getCount',
+				url: '/study/comment/getcnt',
 				data: 'studNo=${study.studNo}',
 				dataType: 'json',
-				success: function(resData){  // resData = {"commentCount": 개수}
-					$('#comment_count').text(resData.commentCount);
+				success: function(resData) {
+					$('.cmt_cnt').text(resData.commentCnt);  // 실제들어있는 값은 아닌데 key 자체를 써야 실제 값(value == db에서 꺼내온 값)을 꺼내올수 있다.
 				}
-			});
+			})
 		}
 		
-		function fn_switchCommentList(){
-			$('#btn_comment_list').click(function(){
-				$('#comment_area').toggleClass('blind');
+  		function fn_switchCmtList() {
+			$('#btn_cmtlist').click(function(){
+				$('#cmt_area').toggleClass('blind');
 			});
-		}
+		} 
 		
-		function fn_addComment(){
-			$('#btn_add_comment').click(function(){
-				if($('#content').val() == ''){
-					alert('댓글 내용을 입력하세요');
+		
+  		// 댓글 삽입
+		function fn_addComment() {
+			$('#btn_addcmt').click(function(){
+				if($('#content').val() == '') {
+					alert('댓글 내용을 입력해주세요.');
 					return;
 				}
 				$.ajax({
 					type: 'post',
 					url: '/study/comment/add',
-					data: $('#frm_add_comment').serialize(),
+					data: $('#frm_addcmt').serialize(),
 					dataType: 'json',
-					success: function(resData){  // resData = {"isAdd", true}
-						if(resData.isAdd){
+					success: function(resData) {
+						if(resData.isSave) {
 							alert('댓글이 등록되었습니다.');
 							$('#content').val('');
-							fn_commentList();   // 댓글 목록 가져와서 뿌리는 함수
-							fn_commentCount();  // 댓글 목록 개수 갱신하는 함수
+							fn_cmtList();
+							fn_commentCnt();
 						}
+					}, error: function(){
+						alert('다시 로그인 해 주세요.');
+						location.href='/user/login/form';
 					}
-				});
-			});
+				})
+			})
 		}
 		
   		// 댓글 리스트
-		function fn_commentList(){
+		function fn_cmtList(){
 			$.ajax({
 				type: 'get',
 				url: '/study/comment/list',
@@ -185,8 +96,8 @@
 				dataType: 'json',
 				success: function(resData) {
 					
-					$('#comment_list').empty();
-					$.each(resData.commentList, function(i, comment) {
+					$('#cmt_list').empty();
+					$.each(resData.cmtList, function(i, comment) {
 						var div ='';
 						if(comment.depth == 0) {   // 댓글
 							div += '<div>';
@@ -290,167 +201,284 @@
 		}
 		
 		function fn_changePage(){
-			$(document).on('click', '.lnk_enable', function(){
-				$('#page').val( $(this).data('page') );
-				fn_commentList();
+			$(document).on('click', '.enable_link', function(){
+				$('#page').val($(this).data('page'));
+				fn_cmtList();
 			});
 		}
 		
 		function fn_removeComment(){
-			$(document).on('click', '.btn_comment_remove', function(){
-				if(confirm('댓글을 삭제할까요?')){
+			$(document).on('click', '.btn_removecmt', function(){
+				if(confirm('댓글을 삭제할까요?')) {
 					$.ajax({
 						type: 'post',
 						url: '/study/comment/remove',
 						data: 'cmtNo=' + $(this).data('comment_no'),
 						dataType: 'json',
-						success: function(resData){  // resData = {"isRemove": true}
-							if(resData.isRemove){
+						success: function(resData) {
+							if(resData.isRemove) {
 								alert('댓글이 삭제되었습니다.');
-								fn_commentList();
-								fn_commentCount();
+								fn_cmtList();
+								fn_commentCnt();
 							}
 						}
-					});
+					})
 				}
+			})	
+		}	
+		
+		
+		function fn_switchRecmtArea(){
+			$(document).on('click', '.btn_recomment_area', function(){
+				$(this).parent().next().next().toggleClass('blind');
 			});
 		}
 		
-		function fn_switchReplyArea(){
-			$(document).on('click', '.btn_reply_area', function(){
-				$(this).parent().next().toggleClass('blind');
-			});
-		}
 		
-		function fn_addReply(){
-			$(document).on('click', '.btn_reply_add', function(){
-				if($(this).prev().val() == ''){
-					alert('답글 내용을 입력하세요.');
+		function fn_addRecomment(){
+			$(document).on('click', '.btn_addrecmt', function(){
+				if($(this).prev().val() == '') {
+					alert('내용을 입력해주세요.');
 					return;
 				}
 				$.ajax({
 					type: 'post',
-					url: '/study/comment/reply/add',
-					data: $(this).closest('.frm_reply').serialize(),  // 이건 안 됩니다 $('.frm_reply').serialize(),
+					url: '/study/comment/reply/save',
+					data: $(this).closest('.frm_recomment').serialize(),
 					dataType: 'json',
-					success: function(resData){  // resData = {"isAdd", true}
-						if(resData.isAdd){
-							alert('답글이 등록되었습니다.');
-							fn_commentList();
-							fn_commentCount();
+					success: function(resData) {
+						if(resData.isSaveRe) {
+							alert('대댓글이 등록되었습니다.');
+							fn_cmtList();
+							fn_commentCnt();
 						}
 					}
-				});
+				})
+			})
+		}
+		
+		
+		function fn_switchEditcmtArea(){
+			$(document).on('click', '.btn_editcmt_area', function(){
+				$(this).parent().next().next().next().toggleClass('blind');
 			});
 		}
 		
-		//////////////////////////////////////////////////
-		// 12.20 18시
 		
-		// 내가 "좋아요"를 누른 게시글인가?(좋아요 테이블에 사용자와 게시글 정보가 있는지 확인, 눌렀으면 빨간하트, 안 눌렀으면 빈하트)
-		function fn_ZCheck() { 
-			$.ajax({
-				url: '/study/getZCheck',
-				type: 'get',
-				data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
-				dataType: 'json',
-				success: function(resData){
-					if (resData.count == 0) {
-						$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
-						$('#z').removeClass("z_checked");
-					} else {
-						$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
-						$('#z').addClass("z_checked");
-					}
-				}
-			});
-		}
-		
-		// "좋아요" 개수 표시하기
-		function fn_ZCount(){
-			$.ajax({
-				url: '/study/getZCount',
-				type: 'get',
-				data: 'studNo=${study.studNo}',
-				dataType: 'json',
-				success: function(resData){
-					$('#z_count').empty();
-					$('#z_count').text(resData.count + '개');
-				}
-			});
-		}
-		
-		// "좋아요" 누른 경우
-		function fn_pressZ(){
-			$('#lnk_Z').click(function(){
-				// 로그인을 해야 "좋아요"를 누를 수 있다.
-				if('${loginUser.nickname}' == ''){
-					alert('해당 기능은 로그인이 필요합니다.');
+ 		function fn_editComment() {
+			$(document).on('click', '.btn_editcmt', function() {
+				if($(this).prev().val() == '') {
+					alert('내용을 입력해주세요.');
 					return;
 				}
-				
-				// 셀프 좋아요 방지
-				if('${loginUser.nickname}' == '${study.nickname}'){
-					alert('본인의 게시글에서는 "좋아요"를 누를 수 없습니다.');
-					return;
-				}
-				
-				// "좋아요" 선택/해제 상태에 따른 하트 변경
-				$('#z').toggleClass("z_checked");
-				if ($('#z').hasClass("z_checked")) {
-					$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
-				} else {
-					$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
-				}
-				
-				// "좋아요" 처리
 				$.ajax({
-					url: '/study/mark',
-					type: 'get',
-					data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
+					type: 'post',
+					url: '/study/comment/edit',
+					data: $(this).closest('.frm_editcmt').serialize(),
 					dataType: 'json',
-					success: function(resData){
-						if(resData.isSuccess) {
-							fn_ZCount();							
+					success: function(resData) {
+						if(resData.isEdit) {
+							alert('댓글이 수정되었습니다.');
+							fn_cmtList();
 						}
 					}
-				});
-			});
+				})				
+			})
 		}
+		 
+ 		/**************************************************************************/
+ 		
+ 		// 좋아요 함수 호출
+ 		fn_likeCheck();
+ 		fn_likeCount();
+ 		fn_pressLike();
+ 		
+ 		// 좋아요 함수
+ 		// 내가 좋아요 누른 게시글인지 체크
+ 		function fn_likeCheck() {
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/study/likeCheck',
+ 				data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
+ 				dataType: 'json',
+ 				success: function(resData) {
+ 					if(resData.count == 0) {
+ 						$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
+ 						$('#like').removeClass("like_checked");
+ 					} else {
+ 						$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+ 						$('#like').addClass("like_checked");
+ 					}
+ 				}
+ 			})
+ 		}
 		
-		// 12.22 신고하기
-		function fn_pressRed() {
-			$('#btn_red_study').click(function(){
-				// 로그인을 해야 "신고하기"를 누를 수 있다.
-				if('${loginUser.nickname}' == ''){
-					alert('해당 기능은 로그인이 필요합니다.');
-					return;
-				}
-				// 자기신고 불가
-				if('${loginUser.nickname}' == '${study.nickname}'){
-					alert('본인을 신고 할 수 없습니다.');
-					return;
-				} else {
-					window.open("<%=request.getContextPath()%>/red/write", "신고창", "width=800, height=600, left=100, top=50"); 
-				}
-			});
+ 		// 좋아유 개수
+ 		function fn_likeCount(){
+ 			$.ajax({
+ 				type: 'get',
+ 				url: '/study/likeCnt',
+ 				data: 'studNo=${study.studNo}',
+ 				dataType: 'json',
+ 				success: function(resData){
+ 					$('#like_count').empty();
+ 					$('#like_count').text(resData.count);
+ 				}
+ 			})
+ 		}
+ 		
+ 		// 좋아요 누른 경우
+ 		function fn_pressLike() {
+ 			$('#lnk_like').click(function(){
+ 				// 로그인 해야 누를 수 있음
+ 				if('${loginUser.nickname}' == '') {
+ 					alert('해당 기능은 로그인이 필요합니다.');
+ 					return;
+ 				}
+ 				// 셀프 좋아요 방지
+ 				if('${loginUser.nickname}' == '${study.nickname}') {
+ 					alert('작성자의 게시글에서는 좋아요를 누를 수 없습니다.');
+ 					return;
+ 				}
+ 				// 좋아요 선택/해제 상태에 따른 하트 상태 변경
+ 				$('#like').toggleClass("like_checked");
+ 				if ($('#like').hasClass("like_checked")) {
+ 					$('#heart').html('<img src="../resources/images/redheart.png" width="15px">');
+ 				} else {
+ 					$('#heart').html('<img src="../resources/images/whiteheart.png" width="15px">');
+ 				}
+ 				
+ 				// 좋아요 처리
+ 				$.ajax({
+ 					type: 'get',
+ 					url: '/study/mark',
+ 					data: 'studNo=${study.studNo}&nickname=${loginUser.nickname}',
+ 					dataType: 'json',
+ 					success: function(resData) {
+ 						if(resData.isSuccess) {
+ 							fn_likeCount();
+ 						}
+ 					}
+ 				})
+ 			})
+ 		}
+ 		
+ 		
+	});
 
-		}
-		// 지도
-	    function initMap() {
-	        var location = { lat: ${study.wido} ,lng: ${study.gdo} };
-	        var map = new google.maps.Map(
-	          document.getElementById('map'), {
-	            zoom: 12,
-	            center: location
-	          });
-	        
-	      }
-	</script>
+	// 지도
+    function initMap() {
+        var location = { lat: ${study.wido} ,lng: ${study.gdo} };
+        var map = new google.maps.Map(
+          document.getElementById('map'), {
+            zoom: 12,
+            center: location
+          });
+        
+      }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA04EQzcwD9wp_TDVwnp-owrOYASb6u4Z8&callback=initMap&region=kr"></script>
 
+<style>
+	* {
+		box-sizing: border-box;
+	}
 	
-</div>
+	.blind {
+		display: none;
+	}
+	
+	#lnk_like:hover span {
+		cursor: pointer;
+		color: #f83030;
+	}
+	#heart {
+		width: 16px;
+		margin-right: 5px;
+	}
+	#map {
+        width: 300px;
+        height: 300px;
+        background-color: grey;
+      }
+</style>
+</head>
 <body>
+	<h1>${study.title}</h1>
+	
+	<div>
+		<span>▷ 작성자 ${study.nickname}</span>
+		&nbsp;&nbsp;&nbsp;
+		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
+		&nbsp;&nbsp;&nbsp;
+	</div>
+	
+	<hr>
+	
+	<div>
+		<span>▷ 조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>▷ 시작예정일 ${study.studDate}</span>
+	</div>
+	
+	<hr>
+	
+	<div>
+		${study.content}
+	</div>
+	<div id="map"></div> <!-- 지도가 붙을 위치 -->
+	<div style="width: 800px; display: inline-block;" >
+		<div style="width: 200px; display: inline-block;">
+			<form id="frm_btn" method="post">
+				<input type="hidden" name="studNo" value="${study.studNo}">
+				<input type="button" value="수정" class="btn_modify">
+				<input type="button" value="삭제" class="btn_remove">
+			</form>
+		</div>
+		<div style="width: 300px;">
+			<input type="button" value="목록" onclick="location.href='/'">
+		</div>
+	</div>
 
+		<div>
+			<span id="btn_cmtlist" class="" style="">
+				댓글
+				<span class="cmt_cnt"></span>개
+			</span>
+			<a id="lnk_like">
+				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
+			</a>
+		</div>
+		
+		<hr>
+
+		<div id="cmt_area">
+			<div id="cmt_list"></div>
+			<div id="paging"></div>
+		</div>
+		
+		<hr>
+
+		<div>
+			<form id="frm_addcmt">
+				<div class="addcmt">
+					<div class="addcmt_textarea">
+						<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+					</div>
+					<div>
+						<input type="button" value="등록" id="btn_addcmt">
+					</div>
+				</div>
+				<input type="hidden" name="studNo" value="${study.studNo}">
+				<input type="hidden" name="ip" value="${cmtList.ip}">
+				
+				<input type="hidden" name="groupNo" value="0">
+				<input type="hidden" name="nickname" value="${loginUser.nickname}">
+			</form>
+		</div>
+		
+		<input type="hidden" id="page" value="1">
+		
+		
 </body>
 </html>

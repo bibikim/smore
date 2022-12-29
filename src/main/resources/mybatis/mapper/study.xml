@@ -60,27 +60,27 @@
 		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
 	</select>
 			
-	<select id="selectNickZCount" parameterType="map" resultType="int">
+	<select id="selectUserLikeCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_ZZIM
 		 WHERE STUD_NO = #{studNo}
 		   AND NICKNAME = #{nickname}
 	</select>	
 	
-	<select id="selectStudZCount" parameterType="int" resultType="int">
+	<select id="selectStudyLikeCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_ZZIM
 		 WHERE STUD_NO = #{studNo}
 	</select>	
 	
-	<insert id="insertZ" parameterType="map">
+	<insert id="insertLike" parameterType="map">
 		INSERT INTO S_ZZIM
 			(STUD_NO, NICKNAME)
 		VALUES
 			(#{studNo}, #{nickname})
 	</insert>
 	
-	<delete id="deleteZ" parameterType="map">
+	<delete id="deleteLike" parameterType="map">
 		DELETE
 		  FROM S_ZZIM
 		 WHERE STUD_NO = #{studNo}
