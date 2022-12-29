@@ -17,7 +17,6 @@
 	
 	$(document).ready(function(){
 		
-
 		// summernote
 		$('#content').summernote({
 			width: 800,

@@ -122,9 +122,9 @@
 								
 				
 								<c:set var="now" value="${java.util.Date}"/>
-								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>
+								<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMdd"/>
 								<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>
-								<fmt:parseDate value="${createDate}" var="creDate" pattern="yyyyMMddHHmmss" />
+								<fmt:parseDate value="${createDate}" var="creDate" pattern="yyyyMMdd" />
 								<fmt:parseNumber value="${creDate.time /(1000*60*60*24)}" integerOnly="true" var="creDt"/>
 								<c:if test="${today - creDt le 1}">
 									<img src="../../resources/images/icon-new.png">
