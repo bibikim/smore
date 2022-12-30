@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.ui.Model;
+
 public interface AdminService {
 	// 유저 리스트
 	public Map<String, Object> getAllUserList(int page);
@@ -12,7 +14,7 @@ public interface AdminService {
 	public Map<String, Object> getreportUserList(int page);
 	
 	// 유저 검색
-	public Map<String, Object> findUsers(HttpServletRequest request, int page);
+	public Map<String, Object> findUsers(HttpServletRequest request, Model model);
 	
 	// 게시판 검색
 	public Map<String, Object> findBoards(HttpServletRequest request, int page);

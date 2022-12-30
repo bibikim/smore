@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -98,11 +99,17 @@ public class AdminController {
 		return adminService.getQnaList(page);
 	}
 	
+//	@GetMapping(value="/users/search/page{page}", produces = "application/json")
+//	public Map<String, Object> requiredLogin_searchUsers(HttpServletRequest request,@PathVariable(value="page", required = false) Optional<String> opt) {
+//		int page = Integer.parseInt(opt.orElse("1"));
+//		return adminService.findUsers(request, page);
+//	}
+	
 	@GetMapping(value="/users/search/page{page}", produces = "application/json")
-	public Map<String, Object> requiredLogin_searchUsers(HttpServletRequest request,@PathVariable(value="page", required = false) Optional<String> opt) {
-		int page = Integer.parseInt(opt.orElse("1"));
-		return adminService.findUsers(request, page);
+	public Map<String, Object> requiredLogin_searchUsers(HttpServletRequest request, Model model) {
+		return adminService.findUsers(request, model);
 	}
+	
 	
 	@GetMapping(value="/boards/search/page{page}", produces = "application/json")
 	public Map<String, Object> requiredLogin_searchFreeBoard(HttpServletRequest request, @PathVariable(value="page", required = false) Optional<String> opt){

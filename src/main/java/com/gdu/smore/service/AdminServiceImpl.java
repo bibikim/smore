@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.gdu.smore.domain.AllBoardDTO;
 import com.gdu.smore.domain.user.AllUserDTO;
@@ -223,6 +225,7 @@ public class AdminServiceImpl implements AdminService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
+      System.out.println(result);
       result.put("naverPageUtil", naverPageUtil);
       return result;
       
@@ -277,8 +280,11 @@ public class AdminServiceImpl implements AdminService {
    
    
    @Override
-	public Map<String, Object> findUsers(HttpServletRequest request, int page) {
+	public Map<String, Object> findUsers(HttpServletRequest request, Model model) {
 	   		
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+	   
 		String column = request.getParameter("column");
 		String query = request.getParameter("query");
 		String start = request.getParameter("start");
@@ -300,14 +306,15 @@ public class AdminServiceImpl implements AdminService {
 		switch(column) {
 		case "ID":
 		case "NICKNAME" : 	
-			path = "/users/search?column=" + column + "&query=" + query;
+			path = "/users/search/page?column=" + column + "&query=" + query;
 			break;
 		case "JOIN_DATE":
-			path = "/users/search?column=" + column + "&start=" + start + "&stop=" + stop;
+			path = "/users/search/page?column=" + column + "&start=" + start + "&stop=" + stop;
 			break;	
 		}
-		naverPageUtil.getNaverPaging(path);
+	
 		Map<String, Object> result = new HashMap<>();
+		naverPageUtil.getNaverPaging(path);
 		if(users.size() == 0) {
 			result.put("message", "조회된 결과가 없습니다.");
 			result.put("status", 500);
@@ -329,7 +336,7 @@ public class AdminServiceImpl implements AdminService {
 		String query2 = request.getParameter("query2");
 		String start2 = request.getParameter("start2");
 		String stop2 = request.getParameter("stop2");
-	   
+	   System.out.println(board);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("column2", column2);
 		map.put("query2", query2);
