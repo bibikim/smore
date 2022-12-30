@@ -21,8 +21,7 @@ public class JobZzimServiceImpl implements JobZzimService{
 		
 		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
 		String nickname = request.getParameter("nickname");
-		System.err.println("-----------------------------------------");
-		System.err.println(nickname);
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("jobNo", jobNo);
 		map.put("nickname", nickname);
@@ -46,8 +45,7 @@ public class JobZzimServiceImpl implements JobZzimService{
 	public Map<String, Object> markScrap(HttpServletRequest request) {
 		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
 		String nickname = request.getParameter("nickname");
-		System.out.println("---- markscrap");
-		System.out.println(nickname);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("jobNo", jobNo);
 		map.put("nickname", nickname);
