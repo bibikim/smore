@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<jsp:include page="../layout/header.jsp">
+<%-- <jsp:include p                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        age="../layout/header.jsp">
 	<jsp:param value="약관 동의" name="title"/>
-</jsp:include>
-
+</jsp:include> --%>
+<link rel="stylesheet" href="/resources/css/reset.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <style>
 
 	.blind {
@@ -21,10 +21,64 @@
 	.lbl_checked {
 		background-image: url(../../resources/images/check.png);
 	}
+		.wrap.palm-leaf {
+     background: #faf3eb; 
+    /* background: #f7ebd2; */
+	}
+
+	.wrap {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    background: #fff;
+	}
+	.main_register_wrap__2Rm-j {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+	}
+
+	.right_right_area_register__1xzTV, .right_right_area_register_entry__2SYIe, .right_right_area_send__3UENH {
+    position: relative;
+    background-color: #fff;
+    border-radius: 32px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+	}
+
+	.right_right_area__3O18C .right_join_wrap__2w-MC, .right_right_area_register__1xzTV .right_join_wrap__2w-MC, .right_right_area_register_entry__2SYIe .right_join_wrap__2w-MC, .right_right_area_send__3UENH .right_join_wrap__2w-MC {
+    width: 100%;
+    max-width: 400px;
+    padding-top: 24px;
+	}
 	
+	.register_registerArea__bOcTZ .register_txt__34D08 {
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    text-align: center;
+    letter-spacing: -.5px;
+    color: #4b4b4b;
+}
+.fonts{
+	font-weight: 700;
+    font-size: 14px;
+    line-height: 140%;
+    display: flex;
+    align-items: center;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+
 </style>
 
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
 	$(function(){
@@ -90,11 +144,11 @@
 </head>
 <body>
 
-	<div>
+<!-- 	<div>
 	
 		<h1>약관 동의하기</h1>
 		
-		<form id="frm_agree" action="${contextPath}/user/join/write">
+		<form id="frm_agree" action="/user/join/write">
 		
 			<div>
 				<input type="checkbox" id="check_all" class="blind">
@@ -109,28 +163,32 @@
 				<input type="checkbox" id="service" class="check_one blind">
 				<label for="service" class="lbl_one">이용약관 동의(필수)</label>
 				<div>
-					<textarea>본 약관은 ...</textarea>
+					<textarea style="width: 500px;">여러분을 환영합니다.
+S'more 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 S'more 서비스의 이용과 관련하여 S'more 서비스를 제공하는 S'more 주식회사(이하 ‘S'more’)와 이를 이용하는 S'more 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 S'more 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
+					</textarea>
 				</div>
 			</div>
 			<div>
 				<input type="checkbox" id="privacy" class="check_one blind">
 				<label for="privacy" class="lbl_one">개인정보수집 동의(필수)</label>
 				<div>
-					<textarea>개인정보보호법에 따라 ...</textarea>
+					<textarea style="width: 500px;">개인정보보호법에 따라 ...
+					</textarea>
 				</div>
 			</div>
 			<div>
 				<input type="checkbox" id="location" name="location" class="check_one blind">
 				<label for="location" class="lbl_one">위치정보수집 동의(선택)</label>
 				<div>
-					<textarea>위치정보 ...</textarea>
+					<textarea style="width: 500px;">위치정보 ...
+					</textarea>
 				</div>
 			</div>
 			<div>
-				<input type="checkbox" id="promotion" name="promotion" class="check_one blind">
+				<input type="checkbox" id="promotion" name="promotion" class="check_one blind" >
 				<label for="promotion" class="lbl_one">마케팅 동의(선택)</label>
 				<div>
-					<textarea>마케팅 ...</textarea>
+					<textarea style="width: 500px;">마케팅 ...</textarea>
 				</div>
 			</div>
 			
@@ -148,7 +206,73 @@
 		
 		</form>
 		
+	</div> -->
+
+	<div class="wrap RegisterWrap palm-leaf">
+		<div class="main_register_wrap__2Rm-j">
+			<div class="right_right_area_register__1xzTV" style="width: 600px; padding-bottom: 5%; padding-top: 5%;">
+				<div class="right_join_wrap__2w-MC" style="margin-right: 80px;">
+					<form id="frm_agree" action="/user/join/write">
+						<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png"  style=" text-align: center; width: 210px;"></a>
+				 		<h3 class="login" style="letter-spacing:-1px; padding-top: 10px; font-size: 23px;">약관 동의</h3>	
+	 					<div>
+							<input type="checkbox" id="check_all" class="blind">
+							<label for="check_all" class="lbl_all">
+								이용약관, 개인정보수집, 위치정보수집(선택), 마케팅(선택)에 모두 동의합니다.
+							</label>
+						</div>
+				 		
+	 					<div>
+							<input type="checkbox" id="service" class="check_one blind">
+							<label for="service" class="lbl_one">이용약관 동의(필수)</label>
+							<div>
+								<textarea style="width: 500px; height: 100px;" class="form-control">여러분을 환영합니다.
+								S'more 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 S'more 서비스의 이용과 관련하여 S'more 서비스를 제공하는 S'more 주식회사(이하 ‘S'more’)와 이를 이용하는 S'more 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 S'more 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
+								</textarea>
+							</div>
+						</div>
+				 		
+				 		<div>
+							<input type="checkbox" id="privacy" class="check_one blind">
+							<label for="privacy" class="lbl_one">개인정보수집 동의(필수)</label>
+							<div>
+								<textarea style="width: 500px; height: 100px;" class="form-control">개인정보보호법에 따라 ...
+								</textarea>
+							</div>
+						</div>
+						<div>
+							<input type="checkbox" id="location" name="location" class="check_one blind">
+							<label for="location" class="lbl_one">위치정보수집 동의(선택)</label>
+							<div>
+								<textarea style="width: 500px; height: 100px;" class="form-control">위치정보 ...
+								</textarea>
+							</div>
+						</div>
+						<div>
+							<input type="checkbox" id="promotion" name="promotion" class="check_one blind" >
+							<label for="promotion" class="lbl_one">마케팅 동의(선택)</label>
+							<div>
+								<textarea style="width: 500px; height: 100px;" class="form-control">마케팅 ...</textarea>
+							</div>
+						</div>
+		 		
+		 				<div>
+							<input type="button" value="취소" onclick="fn_cancel()">
+							<button>다음</button>
+							<script>
+								function fn_cancel(){
+									location.href='/user/login/form';
+								}
+							</script>
+						</div>	
+				 													
+								
+					</form>				
+			    </div> 
+		    </div>
+	    </div>
 	</div>
+
 
 </body>
 </html>

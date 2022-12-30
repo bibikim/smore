@@ -1,11 +1,10 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
-<jsp:include page="../layout/header.jsp">
+<%-- <jsp:include page="../layout/header.jsp">
 	<jsp:param value="비밀번호 변경하기" name="title"/>
-</jsp:include>
+</jsp:include> --%>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
 	.w-btn {
@@ -24,25 +23,55 @@
     background-color: #6aafe6;
     color: #d4dfe6;
 	}
+	
 	#container{
-		width: 65%;
-		margin-left: 200px;
+		background: #f9fafb;
 	}
-	#all{
-		margin-top: 200px;
-		margin-right: 50px;
+
+
+	.wrap.palm-leaf {
+     background: #faf3eb; 
+    /* background: #f7ebd2; */
 	}
-	#content{
-		margin-left: 80px;
+
+	.wrap {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    background: #fff;
 	}
+	.main_register_wrap__2Rm-j {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+	}
+
+	.right_right_area_register__1xzTV, .right_right_area_register_entry__2SYIe, .right_right_area_send__3UENH {
+    position: relative;
+    background-color: #fff;
+    border-radius: 32px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+	}
+
+	.right_right_area__3O18C .right_join_wrap__2w-MC, .right_right_area_register__1xzTV .right_join_wrap__2w-MC, .right_right_area_register_entry__2SYIe .right_join_wrap__2w-MC, .right_right_area_send__3UENH .right_join_wrap__2w-MC {
+    width: 100%;
+    max-width: 400px;
+    padding-top: 24px;
+	}
+
 </style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
 	$(function() {
-		$('#btn_check_pw').click(function(){
-			
+		$('#btn_check_pw').click(function(){			
 			$.ajax({
 				type: 'post',
 				url: '/user/check/pw',
@@ -64,41 +93,27 @@
 
 </head>
 <body>
-	
-	<div id="container">
-		<div id="all">
-			<h2 class="login" style="letter-spacing:-1px; text-align: center;">Check Pw</h2>
-			<hr>
-				<div id="content">
-					<!-- <div>개인정보 보호를 위해서 비밀번호를 입력해주세요</div> -->
-				
-				    <label>
-				        <!-- <span>ID</span> -->
-				        <p style="text-align: left; font-size:15px; color:#666">비밀번호</p>
-				        <input type="password" placeholder="비밀번호를 입력"  id="pw" class="size">
-				        <!-- <input type="submit" value="확인"> -->
-				        <p></p>
-				    </label>
-				
-					
-						
-				
-					<div>
-						<input type="button" value="확인" id="btn_check_pw" class="btn btn-outline-secondary">
-
-
-
-				</div>	
-				    
-				
-				<!-- <input type="button" value="취소" onclick="history.back()"> -->
-
-			</div>
-							<hr>
-				   <p class="find">
-        					<span><a href="/" >메인 페이지로 이동</a></span>
- 				   </p>
-		</div>
+	<div class="wrap RegisterWrap palm-leaf">
+		<div class="main_register_wrap__2Rm-j">
+			<div class="right_right_area_register__1xzTV" style="width: 600px; padding-bottom: 5%; padding-top: 5%;">
+				<div class="right_join_wrap__2w-MC">
+				<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png"  style=" text-align: center; width: 210px;"></a>
+			    <h3 class="login" style="letter-spacing:-1px; padding-top: 50px; font-size: 23px;">Check Password</h3>
+			
+			 	<label>
+				    <p style="text-align: left; font-size:15px; color:#666">Password</p>
+				    <input type="password" id="pw" placeholder="비밀번호" class="size" >
+			    </label><br>
+				<input type="button" value="확인" id="btn_check_pw" class="btn btn-outline-secondary" style="margin-top: 20px; wid">
+			    </div> 
+		    </div>
+	    </div>
 	</div>
 </body>
 </html>
+
+
+
+
+
+
