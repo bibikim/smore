@@ -266,7 +266,7 @@ input#btn_trans{
 				$('#head_list').append(tr); 
 				$.each(resData.allUserList, function(i, user){
 					var tr = '<tr>';
-					tr += '<td>' + user.rowNum + '</td>';
+					tr += '<td>' + user.userDTO.userNo + '</td>';
 					if(user.userDTO.snsType !=null){
 						tr += '<td>네이버회원</td>';
 					} else{
@@ -283,7 +283,7 @@ input#btn_trans{
 					tr += '</tr>';
 					$('#user_list').append(tr);
 				});
-				// 페이징
+ 				// 페이징
  				$('#paging').empty();
  				var naverPageUtil = resData.naverPageUtil;
 				var paging = '<div>';
@@ -305,18 +305,47 @@ input#btn_trans{
 				}
 				paging += '</div>';
 				// 페이징 표시
-				$('#paging').append(paging);						
+				$('#paging').append(paging);		 
+				/* // 페이징
+				$('#paging').empty();
+				var pageUtil = resData.pageUtil;
+				var paging = '';
+				// 이전블록
+				if(pageUtil.beginPage != 1) {
+					paging += '<span class="enable_link" data-page="'+ (pageUtil.beginPage - 1) +'">prev</sapn>';
+				}
+				// 페이지 번호
+				for(let p = pageUtil.beginPage; p <= pageUtil.endPage; p++) {
+					if(p == $('#page').val()) {
+						paging += '<strong>' + p + '</strong>';
+					} else {
+						paging += '<span class="enable_link" data-page="' + p + '">' + p + '</span>';
+					}
+				}
+				// 다음블록
+				if(pageUtil.endPage != pageUtil.totalPage) {
+					paging += '<span class="enable_link" data-page="' + (pageUtil.endPage + 1) +'">next</span>';
+				}
+				$('#paging').append(paging); */
 			}
 		});
 		
 	}	
+		
+/* 	function fn_changePage(){
+		$(document).on('click', '.enable_link', function(){
+			$('#page').val($(this).data('page'));
+			fn_AlluserList();
+		});
+	} */
 	
-	function fn_changePage(){
+	
+ 	function fn_changePage(){
 		$(document).on('click', '.lnk_enable', function(){
 			page = $(this).data('page');
 			fn_AlluserList();
 		});
-	}	
+	}	 
 		
 	
 	function fn_userList(){
@@ -344,7 +373,7 @@ input#btn_trans{
 				$('#head_list').append(tr);
 				$.each(resData.userList, function(i, user){
 					var tr = '<tr>';
-					tr += '<td>' + user.rowNum + '</td>';
+					tr += '<td>' + user.userNo + '</td>';
 					if(user.snsType !=null){
 						tr += '<td>네이버회원</td>';
 					} else{
@@ -421,7 +450,7 @@ input#btn_trans{
 				$('#head_list').append(tr); 
 				$.each(resData.sleepUserList, function(i, user){
 					var tr = '<tr>';
-					tr += '<td>' + user.rowNum + '</td>';
+					tr += '<td>' + user.userNo + '</td>';
 					if(user.snsType !=null){
 						tr += '<td>네이버회원</td>';
 					} else{
@@ -579,7 +608,7 @@ input#btn_trans{
 				$('#head_list').append(tr); 
 				$.each(resData.freeBoardList, function(i, board){
 					var tr = '<tr>';
-					tr += '<td>' + board.rowNum + '</td>';
+					tr += '<td>' + board.freeNo + '</td>';
 					tr += '<td>' +   board.nickname  + '</td>'; 
 					tr += '<td><a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
@@ -646,7 +675,7 @@ input#btn_trans{
 				$('#head_list').append(tr); 
 				$.each(resData.studyList, function(i, board){
 					var tr = '<tr>';
-					tr += '<td>' + board.rowNum + '</td>';
+					tr += '<td>' + board.studNo + '</td>';
 					tr += '<td>' + board.nickname  + '</td>';
 					tr += '<td><a href="/study/detail?studNo=' + board.studNo + '">' + board.title  + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
@@ -714,7 +743,7 @@ input#btn_trans{
 				$('#head_list').append(tr);
 				$.each(resData.codeList, function(i, board){
 					var tr = '<tr>';
-					tr += '<td>' + board.rowNum + '</td>';
+					tr += '<td>' + board.coNo + '</td>';
 					tr += '<td>' + board.nickname  + '</td>';
 					tr += '<td><a href="/code/detail?coNo=' + board.coNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
@@ -782,7 +811,7 @@ input#btn_trans{
 				$('#head_list').append(tr);
 				$.each(resData.qnaList, function(i, board){
 					var tr = '<tr>';
-					tr += '<td>' + board.rowNum + '</td>';
+					tr += '<td>' + board.qaNo + '</td>';
 					tr += '<td>' + board.nickname  + '</td>';
 					tr += '<td><a href="/qna/detail?qaNo=' + board.qaNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
@@ -859,7 +888,7 @@ input#btn_trans{
 					if(resData.status == 200){
 						$.each(resData.users, function(i, user){
 							$('<tr>')
-							.append( $('<td>').text(user.rowNum))
+							.append( $('<td>').text(user.userDTO.userNo))
 							.append( $('<td>').text(user.userDTO.id))
 							.append( $('<td>').text(user.userDTO.name))
 							.append( $('<td>').text(user.userDTO.nickname))
@@ -870,9 +899,8 @@ input#btn_trans{
 							.appendTo('#user_list');
 						});
 					} else if(resData.status == 500){
-						alert('검색결과가 없습니다.');
-					}
-		
+						alert(resData.message);
+					}		
 					// 페이징
 					$('#paging').empty();
 					var naverPageUtil = resData.naverPageUtil;
@@ -909,6 +937,7 @@ input#btn_trans{
 	}
  	
  	
+	
  	function fn_searchBoardList(){
 		$('#btn_searchBoard').click(function(e){
   			if($('#query2').val() == ''){
@@ -939,7 +968,7 @@ input#btn_trans{
 					$.each(resData.boards, function(i, board){
 						if(board.freeNo != 0){
 							$('<tr>')
-							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.freeNo))
 							.append( $('<td>').text(board.nickname))
 							/* tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.qaNo + '"></td>'; */
 							.append( $('<td>').html('<a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a>'))
@@ -954,7 +983,7 @@ input#btn_trans{
 						}
 						if(board.coNo != 0){
 							$('<tr>')
-							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.coNo))
 							.append( $('<td>').text(board.nickname))
 							.append( $('<td>').html('<a href="/code/detail?coNo=' + board.coNo + '">' + board.title   + '</a>'))
 							.append( $('<td>').text(board.createDate))
@@ -966,7 +995,7 @@ input#btn_trans{
 						}
 						if(board.qaNo != 0){
 							$('<tr>')
-							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.qaNo))
 							.append( $('<td>').text(board.nickname))
 							.append( $('<td>').html('<a href="/qna/detail?qaNo=' + board.qaNo + '">' + board.title   + '</a>'))
 							.append( $('<td>').text(board.createDate))
@@ -978,7 +1007,7 @@ input#btn_trans{
 						}
 						if(board.studNo != 0){
 							$('<tr>')
-							.append( $('<td>').text(board.rowNum))
+							.append( $('<td>').text(board.studNo))
 							.append( $('<td>').text(board.nickname))
 							.append( $('<td>').html('<a href="/study/detail?studNo=' + board.studNo + '">' + board.title   + '</a>'))
 							.append( $('<td>').text(board.createDate))
@@ -1245,11 +1274,6 @@ input#btn_trans{
 									
 									<span>
 										<input type="button" id ="btn_userSearch"  value="검색" class="btn btn-primary">
-										<script>
-											$('#btn_all').click(function(){
-												fn_AlluserList();
-											});				
-										</script>
 									</span>
 								</div>	
 							</form>
