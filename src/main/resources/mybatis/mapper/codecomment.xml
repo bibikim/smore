@@ -13,23 +13,13 @@
 	</select>
 	
 	<select id="selectCommentList" parameterType="Map" resultType="CodeCommentDTO">
-		
-		SELECT C.RN, C.CMT_NO, C.CO_NO, C.NICKNAME, C.CMT_CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.STATE, C.DEPTH, C.GROUP_NO, C.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
-		   	      FROM C_CMT
-			     WHERE CO_NO = #{coNo}) C
-	       LIMIT #{begin}, #{recordPerPage}
-		 <!-- WHERE C.RN BETWEEN #{begin} AND #{end} -->
+		SELECT CMT_NO, CO_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, GROUP_NO, IP
+		  FROM C_CMT
+	     WHERE CO_NO = #{coNo}
+	     ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC
+	     LIMIT #{begin}, #{recordPerPage}
 	</select>
 
-
-	
-<!-- 	<insert id="insertFreecmt" parameterType="FreeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
-		INSERT INTO FREECMT
-			(FREE_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE, DEPTH, IP, GROUP_NO)
-		  VALUES
-		  	(#{freeNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, 0, #{ip}, #{freeNo})
-	</insert> -->
 	
 	<insert id="insertCodecmt" parameterType="CodeCommentDTO" useGeneratedKeys="true" keyProperty="cmtNo">
 		INSERT INTO C_CMT

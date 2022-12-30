@@ -12,13 +12,11 @@
 	</select>
 	
 	<select id="selectCodeBoardListByMap" parameterType="Map" resultType="CodeBoardDTO">
-	    SELECT N.RW, N.CO_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS RW, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		  		FROM C_BOARD) N
-		 WHERE 1 = 1
+	    SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  		FROM C_BOARD
 		<choose>
 			 	<when test="type != null and type.equals('TITLE')">
-			 		AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+			 		 TITLE LIKE CONCAT('%', #{keyword}, '%')
 			 	</when>
 			 	<when test="type != null and type.equals('CONTENT')">
 			 		AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
@@ -27,7 +25,7 @@
 			 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
 			 	</when>	
 		 </choose>
-		 ORDER BY N.CO_NO DESC
+		 ORDER BY CO_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<link rel="stylesheet" href="/resources/css/base.css">
+
 
 
 
@@ -94,6 +94,35 @@ a {
   
   
   }
+  
+  .ul-paging{
+	list-style:none;
+	float:left;
+	display:inline;
+	}
+	
+	.li-page {
+	    float: left;
+	    margin-right: 20px;
+	}
+	
+	.li-page a {
+		float:left;
+		padding:4px;
+		margin-right:3px;
+		width:15px;
+		color:#000;
+		font:bold 12px tahoma;
+		border:1px solid #eee;
+		text-align:center;
+		text-decoration:none;
+	}
+	
+	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
+		color:#fff;
+		border:1px solid #1e90ff;
+		background-color:#1e90ff;
+	}
 	
 </style>
 <script>
