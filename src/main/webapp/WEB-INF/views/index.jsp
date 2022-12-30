@@ -95,13 +95,10 @@
 	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="../../resources/images/color1.png" class="img" alt="이미지1">
+				<img src="../../resources/images/banner1.jpg" class="img" alt="배너1">
 			</div>
 			<div class="carousel-item">
-				<img src="../../resources/images/color2.png" class="img" alt="이미지2">
-			</div>
-			<div class="carousel-item">
-				<img src="../../resources/images/color3.png" class="img" alt=".이미지3">
+				<img src="../../resources/images/banner2.jpg" class="img" alt="배너2">
 			</div>
 		</div>
 		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -124,7 +121,7 @@
 	
 	<!-- 스터디 목록 -->
 	<div id="study_list" class="study_list">
-		<div class="study_list_container"></div>
+		<div class="study_list_container" ></div>
 	</div>
 	
 	<!-- 로딩바 -->

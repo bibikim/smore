@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>smore</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
@@ -56,7 +56,7 @@
 
 	<c:if test="${loginUser == null}">
 		<nav class="navbar navbar-light bg-light" >
-			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" width="150px"></a>
+			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" style="width: 150px;"></a>
 			<ul class="nav justify-content-end">
 				<li class="nav-item">
 					<a class="nav-link active" href="/free/list">자유게시판</a>
