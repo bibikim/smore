@@ -14,8 +14,18 @@
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
   		  FROM FREEBOARD
-		 WHERE ${type} LIKE CONCAT('%', #{keyword}, '%')
-		 ORDER BY N.FREE_NO DESC
+		   <choose>
+			 	<when test="column == 'TITLE'">
+			 		TITLE LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="column == 'CONTENT'">
+			 		AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>
+			 	<when test="column == 'NICKNAME'">
+			 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+			 	</when>	
+		  </choose>
+		 ORDER BY FREE_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 
