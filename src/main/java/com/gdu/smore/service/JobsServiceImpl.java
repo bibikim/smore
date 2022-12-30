@@ -49,7 +49,7 @@ public class JobsServiceImpl implements JobsService{
 		// 페이징
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/job/list"));
+		model.addAttribute("paging", pageUtil.getPaging("/job/list"));
 		
 		// 검색기능
 		String type = request.getParameter("type");
@@ -246,7 +246,6 @@ public class JobsServiceImpl implements JobsService{
 				
 				out.println("alert('채용 마감 처리 되었습니다.');");
 				out.println("location.href='/job/list'");
-				//out.println("location.href='/job/detail?jobNo" + jobNo);
 				
 			} else {
 				

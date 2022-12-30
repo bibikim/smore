@@ -78,7 +78,7 @@ public class FreeServiceImpl implements FreeService {
 		model.addAttribute("totalRecord", totalRecord);
 		//model.addAttribute("freeList", freeMapper.selectFreeListByMap(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/free/list"));
+		model.addAttribute("paging", pageUtil.getPaging("/free/list"));
 		
 		// 게시글 목록
 		List<FreeBoardDTO> free = freeMapper.selectFreeListByMap(map);
