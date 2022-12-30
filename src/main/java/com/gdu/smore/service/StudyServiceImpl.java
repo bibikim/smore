@@ -56,7 +56,7 @@ public class StudyServiceImpl implements StudyService {
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("studyList", studyMapper.selectAllList(map));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/study/list"));
+		model.addAttribute("paging", pageUtil.getPaging("/study/list"));
 	}
 
 	@Transactional
@@ -123,7 +123,7 @@ public class StudyServiceImpl implements StudyService {
 				
 				
 				out.println("alert('삽입 성공');");
-				out.println("location.href='" + request.getContextPath() + "/';");
+				out.println("location.href='/';");
 			} else {
 				out.println("alert('삽입 실패');");
 				out.println("history.back();");
@@ -194,7 +194,7 @@ public class StudyServiceImpl implements StudyService {
 				*/
 				out.println("<script>");
 				out.println("alert('수정 성공');");
-				out.println("location.href='" + request.getContextPath() + "/';");
+				out.println("location.href='/';");
 				out.println("</script>");
 			} else {
 				out.println("<script>");
@@ -293,7 +293,6 @@ public class StudyServiceImpl implements StudyService {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("commentCnt",  studyMapper.selectCommentCnt(studNo));  // 키, 값 
-		System.out.println(result);
 		return result;
 	}
 	

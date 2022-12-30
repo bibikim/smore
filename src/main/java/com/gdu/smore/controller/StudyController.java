@@ -93,7 +93,6 @@ public class StudyController {
 	@ResponseBody
 	@GetMapping(value="/study/comment/list", produces="application/json")
 	public Map<String, Object> list(HttpServletRequest request) {
-		System.out.println("aa");
 		return studyService.getCmtList(request);
 	}
 	

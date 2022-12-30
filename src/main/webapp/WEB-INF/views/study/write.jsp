@@ -51,8 +51,31 @@
 			}
 		});
 		
+		
+		$(document).on('click', function(){
+			var list = '';
+			$('.lang:checked').each(function(){
+				list += $(this).val()+'/';
+			})
+			console.log(list);
+			
+			$.ajax({
+				type : 'get',
+				url : '/study/add',
+				dataType : 'json',
+				success : function(resData){
+					console.log(result);
+				},
+				error : function(xhr){
+					console.log(xhr.responseText);
+				}
+			});
+		});	
+		
 	});
 	
+
+
 	/*
 	function getLocation() {
 		if (navigator.geolocation) { // GPS를 지원하면
@@ -137,8 +160,10 @@
 		$('#date').val('${loginUser.birthday.substring(2)}').prop('selected', true);
 	}
 	*/
-</script>
+	
 
+</script>
+<body>
 
 <div>
 
@@ -201,8 +226,9 @@
 		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) 
 		<div id="summernote_image_list"></div>
 		-->
-		<div>
-			<label for="lang">기술스택</label>
+		<div onchange="checklang">
+			<label for="lang" class="btn_lang">기술스택</label>
+			<!-- 
 			<select name="lang" id="lang">
 				<option value = "Java" selected>Java</option>
 				<option value = "Python" >Python</option>
@@ -212,6 +238,30 @@
 				<option value = "Nodejs" >Nodejs</option>
 				<option value = "SpringBoot" >SpringBoot</option>
 			</select>
+			 -->
+			 <!-- 
+			<input type='checkbox'
+			       name='lang' 
+			       id = "lang"
+			       value='selectall'
+			       onclick='selectAll(this)'/> 모두선택
+			  -->
+
+			<input type='checkbox'
+			       name='lang' 
+			       class='lang'
+			       value='Java'> Java
+
+			<input type='checkbox' 
+			       name='lang' 
+				   class='lang'
+			       value='Python' > Python
+
+			<input type='checkbox' 
+			       name='lang'
+			       class='lang'			        
+			       value='Javascript'> Javascript
+			       
 		</div>
 		
 		<div>
@@ -220,6 +270,12 @@
 				<option value = "2" selected>2</option>
 				<option value = "3" >3</option>
 				<option value = "4" >4</option>
+				<option value = "5" >5</option>
+				<option value = "6" >6</option>
+				<option value = "7" >7</option>
+				<option value = "8" >8</option>
+				<option value = "9" >9</option>
+				<option value = "10" >10</option>
 			</select>
 		</div>
 
@@ -265,10 +321,11 @@
 				
 		<div>
 			<label for="contact">연락방법</label>
-			<select name="contact" id="contact">
-				<option value = "1" selected>전화번호</option>
+			<select>
+				<option value = "1" selected>연락처</option>
 				<option value = "2" >카카오톡</option>
 				<option value = "3" >이메일</option>
+				<input type="text" id="contact" name="contact">
 			</select>
 		</div>
 		
@@ -280,7 +337,7 @@
 		
 	</form>
 	
-</div>
 
+</div>
 </body>
 </html>
