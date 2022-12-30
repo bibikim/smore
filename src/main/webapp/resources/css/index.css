@@ -12,15 +12,9 @@
 	a:hover, a:active {text-decoration: none; color: black;}
 	
 	.img {
-		width: 1600px;
+		width: 2000px;
 		height: 290px;
 	}
-	
-	.first_banner {
-		background-color: #d7edff;
-	
-	}
-	
 	
 	.study_list_container {
 		margin: 0 auto;
@@ -32,7 +26,7 @@
 	.study {
 		width: 320px;
 		height: 410px;
-		margin: 10px;
+		margin: 20px 20px 25px 20px;
 		padding-top: 65px;
 		border-radius: 30px;
 		text-align: center;
@@ -99,9 +93,7 @@
 	}
 	.btn_write_a{
 		padding: 8px;
-    	border-radius: 30px;
-	    background-color: #96c7ed;
-	    margin-right: 300px;
+	    margin-right: 240px;
 	    height: 100%;
 	    line-height: 40px;
 	}
@@ -117,7 +109,7 @@
 	    vertical-align: middle;
 	    font-size: 23px;
 	    border-radius: 16px;
-	    background-color: #F2E4C5;
+	    background-color: #f5e4de;
 	}
 	.tag_span {
 		line-height: 27px;

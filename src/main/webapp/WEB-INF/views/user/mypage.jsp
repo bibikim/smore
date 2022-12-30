@@ -8,6 +8,13 @@
 
 <style>
 
+	a {
+		text-decoration-line: none ;
+		cursor: pointer;
+		color: black;
+	}
+	a:hover, a:active {text-decoration: none; color: black;}
+
 	/* 페이징 */
 	#paging  {
 		font-size: 12px;
@@ -35,7 +42,7 @@
 	}
 	
 	.wrapper .sidebar{
-	    background: #039BE5;
+	    background: #F2E4C5;
 	    position: fixed;
 	    top: 0;
 	    left: 0;
@@ -48,7 +55,6 @@
 	    display: block;
 	    padding: 13px 30px;
 	    border-bottom: 1px solid #10558d;
-	    color: rgb(241, 237, 237);
 	    font-size: 16px;
 	    position: relative;
 	}
