@@ -9,16 +9,16 @@
 	<select id="selectCommentCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		  FROM S_CMT
-		 WHERE STUD_NO = #{studNo} AND STATE = 1
+		 WHERE STUD_NO = #{studNo}
 	</select>
 	
 
 	<select id="selectCommentList" parameterType="Map" resultType="StudyCommentDTO">
 		
-		SELECT S.RN, S.CMT_NO, S.STUD_NO, S.NICKNAME, S.CMT_CONTENT, S.CREATE_DATE, S.STATE, S.DEPTH, S.GROUP_NO, S.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC) AS RN, CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
-		   	      FROM S_CMT
-			     WHERE STUD_NO = #{studNo}) S
+		SELECT CMT_NO, STUD_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, DEPTH, GROUP_NO, IP
+		  FROM S_CMT
+		 WHERE STUD_NO = #{studNo}
+		 ORDER BY GROUP_NO DESC, DEPTH ASC, CREATE_DATE ASC
 	     LIMIT #{begin}, #{recordPerPage}
 		 <!-- WHERE C.RN BETWEEN #{begin} AND #{end} -->
 	</select>

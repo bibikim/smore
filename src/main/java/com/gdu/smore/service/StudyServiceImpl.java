@@ -50,8 +50,8 @@ public class StudyServiceImpl implements StudyService {
 		
 		// DB로 보낼 map(begin, end)
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("begin", pageUtil.getBegin() -1);
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 				
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("studyList", studyMapper.selectAllList(map));
@@ -272,8 +272,8 @@ public class StudyServiceImpl implements StudyService {
 		
 		// Map 만들기(field, order, begin, end)
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", studPageUtil.getBegin());
-		map.put("end", studPageUtil.getEnd());
+		map.put("begin", studPageUtil.getBegin() -1);
+		map.put("recordPerPage", recordPerPage);
 		
 		// begin~end 목록 가져오기
 		List<StudyGroupDTO> S_group = studyMapper.selectStudyScroll(map);

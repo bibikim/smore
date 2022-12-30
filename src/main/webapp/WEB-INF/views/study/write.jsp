@@ -51,26 +51,14 @@
 			}
 		});
 		
+		/*
+		$('#frm_write').change(function(event){
+		for(int i=0; i<lang.length; i++) {
+			out.println("lang[i]" + "&nbsp;&nbsp;");
+		}
 		
-		$(document).on('click', function(){
-			var list = '';
-			$('.lang:checked').each(function(){
-				list += $(this).val()+'/';
-			})
-			console.log(list);
-			
-			$.ajax({
-				type : 'get',
-				url : '/study/add',
-				dataType : 'json',
-				success : function(resData){
-					console.log(result);
-				},
-				error : function(xhr){
-					console.log(xhr.responseText);
-				}
-			});
-		});	
+		});
+		*/
 		
 	});
 	
@@ -226,7 +214,7 @@
 		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) 
 		<div id="summernote_image_list"></div>
 		-->
-		<div onchange="checklang">
+		<div class="langs">
 			<label for="lang" class="btn_lang">기술스택</label>
 			<!-- 
 			<select name="lang" id="lang">
@@ -260,8 +248,8 @@
 			<input type='checkbox' 
 			       name='lang'
 			       class='lang'			        
-			       value='Javascript'> Javascript
-			       
+			       value='Javascript'> Javascript   
+			          
 		</div>
 		
 		<div>
@@ -278,17 +266,17 @@
 				<option value = "10" >10</option>
 			</select>
 		</div>
-
+		<!-- 
 		<div>
-			<label for="studDate">시작예정일자</label>
-			<select id="year" name= "studDate" class="form-control">
+			<label for="studDate" class="calendar">시작예정일자</label>
+			<select id="year" class="year" name="studDate">
 			  <option value="year">년</option>
 			  <c:forEach var="i" begin="2020" end="2030">
 			    <option value="${i}">${i}</option>
 			  </c:forEach>
 			</select>
 			  
-			<select id="month" class="form-control">
+			<select id="month" class="month">
 			  <option value="month">월</option>
 			  <c:forEach var="i" begin="1" end="12">
 			  <c:choose>
@@ -302,7 +290,7 @@
 			  </c:forEach>
 			</select>
 			  
-			<select id="day" class="form-control">
+			<select id="day" class="day">
 			  <option value="day">일</option>
 			  <c:forEach var="i" begin="1" end="31">
 			  <c:choose>
@@ -317,7 +305,10 @@
 			</select>
 			
 		</div>
-
+		 -->
+		 <div>
+			<input type="date" id="studDate" name="studDate" min="2022-01-01" max="2024-12-31">
+		 </div>
 				
 		<div>
 			<label for="contact">연락방법</label>
@@ -339,5 +330,6 @@
 	
 
 </div>
+
 </body>
 </html>
