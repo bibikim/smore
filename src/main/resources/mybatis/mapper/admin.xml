@@ -138,10 +138,6 @@
 		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="HIT" property="hit"/>
 		<result column="IP" property="ip"/>
-<!-- 		<collection resultMap="FreeMap" property="freeBoardDTO"></collection>
-		<collection resultMap="CodeMap" property="codeBoardDTO"></collection>
-		<collection resultMap="QnaMap" property="qnaBoardDTO"></collection>
-		<collection resultMap="StudyMap" property="studyGroupDTO"></collection> -->
 	</resultMap> 
 
 	<select id="selectUserCount" resultType="int">
@@ -187,8 +183,8 @@
 		
 	<!-- 검색기능 -->
  	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
-		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
-  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOIN_DATE DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
+		SELECT D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
+  		  FROM (SELECT C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
                   FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE, U.SNS_TYPE  
 		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
 		                    ON U.ID = A.ID
@@ -202,7 +198,9 @@
    		  </if> 
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column=='JOIN_DATE'">AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1</if>
-		</where> 
+		</where>
+         ORDER BY D.USER_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage} 
 	</select>   
 			
 	<select id="selectAllUserCountByQuery" parameterType="Map" resultType="int">
@@ -220,8 +218,8 @@
 	
 	<!-- 자유게시판 검색 -->
 	<select id="selectFreeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.ROW_NUM, D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT  D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM  FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM FREEBOARD) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
@@ -231,7 +229,9 @@
    		  
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
-		</where> 
+		</where>
+         ORDER BY D.FREE_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 	
 	<select id="selectFreeBoardByCountQuery" parameterType="Map" resultType="int">
@@ -250,8 +250,8 @@
 	
 	<!-- 코드게시판 검색 -->
 	<select id="selectCodeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.ROW_NUM, D.CO_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT D.CO_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM C_BOARD) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
@@ -260,7 +260,9 @@
    		  </if> 
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
-		</where> 
+		</where>
+         ORDER BY D.CO_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
 	<select id="selectCodeBoardByCountQuery" parameterType="Map" resultType="int">
@@ -278,8 +280,8 @@
 	
 	<!-- 스터디게시판 검색 -->
 	<select id="selectStudyBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.ROW_NUM, D.STUD_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT  D.STUD_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM S_GROUP) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
@@ -290,7 +292,9 @@
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
-		</where> 
+		</where>
+         ORDER BY D.STUD_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
 	<select id="selectStudyBoardByCountQuery" parameterType="Map" resultType="int">
@@ -308,8 +312,8 @@
 	
 	<!-- QNA게시판 검색 -->
 	<select id="selectQnaBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.ROW_NUM, D.QA_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT D.QA_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
+		  FROM (SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM Q_BOARD) D
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
@@ -320,7 +324,9 @@
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
-		</where> 
+		</where>
+         ORDER BY D.QA_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 	
 	<select id="selectQnaBoardByCountQuery" parameterType="Map" resultType="int">
@@ -352,7 +358,7 @@
 		LIMIT #{begin}, #{end}		  		  
 	</select> -->
 	
-	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
+<!-- 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
 		SELECT D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
   		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
                   FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE, U.SNS_TYPE  
@@ -362,62 +368,79 @@
          
         SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE, SNS_TYPE
           FROM SLEEP_USERS) C) D 
-<!--          WHERE D.ROW_NUM BETWEEN #{begin} AND #{end}   -->
+         WHERE D.ROW_NUM BETWEEN #{begin} AND #{end}  
 
 		WHERE D.ROW_NUM > #{begin} and D.ROW_NUM <![CDATA[<=]]> #{end}
-		 <!-- LIMIT #{begin}, #{end}   -->
-<!-- 		LIMIT #{begin},  -->	  		  
-	</select>
-	
+		 LIMIT #{begin}, #{end}  
+		LIMIT #{begin}, 	  		  
+	</select> -->
+	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
+		SELECT D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
+  		  FROM (SELECT C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
+                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE, U.SNS_TYPE  
+		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
+		                    ON U.ID = A.ID
+         UNION ALL
+         
+        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE, SNS_TYPE
+          FROM SLEEP_USERS) C) D
+         ORDER BY D.USER_NO ASC   
+		 LIMIT #{begin}, #{recordPerPage}
+	</select> 
 
 	<!-- 일반유저 조회 -->
 	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
-		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.INFO_MODIFY_DATE, B.LAST_LOGIN_DATE, B.SNS_TYPE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE, U.SNS_TYPE 
+		SELECT  B.USER_NO, B.ID, B.NAME, B.NICKNAME, B.GENDER, B.JOIN_DATE, B.USER_STATE, B.INFO_MODIFY_DATE, B.LAST_LOGIN_DATE, B.SNS_TYPE
+		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE, U.SNS_TYPE 
 		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                     		ON U.ID = A.ID) B
-		 WHERE B.ROW_NUM > #{begin} and B.ROW_NUM <![CDATA[<=]]> #{end}
-<!-- 		 LIMIT #{begin} OFFSET #{end}  -->		  
+		 ORDER BY B.USER_NO ASC   
+		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 
 	<!-- 휴면유저 조회 -->
 	<select id="selectSleepUserListByMap" parameterType="map" resultType="SleepUserDTO">
-		SELECT B.ROW_NUM, B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE, B.SNS_TYPE
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE, U.SNS_TYPE
+		SELECT B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE, B.SNS_TYPE
+		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE, U.SNS_TYPE
 		  		  FROM SLEEP_USERS U) B
-		 WHERE B.ROW_NUM > #{begin} and B.ROW_NUM <![CDATA[<=]]> #{end}		  
+	     ORDER BY B.USER_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage} 	  
 	</select> 
 		
 	<!-- 자유게시판 조회 -->
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
-	    SELECT N.ROW_NUM, N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NO DESC) AS ROW_NUM, FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+	    SELECT N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
+		  FROM (SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM FREEBOARD) N
-		 WHERE N.ROW_NUM > #{begin} and N.ROW_NUM <![CDATA[<=]]> #{end}	
+		 ORDER BY N.FREE_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage} 	
 	</select>
 	
 	<!-- 스터디모집게시판 조회 -->
 	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.ROW_NUM, A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY STUD_NO DESC) AS ROW_NUM, STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
+		SELECT A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
+		  FROM (SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
 		          FROM S_GROUP B) A
-		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	
+ 		 ORDER BY A.STUD_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<!-- 코드게시판 조회 -->
 	<select id="selectCodeListByMap" parameterType="map" resultType="CodeBoardDTO">
-		SELECT A.ROW_NUM, A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY CO_NO DESC) AS ROW_NUM, CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		SELECT A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
+		  FROM (SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM C_BOARD) A
-		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	       
+		 ORDER BY A.CO_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 	
 	<!-- qna게시판 조회 -->
 	<select id="selectQnaListByMap" parameterType="map" resultType="QnaBoardDTO">
-		SELECT A.ROW_NUM, A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY QA_NO DESC) AS ROW_NUM, QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
+		SELECT A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
+		  FROM (SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
 		          FROM Q_BOARD) A 
-		 WHERE A.ROW_NUM > #{begin} and A.ROW_NUM <![CDATA[<=]]> #{end}	        
+		 ORDER BY A.QA_NO DESC   
+		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 
 	<!-- 유저 다중 탈퇴 -->
@@ -515,70 +538,6 @@
 		 WHERE ID = #{id}  
 	</update>
 	
-	
-	<!--   -->
-		
-	<delete id="deleteAccessLog" parameterType="String">
-		DELETE 
-		  FROM ACCESS_LOG
-		 WHERE ID = #{id}
-	</delete>
-	
-
-
-    
-<!-- 	<select id="selectReportUserList" parameterType="map" resultMap="RedBellMap">
-		SELECT A.ROW_NUM, A.R_NO, A.ID, A.R_CONTENT, A.R_DATE, A.R_GUBUN, A.R_TARGET, A.S_NO, A.GRP_NICKNAME, A.S_CMT_NO, A.CMT_NICKNAME
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.R_NO, R.ID, R.R_CONTENT, R.R_DATE, R.R_GUBUN, R.R_TARGET, G.S_NO, G.NICKNAME AS GRP_NICKNAME, C.S_CMT_NO, C.NICKNAME AS CMT_NICKNAME
-		  		  FROM REDBELL R 
-		         RIGHT OUTER JOIN S_GROUP G
-		            ON R.R_TARGET = G.S_NO
-		         RIGHT OUTER JOIN S_CMT C
-		            ON R.R_TARGET = C.S_CMT_NO) A 
-		   <where> 
-		      <if test="rGubun == 1">
-		         R.R_TARGET = #{sNo} 	         
-		      </if>
-		      <if test="rGubun == 2">
-		         R.R_TARGET = #{sCmtNo}  	         
-		      </if>
-		      AND A.ROW_NUM BETWEEN #{begin} AND #{end} 
-      	  </where>
-	</select>	 -->
-	
-		<resultMap type="GrpRedbellDTO" id="GrpRedbellMap">
-		<id property="rNo" column="R_NO"/>
-		<result property="title" column="TITLE"/>
-		<result property="content" column="CONTENT"/>
-		<result property="hit" column="HIT"/>
-		<result property="ip" column="IP"/>
-		<result property="createDate" column="CREATE_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
-		<association property="USERS" javaType="UserDTO">
-			<id property="userNo" column="USER_NO"/>
-			<result property="id" column="ID"/>
-		</association>
-		<association property="S_GROUP" javaType="StudyGroupDTO">
-			<id property="sNo" column="S_NO"/>
-			<result property="nickname" column="NICKNAME"/>
-		</association>
-		</resultMap>
-	
-	<!-- R.ID는 모임장 -->
-	<select id="selectReportList" parameterType="Map" resultMap="GrpRedbellMap">
-	<!-- R.ID 신고당하는사람  R_ID = U_ID -->
-		SELECT A.ROW_NUM, A.RED_NO, A.REPORTED,  A.STUD_NO, A.RED_CONTENT, A.RED_DATE, A.REPORTER_ID, A.NICKNAME
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_NO DESC) AS ROW_NUM, R.RED_NO, S.NICKNAME AS REPORTED, R.STUD_NO, R.RED_CONTENT, R.RED_DATE, U.ID AS REPORTER_ID,
-		          FROM USERS U 
-		         INNER JOIN GRP_REDBELL R
-		            ON U.ID = R.ID
-		         INNER JOIN S_GROUP S
-		            ON R.S_NO = S.S_NO) A
-		  WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}           
-	</select>
-	
-	
-
 </mapper>
 	
 	

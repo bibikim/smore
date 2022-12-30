@@ -32,12 +32,29 @@ public class AdminServiceImpl implements AdminService {
    @Autowired
    private UserMapper userMapper;
    
-   //@Autowired
-  // private PageUtil naverPageUtil;
-   
+   @Autowired
+   private PageUtil pageUtil;
    @Autowired 
    private NaverPageUtil naverPageUtil;  
    
+/*   @Override
+   public Map<String, Object> getAllUserList(int page) {
+	   int userCnt = adminMapper.selectUserCount();
+	   int sleepCnt = adminMapper.selectSleepUserCount(); 
+	   
+	   int totalRecord = userCnt + sleepCnt;
+	   
+	   naverPageUtil.setNaverPageUtil(page, totalRecord);
+	   
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   map.put("begin", naverPageUtil.getBegin() - 1);
+	   map.put("recordPerPage", naverPageUtil.getRecordPerPage());
+	   
+	   Map<String, Object> result = new HashMap<String, Object>();
+	   result.put("allUserList", adminMapper.selectAllUserList(map));
+	   result.put("naverPageUtil", naverPageUtil);
+	   return result;    
+   } */
    @Override
    public Map<String, Object> getAllUserList(int page) {
 	   int userCnt = adminMapper.selectUserCount();
@@ -55,8 +72,7 @@ public class AdminServiceImpl implements AdminService {
 	   result.put("allUserList", adminMapper.selectAllUserList(map));
 	   result.put("naverPageUtil", naverPageUtil);
 	   return result;    
-   }
-      
+   }  
    
    @Override
 	public Map<String, Object> getCommonUserList(int page) {  
@@ -264,7 +280,6 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> findUsers(HttpServletRequest request, int page) {
 	   		
 		String column = request.getParameter("column");
-		System.out.println(column);
 		String query = request.getParameter("query");
 		String start = request.getParameter("start");
 		String stop = request.getParameter("stop");
@@ -278,8 +293,7 @@ public class AdminServiceImpl implements AdminService {
 		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
 		naverPageUtil.setNaverPageUtil(page, totalRecord);		
 		map.put("begin", naverPageUtil.getBegin() - 1);
-		map.put("recordPerPage", naverPageUtil.getRecordPerPage());
-		
+		map.put("recordPerPage", naverPageUtil.getRecordPerPage());	
 		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
 		String path = null;
 		
@@ -292,14 +306,14 @@ public class AdminServiceImpl implements AdminService {
 			path = "/users/search?column=" + column + "&start=" + start + "&stop=" + stop;
 			break;	
 		}
-				
+		naverPageUtil.getNaverPaging(path);
 		Map<String, Object> result = new HashMap<>();
 		if(users.size() == 0) {
 			result.put("message", "조회된 결과가 없습니다.");
 			result.put("status", 500);
 		} else {
 			result.put("users", users);
-			result.put("naverPageUtil", naverPageUtil.getNaverPaging(path));
+			result.put("naverPageUtil", naverPageUtil);
 			result.put("status", 200);
 		}
 		
