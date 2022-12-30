@@ -17,7 +17,7 @@
 
 </style>
 
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
 	$(function() {
@@ -193,7 +193,7 @@
 			}
 			$.ajax({
 				type: 'get',
-				url: '${contextPath}/user/checkReduceEmail',
+				url: '/user/checkReduceEmail',
 				data: 'email=' + $('#email').val(),
 				dataType: 'json',
 				success: function(resData){
@@ -233,14 +233,14 @@
 	
 	function fn_cancel(){
 		$('#btn_cancel').click(function(){
-			location.href='${contextPath}/user/mypage';
+			location.href='/user/mypage';
 		});			
 	}
 	
 	function fn_retire(){
 		$('#btn_retire').click(function(event){
 			if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')) {
-				location.href="${contextPath}/user/retire";
+				location.href="/user/retire";
 			} else{
 				event.preventDefault();
 				return;
@@ -260,7 +260,7 @@
 			<input type="button" value="비밀번호변경" id="btn_edit_pw">
 		</div>
 		<div id="modify_pw_area">
-			<form id="frm_edit_pw" action="${contextPath}/user/modify/pw" method="post">
+			<form id="frm_edit_pw" action="/user/modify/pw" method="post">
 				<div>
 					<label for="pw">비밀번호</label>
 					<input type="password" name="pw" id="pw">
@@ -283,7 +283,7 @@
 			
 			<hr>
 			
-			<form id="frm_edit" action="${contextPath}/user/modify/info" method="post">
+			<form id="frm_edit" action="/user/modify/info" method="post">
 			
 				<input type="hidden" name="name" value="${loginUser.name}">
 				<input type="hidden" name="joinDate" value="${loginUser.joinDate}">
@@ -405,7 +405,7 @@
 				</div>
 				
 				<hr>
-					<a id="btn_retire" href="${contextPath}/user/retire">탈퇴하기</a>		
+					<a id="btn_retire" href="/user/retire">탈퇴하기</a>		
 				<hr>
 				
 				<div>
@@ -415,7 +415,6 @@
 			
 			</form>
 		</div>
-		
 	</div>
 	
 </body>

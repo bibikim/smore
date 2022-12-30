@@ -1,8 +1,6 @@
 package com.gdu.smore.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gdu.smore.domain.study.StudyGroupDTO;
-import com.gdu.smore.domain.study.StudyZzimDTO;
 import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.ListMapper;
 import com.gdu.smore.util.PageUtil;
@@ -31,7 +27,7 @@ public class ListServiceImpl implements ListService {
 	public Map<String, Object> getStudyList(HttpServletRequest request,int page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
         HttpSession session = request.getSession();
 		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
@@ -43,7 +39,6 @@ public class ListServiceImpl implements ListService {
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("studylist", listMapper.selectStudyListByMap(map));
-	    System.out.println(result);
 		result.put("PageUtil", pageUtil);
 		
 		return result;
@@ -54,7 +49,7 @@ public class ListServiceImpl implements ListService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEnd());
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
         HttpSession session = request.getSession();
 		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
@@ -66,30 +61,9 @@ public class ListServiceImpl implements ListService {
 		
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("zzimlist", listMapper.selectZzimListByMap(map));
-	    System.out.println(result);
 		result.put("PageUtil", pageUtil);
 		
 		return result;
 	}
 	
-	@Override
-	public Map<String, Object> removeStudyList(String studylist) {
-		List<String> list = Arrays.asList(studylist.split(","));
-		System.out.println(list);
-		Map<String, Object> result = new HashMap<>();
-		result.put("deleteResult", listMapper.deleteStudyList(list));
-		System.out.println("결과: " + result);
-		return result;
-	}
-	
-	@Override
-	public Map<String, Object> removeZzimList(String zzimlist) {
-		List<String> list = Arrays.asList(zzimlist.split(","));
-		System.out.println(list);
-		Map<String, Object> result = new HashMap<>();
-		result.put("deleteResult", listMapper.deleteZzimList(list));
-		System.out.println("결과: " + result);
-		return result;
-	}
-   
 }
