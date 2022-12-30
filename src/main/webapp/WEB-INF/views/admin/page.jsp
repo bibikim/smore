@@ -136,7 +136,7 @@ input#btn_trans{
     	fn_changePage6();
     	fn_changePage7();
     	fn_changePage8();
-		fn_searchUserList();
+		 fn_searchUserList(); 
     	fn_searchBoardList();
     	fn_inputShow();	
 	    // html dom 이 다 로딩된 후 실행된다.
@@ -609,7 +609,7 @@ input#btn_trans{
 				$.each(resData.freeBoardList, function(i, board){
 					var tr = '<tr>';
 					tr += '<td>' + board.freeNo + '</td>';
-					tr += '<td>' +   board.nickname  + '</td>'; 
+					tr += '<td>' + board.nickname  + '</td>'; 
 					tr += '<td><a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a></td>';
 					tr += '<td>' + board.createDate + '</td>'; 
 					tr += '<td>' + board.modifyDate + '</td>'; 
@@ -872,7 +872,7 @@ input#btn_trans{
 				dataType : 'json',
 				success : function(resData){
 					$('#head_list').empty();
-					$('#user_list').empty();				
+					$('#user_list').empty();
 					var tr = '<tr>';
 					tr += '<th scope="col">' + '#' + '</th>';
 					tr += '<th scope="col">' + 'ID' + '</th>';
@@ -923,7 +923,7 @@ input#btn_trans{
 					}
 					paging8 += '</div>';
 					// 페이징 표시
-					$('#paging').append(paging8);	
+					$('#paging').append(paging8);	  
 				}
 			});
 		});		
@@ -1252,7 +1252,7 @@ input#btn_trans{
 			<tfoot>
 				<tr>
 					<td colspan="10">
-						<div id="paging"></div>					
+						<div id="paging">${paging}</div>					
 						<div style="text-align: center;">    
 						<div id="form1">
 							<form id="frm_searchUser">
