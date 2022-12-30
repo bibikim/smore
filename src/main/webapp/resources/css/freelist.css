@@ -26,15 +26,15 @@
   		background: #73685d;
 	}
 	
-	tr {
-		
-	}
 	
 	th:nth-of-type(1) { width: 100px; }
 	th:nth-of-type(2) { width: 800px; }
 	th:nth-of-type(3) { width: 200px; }
 	th:nth-of-type(4) { width: 100px; }
 	
+	tbody tr {
+		/* hover:  */
+	}
 	
 	td, th {
   		padding: 1em .5em;

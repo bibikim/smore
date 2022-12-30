@@ -32,8 +32,8 @@ public class AdminServiceImpl implements AdminService {
    @Autowired
    private UserMapper userMapper;
    
-   @Autowired
-   private PageUtil pageUtil;
+   //@Autowired
+  // private PageUtil naverPageUtil;
    
    @Autowired 
    private NaverPageUtil naverPageUtil;  
@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 	   
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   map.put("begin", naverPageUtil.getBegin() - 1);
-	   map.put("end", naverPageUtil.getEnd());
+	   map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 	   
 	   Map<String, Object> result = new HashMap<String, Object>();
 	   result.put("allUserList", adminMapper.selectAllUserList(map));
@@ -66,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
 		      
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   map.put("begin", naverPageUtil.getBegin() -1);
-	   map.put("end", naverPageUtil.getEnd());
+	   map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 	  
 	   Map<String, Object> result = new HashMap<String, Object>();
 	   result.put("userList", adminMapper.selectUserListByMap(map));
@@ -79,15 +79,15 @@ public class AdminServiceImpl implements AdminService {
    public Map<String, Object> getSleepUserList(int page) {
       
       int totalRecord = adminMapper.selectSleepUserCount();
-      pageUtil.setPageUtil(page, totalRecord);
+      naverPageUtil.setNaverPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", pageUtil.getBegin());
-      map.put("end", pageUtil.getEnd());
+      map.put("begin", naverPageUtil.getBegin() - 1);
+      map.put("recordPerPage", naverPageUtil.getRecordPerPage());
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("sleepUserList", adminMapper.selectSleepUserListByMap(map));
-      result.put("naverPageUtil", pageUtil);
+      result.put("naverPageUtil", naverPageUtil);
       return result;
    }
    
@@ -96,7 +96,7 @@ public class AdminServiceImpl implements AdminService {
    public Map<String, Object> removeUserList(String userNoList) {
       List<String> list = Arrays.asList(userNoList.split(","));
       for(int i = 0; i < list.size(); i++) {
-         UserDTO userDTO =adminMapper.selectUserByNo(Integer.parseInt(list.get(i)));       
+         UserDTO userDTO = adminMapper.selectUserByNo(Integer.parseInt(list.get(i)));       
          RetireUserDTO retireUserDTO = new RetireUserDTO();
          retireUserDTO.setUserNo(userDTO.getUserNo());
          retireUserDTO.setId(userDTO.getId());
@@ -181,16 +181,15 @@ public class AdminServiceImpl implements AdminService {
    @Override
    public Map<String, Object> getreportUserList(int page) {
       int totalRecord = adminMapper.selectReportUserCount();
-      pageUtil.setPageUtil(page, totalRecord);
+      naverPageUtil.setNaverPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", pageUtil.getBegin());
-      map.put("end", pageUtil.getEnd());
+      map.put("begin", naverPageUtil.getBegin() - 1);
+      map.put("recordPerPage", naverPageUtil.getRecordPerPage());
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("reportUserList", adminMapper.selectReportUserList(map));
-      System.out.println(result);
-      result.put("naverPageUtil", pageUtil);
+      result.put("naverPageUtil", naverPageUtil);
       return result;
    }
    
@@ -200,15 +199,15 @@ public class AdminServiceImpl implements AdminService {
    public Map<String, Object> getFreeBoardList(int page) {
       
       int totalRecord = adminMapper.selectFreeBoardCount();
-      pageUtil.setPageUtil(page, totalRecord);
+      naverPageUtil.setNaverPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", pageUtil.getBegin() -1);
-      map.put("end", pageUtil.getEnd());
+      map.put("begin", naverPageUtil.getBegin() -1);
+      map.put("recordPerPage", naverPageUtil.getRecordPerPage());
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
-      result.put("naverPageUtil", pageUtil);
+      result.put("naverPageUtil", naverPageUtil);
       return result;
       
    }
@@ -217,15 +216,15 @@ public class AdminServiceImpl implements AdminService {
    public Map<String, Object> getStudyList(int page) {
       
       int totalRecord = adminMapper.selectSGroupBoardCount();
-      pageUtil.setPageUtil(page, totalRecord);
+      naverPageUtil.setNaverPageUtil(page, totalRecord);
       
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", pageUtil.getBegin() - 1);
-      map.put("end", pageUtil.getEnd());
+      map.put("begin", naverPageUtil.getBegin() - 1);
+      map.put("recordPerPage", naverPageUtil.getRecordPerPage());
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("studyList", adminMapper.selectStudyListByMap(map));
-      result.put("naverPageUtil", pageUtil);
+      result.put("naverPageUtil", naverPageUtil);
       return result;
    }
    
@@ -233,30 +232,30 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> getCodeList(int page) {
 		
 	   int totalRecord = adminMapper.selectCodeBoardCount();
-	   pageUtil.setPageUtil(page, totalRecord);
+	   naverPageUtil.setNaverPageUtil(page, totalRecord);
 	   
 	   Map<String, Object> map = new HashMap<String, Object>();
-	   map.put("begin", pageUtil.getBegin() -1);
-       map.put("end", pageUtil.getEnd());
+	   map.put("begin", naverPageUtil.getBegin() - 1);
+	   map.put("recordPerPage", naverPageUtil.getRecordPerPage());
       
        Map<String, Object> result = new HashMap<String, Object>();
        result.put("codeList", adminMapper.selectCodeListByMap(map));
-       result.put("naverPageUtil", pageUtil);
+       result.put("naverPageUtil", naverPageUtil);
        return result;
 	}
    
    @Override
 	public Map<String, Object> getQnaList(int page) {
 		int totalRecord = adminMapper.selectQnaBoardCount();
-		pageUtil.setPageUtil(page, totalRecord);
+		naverPageUtil.setNaverPageUtil(page, totalRecord);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("begin", pageUtil.getBegin() -1);
-        map.put("end", pageUtil.getEnd());
+	    map.put("begin", naverPageUtil.getBegin() - 1);
+	    map.put("recordPerPage", naverPageUtil.getRecordPerPage());
         
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("qnaList", adminMapper.selectQnaListByMap(map));
-        result.put("naverPageUtil", pageUtil);
+        result.put("naverPageUtil", naverPageUtil);
         return result;
 	}
    
@@ -278,8 +277,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
 		naverPageUtil.setNaverPageUtil(page, totalRecord);		
-		map.put("begin", naverPageUtil.getBegin());
-		map.put("end", naverPageUtil.getEnd());
+		map.put("begin", naverPageUtil.getBegin() - 1);
+		map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 		
 		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
 		String path = null;
@@ -329,32 +328,30 @@ public class AdminServiceImpl implements AdminService {
 						
 		if(board.equals("FREE")) {
 			totalRecord  = adminMapper.selectFreeBoardByCountQuery(map);
-			System.out.println(totalRecord);
 			naverPageUtil.setNaverPageUtil(page, totalRecord);		
-			map.put("begin", naverPageUtil.getBegin());
-			map.put("end", naverPageUtil.getEnd());
+			map.put("begin", naverPageUtil.getBegin() - 1);
+			map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 			list = adminMapper.selectFreeBoardByQuery(map);
 		} else if(board.equals("CODE")) {
 			totalRecord = adminMapper.selectCodeBoardByCountQuery(map);
 			naverPageUtil.setNaverPageUtil(page, totalRecord);		
-			map.put("begin", naverPageUtil.getBegin());
-			map.put("end", naverPageUtil.getEnd());
+			map.put("begin", naverPageUtil.getBegin() - 1);
+			map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 			list = adminMapper.selectCodeBoardByQuery(map);
 		} else if(board.equals("STUDY")) {
 			totalRecord = adminMapper.selectStudyBoardByCountQuery(map);
 			naverPageUtil.setNaverPageUtil(page, totalRecord);		
-			map.put("begin", naverPageUtil.getBegin());
-			map.put("end", naverPageUtil.getEnd());
-			list= adminMapper.selectStudyBoardByQuery(map);
+			map.put("begin", naverPageUtil.getBegin() - 1);
+			map.put("recordPerPage", naverPageUtil.getRecordPerPage());
+			list = adminMapper.selectStudyBoardByQuery(map);
 		} else if(board.equals("QNA")) {
 			totalRecord = adminMapper.selectQnaBoardByCountQuery(map);
 			naverPageUtil.setNaverPageUtil(page, totalRecord);		
-			map.put("begin", naverPageUtil.getBegin());
-			map.put("end", naverPageUtil.getEnd());
+			map.put("begin", naverPageUtil.getBegin() - 1);
+			map.put("recordPerPage", naverPageUtil.getRecordPerPage());
 			list = adminMapper.selectQnaBoardByQuery(map);
 		}
 		
-		System.out.println(list);
 		String path = null;
 		
 		switch(column2) {
@@ -379,10 +376,5 @@ public class AdminServiceImpl implements AdminService {
 				
 		return result;
 	}
-   
-   
-   
-   
-   
    
 }
