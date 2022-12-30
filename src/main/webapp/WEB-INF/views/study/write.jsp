@@ -16,12 +16,13 @@
 	});
 */
 	// contextPath를 반환하는 자바스크립트 함수
+	/*
 	function getContextPath() {
 		var begin = location.href.indexOf(location.origin) + location.origin.length;
 		var end = location.href.indexOf("/", begin + 1);
 		return location.href.substring(begin, end);
 	}
-	
+	*/
 	$(document).ready(function(){
 
 		// 목록
@@ -59,6 +60,35 @@
 		
 		});
 		*/
+		function fn_remove(){
+			$('#btn_remove').click(function(){
+				if(confirm('선택한 회원을 모두 삭제할까요?')){
+					// 삭제할 회원번호
+					let memberNoList = '';
+					for(let i = 0; i < $('.check_one').length; i++){
+						if( $($('.check_one')[i]).is(':checked') ) {
+							memberNoList += $($('.check_one')[i]).val() + ',';  // 3,1,  (마지막 콤마 있음을 주의)
+						}
+					}
+					memberNoList = memberNoList.substr(0, memberNoList.length - 1);  // 3,1  (마지막 콤마 자르기)
+					$.ajax({
+						type: 'delete',
+						url: '${contextPath}/members/' + memberNoList,
+						dataType: 'json',
+						success: function(resData){
+							if(resData.deleteResult > 0){
+								alert('선택된 회원 정보가 삭제되었습니다.');
+								fn_list();
+							} else {
+								alert('선택된 회원 정보가 삭제되지 않았습니다.');
+							}
+						}
+					});
+				}
+			});
+		}
+		
+		
 		
 	});
 	
@@ -148,8 +178,17 @@
 		$('#date').val('${loginUser.birthday.substring(2)}').prop('selected', true);
 	}
 	*/
-	
-
+	function checkOnlyOne(element) {
+		  
+		  const checkboxes 
+		      = document.getElementsByName("lang");
+		  
+		  checkboxes.forEach((cb) => {
+		    cb.checked = false;
+		  })
+		  
+		  element.checked = true;
+		}
 </script>
 <body>
 
@@ -198,13 +237,6 @@
 
 			</select>
 
-			<div>
-				<label for="wido" class="wido"></label>
-				<input type="hidden" class = "wido" name="wido" id="wido" value="">	
-				<label for="gdo" class="gdo"></label>
-				<input type="hidden" class = "gdo" name="gdo" id="gdo" value="">		
-			</div>
-
 		</div>
 		
 		
@@ -237,19 +269,44 @@
 
 			<input type='checkbox'
 			       name='lang' 
-			       class='lang'
-			       value='Java'> Java
+			       value='Java'
+			       onclick='checkOnlyOne(this)'> Java
 
 			<input type='checkbox' 
 			       name='lang' 
-				   class='lang'
-			       value='Python' > Python
+			       value='Python' 
+			       onclick='checkOnlyOne(this)'> Python
 
 			<input type='checkbox' 
 			       name='lang'
-			       class='lang'			        
-			       value='Javascript'> Javascript   
-			          
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> Javascript 
+			         
+			<input type='checkbox' 
+			       name='lang'
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> HTML  
+			       
+			<input type='checkbox' 
+			       name='lang'
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> CSS   
+			       
+			<input type='checkbox' 
+			       name='lang'
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> React   
+			       
+			<input type='checkbox' 
+			       name='lang'
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> Nodejs   
+
+			<input type='checkbox' 
+			       name='lang'
+			       value='Javascript'
+			       onclick='checkOnlyOne(this)'> Spring   
+         
 		</div>
 		
 		<div>
@@ -307,6 +364,7 @@
 		</div>
 		 -->
 		 <div>
+		 	<label for="studDate">시작예정일</label>
 			<input type="date" id="studDate" name="studDate" min="2022-01-01" max="2024-12-31">
 		 </div>
 				
@@ -326,9 +384,15 @@
 			<input type="button" value="목록" id="btn_list" onclick="location.href='/';">
 		</div>
 		
+		<div>
+			<label for="wido" class="wido"></label>
+			<input type="hidden" class = "wido" name="wido" id="wido" value="">	
+			<label for="gdo" class="gdo"></label>
+			<input type="hidden" class = "gdo" name="gdo" id="gdo" value="">		
+		</div>
 	</form>
 	
-
+	
 </div>
 
 </body>
