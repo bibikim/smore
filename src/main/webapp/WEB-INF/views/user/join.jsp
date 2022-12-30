@@ -6,16 +6,13 @@
 	<jsp:param value="회원가입" name="title"/>
 </jsp:include>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
-    <style>
-        /* @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
-        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
-        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');} 
-    </style>
 
+<style>
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');} 
+</style>
 
-
-
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
    
    $(function(){
@@ -61,7 +58,7 @@
          $.ajax({
             /* 요청 */
             type: 'get',
-            url: '${contextPath}/user/checkReduceId',
+            url: '/user/checkReduceId',
             data: 'id=' + idValue,
             /* 응답 */
             dataType: 'json',
@@ -260,7 +257,7 @@
             $.ajax({
                /* 요청 */
                type: 'get',
-               url: '${contextPath}/user/checkReduceEmail',
+               url: '/user/checkReduceEmail',
                data: 'email=' + $('#email').val(),
                /* 응답 */
                dataType: 'json',
@@ -280,7 +277,7 @@
             $.ajax({
                /* 요청 */
                type: 'get',
-               url: '${contextPath}/user/sendAuthCode',
+               url: '/user/sendAuthCode',
                data: 'email=' + $('#email').val(),
                /* 응답 */
                dataType: 'json',
@@ -359,15 +356,8 @@
                event.preventDefault();
                return;
          }
-         
-         
-         
       });  // submit
-      
    }  // fn_join
-   
-
-   
    
 </script>
 </head>
@@ -376,9 +366,6 @@
    <div id="container">
    
       <h2 class="login" style="letter-spacing:-1px; text-align: center;">Sign up to Web</h2>
-
-
-   
       <div style="text-align: center">* 표시는 필수 입력사항입니다.</div>
       
       <hr>
@@ -390,24 +377,14 @@
          <input type="hidden" name="location" value="${location}">
          <input type="hidden" name="promotion" value="${promotion}">
       
-         <!-- 아이디 -->
-<!--          <div>
-            <label for="id">아이디*</label><br>
-            <input type="text" name="id" id="id" class="size">
-            <span id="msg_id"></span>
-         </div> -->
-         
-                 <!-- <span>ID</span> -->
         <!-- 아이디 -->         
         <div>        
         <label for="id">        
         	<p style="text-align: left; font-size:15px; color:#666">아이디*</p>
         	<input type="text"  name="id" id="id"placeholder="아이디" class="size">
         	<span id="msg_id"></span>
-        </label><!--아이디-->
+        </label>
 		</div> 
-         
-         
          
         <br>
          
@@ -420,20 +397,9 @@
         </label>
 		</div>
          
-         
-         
-         
-<!--          비밀번호
-         <div>
-            <label for="pw">비밀번호*</label><br>
-            <input type="password" name="pw" id="pw" class="size">
-            <span id="msg_pw"></span>
-         </div> -->
-         
          <br>
          
          <!-- 비밀번호 재확인 -->
-         
         <div> 
         <label>
 	        <p style="text-align: left; font-size:15px; color:#666">비밀번호 확인*</p>
@@ -441,13 +407,6 @@
 	        <span id="msg_re_pw"></span>
         </label>
 		</div>
-         
-         
-<!--          <div>
-            <label for="re_pw">비밀번호 확인*</label><br>
-            <input type="password" id="re_pw" class="size">
-            <span id="msg_re_pw"></span>
-         </div> -->
          
          <br>
          
@@ -459,13 +418,8 @@
         </label>
 		</div>
          
-         
-<!--          <div>
-            <label for="name">이름*</label><br>
-            <input type="text" name="name" id="name" class="size">
-         </div> -->
-         
          <br>
+         
         <!-- 별명 -->
         <div> 
         <label>
@@ -474,14 +428,8 @@
         </label>
 		</div>
          
-         
-
-<!--          <div>
-            <label for="name">별명*</label><br>
-            <input type="text" name="nickname" id="nickname" class="size">
-         </div> -->
-         
          <br>
+         
          <!-- 성별 -->
          <div>
             <label for="gender" style="text-align: left; font-size:15px; color:#666">성별</label><br>
@@ -496,20 +444,12 @@
          <br>
       
          <!-- 휴대전화 -->
-         
         <div> 
         <label>
 	        <p style="text-align: left; font-size:15px; color:#666">휴대전화*</p>
 	        <input type="text" name="mobile" id="mobile" placeholder="휴대전화" class="size">
         </label>
 		</div>
-         
-         
-<!--          <div>
-            <label for="mobile">휴대전화*</label><br>
-            <input type="text" name="mobile" id="mobile" maxlength=11 class="size">
-            <span id="msg_mobile"></span>
-         </div> -->
          
          <br>
       
@@ -524,7 +464,6 @@
 	        <label for="company">기업회원</label>
          </div>
       	</div>
-      
       
          <!-- 생년월일 -->
          <div>
@@ -619,11 +558,6 @@
 			        <input type="button" value="인증번호받기" id="btn_getAuthCode" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
 				</label>
 			</div>
-<!--             <div>
-               <label for="email">이메일*</label><br>
-               <input type="text" name="email" id="email" class="size">
-               <input type="button" value="인증번호받기" id="btn_getAuthCode">
-            </div> -->
             <span id="msg_email"></span><br>
             <input type="text" id="authCode" size=9 placeholder="인증코드 입력" class="size" style="width:150px">
             <input type="button" value="인증하기" id="btn_verifyAuthCode" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
@@ -637,8 +571,6 @@
       </form>
    	</div> 
    </div>
-
-	
 
 </body>
 </html>

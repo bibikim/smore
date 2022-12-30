@@ -14,10 +14,8 @@ public interface UserMapper {
 	public RetireUserDTO selectRetireUserById(String id);
 	public int insertUser(UserDTO user);
 	
-	// 네아로, 카아로
+	// 네아로
 	public int insertNaverUser(UserDTO user);
-	public int insertKakaoUser(UserDTO user);
-	
 	public int updateAccessLog(String id);
 	public int insertAccessLog(String id);
 	
@@ -38,8 +36,5 @@ public interface UserMapper {
 	public SleepUserDTO selectSleepUserById(String id);
 	public int insertRestoreUser(String id);
 	public int deleteSleepUser(String id);
-	
-	// 네이버 로그인
-	// public int insertNaverUser(UserDTO user);
 	
 }

@@ -38,7 +38,6 @@
 					studyList += '<div class="stud_title">' + study.title + '</div>&nbsp;';
 					studyList += '<div class="stud_content">' + study.content + '</div>&nbsp;';
 					
-					
 					studyList += '<div class="tag"><p class="tag_span">#' + study.lang + '</p></div>';
 					studyList += '<div class="tag"><p class="tag_span">#' + study.region + '</p></div>';
 					studyList += '<div class="tag"><p class="tag_span">#max&nbsp;' + study.people + '</p></div>';
@@ -46,13 +45,6 @@
 					studyList += '<div id="gubun"></div>';
 					studyList += '<div><div class="nick"><div class="stud_nick"><div><img src="../../resources/images/monster.png" ></div><div style="margin: 5px;">' + study.nickname + '</div></div><div class="stud_hit"><div><img src="../../resources/images/eye.png" ></div>&nbsp;<div>' + study.hit + '</div></div></div></div>';
 					
-					
-					//studyList += '<div>#' + study.region + '</div>';
-                    // studyList += '<a href="/study/detail?studNo=' + study.studNo + '">' + study.title + '</a>';
-                    // studyList += '<div><a href="/study/increse/hit?studNo=' + study.studNo + '">' + study.title + '</a></div>';
-					// onclick="location.href='/study/increse/hit?studNo=${study.studNo}'"
-					// location="/study/increse/hit?studNo=${study.studNo}"
-                    // studyList += '</a>' + '</div>';
                     studyList += '</div>';
 					$('.study_list_container').append(studyList);
 				});
@@ -101,9 +93,33 @@
 </script>
 <body>
 
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="../../resources/images/color1.png" class="img" alt="이미지1">
+			</div>
+			<div class="carousel-item">
+				<img src="../../resources/images/color2.png" class="img" alt="이미지2">
+			</div>
+			<div class="carousel-item">
+				<img src="../../resources/images/color3.png" class="img" alt=".이미지3">
+			</div>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		</a>
+	</div>
+
+	<br>
+
 	<div id="btn_write">
 		<c:if test="${loginUser != null}">
-			<a class="btn_write_a" href="/study/write">등록하기</a>
+			<a class="btn_write_a" href="/study/write">&nbsp;등록하기&nbsp;</a>
 		</c:if>
 	</div>
 	

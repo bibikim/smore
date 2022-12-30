@@ -11,6 +11,17 @@
 	}
 	a:hover, a:active {text-decoration: none; color: black;}
 	
+	.img {
+		width: 1600px;
+		height: 290px;
+	}
+	
+	.first_banner {
+		background-color: #d7edff;
+	
+	}
+	
+	
 	.study_list_container {
 		margin: 0 auto;
 		width: 1260px;
@@ -89,7 +100,7 @@
 	.btn_write_a{
 		padding: 8px;
     	border-radius: 30px;
-	    background-color: #78B9DA;
+	    background-color: #96c7ed;
 	    margin-right: 300px;
 	    height: 100%;
 	    line-height: 40px;
@@ -127,5 +138,4 @@
 		display: flex;
 		margin-top: 5px;
 	}
-	
 	

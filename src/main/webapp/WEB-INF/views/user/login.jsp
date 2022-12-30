@@ -9,14 +9,12 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
-		#container{
+	#container{
 		background: #f9fafb;
 	}
 
-
 	.wrap.palm-leaf {
-     background: #faf3eb; 
-    /* background: #f7ebd2; */
+		background: #faf3eb; 
 	}
 
 	.wrap {
@@ -149,8 +147,3 @@
 	</div>
 </body>
 </html>
-
-
-
-
-

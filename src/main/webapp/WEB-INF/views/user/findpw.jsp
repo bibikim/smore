@@ -2,19 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%-- <jsp:include page="../layout/header.jsp">
-	<jsp:param value="비밀번호 찾기" name="title"/>
-</jsp:include>
- --%>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
 
-
-
-
 	.wrap.palm-leaf {
      background: #faf3eb; 
-    /* background: #f7ebd2; */
 	}
 
 	.wrap {
@@ -159,7 +151,6 @@
 		    </div>
 	    </div>
 	</div>
-
 
 </body>
 </html>

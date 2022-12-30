@@ -89,13 +89,10 @@
 	
 </style>
 
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
 	$(function() {
-		//fn_studylist();
-		//fn_zzimlist();
-	
 
 		// html dom 이 다 로딩된 후 실행된다.
 	    $(document).ready(function(){
@@ -160,7 +157,7 @@
 				}
 				$.each(resData.studylist, function(i, study) {
 						var tr = '<tr>';
-						tr += '<td>' + study.rowNum + '</td>';
+						tr += '<td>' + study.studNo + '</td>';
 						tr += '<td>' + study.nickname  + '</td>';
 						tr += '<td><a href="/study/detail?studNo=' + study.studNo + '">' + study.title  + '</a></td>';
 						tr += '<td>' + study.lang + '</td>'; 
@@ -197,7 +194,7 @@
 				}
 				$.each(resData.zzimlist, function(i, zzim) {
 					var tr = '<tr>';
-					tr += '<td>' + zzim.studyGroupDTO.rowNum + '</td>';
+					tr += '<td>' + zzim.studyGroupDTO.studNo + '</td>';
    					tr += '<td><a href="/study/detail?studNo=' + zzim.studyGroupDTO.studNo + '">' + zzim.studyGroupDTO.title  + '</a></td>';
 					tr += '<td>' + zzim.studyGroupDTO.lang + '</td>';
 					tr += '<td>' + zzim.studyGroupDTO.studDate + '</td>'; 

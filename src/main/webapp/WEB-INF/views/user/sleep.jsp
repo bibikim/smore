@@ -8,12 +8,7 @@
 	<jsp:param value="휴면 전환" name="title"/>
 </jsp:include>
 
-<style>
-
-
-</style>
-
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
 </script>
@@ -39,7 +34,7 @@
 			<div>
 				휴면해제를 위해 휴면해제 버튼을 클릭해 주세요.
 			</div>
-			<form id="frm_restore" action="${contextPath}/user/restore" method="post">
+			<form id="frm_restore" action="/user/restore" method="post">
 				<div>
 					<button>휴면해제</button>
 					<input type="button" value="취소" onclick="location.href='/'">

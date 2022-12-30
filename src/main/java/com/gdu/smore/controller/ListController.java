@@ -30,9 +30,5 @@ public class ListController {
 		return listService.getZzimList(request, page);
 	}
 	
-	
-	
-	
-	
 }
 

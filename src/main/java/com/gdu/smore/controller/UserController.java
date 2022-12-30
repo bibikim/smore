@@ -75,9 +75,6 @@ public class UserController {
 		// 네이버 로그인
 		model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));
 		
-		// 카카오 로그인
-		//model.addAttribute("apiURL", userService.getKakaoLoginApiURL(request));
-      
 		return "user/login";
 	}
 
@@ -108,30 +105,6 @@ public class UserController {
 	public void naverJoin(HttpServletRequest request, HttpServletResponse response) {
 		userService.naverJoin(request, response);
 	}
-	
-	// 카카오 로그인
-	/*
-	@GetMapping("/user/kakao/login")
-	public String kakaoLogin(HttpServletRequest request, Model model) {
-		
-		String access_token = userService.getKakaoLoginToken(request);
-		UserDTO profile = userService.getKakaoLoginProfile(access_token);
-		UserDTO kakaoUser = userService.getKakaoUserById(profile.getId()); 
-		if(kakaoUser == null) {
-			model.addAttribute("profile", profile);
-			return "user/kakao_join";
-		}
-		else {
-			userService.kakaoLogin(request, kakaoUser);
-			return "redirect:/";
-		}
-	}
-	
-	@PostMapping("/user/kakao/join")
-	public void kakaoJoin(HttpServletRequest request, HttpServletResponse response) {
-		userService.kakaoJoin(request, response);
-	}
-	*/
 	
 	@GetMapping("/user/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -224,4 +197,3 @@ public class UserController {
 	}
 	
 }
-

@@ -10,7 +10,7 @@
 <style>
 
 	.blind {
-	display: none;
+		display: none;
 	}
 	
 	.lbl_all, .lbl_one {
@@ -26,7 +26,7 @@
 	
 </style>
 
-<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 	
 	$(function(){
@@ -46,7 +46,7 @@ var emailPass = false;
 			$.ajax({
 				/* 요청 */
 				type: 'get',
-				url: '${contextPath}/user/checkReduceEmail',
+				url: '/user/checkReduceEmail',
 				data: 'email=' + $('#email').val(),
 				/* 응답 */
 				dataType: 'json',
@@ -142,24 +142,20 @@ var emailPass = false;
 		
 		<hr>
 		
-		<form id="frm_join" action="${contextPath}/user/naver/join" method="post">
+		<form id="frm_join" action="/user/naver/join" method="post">
 		
-			<!-- 아이디(프로필에 포함-1) -->
 			<input type="hidden" name="id" id="id" value="${profile.id}">
 			
-			<!-- 이름(프로필에 포함-2) -->
 			<div>
 				<label for="name">이름*</label>
 				<input type="text" name="name" id="name" value="${profile.name}">
 			</div>
 			
-			<!-- 별명(프로필에 포함-3) -->
 	        <div>
 	            <label for="name">별명*</label>
 	            <input type="text" name="nickname" id="nickname">
 	        </div>
 			
-			<!-- 성별(프로필에 포함-4) -->
 			<div>
 				<span>성별*</span>
 				<input type="radio" name="gender" id="male" value="M">
@@ -171,13 +167,11 @@ var emailPass = false;
 				</script>
 			</div>
 		
-			<!-- 휴대전화(프로필에 포함-5) -->
 			<div>
 				<label for="mobile">휴대전화*</label>
 				<input type="text" name="mobile" id="mobile" value="${profile.mobile}">
 			</div>
 		
-			<!-- 생년월일(프로필에 포함-6) -->
 			<div>
 				<label for="birthyear">생년월일*</label>
 				<input type="text" name="birthyear" id="birthyear" value="${profile.birthyear}">
@@ -185,7 +179,6 @@ var emailPass = false;
 				<input type="text" name="birthdate" id="birthdate" value="${profile.birthday.substring(2)}">
 			</div>
 			
-			<!-- 이메일(프로필에 포함-7) -->
 			<div>
 				<label for="email">이메일*</label>
 				<input type="text" name="email" id="email" value="${profile.email}">

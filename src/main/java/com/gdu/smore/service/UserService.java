@@ -25,16 +25,6 @@ public interface UserService {
 	public void naverLogin(HttpServletRequest request, UserDTO naverUser);
 	public void naverJoin(HttpServletRequest request, HttpServletResponse response);
 	
-	// 카카오 로그인
-	/*
-	public String getKakaoLoginApiURL(HttpServletRequest request);  
-	public String getKakaoLoginToken(HttpServletRequest request);   
-	public UserDTO getKakaoLoginProfile(String accessToken);       
-	public UserDTO getKakaoUserById(String id);
-	public void kakaoLogin(HttpServletRequest request, UserDTO kakaoUser);
-	public void kakaoJoin(HttpServletRequest request, HttpServletResponse response);
-	*/
-	
 	// 로그인 유지
 	public void keepLogin(HttpServletRequest request, HttpServletResponse response);
 	public UserDTO getUserBySessionId(Map<String, Object> map);

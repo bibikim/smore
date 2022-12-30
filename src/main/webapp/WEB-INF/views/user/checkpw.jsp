@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%-- <jsp:include page="../layout/header.jsp">
-	<jsp:param value="비밀번호 변경하기" name="title"/>
-</jsp:include> --%>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
 	.w-btn {
@@ -20,49 +17,47 @@
 	    transition: 0.25s;
 	}
 	.w-btn-blue {
-    background-color: #6aafe6;
-    color: #d4dfe6;
+	    background-color: #6aafe6;
+	    color: #d4dfe6;
 	}
 	
 	#container{
 		background: #f9fafb;
 	}
 
-
 	.wrap.palm-leaf {
-     background: #faf3eb; 
-    /* background: #f7ebd2; */
+		background: #faf3eb; 
 	}
 
 	.wrap {
-    position: relative;
-    z-index: 0;
-    width: 100%;
-    background: #fff;
+	    position: relative;
+	    z-index: 0;
+	    width: 100%;
+	    background: #fff;
 	}
 	.main_register_wrap__2Rm-j {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
+	    display: flex;
+	    width: 100%;
+	    height: 100vh;
+	    align-items: center;
+	    justify-content: center;
 	}
 
 	.right_right_area_register__1xzTV, .right_right_area_register_entry__2SYIe, .right_right_area_send__3UENH {
-    position: relative;
-    background-color: #fff;
-    border-radius: 32px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+	    position: relative;
+	    background-color: #fff;
+	    border-radius: 32px;
+	    align-items: center;
+	    display: flex;
+	    flex-direction: column;
+	    box-sizing: border-box;
+	    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 	}
 
 	.right_right_area__3O18C .right_join_wrap__2w-MC, .right_right_area_register__1xzTV .right_join_wrap__2w-MC, .right_right_area_register_entry__2SYIe .right_join_wrap__2w-MC, .right_right_area_send__3UENH .right_join_wrap__2w-MC {
-    width: 100%;
-    max-width: 400px;
-    padding-top: 24px;
+	    width: 100%;
+	    max-width: 400px;
+	    padding-top: 24px;
 	}
 
 </style>
@@ -111,9 +106,3 @@
 	</div>
 </body>
 </html>
-
-
-
-
-
-
