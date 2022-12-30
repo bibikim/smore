@@ -69,8 +69,12 @@ public class UserController {
 	
 	@GetMapping("/user/login/form")
 	public String loginForm(HttpServletRequest request, Model model) {
+		
 		// 로그인 후 되돌아 갈 주소 url
-		model.addAttribute("url", "http://localhost:9090");  
+		String requestURL = request.getRequestURL().toString();
+		String requestURI = request.getRequestURI();
+		String host = requestURL.substring(0, requestURL.indexOf(requestURI));
+		model.addAttribute("url", host);
 
 		// 네이버 로그인
 		model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));

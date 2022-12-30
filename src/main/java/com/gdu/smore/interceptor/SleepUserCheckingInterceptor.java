@@ -28,7 +28,7 @@ public class SleepUserCheckingInterceptor implements HandlerInterceptor {
 		session.setAttribute("sleepUser", sleepUser);
 		
 		if(sleepUser != null) {
-			response.sendRedirect(request.getContextPath() + "/user/sleep/display");
+			response.sendRedirect("/user/sleep/display");
 			return false;
 		}
 		else {

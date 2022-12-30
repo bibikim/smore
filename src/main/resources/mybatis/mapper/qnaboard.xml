@@ -12,7 +12,7 @@
                 CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
 				CONTENT, PW, CREATE_DATE, ANSWER,
 				MODIFY_DATE, HIT, IP
-					          FROM smore.Q_BOARD
+					          FROM Q_BOARD
 		), user_cmt as (
 				select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
                 CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,

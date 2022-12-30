@@ -41,7 +41,7 @@ public class RequiredLoginAspect {
 			
 			out.println("<script>");
 			out.println("if(confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?')){");
-			out.println("location.href='" + request.getContextPath() + "/user/login/form';");
+			out.println("location.href='/user/login/form';");
 			out.println("} else {");
 			out.println("history.back();");
 			out.println("}");			
