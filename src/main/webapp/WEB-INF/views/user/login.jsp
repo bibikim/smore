@@ -139,7 +139,10 @@
 						        <span><a href="/user/findPw/form">비밀번호 찾기</a></span>
 						        <span><a href="/user/agree/form" >회원가입</a></span>
 						    </p>							
-						</div>			
+						</div>	
+						<div class="div_naver">
+							<a href="${apiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+						</div>		
 					</form>				
 			    </div> 
 		    </div>

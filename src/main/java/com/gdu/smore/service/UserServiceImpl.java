@@ -423,8 +423,6 @@ public class UserServiceImpl implements UserService {
             .joinDate(loginUser.getJoinDate())
             .build();
       
-      System.out.println(request.getContextPath());
-      
       int deleteResult = userMapper.deleteUser(loginUser.getUserNo());
       int insertResult = userMapper.insertRetireUser(retireUser);
       
@@ -546,8 +544,12 @@ public class UserServiceImpl implements UserService {
 	    
 		String apiURL = null;
 		try {
+			String requestURL = request.getRequestURL().toString();
+			String requestURI = request.getRequestURI();
+			String host = requestURL.substring(0, requestURL.indexOf(requestURI));
+			
 			String clientId = "_A7rC_ITgDiz6_aSPMCA";
-			String redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath() + "/user/naver/login", "UTF-8");  // 네이버 로그인 Callback URL에 작성한 주소 입력 
+			String redirectURI = URLEncoder.encode(host + "/user/naver/login", "UTF-8");  // 네이버 로그인 Callback URL에 작성한 주소 입력 
 			SecureRandom random = new SecureRandom();
 			String state = new BigInteger(130, random).toString();
 			
@@ -577,7 +579,12 @@ public class UserServiceImpl implements UserService {
 		
 		String redirectURI = null;
 		try {
-			redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath(), "UTF-8");
+			String requestURL = request.getRequestURL().toString();
+			String requestURI = request.getRequestURI();
+			String host = requestURL.substring(0, requestURL.indexOf(requestURI));
+			
+			redirectURI = URLEncoder.encode(host, "UTF-8");
+			
 		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
