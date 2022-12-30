@@ -82,6 +82,7 @@ public class FreeServiceImpl implements FreeService {
 		
 		// 게시글 목록
 		List<FreeBoardDTO> free = freeMapper.selectFreeListByMap(map);
+
 		model.addAttribute("freeList", free);
 		//model.addAttribute("freeList", free);
 		
