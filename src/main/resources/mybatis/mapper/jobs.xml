@@ -15,17 +15,19 @@
 	<select id="selectJobsListByMap" parameterType="Map" resultType="JobsDTO">
 		SELECT JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
 		  FROM JOBS
-		 <choose>
-		 		<when test="type != null and type.equals('TITLE')">
-		 			TITLE LIKE CONCAT('%', #{keyword}, '%')
-		 		</when>
-		 		<when test="type != null and type.equals('CONTENT')">
-		 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
-		 		</when>
-		 		<when test="type != null and type.equals('COMPANY_NAME')">
-		 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
-		 		</when>
-		 </choose> 	     
+		  <where>
+			 <choose>
+			 		<when test="type == 'TITLE'">
+			 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+			 		</when>
+			 		<when test="type =='CONTENT'">
+			 			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+			 		</when>
+			 		<when test="type == 'COMPANY_NAME'">
+			 			AND COMPANY_NAME LIKE CONCAT('%', #{keyword}, '%')
+			 		</when>
+			 </choose> 	     
+		  </where>
 		 ORDER BY JOB_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>

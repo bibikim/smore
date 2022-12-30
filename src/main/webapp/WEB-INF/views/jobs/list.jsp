@@ -27,6 +27,7 @@
 	.job-main {
 	    margin-left: 300px;
 	    margin-right: 300px;
+	    min-height: 800px;
 	}
 	
 	.div-comp {

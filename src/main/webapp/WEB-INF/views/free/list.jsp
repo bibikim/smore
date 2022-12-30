@@ -43,7 +43,7 @@
 		</div>
 	</div>
 	
-	<div style="margin-left: auto; margin-right: auto;">
+	<div style="margin-left: auto; margin-right: auto; min-height: 800px;">
 		<table>
 			<thead>
 				<tr>
