@@ -3,12 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/base.css">
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="/resources/css/base.css">
 
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
+
+
 <style>
 
 	body
@@ -121,17 +122,49 @@
 		background-color : #bdbdbd; opacity : 0.5;
 	}
 	
+	.ul-paging{
+		list-style:none;
+		float:left;
+		display:inline;
+	}
+	
+	.li-page {
+	    float: left;
+	    margin-right: 20px;
+	}
+	
+	.li-page a {
+		float:left;
+		padding:4px;
+		margin-right:3px;
+		width:15px;
+		color:#000;
+		font:bold 12px tahoma;
+		border:1px solid #eee;
+		text-align:center;
+		text-decoration:none;
+	}
+	
+	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
+		color:#fff;
+		border:1px solid #1e90ff;
+		background-color:#1e90ff;
+	}
+	
+	
 </style>
+
 <script>
 
 	$(function(){
+		
 		$('#job_write').click(function(ev) {
 			if('${loginUser.grade}' != 3) {
 				alert('기업회원만 글 작성이 가능합니다.');
 				ev.preventDefault();
 				return;
 			}
-		})
+		});
 		
 		$('#frm_search').submit(function(ev){
 			if($('#type').val() == '' || $('#keyword').val() == '') {
@@ -139,9 +172,7 @@
 				ev.preventDefault();
 				return;
 			}
-			
 		})
-		
 		
 	});
 
@@ -202,47 +233,24 @@
 						<li> 게시물이 없습니다. </li>
 					</c:if>
 					
-					<c:forEach items="${jobList}" var="job">
-						<c:if test="${jobList ne null && job.status == 0}">
-							<li>
-								<div style="margin: 20px 0 10px 0;">
-									<div class="div-comp">⊹&nbsp;${job.companyName}</div>
-									<div style="margin: 10px 0 10px 18px;">
-										<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
-									</div>
-									<div style="width:90%;">
-										<div class="li-bottom1">
-											<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
-											<span>${job.location}</span>
-										</div>
-										<div class="li-bottom2">
-											<img style="margin-top: 8px;" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/18/null/external-Career-achievements-and-badges-flatarticons-blue-flatarticons.png"/>
-											<span>${job.career}</span>
-										</div>
-									</div>
-									<div class="skill">
-										<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
-										<span>${job.skillStack}</span>
-									</div>
-									<div>
-										<input type="hidden" name="status" value="0">
-									</div>
-								</div>
-							</li>
-							<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
-						</c:if>
-						<c:if test="${job.status == 1}">
-							<ul>
-									
-								<li class="status1"> 
-									
-									<div>채용 완료된 공고입니다.</div>
-								
+ 					<c:if test="${not empty jobList}">
+						<c:forEach items="${jobList}" var="job" varStatus="vs">
+							<c:if test="${job.status == 0}">
+								<li>
 									<div style="margin: 20px 0 10px 0;">
 										<div class="div-comp">⊹&nbsp;${job.companyName}</div>
 										<div style="margin: 10px 0 10px 18px;">
-											<a class="a-title-a" href="#">${job.title}</a>
+											<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
 										</div>
+										
+										<!-- 찜 갯수 -->
+										<div>
+											<img src="../resources/images/f-bookmark.png" width="20px">
+										</div>
+										<div>
+											${zzimCnt[vs.index]}
+										</div>
+										
 										<div style="width:90%;">
 											<div class="li-bottom1">
 												<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
@@ -262,10 +270,55 @@
 										</div>
 									</div>
 								</li>
-							</ul>
-						</c:if>
-					</c:forEach>
+								<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
+							</c:if>
+							<c:if test="${job.status == 1}">
+								<ul>
+										
+									<li class="status1"> 
+										
+										<div>채용 완료된 공고입니다.</div>
+									
+										<div style="margin: 20px 0 10px 0;">
+											<div class="div-comp">⊹&nbsp;${job.companyName}</div>
+											<div style="margin: 10px 0 10px 18px;">
+												<a class="a-title-a" href="#">${job.title}</a>
+											</div>
+											
+											<!-- 찜 갯수 -->
+											<div>
+												
+											</div>
+											
+											<div style="width:90%;">
+												<div class="li-bottom1">
+													<img style="margin-top: 8px;" src="https://img.icons8.com/ultraviolet/18/null/place-marker--v1.png"/>
+													<span>${job.location}</span>
+												</div>
+												<div class="li-bottom2">
+													<img style="margin-top: 8px;" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/18/null/external-Career-achievements-and-badges-flatarticons-blue-flatarticons.png"/>
+													<span>${job.career}</span>
+												</div>
+											</div>
+											<div class="skill">
+												<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
+												<span>${job.skillStack}</span>
+											</div>
+											<div>
+												<input type="hidden" name="status" value="0">
+											</div>
+										</div>
+									</li>
+								</ul>
+							</c:if>
+						</c:forEach>
+					</c:if>
 				</ul>
+			</div>
+			
+			<!-- 페이징 -->
+			<div class="paging">
+				<nav class="pagination">${paging}</nav>
 			</div>
 			
 	</div>	
