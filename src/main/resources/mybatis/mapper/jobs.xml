@@ -13,13 +13,11 @@
 
 	<!-- 목록 보기 -->
 	<select id="selectJobsListByMap" parameterType="Map" resultType="JobsDTO">
-		SELECT A.RW, A.JOB_NO, A.NICKNAME, A.TITLE, A.COMPANY_NAME, A.CONTACT, A.HOMEPAGE, A.PROFILE, A.HR_NAME, A.HR_CONTACT, A.HR_EMAIL, A.LOCATION, A.POSITION, A.JOB_TYPE, A.CONTENT, A.CREATE_DATE, A.HIT, A.CAREER, A.STATUS, A.SKILL_STACK
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY JOB_NO DESC) AS RW, JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
-		  	      FROM JOBS) A
-		 WHERE 1 = 1
+		SELECT JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
+		  FROM JOBS
 		 <choose>
 		 		<when test="type != null and type.equals('TITLE')">
-		 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+		 			TITLE LIKE CONCAT('%', #{keyword}, '%')
 		 		</when>
 		 		<when test="type != null and type.equals('CONTENT')">
 		 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
@@ -28,7 +26,7 @@
 		 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
 		 		</when>
 		 </choose> 	     
-		 ORDER BY A.JOB_NO DESC
+		 ORDER BY JOB_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
