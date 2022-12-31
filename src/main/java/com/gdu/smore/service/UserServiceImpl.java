@@ -394,7 +394,7 @@ public class UserServiceImpl implements UserService {
             
             out.println("<script>");
             out.println("alert('회원 정보가 수정되었습니다.');");
-            out.println("location.href='/user/mypage';");
+            out.println("location.href='/user/info';");
             out.println("</script>");
             
          } else {

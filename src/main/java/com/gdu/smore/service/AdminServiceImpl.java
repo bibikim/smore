@@ -297,9 +297,9 @@ public class AdminServiceImpl implements AdminService {
 		map.put("stop", stop);
 		
 		int totalRecord = adminMapper.selectAllUserCountByQuery(map);
-		pageUtil.setPageUtil(page, totalRecord);		
-		map.put("begin", pageUtil.getBegin() - 1);
-		map.put("recordPerPage", pageUtil.getRecordPerPage());	
+		naverPageUtil.setNaverPageUtil(page, totalRecord);		
+		map.put("begin", naverPageUtil.getBegin() - 1);
+		map.put("recordPerPage", naverPageUtil.getRecordPerPage());	
 		List<AllUserDTO> users = adminMapper.selectUsersByQuery(map);
 		String path = null;
 		
@@ -319,7 +319,7 @@ public class AdminServiceImpl implements AdminService {
 		} else {
 			result.put("users", users);
 			//result.put("path", path);
-			result.put("pageUtil", pageUtil.getPaging(path));
+			result.put("naverPageUtil", naverPageUtil);
 			result.put("status", 200);
 		}
 		

@@ -62,6 +62,11 @@ public class UserController {
 		return "/user/join";
 	}
 	
+	@GetMapping("/user/modifyPw")
+	public String modifyPw() {
+		return "/user/modifyPw";
+	}
+	
 	@PostMapping("/user/join")
 	public void join(HttpServletRequest request, HttpServletResponse response) {
 		userService.join(request, response);

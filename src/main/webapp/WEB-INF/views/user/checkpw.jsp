@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
+<link rel="stylesheet" href="/resources/css/reset.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <style>
 	.w-btn {
 	    position: relative;
@@ -85,7 +87,7 @@
 	});
 	
 </script>
-
+<title>Smore</title>
 </head>
 <body>
 	<div class="wrap RegisterWrap palm-leaf">
@@ -93,13 +95,13 @@
 			<div class="right_right_area_register__1xzTV" style="width: 600px; padding-bottom: 5%; padding-top: 5%;">
 				<div class="right_join_wrap__2w-MC">
 				<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png"  style=" text-align: center; width: 210px;"></a>
-			    <h3 class="login" style="letter-spacing:-1px; padding-top: 50px; font-size: 23px;">Check Password</h3>
+			    <h3 class="login" style="letter-spacing:-1px; padding-top: 10px; font-size: 23px;">Check Password</h3>
 			
 			 	<label>
 				    <p style="text-align: left; font-size:15px; color:#666">Password</p>
 				    <input type="password" id="pw" placeholder="비밀번호" class="size" >
 			    </label><br>
-				<input type="button" value="확인" id="btn_check_pw" class="btn btn-outline-secondary" style="margin-top: 20px; wid">
+				<input type="button" value="확인" id="btn_check_pw" class="btn btn-outline-secondary" style="margin-top: 20px;">
 			    </div> 
 		    </div>
 	    </div>
