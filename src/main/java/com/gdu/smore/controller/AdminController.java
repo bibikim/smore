@@ -22,9 +22,9 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@GetMapping(value="/users/page{page}", produces = "application/json")
-	public Map<String, Object> requiredLogin_getAllUserList(@PathVariable(value="page", required = false) Optional<String> opt){
+	public Map<String, Object> requiredLogin_getAllUserList(HttpServletRequest requesrt, @PathVariable(value="page", required = false) Optional<String> opt){
 		int page = Integer.parseInt(opt.orElse("1"));
-		return adminService.getAllUserList(page);
+		return adminService.getAllUserList(requesrt, page);
 	}
 		
 	@GetMapping(value="/sleepUsers/page{page}", produces = "application/json")
@@ -105,7 +105,8 @@ public class AdminController {
 //		return adminService.findUsers(request, page);
 //	}
 	
-	@GetMapping(value="/users/search/page{page}", produces = "application/json")
+//	@GetMapping(value="/users/search/page{page}", produces = "application/json")
+	@GetMapping(value="/users/search", produces = "application/json")
 	public Map<String, Object> requiredLogin_searchUsers(HttpServletRequest request, Model model) {
 		return adminService.findUsers(request, model);
 	}
