@@ -6,6 +6,12 @@
 <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <style>
 
+	#submits{
+		text-align: center;
+		margin-top: 30px;
+		margin-left: 50px;
+	}
+
 	.blind {
 		display: none;
 	}
@@ -75,6 +81,7 @@
 </style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
+<title>Smore</title>
 <script>
 
 	$(function(){
@@ -136,7 +143,6 @@
 	}
 
 </script>
-
 </head>
 <body>
 
@@ -146,7 +152,7 @@
 				<div class="right_join_wrap__2w-MC" style="margin-right: 80px;">
 					<form id="frm_agree" action="/user/join/write">
 						<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png"  style=" text-align: center; width: 210px;"></a>
-				 		<h3 class="login" style="letter-spacing:-1px; padding-top: 10px; font-size: 23px;">약관 동의</h3>	
+				 		<h3 class="login" style=" text-align: center; padding : 10px 0 30px 80px;  letter-spacing:-1px;  font-size: 23px; font-size:25px; font-weight: 900; color:#333;">약관 동의</h3>	
 	 					<div>
 							<input type="checkbox" id="check_all" class="blind">
 							<label for="check_all" class="lbl_all">
@@ -168,7 +174,7 @@
 							<input type="checkbox" id="privacy" class="check_one blind">
 							<label for="privacy" class="lbl_one">개인정보수집 동의(필수)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">개인정보보호법에 따라 ...
+								<textarea style="width: 500px; height: 100px;" class="form-control">개인정보보호법에 따라 S'more에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 								</textarea>
 							</div>
 						</div>
@@ -176,7 +182,13 @@
 							<input type="checkbox" id="location" name="location" class="check_one blind">
 							<label for="location" class="lbl_one">위치정보수집 동의(선택)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">위치정보 ...
+								<textarea style="width: 500px; height: 100px;" class="form-control">위치기반서비스 이용약관에 동의하시면, 위치를 활용한 광고 정보 수신 등을 포함하는 네이버 위치기반 서비스를 이용할 수 있습니다.
+
+								제 1 조 (목적)
+								이 약관은 네이버 주식회사 (이하 “회사”)가 제공하는 위치기반서비스와 관련하여 회사와 개인위치정보주체와의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+								
+								제 2 조 (약관 외 준칙)
+								이 약관에 명시되지 않은 사항은 위치정보의 보호 및 이용 등에 관한 법률, 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 전기통신기본법, 전기통신사업법 등 관계법령과 회사의 이용약관 및 개인정보처리방침, 회사가 별도로 정한 지침 등에 의합니다.
 								</textarea>
 							</div>
 						</div>
@@ -184,13 +196,13 @@
 							<input type="checkbox" id="promotion" name="promotion" class="check_one blind" >
 							<label for="promotion" class="lbl_one">마케팅 동의(선택)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">마케팅 ...</textarea>
+								<textarea style="width: 500px; height: 100px;" class="form-control">S'more 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화, 이메일로 받아보실 수 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 S'more 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.</textarea>
 							</div>
 						</div>
 		 		
-		 				<div>
-							<input type="button" value="취소" onclick="fn_cancel()">
-							<button>다음</button>
+		 				<div id="submits">
+							<button class="btn btn-outline-primary" style="width: 150px; height: 50px; display :inline-block;">다음</button>
+							<input type="button" value="취소" onclick="fn_cancel()" class="btn btn-outline-secondary" style="width: 150px; height: 50px; display :inline-block;">
 							<script>
 								function fn_cancel(){
 									location.href='/user/login/form';

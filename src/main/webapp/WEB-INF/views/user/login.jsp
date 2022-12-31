@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -6,9 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Smore</title>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
+	#lists{
+		text-decoration: none; 
+		color:#333;
+	}
+	#lists:hover{
+		color: #707070;
+	}
 	#container{
 		background: #f9fafb;
 	}
@@ -58,7 +64,8 @@
 	    color: #0d0d0d;
 	}
 </style>
-
+<link rel="stylesheet" href="/resources/css/reset.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -121,7 +128,9 @@
 					    </label>
 					    <br><br>
 						<div>			
-							<button class="btn_login">로그인</button>
+							<!-- <button class="btn_login">로그인</button> -->
+							<!-- <button class="btn btn-outline-secondary">로그인</button> -->
+							<button class="btn btn-outline-secondary">로그인</button>
 						</div>
 						
 						<div class="div_user" style="margin-top: 20px;">
@@ -135,9 +144,9 @@
 							</label>
 						    <hr>
 						    <p class="find">
-						        <span><a href="/user/findId/form">아이디 찾기</a></span>
-						        <span><a href="/user/findPw/form">비밀번호 찾기</a></span>
-						        <span><a href="/user/agree/form" >회원가입</a></span>
+						        <span><a id="lists" href="/user/findId/form" >아이디 찾기</a></span>
+						        <span><a id="lists" href="/user/findPw/form" >비밀번호 찾기</a></span>
+						        <span><a id="lists" href="/user/agree/form" >회원가입</a></span>
 						    </p>							
 						</div>	
 						<div class="div_naver">

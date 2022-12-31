@@ -113,7 +113,7 @@
 	}
 
 </script>
-
+<title>Smore</title>
 </head>
 <body>
 

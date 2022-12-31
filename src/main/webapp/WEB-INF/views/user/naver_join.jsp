@@ -26,6 +26,7 @@
 </style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
+<title>Smore</title>
 <script>
 	
 	$(function(){
