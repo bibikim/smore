@@ -181,7 +181,6 @@
 	 	 WHERE USER_NO = #{userNo}
 	 </select> 
 		
-	<!-- 검색기능 -->
  	<select id="selectUsersByQuery" parameterType="map" resultMap="AllUserMap">
 		SELECT D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE, D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
   		  FROM (SELECT C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
@@ -199,7 +198,7 @@
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column=='JOIN_DATE'">AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1</if>
 		</where>
-         ORDER BY D.USER_NO ASC   
+         ORDER BY D.JOIN_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage} 
 	</select>   
 			
@@ -218,20 +217,21 @@
 	
 	<!-- 자유게시판 검색 -->
 	<select id="selectFreeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT  D.FREE_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM  FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM FREEBOARD) D
+		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+  		  FROM FREEBOARD
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-	    	  <if test="column2=='ID' or column2 == 'NICKNAME'">
+	   	<if test="column2=='ID' or column2 == 'NICKNAME'">
 	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-	   		  </if> 
+	   	</if> 
    		  
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
-		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
+		  <if test="column2=='CREATE_DATE'">
+		  		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+		  </if>
 		</where>
-         ORDER BY D.FREE_NO DESC   
-		 LIMIT #{begin}, #{recordPerPage}  
+         ORDER BY CREATE_DATE DESC   
+		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
 	<select id="selectFreeBoardByCountQuery" parameterType="Map" resultType="int">
@@ -261,7 +261,7 @@
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
 		</where>
-         ORDER BY D.CO_NO DESC   
+         ORDER BY D.CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
@@ -293,7 +293,7 @@
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
 		</where>
-         ORDER BY D.STUD_NO DESC   
+         ORDER BY D.CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
@@ -325,7 +325,7 @@
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
 		</where>
-         ORDER BY D.QA_NO DESC   
+         ORDER BY D.CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 	
@@ -342,39 +342,7 @@
 		 </where> 
 	</select>
 	
-	
-	
-<!-- 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
-		SELECT  D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE 
-  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE
-                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE  
-		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                    ON U.ID = A.ID
-         UNION ALL
-        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE
-          FROM SLEEP_USERS) C) D 
-		 WHERE D.ROW_NUM BETWEEN #{begin} AND #{end} 
-		LIMIT #{begin}, 
-		LIMIT #{begin}, #{end}		  		  
-	</select> -->
-	
-<!-- 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
-		SELECT D.ROW_NUM, D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
-  		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY USER_NO DESC) AS ROW_NUM, C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
-                  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE, U.SNS_TYPE  
-		                  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
-		                    ON U.ID = A.ID
-         UNION ALL
-         
-        SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE, SNS_TYPE
-          FROM SLEEP_USERS) C) D 
-         WHERE D.ROW_NUM BETWEEN #{begin} AND #{end}  
-
-		WHERE D.ROW_NUM > #{begin} and D.ROW_NUM <![CDATA[<=]]> #{end}
-		 LIMIT #{begin}, #{end}  
-		LIMIT #{begin}, 	  		  
-	</select> -->
-	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
+ 	<select id="selectAllUserList" parameterType="map" resultMap="AllUserMap">
 		SELECT D.USER_NO, D.ID, D.NAME, D.NICKNAME, D.GENDER, D.JOIN_DATE , D.LAST_LOGIN_DATE, D.USER_STATE, D.SNS_TYPE 
   		  FROM (SELECT C.USER_NO, C.ID, C.NAME, C.NICKNAME, C.GENDER, C.LAST_LOGIN_DATE, C.USER_STATE, C.JOIN_DATE, C.SNS_TYPE
                   FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, A.LAST_LOGIN_DATE, U.USER_STATE, U.SNS_TYPE  
@@ -384,9 +352,9 @@
          
         SELECT USER_NO, ID, NAME, NICKNAME, GENDER, JOIN_DATE, LAST_LOGIN_DATE, USER_STATE, SNS_TYPE
           FROM SLEEP_USERS) C) D
-         ORDER BY D.USER_NO ASC   
+         ORDER BY D.JOIN_DATE ASC
 		 LIMIT #{begin}, #{recordPerPage}
-	</select> 
+	</select>  	
 
 	<!-- 일반유저 조회 -->
 	<select id="selectUserListByMap" parameterType="map" resultType="UserDTO">
@@ -394,7 +362,7 @@
 		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.NICKNAME, U.GENDER, U.JOIN_DATE, U.USER_STATE, U.INFO_MODIFY_DATE, A.LAST_LOGIN_DATE, U.SNS_TYPE 
 		  		  FROM USERS U LEFT OUTER JOIN ACCESS_LOG A
                     		ON U.ID = A.ID) B
-		 ORDER BY B.USER_NO ASC   
+		 ORDER BY B.JOIN_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 
@@ -403,16 +371,15 @@
 		SELECT B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE, B.SNS_TYPE
 		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE, U.SNS_TYPE
 		  		  FROM SLEEP_USERS U) B
-	     ORDER BY B.USER_NO DESC   
+	     ORDER BY B.JOIN_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage} 	  
 	</select> 
 		
 	<!-- 자유게시판 조회 -->
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
-	    SELECT N.FREE_NO, N.NICKNAME, N.TITLE, N.CONTENT, N.CREATE_DATE, N.MODIFY_DATE, N.HIT, N.IP
-		  FROM (SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		  		FROM FREEBOARD) N
-		 ORDER BY N.FREE_NO DESC   
+		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  		FROM FREEBOARD
+		 ORDER BY CREATE_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage} 	
 	</select>
 	
@@ -421,7 +388,7 @@
 		SELECT A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
 		  FROM (SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
 		          FROM S_GROUP B) A
- 		 ORDER BY A.STUD_NO DESC   
+ 		 ORDER BY A.CREATE_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
@@ -430,7 +397,7 @@
 		SELECT A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
 		  FROM (SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		          FROM C_BOARD) A
-		 ORDER BY A.CO_NO DESC   
+		 ORDER BY A.CREATE_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 	
@@ -439,7 +406,7 @@
 		SELECT A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
 		  FROM (SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
 		          FROM Q_BOARD) A 
-		 ORDER BY A.QA_NO DESC   
+		 ORDER BY A.CREATE_DATE ASC   
 		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 

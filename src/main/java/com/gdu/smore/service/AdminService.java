@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 
 public interface AdminService {
 	// 유저 리스트
-	public Map<String, Object> getAllUserList(int page);
+	public Map<String, Object> getAllUserList(HttpServletRequest request, int page);
 	public Map<String, Object> getCommonUserList(int page);
 	public Map<String, Object> getSleepUserList(int page);
 	public Map<String, Object> getreportUserList(int page);
