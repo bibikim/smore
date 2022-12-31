@@ -5,121 +5,121 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gdu.smore.mapper.QnaBoardMapper">
-   
-   <select id="selectQnaBoardListCount" resultType="int">
-       user_qna AS (
-            select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
+	
+	<select id="selectQnaBoardListCount" resultType="int">
+		WITH user_qna AS (
+				select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
                 CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-            CONTENT, PW, CREATE_DATE, ANSWER,
-            MODIFY_DATE, HIT, IP
-                         FROM Q_BOARD
-      ), user_cmt as (
-            select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
+				CONTENT, PW, CREATE_DATE, ANSWER,
+				MODIFY_DATE, HIT, IP
+					          FROM smore.Q_BOARD
+		), user_cmt as (
+				select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
                 CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-            C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
-            C.MODIFY_DATE, "" as HIT, C.IP
-                FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
-                  ON Q.QA_NO = C.QA_NO
-              WHERE C.STATE = '1'
-      )
+				C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
+				C.MODIFY_DATE, "" as HIT, C.IP
+		          FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
+		            ON Q.QA_NO = C.QA_NO
+				  WHERE C.STATE = '1'
+		)
         select sum(b.cnt) as cnt from (select count(*) as cnt from user_qna
-      UNION ALL
-      select count(*) as cnt from user_cmt) b
-   </select>
-   
-   <select id="selectQnaBoardPwCount" resultType="int" parameterType="QnaBoardDTO">
-      SELECT COUNT(*)
-        FROM Q_BOARD WHERE PW = #{pw} AND QA_NO = #{qaNo}
-   </select>
-   
-   <insert id="insertQnaBoard" parameterType="QnaBoardDTO">
-      INSERT INTO Q_BOARD
-         (QA_NO, NICKNAME, TITLE, CONTENT, PW, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER)
-      VALUES
-         (#{qaNo}, #{nickname}, #{title}, #{content}, #{pw}, NOW(), NOW(), 0, #{ip}, #{answer})
-   </insert>
-   
-   <insert id="insertQnaComment" parameterType="QnaCommentDTO">
-      INSERT INTO Q_CMT
-         (CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE,IP)
-      VALUES
-         (#{cmtNo}, #{qaNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, #{ip})
-   </insert>
-   
-   <update id="updateHit" parameterType="int">
-      UPDATE Q_BOARD
-         SET HIT = HIT + 1
-       WHERE QA_NO = #{qaNo}
-   </update>
-   
-   <update id="updateAnswer" parameterType="QnaBoardDTO">
-      UPDATE Q_BOARD
-         SET ANSWER = #{answer}
-       WHERE QA_NO = #{qaNo}
-   </update>
-   
-   <select id="selectQnaBoardByNo" parameterType="int" resultType="QnaBoardDTO">
-      SELECT Q.QA_NO, U.NICKNAME as nickname, Q.TITLE as title, Q.CONTENT as content, Q.PW as pw, Q.CREATE_DATE, Q.MODIFY_DATE as modifyDate, Q.HIT as hit, Q.IP as ip, Q.ANSWER as answer
+		UNION ALL
+		select count(*) as cnt from user_cmt) b
+	</select>
+	
+	<select id="selectQnaBoardPwCount" resultType="int" parameterType="QnaBoardDTO">
+		SELECT COUNT(*)
+		  FROM Q_BOARD WHERE PW = #{pw} AND QA_NO = #{qaNo}
+	</select>
+	
+	<insert id="insertQnaBoard" parameterType="QnaBoardDTO">
+		INSERT INTO Q_BOARD
+			(QA_NO, NICKNAME, TITLE, CONTENT, PW, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER)
+		VALUES
+			(#{qaNo}, #{nickname}, #{title}, #{content}, #{pw}, NOW(), NOW(), 0, #{ip}, #{answer})
+	</insert>
+	
+	<insert id="insertQnaComment" parameterType="QnaCommentDTO">
+		INSERT INTO Q_CMT
+			(CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, MODIFY_DATE, STATE,IP)
+		VALUES
+			(#{cmtNo}, #{qaNo}, #{nickname}, #{cmtContent}, NOW(), NOW(), 1, #{ip})
+	</insert>
+	
+	<update id="updateHit" parameterType="int">
+		UPDATE Q_BOARD
+		   SET HIT = HIT + 1
+		 WHERE QA_NO = #{qaNo}
+	</update>
+	
+	<update id="updateAnswer" parameterType="QnaBoardDTO">
+		UPDATE Q_BOARD
+		   SET ANSWER = #{answer}
+		 WHERE QA_NO = #{qaNo}
+	</update>
+	
+	<select id="selectQnaBoardByNo" parameterType="int" resultType="QnaBoardDTO">
+		SELECT Q.QA_NO, U.NICKNAME as nickname, Q.TITLE as title, Q.CONTENT as content, Q.PW as pw, Q.CREATE_DATE, Q.MODIFY_DATE as modifyDate, Q.HIT as hit, Q.IP as ip, Q.ANSWER as answer
           FROM USERS U INNER JOIN Q_BOARD Q
             ON U.NICKNAME = Q.NICKNAME
-       WHERE Q.QA_NO = #{qaNo}
-   </select>
-   
-   <select id="selectQnaCmtByNo" parameterType="int" resultType="QnaCommentDTO">
-      SELECT CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, IP
-        FROM Q_CMT
-      WHERE STATE = '1'
+		 WHERE Q.QA_NO = #{qaNo}
+	</select>
+	
+	<select id="selectQnaCmtByNo" parameterType="int" resultType="QnaCommentDTO">
+		SELECT CMT_NO, QA_NO, NICKNAME, CMT_CONTENT, CREATE_DATE, STATE, IP
+		  FROM Q_CMT
+		WHERE STATE = '1'
               AND CMT_NO = #{cmtNo}
-   </select>
-   
-   <update id="deleteQnaComment" parameterType="int">
-      UPDATE Q_CMT
-         SET STATE = 0
-       WHERE CMT_NO = #{cmtNo}
-   </update>
-   
-   <update id="updateQnaBoard" parameterType="QnaBoardDTO">
-      UPDATE Q_BOARD
-         SET TITLE = #{title}
-           , CONTENT = #{content}
-           , MODIFY_DATE = NOW()
-       WHERE QA_NO = #{qaNo}
-   </update>
-   
-   <delete id="deleteQnaBoard" parameterType="int">
-      DELETE
-        FROM Q_BOARD
-       WHERE QA_NO = #{qaNo}
-   </delete>
-   
-   <select id="selectQnaBoardListByMap" parameterType="Map" resultType="hashmap">       
-       WITH user_qna AS (
-            select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
+	</select>
+	
+	<update id="deleteQnaComment" parameterType="int">
+		UPDATE Q_CMT
+		   SET STATE = 0
+		 WHERE CMT_NO = #{cmtNo}
+	</update>
+	
+	<update id="updateQnaBoard" parameterType="QnaBoardDTO">
+		UPDATE Q_BOARD
+		   SET TITLE = #{title}
+		     , CONTENT = #{content}
+		     , MODIFY_DATE = NOW()
+		 WHERE QA_NO = #{qaNo}
+	</update>
+	
+	<delete id="deleteQnaBoard" parameterType="int">
+		DELETE
+		  FROM Q_BOARD
+		 WHERE QA_NO = #{qaNo}
+	</delete>
+	
+	<select id="selectQnaBoardListByMap" parameterType="Map" resultType="hashmap">		 
+		 WITH user_qna AS (
+				select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
                 CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-            CONTENT, PW, CREATE_DATE, ANSWER,
-            MODIFY_DATE, HIT, IP
-                         FROM smore.Q_BOARD
-      ), user_cmt as (
-            select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
+				CONTENT, PW, CREATE_DATE, ANSWER,
+				MODIFY_DATE, HIT, IP
+					          FROM smore.Q_BOARD
+		), user_cmt as (
+				select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
                 CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-            C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
-            C.MODIFY_DATE, "" as HIT, C.IP
-                FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
-                  ON Q.QA_NO = C.QA_NO
-              WHERE C.STATE = '1'
-      )
-      (select * from user_qna)
-      UNION ALL
-      (select * from user_cmt)
-      ORDER BY QA_NO DESC, CMT_NO ASC
-      LIMIT #{begin} OFFSET #{end}
-   </select>
-   
-   
-   
-   
+				C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
+				C.MODIFY_DATE, "" as HIT, C.IP
+		          FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
+		            ON Q.QA_NO = C.QA_NO
+				  WHERE C.STATE = '1'
+		)
+		(select * from user_qna)
+		UNION ALL
+		(select * from user_cmt)
+		ORDER BY QA_NO DESC, CMT_NO ASC
+		LIMIT #{begin} OFFSET #{end}
+	</select>
+	
+	
+	
+	
 </mapper>
-   
-   
-   
-   
+	
+	
+	
+	
