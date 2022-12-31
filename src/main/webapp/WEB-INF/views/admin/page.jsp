@@ -136,23 +136,20 @@ input#btn_trans{
     	fn_changePage6();
     	fn_changePage7();
     	fn_changePage8();
-		 fn_searchUserList(); 
+		fn_searchUserList(); 
     	fn_searchBoardList();
     	fn_inputShow();	
-	    // html dom 이 다 로딩된 후 실행된다.
-	    $(document).ready(function(){
-	        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-	        $(".menu>a").click(function(){
-	            var submenu = $(this).next("ul");
-	 
-	            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
-	            if( submenu.is(":visible") ){
-	                submenu.slideUp();
-	            }else{
-	                submenu.slideDown();
-	            }
-	        });
-	    });
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
 		
 	    
     	$('#form1').show();
@@ -266,7 +263,8 @@ input#btn_trans{
 				$('#head_list').append(tr); 
 				$.each(resData.allUserList, function(i, user){
 					var tr = '<tr>';
-					tr += '<td>' + user.userDTO.userNo + '</td>';
+					tr += '<td>' + user.userDTO.userNo
+					+ '</td>';
 					if(user.userDTO.snsType !=null){
 						tr += '<td>네이버회원</td>';
 					} else{
@@ -276,7 +274,7 @@ input#btn_trans{
 					tr += '<td>' + user.userDTO.nickname + '</td>';
 					tr += '<td>' + (user.userDTO.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.userDTO.joinDate + '</td>';
-					tr += '<td>' + (user.userDTO.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
+					tr += '<td>' + (user.userDTO.snsType == 'naver' ? '네이버가입자' : 'Smore가입자') + '</td>';
 					tr += '<td>' + (user.userDTO.accessLogDTO.lastLoginDate == null ? '' : user.userDTO.accessLogDTO.lastLoginDate) + '</td>'; 
 					tr += '<td>' + (user.userDTO.infoModifyDate == null ? '' : user.userDTO.infoModifyDate) + '</td>'; 
 					tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
@@ -383,7 +381,7 @@ input#btn_trans{
 					tr += '<td>' + user.nickname + '</td>';
 					tr += '<td>' + (user.gender == 'M' ? '남자' : '여자') + '</td>';
 					tr += '<td>' + user.joinDate + '</td>'; 
-					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'smore가입자') + '</td>';
+					tr += '<td>' + (user.snsType == 'naver' ? '네이버가입자' : 'Smore가입자') + '</td>';
 					tr += '<td>' + (user.lastLoginDate == null ? '' : user.lastLoginDate) + '</td>'; 
 					tr += '<td>' + (user.infoModifyDate == null ? '' : user.infoModifyDate) + '</td>'; 
 					/* tr += '<td>' + (user.userState == 1 ? '일반회원' : '휴면회원') + '</td>'; */
@@ -860,19 +858,18 @@ input#btn_trans{
 	
  	function fn_searchUserList(){
 		$('#btn_userSearch').click(function(e){
- 			if($('#query').val() == ''){
-				alert('검색어를 입력해주세요.');
-				e.preventDefault();
-				return;
-			} 
 			$.ajax({
 				type : 'get',
-				url : '/users/search/page' + page,
-				data : $('#frm_searchUser').serialize(),
+				//url : '/users/search/page' + page,
+				url : '/users/search',
+				//data : $('#frm_searchUser').serialize(),	
+				data: 'column=' + $('#column').val() + '&query=' + $('#query').val() + '&start=' + $('#start').val() + '&stop=' +  $('#stop').val(), 				
 				dataType : 'json',
 				success : function(resData){
 					$('#head_list').empty();
 					$('#user_list').empty();
+					$('#paging').empty();
+					$('#paging').html(resData.pageUtil);
 					var tr = '<tr>';
 					tr += '<th scope="col">' + '#' + '</th>';
 					tr += '<th scope="col">' + 'ID' + '</th>';
@@ -881,27 +878,33 @@ input#btn_trans{
 					tr += '<th scope="col">' + '성별' + '</th>';
 					tr += '<th scope="col">' + '가입일' + '</th>';
 					tr += '<th scope="col">' + '마지막접속일' + '</th>';
+					tr += '<th scope="col">' + '가입방법' + '</th>';
 					tr += '<th scope="col">' + '회원상태' + '</th>';
-					/* tr += '<th scope="col"><input type="checkbox" id="chk_all"></th>'; */
 					tr += '</tr>';
 					$('#head_list').append(tr); 
 					if(resData.status == 200){
 						$.each(resData.users, function(i, user){
-							$('<tr>')
-							.append( $('<td>').text(user.userDTO.userNo))
-							.append( $('<td>').text(user.userDTO.id))
-							.append( $('<td>').text(user.userDTO.name))
-							.append( $('<td>').text(user.userDTO.nickname))
-							.append( $('<td>').text(user.userDTO.gender))
-							.append( $('<td>').text(user.userDTO.joinDate))
-							.append( $('<td>').text(user.userDTO.accessLogDTO.lastLoginDate))
-							.append( $('<td>').text(user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')))
-							.appendTo('#user_list');
-						});
+ 							var tr = '<tr>';
+							tr += '<td>' + user.userDTO.userNo + '</td>';
+							if(user.userDTO.snsType !=null){
+								tr += '<td>네이버회원</td>';
+							} else{
+								tr += '<td>' + user.userDTO.id  + '</td>';
+							}					
+							tr += '<td>' + user.userDTO.name + '</td>';
+							tr += '<td>' + user.userDTO.nickname + '</td>';
+							tr += '<td>' + (user.userDTO.gender == 'M' ? '남자' : '여자') + '</td>';
+							tr += '<td>' + user.userDTO.joinDate + '</td>';
+							tr += '<td>' + (user.userDTO.snsType == 'naver' ? '네이버가입자' : 'Smore가입자') + '</td>';
+							tr += '<td>' + (user.userDTO.accessLogDTO.lastLoginDate == null ? '' : user.userDTO.accessLogDTO.lastLoginDate) + '</td>'; 
+							tr += '<td>' + (user.userDTO.userState == 1 ? '일반회원' : (user.userDTO.userState == 0 ? '제재회원' : '휴면회원')) + '</td>';
+							tr += '</tr>';
+							$('#user_list').append(tr); 
+						});   
 					} else if(resData.status == 500){
 						alert(resData.message);
 					}		
-					// 페이징
+/* 					// 페이징
 					$('#paging').empty();
 					var naverPageUtil = resData.naverPageUtil;
 					var paging8 = '<div>';
@@ -923,7 +926,7 @@ input#btn_trans{
 					}
 					paging8 += '</div>';
 					// 페이징 표시
-					$('#paging').append(paging8);	  
+					$('#paging').append(paging8);	 */  
 				}
 			});
 		});		
@@ -940,11 +943,11 @@ input#btn_trans{
 	
  	function fn_searchBoardList(){
 		$('#btn_searchBoard').click(function(e){
-  			if($('#query2').val() == ''){
+/*   			if($('#query2').val() == ''){
 				alert('검색어를 입력해주세요.');
 				e.preventDefault();
 				return;
-			}  
+			}   */
 		$.ajax({
 			type : 'get',
 			url : '/boards/search/page' + page,
@@ -961,7 +964,6 @@ input#btn_trans{
 				tr += '<th scope="col">' + '수정일' + '</th>';
 				tr += '<th scope="col">' + '조회수' + '</th>';
 				tr += '<th scope="col">' + '작성자 IP' + '</th>';
-				tr += '<th scope="col">' + '삭제' + '</th>'
 				tr += '</tr>';
 				$('#head_list').append(tr); 
 				if(resData.status == 200){
@@ -970,16 +972,12 @@ input#btn_trans{
 							$('<tr>')
 							.append( $('<td>').text(board.freeNo))
 							.append( $('<td>').text(board.nickname))
-							/* tr += '<td><input type="checkbox" name="chk" class="del-chk" value="' + board.qaNo + '"></td>'; */
 							.append( $('<td>').html('<a href="/free/detail?freeNo=' + board.freeNo + '">' + board.title   + '</a>'))
 							.append( $('<td>').text(board.createDate))
 							.append( $('<td>').text(board.modifyDate))
 							.append( $('<td>').text(board.hit))
 							.append( $('<td>').text(board.ip))
-							/* .append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<input type="button" class="remove_free" value="' + board.freeNo + '">' + '<label for="remove_free"><i class="fa-solid fa-trash"></i></label>')) */
-							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_free"><i class="fa-solid fa-trash"></i></a>' + '<input type="button" class="remove_free1" value="' + board.freeNo + '">'))
 							.appendTo('#user_list');
-				 			console.log($('.remove_free1').val());
 						}
 						if(board.coNo != 0){
 							$('<tr>')
@@ -990,7 +988,7 @@ input#btn_trans{
 							.append( $('<td>').text(board.modifyDate))
 							.append( $('<td>').text(board.hit))
 							.append( $('<td>').text(board.ip))
-							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_code"><i class="fa-solid fa-trash"></i></a>' + '<input type="button" class="remove_free" value="' + board.freeNo + '">'))
+							/* .append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_code"><i class="fa-solid fa-trash"></i></a>' + '<input type="button" class="remove_free" value="' + board.freeNo + '">')) */
 							.appendTo('#user_list');
 						}
 						if(board.qaNo != 0){
@@ -1002,7 +1000,7 @@ input#btn_trans{
 							.append( $('<td>').text(board.modifyDate))
 							.append( $('<td>').text(board.hit))
 							.append( $('<td>').text(board.ip))
-							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_qna"><i class="fa-solid fa-trash"></i></a>'))
+							/* .append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_qna"><i class="fa-solid fa-trash"></i></a>')) */
 							.appendTo('#user_list');
 						}
 						if(board.studNo != 0){
@@ -1014,7 +1012,7 @@ input#btn_trans{
 							.append( $('<td>').text(board.modifyDate))
 							.append( $('<td>').text(board.hit))
 							.append( $('<td>').text(board.ip))
-							.append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_study"><i class="fa-solid fa-trash"></i></a>'))
+							/* .append($('<td style="padding-left: 20px; padding-top: 3px;">').html('<a class="remove_study"><i class="fa-solid fa-trash"></i></a>')) */
 							.appendTo('#user_list');
 						} 
 					});				
@@ -1048,23 +1046,7 @@ input#btn_trans{
 		});
 		});		
 	}
- 	
-
- 	
-	$(document).on('click', '.remove_free', function(e){
-		if(confirm('해당 게시글을 삭제할까요?')){
-			freeNo = $('.remove_free1').val();
-			$.ajax({
-				type : 'delete',
-				url : '/freeremove' + freeNo,
-				dataType : 'json',
-				success : function(resData){
-					
-				}
-			});
-		}
-	});
- 	
+  	
   	// 일반회원 다중탈퇴
 	$(document).on('click','.btn_userRemove',function(){			
 		if(confirm('선택한 회원을 탈퇴시킬까요?')){						
@@ -1252,7 +1234,7 @@ input#btn_trans{
 			<tfoot>
 				<tr>
 					<td colspan="10">
-						<div id="paging">${paging}</div>					
+						<div id="paging"></div>					
 						<div style="text-align: center;">    
 						<div id="form1">
 							<form id="frm_searchUser">
