@@ -13,6 +13,7 @@
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/edit.css">
 
 <script>
 	
@@ -84,36 +85,37 @@
 </script>
 </head>
 <body>
-	
-	<div>
-		<form id="frm_edit" action="/free/modify" method="post">
-			
-			<%-- <input type="hidden" name="nickname" value="${loginUser.nickname}"> --%>
-			<input type="hidden" name="freeNo" value="${free.freeNo}">
+		<div class="ed-wrapper">
+			<div class="div-edit">
+				<form id="frm_edit" action="/free/modify" method="post">
 
+					<input type="hidden" name="freeNo" value="${free.freeNo}">
+
+					<div class="ed-title">
+						<input type="text" class="title" name="title" value="${free.title}">
+					</div>
+				
+					<div class="ed-content">
+						<label for="content">내용</label>
+						<textarea id="content" name="content">${free.content}</textarea>
+					</div>
+					
+					<div id="sumnote_image_list"></div>
+					
+					<div>
+
+						<div id="btn_group">
+ 							<input type="button" id="btn_cancel" value="취소">
+<!-- 							<button id="btn_cancel">취소</button> -->
+							<button id="btn_submit">등록</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
 		
-			<div>
-				<div>
-					<label for="title">제목</label>
-					<input type="text" id="title" name="title" value="${free.title}">
-				</div>
-			</div>
 		
-			<div>
-				<label for="content">내용</label>
-				<textarea id="content" name="content">${free.content}</textarea>
-			</div>
-			
-			<div id="sumnote_image_list"></div>
-			
-			<div>
-				<div>
-					<input type="button" id="btn_cancel" value="취소">
-					<button>등록</button>
-				</div>
-			</div>
-		</form>
-	</div>
-	
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="자유게시판" name="title"/>
+</jsp:include>

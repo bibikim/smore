@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+	
+	table {
+	  border: 1px #a39485 solid;
+	  font-size: .9em;
+	  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+	  width: 75%;
+	  border-collapse: collapse;
+	  border-radius: 5px;
+	  overflow: hidden;
+	  margin-left:auto; 
+      margin-right:auto;
+	}
+	
+	.wr-box {
+		margin: 50px 0 18px 1600px;
+		display: inline-block;
+	    padding: 7px;
+	    color: #fff;
+	    text-decoration: none;
+	    border: 1px solid #F2E4C5;
+	    border-radius: 7px;
+	    font-size: 14px;
+	}
+	
+	.wr-box:hover {
+		background-color: #F2E4C5;
+	}
+	
+	#f_write {
+		 text-decoration:none;
+		 color: black;
+	}
+	
+	th {
+		padding: 5px;
+		border-top: 1px solid silver;
+		border-bottom: 1px solid silver;
+		text-align: center;
+	}
+	
+	thead {
+  		font-weight: bold;
+ 	 	color: #fff;
+  		background: skyblue;
+	}
+	
+	
+	th:nth-of-type(1) { width: 110px; }
+	th:nth-of-type(2) { width: 750px; }
+	th:nth-of-type(3) { width: 220px; }
+	th:nth-of-type(4) { width: 150px; }
+	th:nth-of-type(5) { width: 100px; }
+	
+	tr.tr-hover:hover {
+		background-color: #c3e3eb;
+			}
+	
+	td, th {
+  		padding: 1em .5em;
+  		vertical-align: middle;
+	}
+	
+	
+   td {
+  		border-bottom: 1px solid rgba(0,0,0,.1);
+  		background: #fff;
+	}
+  
+  	
+	
+	#align {
+		text-align: center;
+	}
+	
+	.paging {
+		padding: 30px 0;
+		margin-bottom: 30px;
+	}
+	.ul-paging{
+		list-style:none;
+		display:inline;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	
+	.li-page {
+	    float: left;
+	    margin-right: 20px;
+	}
+	
+	.li-page a {
+		float:left;
+		padding: 7px;
+    	padding-right: 15px;
+		width:3px;
+		color:#000;
+		font:bold 12px tahoma;
+		border:1px solid #eee;
+		text-align:center;
+		text-decoration:none;
+	}
+	
+	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
+		color:#fff;
+		border:1px solid skyblue;
+		background-color:skyblue;
+	}
+	
+	.searching {
+		padding-bottom: 50px;
+		display:inline;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	
+	.type {
+		width: 80px;
+	    border: 1px solid #C4C4C4;
+	    box-sizing: border-box;
+	    border-radius: 10px;
+	    padding: 6px 13px;
+	    font-style: normal;
+	    font-weight: 400;
+	    font-size: 14px;
+	    line-height: 16px;
+	}
+	
+	.keyword {
+		margin: 0 5px 2px 2px;
+		padding: 4px 8px;
+		border: 1px solid lightgray;
+		border-radius: 10px;
+	}
+	
+	
+	.btn_search {
+		background-color: white;
+		padding: 5px 5px;
+		border-radius: 10px;
+		border: 1px solid #F2E4C5; 
+	}
+	.btn_search:hover {
+		background-color: #F2E4C5;
+	}

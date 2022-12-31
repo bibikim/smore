@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+	@charset "UTF-8";
+	
+	 .ed-wrapper {
+	 	position: absolute;
+	  	left: 50%;
+	 	transform: translateX(-50%);
+	 	margin-top: 100px;
+	 	border: 0.5px solid #bdbdbd;
+	 }
+	 
+	.div-edit {
+		margin: 30px;
+	
+	}
+	.ed-title {
+		margin-bottom: 25px;	
+	}
+	.title {
+	 	width: 800px;
+	 	height: 50px;
+	 	padding: 0 20px;
+	}
+	
+	.title:focus {
+		outline: none;
+	}
+	 
+	#btn_group {
+		margin-top: 10px;
+	} 
+	#btn_group input, button{
+	    border: 1px solid skyblue;
+	    background-color: rgba(0,0,0,0);
+	    color: skyblue;
+	    padding: 8px 12px;
+	    
+	}
+	#btn_group input:hover, button:hover{
+	    color:white;
+	    background-color: skyblue;
+	}
+	 
+	#btn_cancel{
+	    border-top-left-radius: 5px;
+	    border-bottom-left-radius: 5px;
+	    margin-right:-4px;
+	}
+
+	#btn_submit {
+		border-radius: 5px;
+	    border-bottom-left-radius: 5px;
+		margin-left: 682px;
+		display :inline-block;
+	}

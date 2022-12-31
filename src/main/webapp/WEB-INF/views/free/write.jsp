@@ -12,6 +12,7 @@
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/write.css">
 
 <script>
 	
@@ -68,7 +69,7 @@
 		
 		
 		$('#frm_write').submit(function(ev){
-			if($('#title').val() == '') {
+			if($('.title').val() == '') {
 				alert('제목을 입력해주세요.')
 				ev.preventDefault();
 				return;
@@ -87,35 +88,39 @@
 </head>
 <body>
 	
-	<div>
-		<form id="frm_write" action="/free/save" method="post">
+	<div class="wr-wrapper">
+		<div class="div-write">
+			<form id="frm_write" action="/free/save" method="post">
+				
+				<input type="hidden" name="nickname" value="${loginUser.nickname}">
+	
+				<div class="wr-title">
+					<input type="text" class="title" name="title" placeholder="제목을 입력하세요.">
+				</div>
 			
-			<input type="hidden" name="nickname" value="${loginUser.nickname}">
+				<div class="wr-content">
+					<label for="content">내용</label>
+					<textarea id="content" name="content"></textarea>
+				</div>
+				
+				<div id="sumnote_image_list"></div>
+				
+				<div>
 
-		
-			<div>
-				<div>
-					<label for="title">제목</label>
+					<div id="btn_group">
+ 						<input type="button" id="btn_cancel" value="취소">
+						<input type="button" id="btn_list" value="목록">
+<!-- 						<button id="btn_cancel">취소</button>
+						<button id="btn_list">목록</button> -->
+						<button id="btn_submit">등록</button>
+					</div>
+
 				</div>
-				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
-			</div>
-		
-			<div>
-				<label for="content">내용</label>
-				<textarea id="content" name="content"></textarea>
-			</div>
-			
-			<div id="sumnote_image_list"></div>
-			
-			<div>
-				<div>
-					<input type="button" id="btn_cancel" value="취소">
-					<input type="button" id="btn_list" value="목록">
-					<button>등록</button>
-				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 	
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="자유게시판" name="title"/>
+</jsp:include>
+	

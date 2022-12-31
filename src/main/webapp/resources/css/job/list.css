@@ -1,0 +1,164 @@
+@charset "UTF-8";
+
+
+	body {
+	  margin: 0 auto;
+	  /* width: 1000px; */
+	}
+	
+	a {
+		text-decoration-line: none ;
+		cursor: pointer;
+		color: black;
+	}
+	
+	.job-main {
+	    margin-left: 300px;
+	    margin-right: 300px;
+	    min-height: 800px;
+	}
+	
+	.div-comp {
+		display: flex; 
+		margin-left: 30px;
+		color: #5a5a5a;
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.a-title-a {
+		text-decoration-line: none ;
+		display: inline-block;
+		color: black;
+		font-weight: bold;
+	}
+	
+	li a:focus,
+	li a:hover {
+		text-decoration-line: none ;
+		display: inline-block;
+		color: #0078FF;
+		font-weight: bold;
+	}
+
+	
+	.div-line {
+		display: flex;
+		flex-basis: 100%;
+		font-size: 18px;
+		margin: 8px 0px;
+		align-items: center;
+	}
+	
+	.div-line::before {
+		content: "";
+		flex-grow: 1;
+		margin: 0px 16px;
+		height: 1px;
+		font-size: 0px;
+		line-height: 0px;
+		background: lightgray;
+	}
+	
+	.div-line::after {
+		content: "";
+		flex-grow: 1;
+		margin: 0px 16px;
+		height: 1px;
+		font-size: 0px;
+		line-height: 0px;
+		background: lightgray;
+	}
+	
+	.li-bottom1 {
+		width:200px; 
+		display: inline-block;
+		font-size: 14px;
+		font-size: bold;
+		color: gray;
+		margin: 8px 0px 0px 15px;
+	}
+	
+	.li-bottom2 {
+		width: 200px; 
+		display: inline-block;
+		margin-left: 20px;
+		font-size: 14px;
+		font-size: bold;
+		color: gray;
+		margin: 8px 0px 0px 15px;
+	}
+	
+	.skill {
+		font-size: 14px;
+		font-size: bold;
+		color: gray;
+		margin: 3px 0px 0px 15px;
+	}
+	
+ 	#a-title {
+		font-size: 16px;
+		font-weight: 900;
+	} 
+	
+	#gubun {
+		background: #bdbdbd; 
+		height: 1px; 
+		margin-top: 15px;
+	}
+	.status1 {
+		background-color : #bdbdbd; opacity : 0.5;
+	}
+	
+	.paging {
+		padding: 30px 0;
+		margin-bottom: 30px;
+	}
+	
+	.ul-paging{
+		list-style:none;
+		/* float:left; */
+		display:inline;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	
+	.li-page {
+	    float: left;
+	    margin-right: 20px;
+	}
+	
+	.li-page a {
+		float:left;
+		padding: 7px;
+    	padding-right: 15px;
+		width:15px;
+		color:#000;
+		font:bold 12px tahoma;
+		border:1px solid #eee;
+		text-align:center;
+		text-decoration:none;
+	}
+	
+	.ul-paging li a:hover, .ul-paging li a:focus, .ul-paging li a:active {
+		color:#fff;
+		border:1px solid skyblue;
+		background-color: skyblue;
+	}
+	
+	 #job_write:link, #job_write:visited {
+     	background-color: skyblue;
+	    color: white;
+	    padding: 15px 15px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+ 	 }
+ 	 #job_write:hover, #job_write:active {
+	     background-color: white;
+	     color: skyblue;
+	 }
+	 
+    /************************/
+    
