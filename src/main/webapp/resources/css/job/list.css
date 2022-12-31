@@ -11,6 +11,9 @@
 		cursor: pointer;
 		color: black;
 	}
+	.job-list {
+		margin-top: 30px;
+	}
 	
 	.job-main {
 	    margin-left: 300px;
@@ -162,3 +165,41 @@
 	 
     /************************/
     
+	.searching {
+		padding-bottom: 80px;
+		display: block;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	
+	.type {
+		width: 80px;
+	    border: 1px solid #C4C4C4;
+	    box-sizing: border-box;
+	    border-radius: 10px;
+	    padding: 6px 13px;
+	    font-style: normal;
+	    font-weight: 400;
+	    font-size: 14px;
+	    line-height: 16px;
+	}
+	
+	.keyword {
+		margin: 0 5px 2px 2px;
+		padding: 4px 8px;
+		border: 1px solid lightgray;
+		border-radius: 10px;
+	}
+	
+	
+	.btn_search {
+		margin-top: 20px;
+		background-color: white;
+		padding: 5px 5px;
+		border-radius: 10px;
+		border: 1px solid #F2E4C5; 
+	}
+	.btn_search:hover {
+		background-color: #F2E4C5;
+	}

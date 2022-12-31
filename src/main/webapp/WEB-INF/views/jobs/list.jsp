@@ -25,7 +25,7 @@
 		});
 		
 		$('#frm_search').submit(function(ev){
-			if($('#type').val() == '' || $('#keyword').val() == '') {
+			if($('.type').val() == '' || $('.keyword').val() == '') {
 				alert('검색 조건을 확인하세요.');
 				ev.preventDefault();
 				return;
@@ -73,14 +73,14 @@
 			<div class="searching">
 				<!-- 검색 input 위치 -->
 				<form id="frm_search" action="/job/list?page=${page}&type=${type}&keyword=${keyword}">
-					<select name="type" id="type">
+					<select name="type" class="type">
 						<option value="">선택</option>
 						<option value="TITLE">제목</option>
 						<option value="CONTENT">내용</option>
 						<option value="COMPANY_NAME">기업명</option>
 					</select>
-					<input type="text" name="keyword">
-					<input type="submit" value="search">
+					<input type="text" class="keyword" name="keyword">
+					<input type="submit" class="btn_search" value="search">
 				</form>
 			</div>
 			
