@@ -12,143 +12,9 @@
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../resources/css/job/detail.css">
 
 
-<style>
-
-	.div-line {
-		display: flex;
-		flex-basis: 100%;
-		font-size: 18px;
-		margin: 8px 0px;
-		align-items: center;
-	}
-	
-	.div-line::before {
-		content: "";
-		flex-grow: 1;
-		margin: 0px 16px;
-		height: 1px;
-		font-size: 0px;
-		line-height: 0px;
-		background: lightgray;
-	}
-	
-	.div-line::after {
-		content: "";
-		flex-grow: 1;
-		margin: 0px 16px;
-		height: 1px;
-		font-size: 0px;
-		line-height: 0px;
-		background: lightgray;
-	}
-	
-	.divbg-gray {
-		background-color: #e0eeee;
-		border-radius: 5px;
-	}
-	
-	.first {
-    	float: left;
-    	width:30%;
-    	box-sizing: border-box;
-	}
-
-	.second{
-    	float: left;
-    	margin-left: 5%;
-    	width:30%;
-    	box-sizing: border-box;
-	}
-
-	.third{
-    	float: right;
-   		width:30%;
-    	box-sizing: border-box;
-	}
-	.div-pd {
-		padding: 25px 20px 25px 20px;
-	}
-
-	.job-content {
-		 position: relative;
-	}
-	.in-content {
-		 /*position: absolute; top: 50%; transform: translateY(-50%);*/
-
-	}
-	#gubun {
-		background: #bdbdbd; 
-		height: 1px; 
-		margin: 15px 15px 0 15px;
-	}
-	#div-skill {
-  		margin: 20px 0 0 20px;
-  		/* border-bottom: 1px solid black; */
-	}
-	.hr-info {
-		width: 1000px;
-        margin: 0 auto;
-        text-align: center; 
-	}
-	
-	.hr-div {
-        display: inline-block; /*이부분에 성질을 inline-block로 바꿔줘서 가로배치를 해줬다.*/
-        vertical-align: top; 
-        margin: 20px 0 15px 0;
-	}
-	.hr-co {
-		display: inline-block; 
-		margin-right: 70px;
-		margin-left: 20px;
-		float: left;
-	}
-	.hr-name {
-		margin-right: 70px;
-	}
-	.hr-contact {
-		margin-right: 70px;
-	}
-
-	.hr-icon1 {
-		margin: 3px 8px 7px 0;
-	}
-	.hr-icon2 {
-		margin: 3px 8px 8px 0;
-	}
-	.hr-icon3 {
-		margin: 2px 8px 8px 0;
-	}
-	
-	.div-profile {
-		border: 1px solid #bdbdbd;
-		border-radius: 5px;
-		margin: 36px 10px 0 10px; 
-	}
-	.head-profile {
-		margin: 22px 0 0 20px;  
-	}
-	
-	.sub-profile {
-		margin-top: 32px;
-		margin-left: 20px;  
-		font-size: 15px; 
-		font-weight: 600;
-	}
-	.in-sub-profile {
-		margin-top: 18px; 
-		font-size: 16px; 
-		font-weight: 400;
-	}
-	#hp-link {
-		margin: 16px 0 22px 20px;
-	}
-	
-	.sns img {cursor:pointer;}
-	.sns .hide {display:none;}
-	
-</style>
 <script>
 
 	function fn_shareTwitter() {
@@ -486,5 +352,6 @@
 		
 	</div>	
 
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="JOBS" name="title"/>
+</jsp:include>

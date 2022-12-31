@@ -182,5 +182,5 @@
 	</div>	
 
 <jsp:include page="../layout/footer.jsp">
-   <jsp:param value="자유게시판" name="title"/>
+   <jsp:param value="JOBS" name="title"/>
 </jsp:include>
