@@ -9,6 +9,7 @@
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../resources/css/study/detail.css">
 
 <script>
 	
@@ -105,7 +106,7 @@
 						}
 						if(comment.state == 1) {   // 정상(삭제한 상태가 아니면)
 							div += '<div class="comment_area">';
-							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
+							div += '<span style="font-size: 14px; color: black;"><strong>' + comment.nickname + '</strong></span>';
 							div += '<br>&nbsp;&nbsp;'
 							div += '<input type="hidden" name="cmtNo" value="' + comment.cmtNo +'">';
 							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
@@ -141,7 +142,7 @@
 								div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요." class="recmtContent"></textarea>';
 								div += '<input type="button" value="등록" class="btn_addrecmt">';
 							} else {
-								div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
+								div += '<textarea name="cmtContent" placeholder="로그인 후 이용 가능합니다." class="nlogcmtContent"></textarea>';
 							}
 						}
 						div += '</form>';
@@ -350,162 +351,6 @@
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA04EQzcwD9wp_TDVwnp-owrOYASb6u4Z8&callback=initMap&region=kr"></script>
 
-<style>
-	* {
-		box-sizing: border-box;
-	}
-	
-	.scenter {
-	  	max-width: 900px;
-	    width: 100%;
-	    display: flex;
-	    flex-direction: column;
-	    margin: 0 auto;
-	    padding: 1.5rem 1.5rem 5rem;
-  	}
-	
-	.maintitle {
-		margin-top: 2.5rem;
-		font-weight: 800;
-	    font-size: 3rem;
-	    line-height: 126.5%;
-	    letter-spacing: -.005em;
-	    color: #000;
-	}
-	
-	.subtitle {
-		margin-bottom: 2.5rem;
-		font-weight: 600;
-	    font-size: 2rem;
-	    line-height: 126.5%;
-	    letter-spacing: -.005em;
-	    color: #000;
-	}
-	
-	.introproject {
-		margin-bottom: 1.5rem;
-		font-weight: 600;
-	    font-size: 2rem;
-	    line-height: 126.5%;
-	    letter-spacing: -.005em;
-	    color: #000;
-
-	}
-	
-	.editndelete {
-		display: flex;
-		justify-content: flex-end;	
-		margin-bottom: 50px;
-	}
-	
-	.btn_modify {
-		border: none;
-		outline: none;	
-		background-color: #fff;
-	}
-
-	.btn_recomment_area {
-		border: none;
-		outline: none;	
-		background-color: #fff;	
-	}
-	
-	.btn_addrecmt {
-		border: none;
-		outline: none;	
-		background-color: #fff;		
-	}
-	
-	.btn_removecmt {
-		border: none;
-		outline: none;	
-		background-color: #fff;	
-	}
-	
-	.btn_remove {
-		border: none;
-		outline: none;	
-		background-color: #fff;
-	}
-	
-	.blind {
-		display: none;
-	}
-	
-	#lnk_like:hover span {
-		cursor: pointer;
-		color: #f83030;
-	}
-	
-	#lnk_like {
-		display: flex;
-	    justify-content: flex-end;
-	}
-	
-	#heart {
-		width: 16px;
-		margin-right: 5px;
-	}
-	#map {
-        width: 60%;
-        height: 250px;
-        background-color: grey;
-      }
-      
-	#btn_addcmt {
-		background-color:#000000;
-		border-radius:28px;
-		border:1px solid #000000;
-		display:inline-block;
-		cursor:pointer;
-		color:white;
-		font-family:Arial;
-		font-size:13px;
-		padding:5px 24px;
-		text-decoration:none;
-		text-shadow:0px 1px 0px #2f6627;
-	}
-
-	#btn_addcmt:active {
-		position:relative;
-		top:1px;
-	}
-	
-	.btn_cmtList {
-		margin: 0 0 30px;
-	    font-size: 22px;
-	}
-	
-   	.commentinput {
-	    font-family: inherit;
-	    padding: 1rem 1rem 1.5rem;
-	    outline: none;
-	    border: 2px solid #e1e1e1;
-	    border-radius: 16px;
-	    width: 100%;
-	    min-height: 100px;
-	    margin-bottom: 10px;
-	    resize: none;
-
-  	}
-  	
-  	.commentbutton {
-	  	display: flex;
-	    justify-content: flex-end;
-	    margin: 16px 0 24px;
-  	}
-  	
-  	.cmt_cnt {
-  		position: relative;
-  		bottom: 10px;
-  	}
-  	
-  	.recmtContent {
-  		resize : none;
-  	
-  	}
-  	
-</style>
 </head>
 <body>
 <div class="scenter">
@@ -520,7 +365,7 @@
 		</div>
 		
 		<div>
-			<span><img src="../../resources/images/monster.png" > 『 ${loginUser.nickname} 』</span>
+			<span><img src="../../resources/images/monster.png" > 『 ${study.nickname} 』</span>
 			&nbsp;&nbsp;&nbsp;
 			<span> | &nbsp;&nbsp;&nbsp; <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
 			&nbsp;&nbsp;&nbsp;

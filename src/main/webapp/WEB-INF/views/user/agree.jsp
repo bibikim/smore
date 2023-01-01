@@ -77,7 +77,12 @@
 	    letter-spacing: -.5px;
 	    color: #0d0d0d;
 	}
-
+	.form-control {
+		resize: none;
+		border-radius: 8px;
+		border: 2px solid #e1e1e1;
+		
+	}
 </style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
@@ -164,7 +169,7 @@
 							<input type="checkbox" id="service" class="check_one blind">
 							<label for="service" class="lbl_one">이용약관 동의(필수)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">여러분을 환영합니다.
+								<textarea style="width: 500px; height: 100px;" class="form-control" readonly>여러분을 환영합니다.
 								S'more 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 S'more 서비스의 이용과 관련하여 S'more 서비스를 제공하는 S'more 주식회사(이하 ‘S'more’)와 이를 이용하는 S'more 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 S'more 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
 								</textarea>
 							</div>
@@ -174,7 +179,7 @@
 							<input type="checkbox" id="privacy" class="check_one blind">
 							<label for="privacy" class="lbl_one">개인정보수집 동의(필수)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">개인정보보호법에 따라 S'more에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+								<textarea style="width: 500px; height: 100px;" class="form-control" readonly>개인정보보호법에 따라 S'more에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 								</textarea>
 							</div>
 						</div>
@@ -182,7 +187,7 @@
 							<input type="checkbox" id="location" name="location" class="check_one blind">
 							<label for="location" class="lbl_one">위치정보수집 동의(선택)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">위치기반서비스 이용약관에 동의하시면, 위치를 활용한 광고 정보 수신 등을 포함하는 네이버 위치기반 서비스를 이용할 수 있습니다.
+								<textarea style="width: 500px; height: 100px;" class="form-control" readonly>위치기반서비스 이용약관에 동의하시면, 위치를 활용한 광고 정보 수신 등을 포함하는 네이버 위치기반 서비스를 이용할 수 있습니다.
 
 								제 1 조 (목적)
 								이 약관은 네이버 주식회사 (이하 “회사”)가 제공하는 위치기반서비스와 관련하여 회사와 개인위치정보주체와의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -196,7 +201,7 @@
 							<input type="checkbox" id="promotion" name="promotion" class="check_one blind" >
 							<label for="promotion" class="lbl_one">마케팅 동의(선택)</label>
 							<div>
-								<textarea style="width: 500px; height: 100px;" class="form-control">S'more 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화, 이메일로 받아보실 수 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 S'more 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.</textarea>
+								<textarea style="width: 500px; height: 100px;" class="form-control" readonly>S'more 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화, 이메일로 받아보실 수 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 S'more 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.</textarea>
 							</div>
 						</div>
 		 		

@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+	.scenter {
+	  	max-width: 900px;
+	    width: 100%;
+	    display: flex;
+	    flex-direction: column;
+	    margin: 0 auto;
+	    padding: 1.5rem 1.5rem 5rem;
+  	}
+  	
+  	.insertinfo {
+		font-weight: 600;
+	    font-size: 2rem;
+	    line-height: 126.5%;
+	    letter-spacing: -.005em;
+	    color: #000;  	
+  	}
+  	
+  	.firstflex {
+		margin-top: 40px;
+    	display: flex;  	
+  	}
+  	
+	[type="radio"] {
+	  vertical-align: middle;
+	  appearance: none;
+	  border: max(2px, 0.1em) solid gray;
+	  border-radius: 50%;
+	  width: 1.5em;
+	  height: 1.5em;
+	  transition: border 0.5s ease-in-out;
+	  
+	}
+	
+	[type="radio"]:checked {
+	  border: 0.4em solid skyblue;
+	}
+  	
+  	.noneflex {
+  		margin-top: 20px;
+    	display: flex;
+  	}
+  	
+  	.secondflex {
+		margin-top: 20px;
+    	display: flex;  	
+  	}
+  	
+  	.thirdflex {
+		margin-top: 20px;
+    	display: flex;  	
+  	}
+  	  	
+  	.tnczone {
+  		margin-top: 20px;
+  	}
+  	
+  	.contentbox {
+  		font-family: inherit;
+	    padding: 1rem 1rem 1.5rem;
+	    outline: none;
+	    border: 2px solid #e1e1e1;
+	    border-radius: 16px;
+	   	min-height: 100px;
+	    margin-bottom: 10px;
+  		width: 1000px;
+  		height: 500px;
+  		resize: none;
+  	}
+  	
+	#writebtn {
+	  	display: flex;
+	    justify-content: flex-end;
+	    margin: 16px -150px 24px;		
+	}
+  	
+  	#btn_add {
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #2f6627;
+	}
+		#btn_list {
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #2f6627;
+	}
+	
+	#seccolor {
+		color: #666;
+	}

@@ -8,7 +8,20 @@
 </jsp:include>
 <link rel="stylesheet" href="/resources/css/userinfo.css">
 <style>
-
+	[type="radio"] {
+	  vertical-align: middle;
+	  appearance: none;
+	  border: max(2px, 0.1em) solid gray;
+	  border-radius: 50%;
+	  width: 1.5em;
+	  height: 1.5em;
+	  transition: border 0.5s ease-in-out;
+	  
+	}
+	
+	[type="radio"]:checked {
+	  border: 0.4em solid skyblue;
+	}
 	a {
 		text-decoration-line: none;
 		cursor: pointer;
