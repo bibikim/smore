@@ -120,7 +120,8 @@
 		</div>
 	</div>
 	
+	
 <jsp:include page="../layout/footer.jsp">
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
-	
+

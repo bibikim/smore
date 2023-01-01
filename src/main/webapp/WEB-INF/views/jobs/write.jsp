@@ -9,97 +9,14 @@
    <jsp:param value="자유게시판" name="title"/>
 </jsp:include>
 
-<style>
-
-	a {
-		text-decoration-line: none ;
-		cursor: pointer;
-		color: black;
-	}
-	
-	.div-line {
-		display: flex;
-		flex-basis: 100%;
-		font-size: 18px;
-		margin: 8px 0px;
-		align-items: center;
-	}
-	
-	.div-line::before {
-		content: "";
-		flex-grow: 1;
-		margin: 0px 16px;
-		height: 1px;
-		font-size: 0px;
-		line-height: 0px;
-		background: lightgray;
-	}
-	
-	.div-line::after {
-		content: "";
-		flex-grow: 1;
-		margin: 0px 16px;
-		height: 1px;
-		font-size: 0px;
-		line-height: 0px;
-		background: lightgray;
-	}
-	
-	.float {
-		float:left; 
-		margin-right: 70px;
-	}
-	
-	input[type=text] {
-		 width: 300px;
-		 height: 32px;
-		 ont-size: 15px;
-		 border: 0;
-		 border-radius: 7px;
-		 outline: none;
-		 padding-left: 10px;
-		 background-color: rgb(233, 233, 233);   /* rgb(200, 225, 323); */
-	}
-	label {
-		margin-top: 20px;
-	}
-	
-	.h-div {
-		margin-top: 50px;
-	}
-	select {
-	    width: 300px;
-	    border: 1px solid #C4C4C4;
-	    box-sizing: border-box;
-	    border-radius: 10px;
-	    padding: 12px 13px;
-	    font-family: 'Roboto';
-	    font-style: normal;
-	    font-weight: 400;
-	    font-size: 14px;
-	    line-height: 16px;
-	}
-	#title {
-		width: 800px; 
-		height:43px;
-		background-color: white; 
-		border: 1px solid #C4C4C4;
-	}
-	.profile {
-		width: 800px; 
-		height:300px;
-		background-color: white; 
-		border: 1px solid #C4C4C4;
-		border-radius: 7px;
-	}
-	
-</style>
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/css/job/write.css">
+
 
 <script>
 
