@@ -6,6 +6,7 @@
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="" name="title"/>
 </jsp:include>
+<link rel="stylesheet" type="text/css" href="../../../resources/css/study/write.css">
 
 <script>
 
@@ -74,55 +75,6 @@
 	
 </script>
 
-<style>
-	.scenter {
-	  	max-width: 900px;
-	    width: 100%;
-	    display: flex;
-	    flex-direction: column;
-	    margin: 0 auto;
-	    padding: 1.5rem 1.5rem 5rem;
-  	}
-  	
-  	.insertinfo {
-		font-weight: 600;
-	    font-size: 2rem;
-	    line-height: 126.5%;
-	    letter-spacing: -.005em;
-	    color: #000;  	
-  	}
-  	
-  	.firstflex {
-		margin-top: 40px;
-    	display: flex;  	
-  	}
-  	
-  	.noneflex {
-  		margin-top: 20px;
-  	}
-  	
-  	.secondflex {
-		margin-top: 20px;
-    	display: flex;  	
-  	}
-  	
-  	.tnczone {
-  		margin-top: 20px;
-  	}
-  	
-  	.contentbox {
-  		font-family: inherit;
-	    padding: 1rem 1rem 1.5rem;
-	    outline: none;
-	    border: 2px solid #e1e1e1;
-	    border-radius: 16px;
-	   	min-height: 100px;
-	    margin-bottom: 10px;
-  		width: 1000px;
-  		height: 500px;
-  		resize: none;
-  	}
-</style>
 <body>
 
 <div class="scenter">
@@ -144,31 +96,20 @@
 		<section>
 		
 		<div class = "firstflex">
-			<label for="gender">성별</label>
+			<label for="gender" id="seccolor"><p>성별</p></label>
 			&nbsp;&nbsp;
 			   <input type="radio" name="gender" id="male" value="M">
-               <label for="male">남자만</label>
+               <label for="male" id="seccolor">남자만</label>
                &nbsp;&nbsp;
                <input type="radio" name="gender" id="female" value="F">
-               <label for="female">여자만</label>
+               <label for="female" id="seccolor">여자만</label>
                &nbsp;&nbsp;
                <input type="radio" name="gender" id="both" value="B">
-               <label for="both">상관없음</label>
+               <label for="both" id="seccolor">상관없음</label>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<label for="region">지역</label>
-			&nbsp;&nbsp;
-			<select name="region" id="region" class="region">
-
-				<option value = "Seoul" selected>Seoul</option>
-				<option value = "Busan" >Busan</option>
-				<option value = "Gangnam" >Gangnam</option>
-				<option value = "Jam-sil" >Jam-sil</option>
-
-			</select>
-
 		</div>
 		
 		</section>
@@ -240,7 +181,25 @@
 			       onclick='checkOnlyOne(this)'>  
 			<label for="lang8">Spring</label>          
 			 -->
-		 <label for="lang">기술 스택</label>
+			<label for="region" id="seccolor">지역</label>
+			&nbsp;&nbsp;
+			<select name="region" id="region" class="region">
+
+				<option value = "Seoul" selected>Seoul</option>
+				<option value = "Busan" >Busan</option>
+				<option value = "Gangnam" >Gangnam</option>
+				<option value = "Jam-sil" >Jam-sil</option>
+
+			</select>	 
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
+		 <label for="lang" id="seccolor">기술 스택</label>
 		 	&nbsp;&nbsp;
 			<select name="lang" id="lang">			
 				<option value = "none" selected>프로젝트 사용 스택</option>
@@ -260,7 +219,8 @@
 	
 	
 		 <div class="secondflex">
-		 	<label for="people">정원</label>
+		 
+		 	<label for="people" id="seccolor">정원</label>
 		 	&nbsp;&nbsp;
 			<select name="people" id="people">
 				<option value = "2" selected>2</option>
@@ -281,12 +241,12 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 	<label for="studDate">시작예정일</label>
+		 	<label for="studDate" id="seccolor">시작예정일&nbsp;&nbsp;</label>
 			<input type="date" id="studDate" name="studDate" min="2022-01-01" max="2024-12-31">
 		 </div>
 				
-		<div>
-			<label for="contact">연락방법</label>
+		<div class="thirdflex">
+			<label for="contact" id="seccolor">연락방법&nbsp;&nbsp;</label>
 			<select>
 				<option value = "1" selected>연락처</option>
 				<option value = "2" >카카오톡</option>
@@ -298,20 +258,21 @@
 	
 	<section>
 		<div class="tnczone">
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title">
+			<label for="title" id="seccolor">제목</label>
+			<input type="text" name="title" id="title" placeholder="제목을 입력해 주세요!">
 		</div>
 		
 		<div>
-			<label for="content">내용</label>
+			<label for="content" id="seccolor">내용</label>
+		</div>
+	</section>		
+		<div>	
 			<textarea class="contentbox" name="content" id="content" placeholder="내용을 입력해 주세요!"></textarea>				
 		</div>
-	</section>
-				
+	<section id="writebtn">
 		<div>
-			<button>작성완료</button>
-			<input type="reset" value="입력초기화">
-			<input type="button" value="목록" id="btn_list" onclick="location.href='/';">
+			<button id="btn_add">작성완료</button>
+			<input type="button" value="취소" id="btn_list" onclick="location.href='/';">
 		</div>
 		
 		<div>
@@ -320,6 +281,7 @@
 			<label for="gdo" class="gdo"></label>
 			<input type="hidden" class = "gdo" name="gdo" id="gdo" value="">		
 		</div>
+	</section>			
 	</form>
 	
 	

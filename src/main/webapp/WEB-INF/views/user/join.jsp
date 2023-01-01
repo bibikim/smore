@@ -361,6 +361,22 @@
    }  // fn_join
    
 </script>
+<style>
+	[type="radio"] {
+	  vertical-align: middle;
+	  appearance: none;
+	  border: max(2px, 0.1em) solid gray;
+	  border-radius: 50%;
+	  width: 1.5em;
+	  height: 1.5em;
+	  transition: border 0.5s ease-in-out;
+	  
+	}
+	
+	[type="radio"]:checked {
+	  border: 0.4em solid skyblue;
+	}
+</style>
 </head>
 <body>
    
@@ -448,7 +464,7 @@
         <div> 
         <label>
 	        <p style="text-align: left; font-size:15px; color:#666">휴대전화*</p>
-	        <input type="text" name="mobile" id="mobile" placeholder="휴대전화" class="size">
+	        <input type="text" name="mobile" id="mobile" placeholder="휴대전화" class="size" maxlength=11>
         </label>
 		</div>
          
