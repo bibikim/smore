@@ -8,21 +8,7 @@
 </jsp:include>
 
 <script>
-/*
-	$(function() {	
-		fn_year();
-		fn_month();
-		fn_date();
-	});
-*/
-	// contextPath를 반환하는 자바스크립트 함수
-	/*
-	function getContextPath() {
-		var begin = location.href.indexOf(location.origin) + location.origin.length;
-		var end = location.href.indexOf("/", begin + 1);
-		return location.href.substring(begin, end);
-	}
-	*/
+
 	$(document).ready(function(){
 
 		// 목록
@@ -35,6 +21,14 @@
 		$('#frm_write').submit(function(event){
 			if($('#title').val() == ''){
 				alert('제목은 필수입니다.');
+				event.preventDefault();  // 서브밋 취소
+				return;  // 더 이상 코드 실행할 필요 없음
+			}
+		});			
+		
+		$('#frm_write').submit(function(event){
+			if($('#lang').val() == 'none'){
+				alert('언어를 골라주세요.');
 				event.preventDefault();  // 서브밋 취소
 				return;  // 더 이상 코드 실행할 필요 없음
 			}
@@ -52,132 +46,19 @@
 			}
 		});
 		
-		/*
-		$('#frm_write').change(function(event){
-		for(int i=0; i<lang.length; i++) {
-			out.println("lang[i]" + "&nbsp;&nbsp;");
-		}
-		
-		});
-		*/
-		function fn_remove(){
-			$('#btn_remove').click(function(){
-				if(confirm('선택한 회원을 모두 삭제할까요?')){
-					// 삭제할 회원번호
-					let memberNoList = '';
-					for(let i = 0; i < $('.check_one').length; i++){
-						if( $($('.check_one')[i]).is(':checked') ) {
-							memberNoList += $($('.check_one')[i]).val() + ',';  // 3,1,  (마지막 콤마 있음을 주의)
-						}
-					}
-					memberNoList = memberNoList.substr(0, memberNoList.length - 1);  // 3,1  (마지막 콤마 자르기)
-					$.ajax({
-						type: 'delete',
-						url: '${contextPath}/members/' + memberNoList,
-						dataType: 'json',
-						success: function(resData){
-							if(resData.deleteResult > 0){
-								alert('선택된 회원 정보가 삭제되었습니다.');
-								fn_list();
-							} else {
-								alert('선택된 회원 정보가 삭제되지 않았습니다.');
-							}
-						}
-					});
-				}
-			});
-		}
-		
-		
+		// 서브밋
+		$('#frm_write').submit(function(event){
+			if($('#studDate').val() == ''){
+				alert('예정날짜를 정해주세요.');
+				event.preventDefault();  // 서브밋 취소
+				return;  // 더 이상 코드 실행할 필요 없음
+			}
+		});	
+	
 		
 	});
 	
-
-
 	/*
-	function getLocation() {
-		if (navigator.geolocation) { // GPS를 지원하면
-			navigator.geolocation.getCurrentPosition(function(position) {
-		        var lat = position.coords.latitude;
-				var lng = position.coords.longitude;
-				alert('현재 위치는 ' + position.coords.latitude + ' , ' + position.coords.longitude + '입니다.');
-				}, function(error) {
-				  console.error(error);
-				}, {
-			      enableHighAccuracy: false,
-			      maximumAge: 0,
-			      timeout: Infinity
-			    });
-			} else {
-				alert('GPS를 지원하지 않습니다');
-			}
- 		}
-	*/
-	// getLocation();
-	
-	/*
-	$(document).ready(function() {
-	  $('#region').change(function() {
-	    var result = $('#region option:selected').val();
-	    if (result == '서울') {
-	      $('.서울').val() == ;
-	    } else {
-	      $('.부산').hide();
-	    }
-	  }); 
-	}); 
-	*/
-	/*
-	function fn_year(){
-		let year = new Date().getFullYear();
-		let strYear = '<option value="">년</option>';
-		for(let y = year - 100; y <= year + 1; y++){
-			strYear += '<option value="' + y + '">' + y + '</option>';
-		}
-		$('#year').append(strYear);
-		$('#year').val('${loginUser.birthyear}').prop('selected', true);
-	}
-	
-	function fn_month(){
-		let strMonth = '<option value="">월</option>';
-		for(let m = 1; m <= 12; m++){
-			if(m < 10){
-				strMonth += '<option value="0' + m + '">' + m + '월</option>';
-			} else {
-				strMonth += '<option value="' + m + '">' + m + '월</option>';
-			}
-		}
-		$('#month').append(strMonth);
-		$('#month').val('${loginUser.birthday.substring(0,2)}').prop('selected', true);
-	}
-	
-	function fn_date(){
-		$('#date').empty();
-		$('#date').append('<option value="">일</option>');
-		let endDay = 0;
-		let strDay = '';
-		switch($('#birthmonth').val()){
-		case '02':
-			endDay = 29; break;
-		case '04':
-		case '06':
-		case '09':
-		case '11':
-			endDay = 30; break;
-		default:
-			endDay = 31; break;
-		}
-		for(let d = 1; d <= endDay; d++){
-			if(d < 10){
-				strDay += '<option value="0' + d + '">' + d + '일</option>';
-			} else {
-				strDay += '<option value="' + d + '">' + d + '일</option>';
-			}
-		}
-		$('#date').append(strDay);
-		$('#date').val('${loginUser.birthday.substring(2)}').prop('selected', true);
-	}
-	*/
 	function checkOnlyOne(element) {
 		  
 		  const checkboxes 
@@ -189,32 +70,82 @@
 		  
 		  element.checked = true;
 		}
+	*/
+	
 </script>
+
+<style>
+	.scenter {
+	  	max-width: 900px;
+	    width: 100%;
+	    display: flex;
+	    flex-direction: column;
+	    margin: 0 auto;
+	    padding: 1.5rem 1.5rem 5rem;
+  	}
+  	
+  	.insertinfo {
+		font-weight: 600;
+	    font-size: 2rem;
+	    line-height: 126.5%;
+	    letter-spacing: -.005em;
+	    color: #000;  	
+  	}
+  	
+  	.firstflex {
+		margin-top: 40px;
+    	display: flex;  	
+  	}
+  	
+  	.noneflex {
+  		margin-top: 20px;
+  	}
+  	
+  	.secondflex {
+		margin-top: 20px;
+    	display: flex;  	
+  	}
+  	
+  	.tnczone {
+  		margin-top: 20px;
+  	}
+  	
+  	.contentbox {
+  		font-family: inherit;
+	    padding: 1rem 1rem 1.5rem;
+	    outline: none;
+	    border: 2px solid #e1e1e1;
+	    border-radius: 16px;
+	   	min-height: 100px;
+	    margin-bottom: 10px;
+  		width: 1000px;
+  		height: 500px;
+  		resize: none;
+  	}
+</style>
 <body>
 
-<div>
-
-	<h1>작성 화면</h1>
+<div class="scenter">
+	<section>
+	<div class="insertinfo">
+		프로젝트 기본 정보를 입력해주세요!
+	</div>
+	
+	<hr>
+	</section>
 	
 	<form id="frm_write" action="/study/add" method="post">
 	
 		<div>
-			작성자 ▷ ${loginUser.nickname}
+			<img src="../../resources/images/monster.png" > 『 ${loginUser.nickname} 』
 			<input type="hidden" name="studyNo" value="${loginUser.userNo}">
 		</div>
-	
-		<div>
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title">
-		</div>
 		
-		<div>
-			<label for="content">내용</label>
-			<textarea name="content" id="content"></textarea>				
-		</div>
+		<section>
 		
-		<div>
+		<div class = "firstflex">
 			<label for="gender">성별</label>
+			&nbsp;&nbsp;
 			   <input type="radio" name="gender" id="male" value="M">
                <label for="male">남자만</label>
                &nbsp;&nbsp;
@@ -223,11 +154,12 @@
                &nbsp;&nbsp;
                <input type="radio" name="gender" id="both" value="B">
                <label for="both">상관없음</label>
-		</div>
-		
-		<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<label for="region">지역</label>
-			
+			&nbsp;&nbsp;
 			<select name="region" id="region" class="region">
 
 				<option value = "Seoul" selected>Seoul</option>
@@ -239,78 +171,97 @@
 
 		</div>
 		
-		
+		</section>
 		
 		
 
 		<!-- 써머노트에서 사용한 이미지 목록(등록 후 삭제한 이미지도 우선은 모두 올라감: 서비스단에서 지움) 
 		<div id="summernote_image_list"></div>
 		-->
-		<div class="langs">
-			<label for="lang" class="btn_lang">기술스택</label>
+		
+		
+		<div class="noneflex">
 			<!-- 
-			<select name="lang" id="lang">
-				<option value = "Java" selected>Java</option>
-				<option value = "Python" >Python</option>
-				<option value = "JavaScript" >JavaScript</option>
-				<option value = "HTML" >HTML</option>
-				<option value = "CSS" >CSS</option>
-				<option value = "Nodejs" >Nodejs</option>
-				<option value = "SpringBoot" >SpringBoot</option>
-			</select>
-			 -->
-			 <!-- 
-			<input type='checkbox'
-			       name='lang' 
-			       id = "lang"
-			       value='selectall'
-			       onclick='selectAll(this)'/> 모두선택
-			  -->
+			<label for="lang">기술스택</label>
 
 			<input type='checkbox'
-			       name='lang' 
+			       name='lang'
+			       id='lang1' 
 			       value='Java'
-			       onclick='checkOnlyOne(this)'> Java
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang1">Java</label>
 
 			<input type='checkbox' 
 			       name='lang' 
+			       id='lang2'
 			       value='Python' 
-			       onclick='checkOnlyOne(this)'> Python
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang2">Python</label>
 
 			<input type='checkbox' 
 			       name='lang'
+			       id='lang3'
 			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> Javascript 
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang3">Javascript</label>       
 			         
 			<input type='checkbox' 
 			       name='lang'
-			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> HTML  
+			       id='lang4'
+			       value='HTML'
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang4">HTML</label>        
 			       
 			<input type='checkbox' 
 			       name='lang'
-			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> CSS   
+			       id='lang5'
+			       value='CSS'
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang5">CSS</label> 
+						       
+			<input type='checkbox' 
+			       name='lang'
+			       id='lang6'
+			       value='React'
+			       onclick='checkOnlyOne(this)'>
+ 			<label for="lang6">React</label>  
 			       
 			<input type='checkbox' 
 			       name='lang'
-			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> React   
-			       
+			       value='Nodejs'
+			       id='lang7'
+			       onclick='checkOnlyOne(this)'>
+			<label for="lang7">Nodejs</label> 
+			
 			<input type='checkbox' 
 			       name='lang'
-			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> Nodejs   
-
-			<input type='checkbox' 
-			       name='lang'
-			       value='Javascript'
-			       onclick='checkOnlyOne(this)'> Spring   
-         
+			       id='lang8'
+			       value='Spring'
+			       onclick='checkOnlyOne(this)'>  
+			<label for="lang8">Spring</label>          
+			 -->
+		 <label for="lang">기술 스택</label>
+		 	&nbsp;&nbsp;
+			<select name="lang" id="lang">			
+				<option value = "none" selected>프로젝트 사용 스택</option>
+				<option value = "JavaScript" >JavaScript</option>
+				<option value = "TypeScript" >TypeScript</option>
+				<option value = "React" >React</option>
+				<option value = "Vue" >Vue</option>
+				<option value = "Nodejs" >Nodejs</option>
+				<option value = "Spring" >Spring</option>
+				<option value = "Java" >Java</option>
+				<option value = "Python" >Python</option>
+				<option value = "C++" >C++</option>
+			</select>
 		</div>
 		
-		<div>
-			<label for="people">정원</label>
+	<section>
+	
+	
+		 <div class="secondflex">
+		 	<label for="people">정원</label>
+		 	&nbsp;&nbsp;
 			<select name="people" id="people">
 				<option value = "2" selected>2</option>
 				<option value = "3" >3</option>
@@ -322,48 +273,14 @@
 				<option value = "9" >9</option>
 				<option value = "10" >10</option>
 			</select>
-		</div>
-		<!-- 
-		<div>
-			<label for="studDate" class="calendar">시작예정일자</label>
-			<select id="year" class="year" name="studDate">
-			  <option value="year">년</option>
-			  <c:forEach var="i" begin="2020" end="2030">
-			    <option value="${i}">${i}</option>
-			  </c:forEach>
-			</select>
-			  
-			<select id="month" class="month">
-			  <option value="month">월</option>
-			  <c:forEach var="i" begin="1" end="12">
-			  <c:choose>
-			      <c:when test="${i lt 10 }">
-			          <option value="0${i}">0${i}</option>
-			      </c:when>
-			      <c:otherwise>
-			          <option value="${i}">${i}</option>
-			      </c:otherwise>
-			  </c:choose>
-			  </c:forEach>
-			</select>
-			  
-			<select id="day" class="day">
-			  <option value="day">일</option>
-			  <c:forEach var="i" begin="1" end="31">
-			  <c:choose>
-			      <c:when test="${i lt 10 }">
-			          <option value="0${i}">0${i}</option>
-			      </c:when>
-			      <c:otherwise>
-			          <option value="${i}">${i}</option>
-			      </c:otherwise>
-			  </c:choose>
-			  </c:forEach>
-			</select>
-			
-		</div>
-		 -->
-		 <div>
+		 	 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		 	<label for="studDate">시작예정일</label>
 			<input type="date" id="studDate" name="studDate" min="2022-01-01" max="2024-12-31">
 		 </div>
@@ -377,7 +294,20 @@
 				<input type="text" id="contact" name="contact">
 			</select>
 		</div>
+	</section>
+	
+	<section>
+		<div class="tnczone">
+			<label for="title">제목</label>
+			<input type="text" name="title" id="title">
+		</div>
 		
+		<div>
+			<label for="content">내용</label>
+			<textarea class="contentbox" name="content" id="content" placeholder="내용을 입력해 주세요!"></textarea>				
+		</div>
+	</section>
+				
 		<div>
 			<button>작성완료</button>
 			<input type="reset" value="입력초기화">
@@ -394,6 +324,8 @@
 	
 	
 </div>
-
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="" name="title"/>
+</jsp:include>
 </body>
 </html>

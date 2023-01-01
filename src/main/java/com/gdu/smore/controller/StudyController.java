@@ -133,10 +133,5 @@ public class StudyController {
 		return studyService.mark(request);
 	}
 	
-	@GetMapping("/study/css")
-	public String css() {
-		return "study/css";
-	}
-	
 }
 

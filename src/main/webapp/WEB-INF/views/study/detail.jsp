@@ -79,7 +79,7 @@
 							fn_commentCnt();
 						}
 					}, error: function(){
-						alert('다시 로그인 해 주세요.');
+						alert('로그인 후 이용 가능합니다.');
 						location.href='/user/login/form';
 					}
 				})
@@ -138,7 +138,7 @@
 							div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
 							div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
 							if( '${loginUser.nickname}' != '') {
-								div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요."></textarea>';
+								div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요." class="recmtContent"></textarea>';
 								div += '<input type="button" value="등록" class="btn_addrecmt">';
 							} else {
 								div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
@@ -355,6 +355,79 @@
 		box-sizing: border-box;
 	}
 	
+	.scenter {
+	  	max-width: 900px;
+	    width: 100%;
+	    display: flex;
+	    flex-direction: column;
+	    margin: 0 auto;
+	    padding: 1.5rem 1.5rem 5rem;
+  	}
+	
+	.maintitle {
+		margin-top: 2.5rem;
+		font-weight: 800;
+	    font-size: 3rem;
+	    line-height: 126.5%;
+	    letter-spacing: -.005em;
+	    color: #000;
+	}
+	
+	.subtitle {
+		margin-bottom: 2.5rem;
+		font-weight: 600;
+	    font-size: 2rem;
+	    line-height: 126.5%;
+	    letter-spacing: -.005em;
+	    color: #000;
+	}
+	
+	.introproject {
+		margin-bottom: 1.5rem;
+		font-weight: 600;
+	    font-size: 2rem;
+	    line-height: 126.5%;
+	    letter-spacing: -.005em;
+	    color: #000;
+
+	}
+	
+	.editndelete {
+		display: flex;
+		justify-content: flex-end;	
+		margin-bottom: 50px;
+	}
+	
+	.btn_modify {
+		border: none;
+		outline: none;	
+		background-color: #fff;
+	}
+
+	.btn_recomment_area {
+		border: none;
+		outline: none;	
+		background-color: #fff;	
+	}
+	
+	.btn_addrecmt {
+		border: none;
+		outline: none;	
+		background-color: #fff;		
+	}
+	
+	.btn_removecmt {
+		border: none;
+		outline: none;	
+		background-color: #fff;	
+	}
+	
+	.btn_remove {
+		border: none;
+		outline: none;	
+		background-color: #fff;
+	}
+	
 	.blind {
 		display: none;
 	}
@@ -363,83 +436,158 @@
 		cursor: pointer;
 		color: #f83030;
 	}
+	
+	#lnk_like {
+		display: flex;
+	    justify-content: flex-end;
+	}
+	
 	#heart {
 		width: 16px;
 		margin-right: 5px;
 	}
 	#map {
-        width: 300px;
-        height: 300px;
+        width: 60%;
+        height: 250px;
         background-color: grey;
       }
+      
+	#btn_addcmt {
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #2f6627;
+	}
+
+	#btn_addcmt:active {
+		position:relative;
+		top:1px;
+	}
+	
+	.btn_cmtList {
+		margin: 0 0 30px;
+	    font-size: 22px;
+	}
+	
+   	.commentinput {
+	    font-family: inherit;
+	    padding: 1rem 1rem 1.5rem;
+	    outline: none;
+	    border: 2px solid #e1e1e1;
+	    border-radius: 16px;
+	    width: 100%;
+	    min-height: 100px;
+	    margin-bottom: 10px;
+	    resize: none;
+
+  	}
+  	
+  	.commentbutton {
+	  	display: flex;
+	    justify-content: flex-end;
+	    margin: 16px 0 24px;
+  	}
+  	
+  	.cmt_cnt {
+  		position: relative;
+  		bottom: 10px;
+  	}
+  	
+  	.recmtContent {
+  		resize : none;
+  	
+  	}
+  	
 </style>
 </head>
 <body>
-	<h1>${study.title}</h1>
+<div class="scenter">
+	<section>
+		<div>
+			<a href="/">
+				<img src="../../resources/images/back.png" class="backindex">
+			</a>
+		</div>
+		<div class="maintitle">
+			${study.title}
+		</div>
+		
+		<div>
+			<span><img src="../../resources/images/monster.png" > 『 ${loginUser.nickname} 』</span>
+			&nbsp;&nbsp;&nbsp;
+			<span> | &nbsp;&nbsp;&nbsp; <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
+			&nbsp;&nbsp;&nbsp;
+		</div>
+		
+		<hr>
+		
+		<section>
+			<div>
+				<span><img src="../../resources/images/eye.png" >&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span> | &nbsp;&nbsp;&nbsp;&nbsp;시작 예정 : </span>
+				<span> ${study.studDate}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<span> | &nbsp;&nbsp;&nbsp;&nbsp;연락 방법 : </span>
+				<span> ${study.contact}</span>
+					
+			</div>			
+		</section>
+		
+		<hr>
+		
+				
+	</section>
+	<section class="introproject">
 	
-	<div>
-		<span>▷ 작성자 ${study.nickname}</span>
-		&nbsp;&nbsp;&nbsp;
-		<span>▷ 작성일 <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
-		&nbsp;&nbsp;&nbsp;
-	</div>
-	
-	<hr>
-	
-	<div>
-		<span>▷ 조회수 <fmt:formatNumber value="${study.hit}" pattern="#,##0" /></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span>▷ 시작예정일 ${study.studDate}</span>
-	</div>
-	
-	<hr>
+		프로젝트 소개
+		
+		<hr>
+	</section>
 	
 	<div>
 		${study.content}
 	</div>
-	<div id="map"></div> <!-- 지도가 붙을 위치 -->
-	<div style="width: 800px; display: inline-block;" >
-		<div style="width: 200px; display: inline-block;">
-			<form id="frm_btn" method="post">
-				<input type="hidden" name="studNo" value="${study.studNo}">
-			<c:if test="${loginUser.nickname == study.nickname}">
-				<input type="button" value="수정" class="btn_modify">
-				<input type="button" value="삭제" class="btn_remove">
-			</c:if>
-			</form>
+	
+	<section>
+	
+	<hr>
+	
+		<div class="subtitle">
+			모집 지역 : ${study.region}
 		</div>
-		<div style="width: 300px;">
-			<input type="button" value="목록" onclick="location.href='/'">
-		</div>
-	</div>
+		
+		<div id="map"></div> <!-- 지도가 붙을 위치 -->
+		
+		<hr>
+		
+	</section>
 
 		<div>
-			<span id="btn_cmtlist" class="" style="">
-				댓글
-				<span class="cmt_cnt"></span>개
-			</span>
 			<a id="lnk_like">
 				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
 			</a>
+			<span id="btn_cmtlist" class="btn_cmtList" style="">
+				
+				<span class="cmt_cnt"></span>개의 댓글이 있습니다.
+				
+			</span>
 		</div>
-		
-		<hr>
-
-		<div id="cmt_area">
-			<div id="cmt_list"></div>
-			<div id="paging"></div>
-		</div>
-		
-		<hr>
-
 		<div>
 			<form id="frm_addcmt">
 				<div class="addcmt">
 					<div class="addcmt_textarea">
-						<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+						<textarea class="commentinput" name="cmtContent" id="content" placeholder="댓글을 입력하세요."></textarea>
 					</div>
-					<div>
-						<input type="button" value="등록" id="btn_addcmt">
+					<br>
+					<div class="commentbutton">
+						<input type="button" value="댓글 등록" id="btn_addcmt">
 					</div>
 				</div>
 				<input type="hidden" name="studNo" value="${study.studNo}">
@@ -447,11 +595,30 @@
 				
 				<input type="hidden" name="groupNo" value="0">
 				<input type="hidden" name="nickname" value="${loginUser.nickname}">
-			</form>
+			</form>			
 		</div>
 		
+		<div id="cmt_area">
+			<div id="cmt_list"></div>
+			<div id="paging"></div>
+		</div>
+		<div class="editndelete">
+			<div>
+				<form id="frm_btn" method="post">
+					<input type="hidden" name="studNo" value="${study.studNo}">
+						<c:if test="${loginUser.nickname == study.nickname}">				
+							<input type="button" value="수정" class="btn_modify">
+							<input type="button" value="삭제" class="btn_remove">
+						</c:if>
+				</form>
+			</div>	
+		</div>
+		<hr>
+		
 		<input type="hidden" id="page" value="1">
-		
-		
+</div>		
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="" name="title"/>
+</jsp:include>		
 </body>
 </html>
