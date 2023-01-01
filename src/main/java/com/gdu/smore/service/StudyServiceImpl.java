@@ -122,7 +122,7 @@ public class StudyServiceImpl implements StudyService {
 			if(result > 0) {
 				
 				
-				out.println("alert('삽입 성공');");
+				out.println("alert('게시글이 등록되었습니다.');");
 				out.println("location.href='/';");
 			} else {
 				out.println("alert('삽입 실패');");
@@ -205,7 +205,7 @@ public class StudyServiceImpl implements StudyService {
 				}
 				*/
 				out.println("<script>");
-				out.println("alert('수정 성공');");
+				out.println("alert('수정되었습니다.');");
 				out.println("location.href='/';");
 				out.println("</script>");
 			} else {
@@ -253,7 +253,7 @@ public class StudyServiceImpl implements StudyService {
 				}
 				*/
 				
-				out.println("alert('삭제 성공');");
+				out.println("alert('삭제되었습니다.');");
 				out.println("location.href='/';");
 			} else {
 				out.println("alert('삭제 실패');");
