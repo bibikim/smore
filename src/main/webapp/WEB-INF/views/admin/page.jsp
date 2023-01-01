@@ -46,8 +46,7 @@
      </div>
 
 	<div style="margin-left:225px;">	
-		<div>
-		</div>
+		<div></div>
 		<span id="span_cnt"></span>
 		<span id="span_cnt2"></span>
 		<table class="table">
