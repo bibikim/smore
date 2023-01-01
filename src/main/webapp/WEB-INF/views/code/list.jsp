@@ -84,7 +84,7 @@
          </table>
             <div>
                <c:if test="${loginUser != null}">
-                  <span><a id="c_write" href="/study/cwrite">등록하기</a></span>
+                  <span><a id="c_write" href="/code/write">등록하기</a></span>
                </c:if>
                <c:if test="${loginUser == null}">
                   <span>글 작성은<a id="c_write" href="/user/login/form">로그인</a>후에 가능합니다.</span>
