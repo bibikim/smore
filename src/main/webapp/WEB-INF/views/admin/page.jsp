@@ -48,6 +48,8 @@
 	<div style="margin-left:225px;">	
 		<div>
 		</div>
+		<span id="span_cnt"></span>
+		<span id="span_cnt2"></span>
 		<table class="table">
 			<thead id="head_list"></thead>	
 			<tbody id="user_list"></tbody>
@@ -75,7 +77,7 @@
 									</span>
 									
 									<span>
-										<input type="button" id ="btn_userSearch"  value="검색" class="btn_search">
+										<input type="button" id ="btn_userSearch"  value="검색" class="btn btn-outline-secondary">
 									</span>
 								</div>	
 							</form>
@@ -92,7 +94,7 @@
 								</select>
 								<select id="column2" name="column2">
 									<option value="">:::선택:::</option>
-									<option value="NICKNAME">작성자</option>
+									<option value="NICKNAME">닉네임</option>
 									<option value="TITLE">제목</option>
 									<option value="CREATE_DATE">작성일자</option>
 								</select>
@@ -105,7 +107,7 @@
 									<input type="text" id="stop2" name="stop2" >
 								</span>
 								<span>
-									<input type="button" value="검색" id="btn_searchBoard" class="btn_search">
+									<input type="button" value="검색" id="btn_searchBoard" class="btn btn-outline-secondary">
 								</span>
 							</form>
 						</div>	

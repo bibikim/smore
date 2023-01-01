@@ -198,7 +198,7 @@
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column=='JOIN_DATE'">AND ${column} >= STR_TO_DATE(#{start}, '%Y-%m-%d') AND  ${column} <![CDATA[<]]> STR_TO_DATE(#{stop}, '%Y-%m-%d') + 1</if>
 		</where>
-         ORDER BY D.JOIN_DATE DESC   
+         ORDER BY D.USER_NO DESC   
 		 LIMIT #{begin}, #{recordPerPage} 
 	</select>   
 			

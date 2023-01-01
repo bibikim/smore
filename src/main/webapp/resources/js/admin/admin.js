@@ -8,6 +8,7 @@
     	fn_changePage6();
     	fn_changePage7();
     	fn_changePage8();
+    	fn_changePage9();
 		fn_searchUserList(); 
     	fn_searchBoardList();
     	fn_inputShow();	
@@ -696,12 +697,21 @@
 	
  	function fn_searchUserList(){
 		$('#btn_userSearch').click(function(e){
+			if($('#column').val() == 'ID' && $('#query').val() == '') {
+				alert('검색 조건을 확인하세요.');
+				e.preventDefault();
+				return;
+			} else if($('#column').val() == 'NICKNAME' && $('#query').val() == ''){
+				alert('검색 조건을 확인하세요.');
+				e.preventDefault();
+				return;
+			} 
 			$.ajax({
 				type : 'get',
 				//url : '/users/search/page' + page,
 				url : '/users/search',
 				//data : $('#frm_searchUser').serialize(),	
-				data: 'column=' + $('#column').val() + '&query=' + $('#query').val() + '&start=' + $('#start').val() + '&stop=' +  $('#stop').val(), 				
+				data: 'page=' + page + '&column=' + $('#column').val() + '&query=' + $('#query').val() + '&start=' + $('#start').val() + '&stop=' +  $('#stop').val(), 				
 				dataType : 'json',
 				success : function(resData){
 					$('#head_list').empty();
@@ -740,6 +750,7 @@
 						});   
 					} else if(resData.status == 500){
 						alert(resData.message);
+						return;
 					}		
  					// 페이징
 					$('#paging').empty();
@@ -780,6 +791,15 @@
 	
  	function fn_searchBoardList(){
 		$('#btn_searchBoard').click(function(e){
+			if($('#column2').val() == 'ID' && $('#query2').val() == '') {
+				alert('검색 조건을 확인하세요.');
+				e.preventDefault();
+				return;
+			} else if($('#column2').val() == 'NICKNAME' && $('#query2').val() == ''){
+				alert('검색 조건을 확인하세요.');
+				e.preventDefault();
+				return;
+			} 
 		$.ajax({
 			type : 'get',
 			url : '/boards/search/page' + page,
@@ -788,17 +808,17 @@
 			success : function(resData){
 				$('#head_list').empty();
 				$('#user_list').empty();
-				var tr = '<tr>';
-				tr += '<th scope="col">' + '#' + '</th>';
-				tr += '<th scope="col">' + '닉네임' + '</th>';
-				tr += '<th scope="col">' + '제목' + '</th>';
-				tr += '<th scope="col">' + '작성일' + '</th>';
-				tr += '<th scope="col">' + '수정일' + '</th>';
-				tr += '<th scope="col">' + '조회수' + '</th>';
-				tr += '<th scope="col">' + '작성자 IP' + '</th>';
-				tr += '<th scope="col">' + '답변여부' + '</th>';
-				tr += '</tr>';
-				$('#head_list').append(tr); 
+				var tr2 = '<tr>';
+				tr2 += '<th scope="col">' + '#' + '</th>';
+				tr2 += '<th scope="col">' + '닉네임' + '</th>';
+				tr2 += '<th scope="col">' + '제목' + '</th>';
+				tr2 += '<th scope="col">' + '작성일' + '</th>';
+				tr2 += '<th scope="col">' + '수정일' + '</th>';
+				tr2 += '<th scope="col">' + '조회수' + '</th>';
+				tr2 += '<th scope="col">' + '작성자 IP' + '</th>';
+				//tr += '<th scope="col">' + '답변여부' + '</th>';				
+				tr2 += '</tr>';
+				$('#head_list').append(tr2); 
 				if(resData.status == 200){
 					$.each(resData.boards, function(i, board){
 						if(board.freeNo != 0){
@@ -824,6 +844,8 @@
 							.appendTo('#user_list');
 						}
 						if(board.qaNo != 0){
+							tr2 += '<th scope="col">답변여부' + '</th>';
+							//tr2.append( $('<th scope="col">').text('답변여부'))
 							$('<tr>')
 							.append( $('<td>').text(board.qaNo))
 							.append( $('<td>').text(board.nickname))
@@ -856,19 +878,19 @@
 				var paging = '<div>';
 				// 이전 페이지
 				if(page != 1) {
-					paging += '<span class="lnk_enable2" data-page="' + (page - 1) + '">&lt;이전</span>';
+					paging += '<span class="lnk_enable9" data-page="' + (page - 1) + '">&lt;이전</span>';
 				}
 				// 페이지번호
 				for(let p = naverPageUtil.beginPage; p <= naverPageUtil.endPage; p++) {
 					if(p == page){
 						paging += '<strong>' + p + '</strong>';
 					} else {
-						paging += '<span class="lnk_enable2" data-page="'+ p +'">' + p + '</span>';
+						paging += '<span class="lnk_enable9" data-page="'+ p +'">' + p + '</span>';
 					}
 				}
 				// 다음 페이지
 				if(page != naverPageUtil.totalPage){
-					paging += '<span class="lnk_enable2" data-page="'+ (page + 1) +'">다음&gt;</span>';
+					paging += '<span class="lnk_enable9" data-page="'+ (page + 1) +'">다음&gt;</span>';
 				}
 				paging += '</div>';
 				// 페이징 표시
@@ -876,6 +898,13 @@
 			}
 		});
 		});		
+	}
+  	
+	function fn_changePage9(){
+		$(document).on('click', '.lnk_enable9', function(){
+			page = $(this).data('page');
+			fn_searchBoardList();
+		});
 	}
   	
   	// 일반회원 다중탈퇴
