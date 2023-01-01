@@ -58,15 +58,13 @@
 			</div>
 		
 		
-		
-		
 			<div>
-				<div class="board-name-wrapper">
+<!-- 				<div class="board-name-wrapper">
 				<div class="board-name">
 					<span style="font-weight: bold;"> 구인 공고 </span>
 					<span style="font-weight: 200; font-size: 9px"> 구인 공고 </span>
 				</div>
-				</div>
+				</div> -->
 				<div id="gubun"></div>
 			</div>	
 			
