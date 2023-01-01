@@ -25,7 +25,7 @@
 		margin-right: 5px;
 	}
 	
-		#btn_addcmt {
+	.btn_addcmt {
 		background-color:#000000;
 		border-radius:28px;
 		border:1px solid #000000;
@@ -36,7 +36,44 @@
 		font-size:13px;
 		padding:5px 24px;
 		text-decoration:none;
-		text-shadow:0px 1px 0px #2f6627;
+	}
+	
+	.btn_editcmt {
+		background-color:black;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+ 		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		margin-bottom: 7px;
+	}
+	
+	.btn_addrecmt {
+		background-color:black;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+ 		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		margin-bottom: 7px;
+	}
+	
+	.btn_removecmt, .btn_editcmt_area,	.btn_recomment_area {
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+ 		color: #000000;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 20px;
+		margin-bottom: 5px;
 	}
 
 	#btn_addcmt:active {
@@ -72,38 +109,28 @@
   		position: relative;
   		bottom: 10px;
   	}
-  	
+
   	.recmtContent {
   		resize : none;
   	}
   	
-  		
-	.btn_modify {
-		border: none;
-		outline: none;	
-		background-color: #fff;
+	.btn_modify, .btn_remove, .btn_list {
+		background-color:black;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+ 		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		margin-bottom: 7px;
 	}
 
-	.btn_recomment_area {
-		border: none;
-		outline: none;	
-		background-color: #fff;	
-	}
+
 	
-	.btn_addrecmt {
-		border: none;
-		outline: none;	
-		background-color: #fff;		
+	#fr-title {
+		font-size: 28px;
 	}
+
 	
-	.btn_removecmt {
-		border: none;
-		outline: none;	
-		background-color: #fff;	
-	}
-	
-	.btn_remove {
-		border: none;
-		outline: none;	
-		background-color: #fff;
-	}

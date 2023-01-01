@@ -49,7 +49,6 @@
 		});
 	
 	
-	
 	});
 	
 </script>
@@ -194,9 +193,9 @@
 				  <div class="float">
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
 				  	  <input type="button" id="btn_list" value="목록">
+ 				  	  <button id="btn_add">작성 완료</button>
 				  </div>
 				  <div>
-				  	  <button style="margin-left: 540px;">작성 완료</button>
 				  </div>
 					
 			   </div>

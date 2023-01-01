@@ -2,7 +2,14 @@
 
 	a {
 		cursor: pointer;
+		color: black;
+		text-decoration-line: none ;
 	}
+	a:hover {
+		text-decoration-line: none ;
+		color: black;
+	}
+	
 	.detail-main {
 		margin-left: 350px;
 	    margin-right: 350px;
@@ -36,8 +43,13 @@
 		background: lightgray;
 	}
 	
+	.job-title {
+		font-size: 18px;
+		margin: 0 0 20px 10px;
+	}
+	
 	.divbg-gray {
-		background-color: #e0eeee;
+		background-color: #b3e5fc;
 		border-radius: 5px;
 	}
 	
@@ -66,10 +78,7 @@
 	.job-content {
 		 position: relative;
 	}
-	.in-content {
-		 /*position: absolute; top: 50%; transform: translateY(-50%);*/
 
-	}
 	#gubun {
 		background: #bdbdbd; 
 		height: 1px; 
@@ -90,12 +99,14 @@
         vertical-align: top; 
         margin: 20px 0 15px 0;
 	}
+	
 	.hr-co {
 		display: inline-block; 
 		margin-right: 70px;
 		margin-left: 20px;
 		float: left;
 	}
+	
 	.hr-name {
 		margin-right: 70px;
 	}
@@ -125,9 +136,10 @@
 	.sub-profile {
 		margin-top: 32px;
 		margin-left: 20px;  
-		font-size: 15px; 
+		font-size: 15px;
 		font-weight: 600;
 	}
+	
 	.in-sub-profile {
 		margin-top: 18px; 
 		font-size: 16px; 
@@ -148,5 +160,24 @@
 		display: inline-block;
 	}
 
-	
+	.opening {
+		margin: 50px 0 0 20px; 
+		font-size:20px; 
+		font-weight: bold;
+	}
+
+	.btn_modify, .btn_expire {
+		margin-bottom: 20px;
+		margin-top: 20px;
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+	}
 	

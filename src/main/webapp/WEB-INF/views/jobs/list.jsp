@@ -99,13 +99,15 @@
 										<div style="margin: 10px 0 10px 18px;">
 											<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
 										</div>
-										
+
 										<!-- 찜 갯수 -->
-										<div>
-											<img src="../resources/images/f-bookmark.png" width="20px">
-										</div>
-										<div>
-											${zzimCnt[vs.index]}
+										<div class="job_zzim">
+											<div>
+												<img src="../resources/images/f-bookmark.png" width="20px">
+											</div>
+											<div id="zzim_cnt">
+												${zzimCnt[vs.index]}
+											</div>
 										</div>
 										
 										<div style="width:90%;">
@@ -122,6 +124,7 @@
 											<img style="margin-top: 8px;" src="https://img.icons8.com/color/18/null/source-code.png"/>
 											<span>${job.skillStack}</span>
 										</div>
+										<div class="creDate">공고일자&nbsp;&nbsp;<fmt:formatDate value="${job.createDate}" pattern="yyyy.MM.dd"/></div>
 										<div>
 											<input type="hidden" name="status" value="0">
 										</div>

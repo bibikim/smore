@@ -23,7 +23,7 @@
 	<!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-        	<p class="m-0 text-center text-white"> <img src="../../resources/images/cookie.png" >&nbsp; ⓒ 2022 &nbsp; s'more copyright</p>
+        	<p class="m-0 text-center text-white"> <img src="../../resources/images/cookie.png" >&nbsp; ⓒ 2023 &nbsp; s'more copyright</p>
         </div>
     </footer>
 
