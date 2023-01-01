@@ -39,24 +39,6 @@ public class AdminServiceImpl implements AdminService {
    @Autowired 
    private NaverPageUtil naverPageUtil;  
    
-/*   @Override
-   public Map<String, Object> getAllUserList(int page) {
-	   int userCnt = adminMapper.selectUserCount();
-	   int sleepCnt = adminMapper.selectSleepUserCount(); 
-	   
-	   int totalRecord = userCnt + sleepCnt;
-	   
-	   naverPageUtil.setNaverPageUtil(page, totalRecord);
-	   
-	   Map<String, Object> map = new HashMap<String, Object>();
-	   map.put("begin", naverPageUtil.getBegin() - 1);
-	   map.put("recordPerPage", naverPageUtil.getRecordPerPage());
-	   
-	   Map<String, Object> result = new HashMap<String, Object>();
-	   result.put("allUserList", adminMapper.selectAllUserList(map));
-	   result.put("naverPageUtil", naverPageUtil);
-	   return result;    
-   } */
    @Override
    public Map<String, Object> getAllUserList(HttpServletRequest request, int page) {
 	     
@@ -318,7 +300,7 @@ public class AdminServiceImpl implements AdminService {
 			result.put("status", 500);
 		} else {
 			result.put("users", users);
-			//result.put("path", path);
+			result.put("totalRecord", totalRecord);
 			result.put("naverPageUtil", naverPageUtil);
 			result.put("status", 200);
 		}
