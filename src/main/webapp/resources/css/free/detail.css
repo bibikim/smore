@@ -1,1 +1,27 @@
 @charset "UTF-8";
+
+	* {
+		box-sizing: border-box;
+	}
+	
+	.edit-wrapper {
+		position: absolute;
+	  	left: 50%;
+	 	transform: translateX(-50%);
+	 	margin-top: 100px;
+	 	border: 0.5px solid #bdbdbd;
+	}
+	
+	.blind {
+		display: none;
+	}
+	
+	#lnk_like:hover span {
+		cursor: pointer;
+		color: #f83030;
+	}
+	#heart {
+		width: 16px;
+		margin-right: 5px;
+	}
+	

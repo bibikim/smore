@@ -24,6 +24,11 @@
 				return;
 			}
 		});
+		
+		$('#btn_write').click(function(){
+			location.href='/free/write';
+		})
+		
 	});
 			
 	
@@ -35,12 +40,13 @@
 		<div>
 			<c:if test="${loginUser != null}">
 				<div class="wr-box">
-					<span><a id="f_write" href="/free/write">글쓰기</a></span>
+					<!-- <a id="f_write" href="/free/write">글쓰기</a> -->
+					<button id="btn_write">글 작성하러 가기</button>
 				</div>
 			</c:if>
-			<c:if test="${loginUser == null}">
+<%-- 			<c:if test="${loginUser == null}">
 				<span>글 작성은<a id="f_write" href="/user/login/form">로그인</a>후에 가능합니다.</span>
-			</c:if>
+			</c:if> --%>
 		</div>
 	</div>
 	
