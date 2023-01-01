@@ -164,7 +164,7 @@
 					return;
 				} 
 				// 셀프 스크랩 방지
-				if('${loginUser.grade}' == 3) {
+				if('${loginUser.nickname}' == '${job.nickname}') {
 					alert('작성자의 게시글에서는 스크랩이 불가합니다.');
 					return;
 				}
@@ -209,15 +209,15 @@
 			<div class="div-line">
 				<span><a href="/job/list"> JOB </a></span>
 			</div>
-		
+
 			<div class="detail-wrapper">
 			
 				<input type="hidden" name="${job.status}">
-				<div class="main-column">
-					<div style="float: left; maring-bottom: 30px;"><h5>⊹&nbsp;${job.companyName}</h5></div>
+				<div class="main-column" >
+					<div style="float: left;"><h5>⊹&nbsp;${job.companyName}</h5></div>
 					<div class="sns-wrapper">
-						<div class="share">
-							<div class="share-link" style="float: left;">
+						<div class="share" style="text-align: right;">
+							<div class="share-link">
 								<img src="https://img.icons8.com/external-anggara-outline-color-anggara-putra/26/null/external-share-user-interface-basic-anggara-outline-color-anggara-putra.png"/>
 							</div>
 	
@@ -239,17 +239,18 @@
 								<a href="#" onclick="fn_linkCopy()">
 								<img src="https://img.icons8.com/windows/25/null/clone-figure.png"/></a>
 							</div>
+						</div>
 <!-- 							<div class="btn_scrap">
 								스크랩 버튼
 								<a id="lnk_scrap">
 									<span id="scrap"></span><span id="zzim">스크랩</span>
 								</a>
 							</div> -->
-						</div>
 					</div> <!-- main-column -->
 				</div>
 		
-				<div style="margin-bottom: 20px;">${job.title}</div>
+				<div style="clear: both;"></div>
+				<div class="job-title">${job.title}</div>
 				
 				<div class="divbg-gray first div-pd">
 					<div class="padd-div">포지션</div>
@@ -275,7 +276,7 @@
 					</div>
 				</div>
 			</div>  <!-- detail-wrapper -->
-				
+
 			<div style="clear:both;" ></div>	<!-- div에 float 속성을 준게 있으면 하위 div들이 그 아래로 딸려 들어가기 때문에 clear 속성으로 초기화?해야 한다 -->
 				
 			<div class="content-wrapper">
@@ -293,12 +294,12 @@
 				
 				<div class="job-content">
 					<div class="in-content">
-						<div style="margin: 50px 0 0 20px; font-weight: bold;">채용 공고</div>
+						<div class="opening">채용 공고</div>
 						
-						<div class="btn_scrap">
+						<div class="btn_scrap" style="text-align: right; margin-right: 30px;">
 							<!-- 스크랩 버튼 -->
 							<a id="lnk_scrap">
-								<span id="scrap"></span><span id="zzim">스크랩</span>
+								<span id="scrap"></span><span id="zzim" style="font-size: 14px;">스크랩</span>
 							</a>
 						</div>
 						
@@ -367,8 +368,9 @@
 				</c:if>
 			</form>
 			<div>
-				<c:if test="${loginUSer.grade == 3}">
-					<span style="font-size: 14px;">채용 공고 삭제는 관리자에게 문의주세요.</span>
+				<div style="clear: both;"></div>
+				<c:if test="${loginUser.grade == 3}">
+					<div style="font-size: 15px; width: 320px; margin-bottom: 30px;"> ✔ 채용 공고 삭제는 관리자에게 문의주세요. </div>
 				</c:if>
 			</div>
 			

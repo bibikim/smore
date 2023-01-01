@@ -63,7 +63,7 @@
 		
   		// 댓글 삽입
 		function fn_addComment() {
-			$('#btn_addcmt').click(function(){
+			$('.btn_addcmt').click(function(){
 				if($('#content').val() == '') {
 					alert('댓글 내용을 입력해주세요.');
 					return;
@@ -107,17 +107,17 @@
 						}
 						if(comment.state == 1) {   // 정상(삭제한 상태가 아니면)
 							div += '<div class="comment_area">';
-							div += '<span style="font-size: 14px; color: green;"><strong>' + comment.nickname + '</strong></span>';
+							div += '<span style="font-size: 14px;"><strong>' + comment.nickname + '</strong></span>';
 							div += '<br>&nbsp;&nbsp;'
 							div += '<input type="hidden" name="cmtNo" value="' + comment.cmtNo +'">';
 							div += '<span class="origin_cmt">' + comment.cmtContent + '</span>';
 							if( '${loginUser.nickname}' == comment.nickname || '${loginUser.nickname}' == '관리자') {
 								// a링크 태그로 바꾸기
-								div += '<input type="button" value="삭제" class="btn_removecmt" data-comment_no="' + comment.cmtNo + '">';
-								div += '<input type="button" value="수정" class="btn_editcmt_area" data-comment_no="' + comment.cmtNo + '">';	
+								div += '<input type="button" value="삭제" class="btn_removecmt btn" data-comment_no="' + comment.cmtNo + '">';
+								div += '<input type="button" value="수정" class="btn_editcmt_area btn" data-comment_no="' + comment.cmtNo + '">';	
 							}
 							if(comment.depth == 0) {
-								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area">'  // 대댓존
+								div += '&nbsp;&nbsp;<input type="button" value="답글" class="btn_recomment_area btn">'  // 대댓존
 							}
 							div += '</div>';
 						} else {
@@ -141,7 +141,7 @@
 							div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
 							div += '<input type="hidden" name="ip" value="' +  comment.ip + '">';
 							if( '${loginUser.nickname}' != '') {
-								div += '<textarea name="cmtContent" placeholder="내용을 입력해주세요."></textarea>';
+								div += '<textarea name="cmtContent" class="commentinput" placeholder="댓글을 입력해주세요."></textarea>';
 								div += '<input type="button" value="등록" class="btn_addrecmt">';
 							} else {
 								div += '<textarea name="cmtContent" placeholder="댓글을 작성하려면 로그인을 해주세요."></textarea>';
@@ -162,8 +162,8 @@
 						div += '<input type="hidden" name="depth" value="' +  comment.depth + '">';
 						div += '<input type="hidden" name="cmtNo" value="' +  comment.cmtNo + '">';
 						if( '${loginUser.nickname}' == comment.nickname ) {
-							div += '<textarea name="cmtContent">' + comment.cmtContent + '</textarea>';
-							div += '<input type="button" value="등록" class="btn_editcmt">';
+							div += '<textarea class="commentinput" name="cmtContent">' + comment.cmtContent + '</textarea>';
+							div += '<input type="button" value="수정" class="btn_editcmt">';
 						} 
 						div += '</form>';
 						div += '</div>';
@@ -249,7 +249,7 @@
 					dataType: 'json',
 					success: function(resData) {
 						if(resData.isSaveRe) {
-							alert('대댓글이 등록되었습니다.');
+							alert('답글이 등록되었습니다.');
 							fn_cmtList();
 							fn_commentCnt();
 						}
@@ -364,7 +364,6 @@
  			})
  		}
  		
- 		
 	});
 
 </script>
@@ -374,7 +373,7 @@
 	<div class="wr-wrapper">
 		<div style="width: 800px; display: inline-block;" >
 			<div style="width: 300px;">
-				<input type="button" value="목록" onclick="location.href='/free/list'">
+				<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
 	<!-- 			<input type="button" value="이전글">
 				<input type="button" value="다음글"> -->
 			</div>
@@ -387,10 +386,14 @@
 			</div>
 		</div>
 		<div>
-			<table>
+<%-- 			<table>
 				<tbody>
 					<tr>
-						<td>${free.title}</td>
+						<td id="fr-title"><strong>${free.title}</strong></td>
+					</tr>
+					<tr>
+						<div><td><img src="../../resources/images/monster.png" ></td></div>
+						<div><td><strong>${loginUser.nickname}</strong></td></div>
 					</tr>
 					<tr>
 						<td><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></td>
@@ -401,7 +404,14 @@
 						</td>
 					</tr>
 				</tbody>
-			</table>
+			</table> --%>
+			<div id="fr-title"><strong>${free.title}</strong></div>
+			<div id="fr-nick"><img src="../../resources/images/monster.png" >${loginUser.nickname}</div>
+			<span id="fr-hit">${free.hit}</span>
+			<div id="fr-date"><span><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></span></div>
+			<p style="text-align: left;">${free.content}</p>
+			
+			
 		</div>
 	
 			<div>
@@ -430,7 +440,7 @@
 							<textarea class="commentinput" name="cmtContent" id="content" placeholder="댓글을 입력하세요."></textarea>
 						</div>
 						<div>
-							<input type="button" value="등록" id="btn_addcmt">
+							<input type="button" value="등록" class="btn_addcmt">
 						</div>
 					</div>
 					<input type="hidden" name="freeNo" value="${free.freeNo}">

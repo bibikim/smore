@@ -3,6 +3,13 @@
 	
 	a {
 		cursor: pointer;
+		text-decoration-line: none ;
+		color: black;
+	}
+	
+	a:hover {
+		text-decoration-line: none ;
+		color: black;
 	}
 
 	body {
@@ -10,18 +17,21 @@
 	  /* width: 1000px; */
 	}
 	
-	a {
-		text-decoration-line: none ;
-		color: black;
-	}
-	
 	.job-list {
 		margin-top: 30px;
 	}
 	
+	.job_zzim {
+		float: right;
+	}
+	#zzim_cnt {
+		margin-left: 6px;
+		font-size: 12px;
+	}
+	
 	.job-main {
-	    margin-left: 300px;
-	    margin-right: 300px;
+	    margin-left: 400px;
+	    margin-right: 400px;
 	    min-height: 800px;
 	}
 	
@@ -101,6 +111,13 @@
 		font-size: bold;
 		color: gray;
 		margin: 3px 0px 0px 15px;
+	/* 	float: left; */
+	}
+	
+	.creDate {
+		font-size: 14px;
+		text-align: right;
+		margin-right: 40px;
 	}
 	
  	#a-title {
@@ -154,7 +171,7 @@
 		background-color: skyblue;
 	}
 	
-	 #job_write:link, #job_write:visited {
+/* 	 #job_write:link, #job_write:visited {
      	background-color: skyblue;
 	    color: white;
 	    padding: 15px 15px;
@@ -165,7 +182,28 @@
  	 #job_write:hover, #job_write:active {
 	     background-color: white;
 	     color: skyblue;
+	 } */
+	 
+	 #job_write:link, #job_write:visited {
+	  	margin-bottom: 10px;
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+	 
 	 }
+	 
+	 #job_write:hover, #job_write:active {
+	     background-color: white;
+	     color: #000000;
+	     cursor:pointer;
+	 } 
 	 
     /************************/
     
