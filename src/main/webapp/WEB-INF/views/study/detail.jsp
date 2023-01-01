@@ -355,20 +355,17 @@
 <body>
 <div class="scenter">
 	<section>
-		<div>
-			<a href="/">
-				<img src="../../resources/images/back.png" class="backindex">
-			</a>
-		</div>
+
 		<div class="maintitle">
 			${study.title}
 		</div>
 		
-		<div>
+		<div class="btn_back">
 			<span><img src="../../resources/images/monster.png" > 『 ${study.nickname} 』</span>
 			&nbsp;&nbsp;&nbsp;
 			<span> | &nbsp;&nbsp;&nbsp; <fmt:formatDate value="${study.createDate}" pattern="yyyy. M. d HH:mm" /></span>
 			&nbsp;&nbsp;&nbsp;
+			<input type="button" value="목록" class="btn_list" onclick="location.href='/'">
 		</div>
 		
 		<hr>
@@ -418,7 +415,7 @@
 			<a id="lnk_like">
 				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
 			</a>
-			<span id="btn_cmtlist" class="btn_cmtList" style="">
+			<span id="btn_cmtlist" class="btn_cmtList">
 				
 				<span class="cmt_cnt"></span>개의 댓글이 있습니다.
 				

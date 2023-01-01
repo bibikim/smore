@@ -158,13 +158,25 @@ public class StudyServiceImpl implements StudyService {
 		// 파라미터 title, content, sNo
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String gender = request.getParameter("gender");
+		String region = request.getParameter("region");
+		String lang = request.getParameter("lang");
+		String people = request.getParameter("people");
+		String contact = request.getParameter("contact");
+		String studDate = request.getParameter("studDate");
 		int studNo = Integer.parseInt(request.getParameter("studNo"));
 		
 		// DB로 보낼 StudyGroupDTO
 		StudyGroupDTO study = StudyGroupDTO.builder()
 				.title(title)
 				.content(content)
+				.gender(gender)
+				.region(region)
+				.lang(lang)
+				.people(people)
+				.contact(contact)
 				.studNo(studNo)
+				.studDate(studDate)
 				.build();
 		
 		// DB 수정

@@ -44,6 +44,12 @@
 		   SET TITLE = #{title}
 		     , CONTENT = #{content}
 		     , MODIFY_DATE = NOW()
+		     , GENDER = #{gender}
+		     , REGION = #{region}
+		     , LANG = #{lang}
+		     , PEOPLE = #{people}
+		     , CONTACT = #{contact}
+		     , STUD_DATE = #{studDate}
 		 WHERE STUD_NO = #{studNo}
 	</update>
 
