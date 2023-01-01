@@ -160,7 +160,7 @@ function fn_pwSubmit(){
 							
 							<div>
 								<button class="btn btn-outline-secondary" >변경</button>
-								<input type="button" value="취소" id="btn_edit_pw_cancel" class="btn btn-outline-secondary" >
+								<input type="button" value="취소" id="btn_edit_pw_cancel" class="btn btn-outline-secondary" onclick="history.back()">
 							</div>
 						</form>
 			    </div> 
@@ -168,11 +168,6 @@ function fn_pwSubmit(){
 	    </div>
 	</div>
 
-
-
-
-
-	
 </body>
 
 </html>

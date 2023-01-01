@@ -5,7 +5,9 @@
 <jsp:include page="../layout/header.jsp">
 	<jsp:param value="네이버 회원가입" name="title"/>
 </jsp:include>
-
+<link rel="stylesheet" href="/resources/css/userinfo.css">
+<link rel="stylesheet" href="/resources/css/reset.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <style>
 
 	.blind {
@@ -134,30 +136,48 @@ var emailPass = false;
 </head>
 <body>
 
-	<div>
+	<div id="container">
+		
+		<h2 class="login" style="letter-spacing:-1px; text-align: center;">Naver Join</h2>
+		<!-- <h1>네이버 간편 가입</h1> -->
 	
-		<h1>네이버 간편 가입</h1>
 	
-		<div>* 표시는 필수 입력사항입니다.</div>
 		
 		<hr>
-		
+		<div style="text-align: center">* 표시는 필수 입력사항입니다.</div>
 		<form id="frm_join" action="/user/naver/join" method="post">
 		
-			<input type="hidden" name="id" id="id" value="${profile.id}">
+			<input type="hidden" name="id" id="id" value="${profile.id}" style="width:250px">
 			
-			<div>
+<%-- 			<div>
 				<label for="name">이름*</label>
 				<input type="text" name="name" id="name" value="${profile.name}">
+			</div> --%>
+			
+	         <!-- 이름 -->        
+	        <div> 
+	        <label>
+		        <p style="text-align: left; font-size:15px; color:#666">이름*</p>
+		        <input type="text" name="name" id="name" placeholder="이름" class="size" value="${profile.name}" style="width:250px">
+	        </label>
 			</div>
 			
+	         <!-- 이름 -->        
+	        <div> 
+	        <label>
+		        <p style="text-align: left; font-size:15px; color:#666">별명*</p>
+		        <input type="text" name="nickname" id="nickname" placeholder="이름" class="size" style="width:250px">
+	        </label>
+			</div>
+			
+<!-- 			
 	        <div>
 	            <label for="name">별명*</label>
 	            <input type="text" name="nickname" id="nickname">
-	        </div>
+	        </div> -->
 			
 			<div>
-				<span>성별*</span>
+				<span><p style="text-align: left; font-size:15px; color:#666">성별*</p></span>
 				<input type="radio" name="gender" id="male" value="M">
 				<label for="male">남자</label>
 				<input type="radio" name="gender" id="female" value="F">
@@ -167,26 +187,37 @@ var emailPass = false;
 				</script>
 			</div>
 		
-			<div>
+<%-- 			<div>
 				<label for="mobile">휴대전화*</label>
 				<input type="text" name="mobile" id="mobile" value="${profile.mobile}">
+			</div> --%>
+		
+		
+			<!-- 휴대전화 -->
+	        <div> 
+		       <label>
+		        <p style="text-align: left; font-size:15px; color:#666">휴대전화*</p>
+		        <input type="text" name="mobile" id="mobile" placeholder="휴대전화" class="size" value="${profile.mobile}" style="width:250px">
+		       </label>
 			</div>
 		
 			<div>
 				<label for="birthyear">생년월일*</label>
-				<input type="text" name="birthyear" id="birthyear" value="${profile.birthyear}">
-				<input type="text" name="birthmonth" id="birthmonth" value="${profile.birthday.substring(0,2)}">
-				<input type="text" name="birthdate" id="birthdate" value="${profile.birthday.substring(2)}">
+				<input type="text" name="birthyear"  class="size num1" id="birthyear" value="${profile.birthyear}" style="width:100px">
+				<input type="text" name="birthmonth"  class="size num1" id="birthmonth" value="${profile.birthday.substring(0,2)}" style="width:100px">
+				<input type="text" name="birthdate" class="size num1" id="birthdate" value="${profile.birthday.substring(2)}" style="width:100px">
 			</div>
 			
-			<div>
-				<label for="email">이메일*</label>
-				<input type="text" name="email" id="email" value="${profile.email}">
-				<input type="button" value="중복체크" id="btn_check">
-				<span id="msg_email"></span>
-			</div>
 			
-			<hr>
+	        <div> 
+		        <label>
+		        	<p style="text-align: left; font-size:15px; color:#666">이메일*</p>
+			        <input type="text" name="email" id="email" placeholder="이메일" class="size" style="width:250px" value="${profile.email}">	
+			        <input type="button" value="중복체크" id="btn_check" class="btn btn-outline-secondary"> 
+			        <span id="msg_email"></span>       
+				</label>
+			</div>
+						
 			
 			<div>
 				<input type="checkbox" id="check_all" class="blind">
@@ -199,34 +230,43 @@ var emailPass = false;
 				<input type="checkbox" id="service" class="check_one blind">
 				<label for="service" class="lbl_one">이용약관 동의(필수)</label>
 				<div>
-					<textarea>본 약관은 ...</textarea>
+					<textarea style="width: 500px; height: 100px;" class="form-control">여러분을 환영합니다.
+						S'more 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 S'more 서비스의 이용과 관련하여 S'more 서비스를 제공하는 S'more 주식회사(이하 ‘S'more’)와 이를 이용하는 S'more 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 S'more 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
+					</textarea>
 				</div>
 			</div>
 			<div>
 				<input type="checkbox" id="privacy" class="check_one blind">
 				<label for="privacy" class="lbl_one">개인정보수집 동의(필수)</label>
 				<div>
-					<textarea>개인정보보호법에 따라 ...</textarea>
+					<textarea style="width: 500px; height: 100px;" class="form-control">개인정보보호법에 따라 S'more에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+					</textarea>
 				</div>
 			</div>
 			<div>
 				<input type="checkbox" id="location" name="location" class="check_one blind">
 				<label for="location" class="lbl_one">위치정보수집 동의(선택)</label>
 				<div>
-					<textarea>위치정보 ...</textarea>
+					<textarea style="width: 500px; height: 100px;" class="form-control">위치기반서비스 이용약관에 동의하시면, 위치를 활용한 광고 정보 수신 등을 포함하는 네이버 위치기반 서비스를 이용할 수 있습니다.
+						제 1 조 (목적)
+						이 약관은 네이버 주식회사 (이하 “회사”)가 제공하는 위치기반서비스와 관련하여 회사와 개인위치정보주체와의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+						
+						제 2 조 (약관 외 준칙)
+						이 약관에 명시되지 않은 사항은 위치정보의 보호 및 이용 등에 관한 법률, 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 전기통신기본법, 전기통신사업법 등 관계법령과 회사의 이용약관 및 개인정보처리방침, 회사가 별도로 정한 지침 등에 의합니다.
+					</textarea>
 				</div>
 			</div>
 			<div>
 				<input type="checkbox" id="promotion" name="promotion" class="check_one blind">
 				<label for="promotion" class="lbl_one">마케팅 동의(선택)</label>
 				<div>
-					<textarea>이벤트 ...</textarea>
+					<textarea style="width: 500px; height: 100px;" class="form-control">S'more 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화, 이메일로 받아보실 수 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 S'more 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.</textarea>
 				</div>
 			</div>
 			
 			<div>
-				<button>가입하기</button>
-				<input type="button" value="취소하기" onclick="location.href='/'">
+				<button class="button" style="background-color:#217Af0; width: 100x; margin-top: 30px;">가입하기</button>
+				<input type="button" value="취소하기" onclick="location.href='/'" class="btn btn-outline-secondary" tyle="margin-bottom: 4px;">
 			</div>
 		
 		</form>
