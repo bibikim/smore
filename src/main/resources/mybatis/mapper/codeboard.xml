@@ -15,13 +15,13 @@
 	    SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  		FROM C_BOARD
 		<choose>
-			 	<when test="type != null and type.equals('TITLE')">
+			 	<when test="column == 'TITLE'">
 			 		 TITLE LIKE CONCAT('%', #{keyword}, '%')
 			 	</when>
-			 	<when test="type != null and type.equals('CONTENT')">
+			 	<when test="column == 'CONTENT'">
 			 		AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
 			 	</when>
-			 	<when test="type != null and type.equals('NICKNAME')">
+			 	<when test="column == 'NICKNAME'">
 			 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
 			 	</when>	
 		 </choose>

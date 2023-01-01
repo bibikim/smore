@@ -50,32 +50,29 @@ public class QnaPageUtil {
 	public String getPaging(String path) {
 		
 		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<ul class=\"ul-paging\">");
 		// 이전블록 : 1block이 아니면 이전블록이 있다
 		if(beginPage != 1) {
-	    	  sb.append("<a href=\"" +
-	    				 path + "?page=" + (beginPage-1) + "\" class=\"prev\">이전페이지</a>");
-			}
-	      sb.append("<div class=\"num\">");
-	      
-		
-	      
-
+	    	  sb.append("<li class=\"li-page\"><a href=\"" +
+	    				 path + "?page=" + (beginPage-1) + "\">◀</a></li>");
+		}
 	      
 	      // 페이지번호 : 현재 페이지는 링크가 없다
 	      for(int p = beginPage; p <= endPage; p++) {
 	         if(p == page) {
-	            sb.append("<a href='#' title='현재" +p+ "페이지' class='active'>"+ p + "</a>");
+	            sb.append("<li class=\"li-page\"><a href='#' title='현재" +p+ "페이지' class='active'>"+ p + "</a></li>");
 	         } else {
-	            sb.append("<a href=\"" + path + "?page=" + p + "\" title='"+p+" 페이지'>" + p + "</a>");
+	            sb.append("<li class=\"li-page\"><a href=\"" + path + "?page=" + p + "\">" + p + "</a></li>");
 	         }
 	      }
 	      sb.append("</div>");
 	      // 다음블록 : 마지막 블록이 아니면 다음블록이 있다
 		  if(endPage != totalPage) { 
-				sb.append("<a href=\"" +
-			 path + "?page=" + (endPage+1) + "\" class=\"next\">다음페이지</a>"); 
+				sb.append("<li class=\"li-page\"><a href=\"" +
+			 path + "?page=" + (endPage+1) + "\">▶</a></li>"); 
 		  }
-			 
+		  sb.append("</ul>");
 	      
 
 		

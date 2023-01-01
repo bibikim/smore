@@ -47,9 +47,7 @@
             </div>
             <div class="right">
             	<c:if test="${loginUser != null}">
-            		<c:if test="${loginUser.grade eq '0'}">
-            			<button type="button" class="btn" onclick="goPage(${question.cmtNo}, 'mod');">수정</button>
-            		</c:if>
+            		
             	</c:if>
                 <button type="button" class="btn" onclick="goPage(${question.cmtNo}, 'list');">목록</button>
             </div>

@@ -105,9 +105,7 @@
                 <!-- 버튼  -->
                <div class="aligner" data-top="sm">
                    <div class="right">
-                   	 <c:if test="${chkBtn eq 'mod'}">
-                   	 	<button type="submit" class="btn btn-success">수정</button>
-                   	 </c:if>
+                   	 
                      <c:if test="${chkBtn eq 'reg'}">
                   	 	<button type="submit" class="btn btn-success">등록</button>
                   	 </c:if>
