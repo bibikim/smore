@@ -25,6 +25,22 @@
 				event.preventDefault();  // 서브밋 취소
 				return;  // 더 이상 코드 실행할 필요 없음
 			}
+		});				
+
+		$('#frm_write').submit(function(event){
+			if($('#people').val() == 'none'){
+				alert('인원을 정해주세요.');
+				event.preventDefault();  // 서브밋 취소
+				return;  // 더 이상 코드 실행할 필요 없음
+			}
+		});			
+
+		$('#frm_write').submit(function(event){
+			if($('#region').val() == 'none'){
+				alert('지역을 골라주세요.');
+				event.preventDefault();  // 서브밋 취소
+				return;  // 더 이상 코드 실행할 필요 없음
+			}
 		});			
 		
 		$('#frm_write').submit(function(event){
@@ -51,6 +67,15 @@
 		$('#frm_write').submit(function(event){
 			if($('#studDate').val() == ''){
 				alert('예정날짜를 정해주세요.');
+				event.preventDefault();  // 서브밋 취소
+				return;  // 더 이상 코드 실행할 필요 없음
+			}
+		});	
+
+		// 서브밋
+		$('#frm_write').submit(function(event){
+			if($('#content').val() == ''){
+				alert('내용이 없습니다.');
 				event.preventDefault();  // 서브밋 취소
 				return;  // 더 이상 코드 실행할 필요 없음
 			}
@@ -96,7 +121,7 @@
 		<section>
 		
 		<div class = "firstflex">
-			<label for="gender" id="seccolor"><p>성별</p></label>
+			<label for="gender" id="seccolor">성별</label>
 			&nbsp;&nbsp;
 			   <input type="radio" name="gender" id="male" value="M">
                <label for="male" id="seccolor">남자만</label>
@@ -104,7 +129,7 @@
                <input type="radio" name="gender" id="female" value="F">
                <label for="female" id="seccolor">여자만</label>
                &nbsp;&nbsp;
-               <input type="radio" name="gender" id="both" value="B">
+               <input type="radio" name="gender" id="both" value="B" checked>
                <label for="both" id="seccolor">상관없음</label>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -185,7 +210,8 @@
 			&nbsp;&nbsp;
 			<select name="region" id="region" class="region">
 
-				<option value = "Seoul" selected>Seoul</option>
+				<option value = "none" selected>지역을 정해주세요</option>
+				<option value = "Seoul" >Seoul</option>
 				<option value = "Busan" >Busan</option>
 				<option value = "Gangnam" >Gangnam</option>
 				<option value = "Jam-sil" >Jam-sil</option>
@@ -223,7 +249,8 @@
 		 	<label for="people" id="seccolor">정원</label>
 		 	&nbsp;&nbsp;
 			<select name="people" id="people">
-				<option value = "2" selected>2</option>
+				<option value = "none" selected></option>
+				<option value = "2" >2</option>
 				<option value = "3" >3</option>
 				<option value = "4" >4</option>
 				<option value = "5" >5</option>
