@@ -9,6 +9,7 @@
 
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/detail.css">
 
 <script>
 	
@@ -367,98 +368,80 @@
 	});
 
 </script>
-<style>
-	* {
-		box-sizing: border-box;
-	}
-	
-	.blind {
-		display: none;
-	}
-	
-	#lnk_like:hover span {
-		cursor: pointer;
-		color: #f83030;
-	}
-	#heart {
-		width: 16px;
-		margin-right: 5px;
-	}
-	
-</style>
+
 </head>
 <body>
-	<div style="width: 800px; display: inline-block;" >
-		<div style="width: 300px;">
-			<input type="button" value="목록" onclick="location.href='/free/list'">
-			<input type="button" value="이전글">
-			<input type="button" value="다음글">
+	<div class="edit-wrapper">
+		<div style="width: 800px; display: inline-block;" >
+			<div style="width: 300px;">
+				<input type="button" value="목록" onclick="location.href='/free/list'">
+	<!-- 			<input type="button" value="이전글">
+				<input type="button" value="다음글"> -->
+			</div>
+			<div style="width: 200px; display: inline-block;">
+				<form id="frm_btn" method="post">
+					<input type="hidden" name="freeNo" value="${free.freeNo}">
+					<input type="button" value="수정" class="btn_modify">
+					<input type="button" value="삭제" class="btn_remove">
+				</form>
+			</div>
 		</div>
-		<div style="width: 200px; display: inline-block;">
-			<form id="frm_btn" method="post">
-				<input type="hidden" name="freeNo" value="${free.freeNo}">
-				<input type="button" value="수정" class="btn_modify">
-				<input type="button" value="삭제" class="btn_remove">
-			</form>
-		</div>
-	</div>
-	<div>
-		<table>
-			<tbody>
-				<tr>
-					<td>${free.title}</td>
-				</tr>
-				<tr>
-					<td><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d a hh:m"/></td>
-				</tr>
-				<tr>
-					<td>
-						<p style="text-align: left;">${free.content}</p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
 		<div>
-			<span id="btn_cmtlist" class="" style="">
-				댓글
-				<span class="cmt_cnt"></span>개
-			</span>
-			<a id="lnk_like">
-				<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
-			</a>
+			<table>
+				<tbody>
+					<tr>
+						<td>${free.title}</td>
+					</tr>
+					<tr>
+						<td><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></td>
+					</tr>
+					<tr>
+						<td>
+							<p style="text-align: left;">${free.content}</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		
-		<hr>
-
-		<div id="cmt_area">
-			<div id="cmt_list"></div>
-			<div id="paging"></div>
-		</div>
-		
-		<hr>
-
-		<div>
-			<form id="frm_addcmt">
-				<div class="addcmt">
-					<div class="addcmt_textarea">
-						<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+	
+			<div>
+				<span id="btn_cmtlist" class="" style="">
+					댓글
+					<span class="cmt_cnt"></span>개
+				</span>
+				<a id="lnk_like">
+					<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
+				</a>
+			</div>
+			
+			<hr>
+	
+			<div id="cmt_area">
+				<div id="cmt_list"></div>
+				<div id="paging"></div>
+			</div>
+			
+			<hr>
+	
+			<div>
+				<form id="frm_addcmt">
+					<div class="addcmt">
+						<div class="addcmt_textarea">
+							<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+						</div>
+						<div>
+							<input type="button" value="등록" id="btn_addcmt">
+						</div>
 					</div>
-					<div>
-						<input type="button" value="등록" id="btn_addcmt">
-					</div>
-				</div>
-				<input type="hidden" name="freeNo" value="${free.freeNo}">
-				<input type="hidden" name="ip" value="${cmtList.ip}">
-				
-				<input type="hidden" name="groupNo" value="0">
-				<input type="hidden" name="nickname" value="${loginUser.nickname}">
-			</form>
-		</div>
-		
-		<input type="hidden" id="page" value="1">
-		
+					<input type="hidden" name="freeNo" value="${free.freeNo}">
+					<input type="hidden" name="ip" value="${cmtList.ip}">
+					
+					<input type="hidden" name="groupNo" value="0">
+					<input type="hidden" name="nickname" value="${loginUser.nickname}">
+					<input type="hidden" id="page" value="1">
+				</form>
+			</div>
+	</div>
 		
 </body>
 </html>

@@ -119,11 +119,12 @@
 		
 		// 스크랩 함수 호출
 		fn_scrapCheck();
+		fn_list();
 /* 		fn_scrapCount(); */
 		fn_pressScrap(); 
 		
 		function fn_scrapCheck() {
-			console.log('스크랩체크')
+			
 			$.ajax ({
 				type: 'get',
 				url: '/job/scrapCheck',
@@ -141,10 +142,21 @@
 			})
 		}
 		
+		function fn_list() {
+			
+			$('.share-link').click(function(){
+				if($('.sns').is(':visible')) {
+					$('.sns').slideUp();
+				} else {
+					$('.sns').slideDown();
+				}
+			})
+			
+		}
+		
 		
 		// 스크랩을 누른 경우
 		function fn_pressScrap() {
-			console.log('스크랩누르기')
 
 			$('#lnk_scrap').click(function(){
 				if('${loginUser.nickname}' == '') {
@@ -183,7 +195,7 @@
 		
 	});
 	
-		
+
 	
 </script>
 
@@ -199,40 +211,45 @@
 			</div>
 		
 			<div class="detail-wrapper">
+			
 				<input type="hidden" name="${job.status}">
 				<div class="main-column">
-					<span>${job.companyName}</span>
-					<div class="share-link">
-						<div>
-							<img src="https://img.icons8.com/external-anggara-outline-color-anggara-putra/26/null/external-share-user-interface-basic-anggara-outline-color-anggara-putra.png"/>
+					<div style="float: left; maring-bottom: 30px;"><h5>⊹&nbsp;${job.companyName}</h5></div>
+					<div class="sns-wrapper">
+						<div class="share">
+							<div class="share-link" style="float: left;">
+								<img src="https://img.icons8.com/external-anggara-outline-color-anggara-putra/26/null/external-share-user-interface-basic-anggara-outline-color-anggara-putra.png"/>
+							</div>
+	
+							<div class="share-sns">
+								<ul class="sns">
+									<li class="facebook">
+										<a id="btnFacebook"><img src="https://img.icons8.com/ios-glyphs/25/null/facebook-new.png"/>&nbsp;&nbsp;facebook</a> 
+									</li>
+									<li class="twitter">
+										<a id="btnTwitter" style="padding-left: 27px;"><img src="https://img.icons8.com/ios-filled/25/null/twitter.png"/>&nbsp;&nbsp;twitter</a>
+									</li>
+									<li class="kakao">
+										<a id="btnKakao" style="padding-left: 27px;"><img src="https://img.icons8.com/ios/25/null/kakao-talk.png"/>&nbsp;&nbsp;kakao</a>
+									</li>
+								</ul>
+							</div>
+	
+							<div class="btn_copy">
+								<a href="#" onclick="fn_linkCopy()">
+								<img src="https://img.icons8.com/windows/25/null/clone-figure.png"/></a>
+							</div>
+<!-- 							<div class="btn_scrap">
+								스크랩 버튼
+								<a id="lnk_scrap">
+									<span id="scrap"></span><span id="zzim">스크랩</span>
+								</a>
+							</div> -->
 						</div>
-						<div>
-							<ul class="sns">
-								<li class="facebook">
-									<a id="btnFacebook"><img src="https://img.icons8.com/ios-glyphs/25/null/facebook-new.png"/>&nbsp;&nbsp;facebook</a> 
-								</li>
-								<li class="twitter">
-									<a id="btnTwitter"><img src="https://img.icons8.com/ios-filled/25/null/twitter.png"/>&nbsp;&nbsp;twitter</a>
-								</li>
-								<li class="kakao">
-									<a id="btnKakao"><img src="https://img.icons8.com/ios/25/null/kakao-talk.png"/>&nbsp;&nbsp;kakao</a>
-								</li>
-							</ul>
-						</div>
-						<div>
-							<a href="#" onclick="fn_linkCopy()">
-							<img src="https://img.icons8.com/windows/25/null/clone-figure.png"/></a>
-						</div>
-						<div>
-							<!-- 스크랩 버튼 -->
-							<a id="lnk_scrap">
-								<span id="scrap"></span><span id="zzim">스크랩</span>
-							</a>
-						</div>
-					</div>
+					</div> <!-- main-column -->
 				</div>
 		
-				<h2><span>${job.title}</span></h2>
+				<div style="margin-bottom: 20px;">${job.title}</div>
 				
 				<div class="divbg-gray first div-pd">
 					<div class="padd-div">포지션</div>
@@ -277,6 +294,14 @@
 				<div class="job-content">
 					<div class="in-content">
 						<div style="margin: 50px 0 0 20px; font-weight: bold;">채용 공고</div>
+						
+						<div class="btn_scrap">
+							<!-- 스크랩 버튼 -->
+							<a id="lnk_scrap">
+								<span id="scrap"></span><span id="zzim">스크랩</span>
+							</a>
+						</div>
+						
 						<div>
 							<div style="margin: 20px 0 0 20px;">${job.content}</div>
 						</div>

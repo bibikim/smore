@@ -1,6 +1,13 @@
 @charset "UTF-8";
 
-
+	a {
+		cursor: pointer;
+	}
+	.detail-main {
+		margin-left: 350px;
+	    margin-right: 350px;
+	    min-height: 800px;
+	}
 	.div-line {
 		display: flex;
 		flex-basis: 100%;
@@ -36,20 +43,20 @@
 	
 	.first {
     	float: left;
-    	width:30%;
+    	width:23%;
     	box-sizing: border-box;
 	}
 
 	.second{
     	float: left;
-    	margin-left: 5%;
-    	width:30%;
+    	margin: 0 15%;
+    	width:23%;
     	box-sizing: border-box;
 	}
 
 	.third{
     	float: right;
-   		width:30%;
+   		width:23%;
     	box-sizing: border-box;
 	}
 	.div-pd {
@@ -130,6 +137,16 @@
 		margin: 16px 0 22px 20px;
 	}
 	
+	.sns-wrapper {
+		margin-left: 650px;
+	}
+
 	.sns img {cursor:pointer;}
-	.sns .hide {display:none;}
+	.sns {display:none;}
+	
+	.share-link {
+		display: inline-block;
+	}
+
+	
 	

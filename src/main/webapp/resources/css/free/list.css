@@ -14,25 +14,33 @@
 	}
 	
 	.wr-box {
-		margin: 50px 0 18px 1600px;
+/* 		margin: 50px 0 18px 1600px;
 		display: inline-block;
 	    padding: 7px;
 	    color: #fff;
 	    text-decoration: none;
 	    border: 1px solid #F2E4C5;
 	    border-radius: 7px;
-	    font-size: 14px;
+	    font-size: 14px; */
+	    
+
 	}
 	
-	.wr-box:hover {
-		background-color: #F2E4C5;
+	#btn_write{
+		margin-left: 180px;
+		margin-bottom: 20px;
+		font-size: 14px;
 	}
 	
-	#f_write {
+/* 	#f_write {
 		 text-decoration:none;
 		 color: black;
+		 padding: 8px;
+	     margin-right: 240px;
+	     height: 100%;
+	     line-height: 40px;
 	}
-	
+	 */
 	th {
 		padding: 5px;
 		border-top: 1px solid silver;
@@ -42,8 +50,8 @@
 	
 	thead {
   		font-weight: bold;
- 	 	color: #fff;
-  		background: skyblue;
+ 	 	color: black;
+  		border-bottom: 1px solid red;
 	}
 	
 	
@@ -53,9 +61,6 @@
 	th:nth-of-type(4) { width: 150px; }
 	th:nth-of-type(5) { width: 100px; }
 	
-	tr.tr-hover:hover {
-		background-color: #c3e3eb;
-			}
 	
 	td, th {
   		padding: 1em .5em;

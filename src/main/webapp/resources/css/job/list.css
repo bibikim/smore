@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+	
+	a {
+		cursor: pointer;
+	}
 
 	body {
 	  margin: 0 auto;
@@ -8,9 +12,9 @@
 	
 	a {
 		text-decoration-line: none ;
-		cursor: pointer;
 		color: black;
 	}
+	
 	.job-list {
 		margin-top: 30px;
 	}
