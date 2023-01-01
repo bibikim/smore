@@ -4,12 +4,12 @@
 		box-sizing: border-box;
 	}
 	
-	.edit-wrapper {
+	.wr-wrapper {
 		position: absolute;
 	  	left: 50%;
 	 	transform: translateX(-50%);
-	 	margin-top: 100px;
-	 	border: 0.5px solid #bdbdbd;
+	    margin: 0 auto;
+	 	padding: 1.5rem 1.5rem 5rem;
 	}
 	
 	.blind {
@@ -25,3 +25,85 @@
 		margin-right: 5px;
 	}
 	
+		#btn_addcmt {
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #2f6627;
+	}
+
+	#btn_addcmt:active {
+		position:relative;
+		top:1px;
+	}
+	
+	.btn_cmtList {
+		margin: 0 0 30px;
+	    font-size: 22px;
+	}
+	
+   	.commentinput {
+	    font-family: inherit;
+	    padding: 1rem 1rem 1.5rem;
+	    outline: none;
+	    border: 2px solid #e1e1e1;
+	    border-radius: 16px;
+	    width: 100%;
+	    min-height: 100px;
+	    margin-bottom: 10px;
+	    resize: none;
+
+  	}
+  	
+  	.commentbutton {
+	  	display: flex;
+	    justify-content: flex-end;
+	    margin: 16px 0 24px;
+  	}
+  	
+  	.cmt_cnt {
+  		position: relative;
+  		bottom: 10px;
+  	}
+  	
+  	.recmtContent {
+  		resize : none;
+  	}
+  	
+  		
+	.btn_modify {
+		border: none;
+		outline: none;	
+		background-color: #fff;
+	}
+
+	.btn_recomment_area {
+		border: none;
+		outline: none;	
+		background-color: #fff;	
+	}
+	
+	.btn_addrecmt {
+		border: none;
+		outline: none;	
+		background-color: #fff;		
+	}
+	
+	.btn_removecmt {
+		border: none;
+		outline: none;	
+		background-color: #fff;	
+	}
+	
+	.btn_remove {
+		border: none;
+		outline: none;	
+		background-color: #fff;
+	}

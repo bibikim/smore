@@ -371,7 +371,7 @@
 
 </head>
 <body>
-	<div class="edit-wrapper">
+	<div class="wr-wrapper">
 		<div style="width: 800px; display: inline-block;" >
 			<div style="width: 300px;">
 				<input type="button" value="목록" onclick="location.href='/free/list'">
@@ -427,7 +427,7 @@
 				<form id="frm_addcmt">
 					<div class="addcmt">
 						<div class="addcmt_textarea">
-							<textarea name="cmtContent" id="content" placeholder="댓글 작성하기"></textarea>
+							<textarea class="commentinput" name="cmtContent" id="content" placeholder="댓글을 입력하세요."></textarea>
 						</div>
 						<div>
 							<input type="button" value="등록" id="btn_addcmt">

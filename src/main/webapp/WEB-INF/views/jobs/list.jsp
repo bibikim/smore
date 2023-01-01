@@ -94,6 +94,7 @@
 							<c:if test="${job.status == 0}">
 								<li>
 									<div style="margin: 20px 0 10px 0;">
+
 										<div class="div-comp">⊹&nbsp;${job.companyName}</div>
 										<div style="margin: 10px 0 10px 18px;">
 											<a href="/job/increase/hit?jobNo=${job.jobNo}">${job.title}</a>
@@ -125,6 +126,7 @@
 											<input type="hidden" name="status" value="0">
 										</div>
 									</div>
+
 								</li>
 								<div id="gubun" style="background: #bdbdbd; height: 1px; margin: 15px 15px 0 15px;"></div>
 							</c:if>
