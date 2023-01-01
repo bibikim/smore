@@ -7,24 +7,14 @@
 <mapper namespace="com.gdu.smore.mapper.QnaBoardMapper">
 	
 	<select id="selectQnaBoardListCount" resultType="int">
-		WITH user_qna AS (
-				select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
-                CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-				CONTENT, PW, CREATE_DATE, ANSWER,
-				MODIFY_DATE, HIT, IP
-					          FROM smore.Q_BOARD
-		), user_cmt as (
-				select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
-                CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
-				C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
-				C.MODIFY_DATE, "" as HIT, C.IP
-		          FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
-		            ON Q.QA_NO = C.QA_NO
-				  WHERE C.STATE = '1'
-		)
-        select sum(b.cnt) as cnt from (select count(*) as cnt from user_qna
-		UNION ALL
-		select count(*) as cnt from user_cmt) b
+		select sum(b.cnt) as cnt from
+		(
+			select count(*) as cnt FROM smore.Q_BOARD
+				UNION ALL
+			select count(*) as cnt FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
+				ON Q.QA_NO = C.QA_NO
+		  	WHERE C.STATE = '1'
+		) b
 	</select>
 	
 	<select id="selectQnaBoardPwCount" resultType="int" parameterType="QnaBoardDTO">
@@ -93,31 +83,22 @@
 	</delete>
 	
 	<select id="selectQnaBoardListByMap" parameterType="Map" resultType="hashmap">		 
-		 WITH user_qna AS (
-				select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
+		 select "" as CMT_NO, QA_NO, NICKNAME, TITLE, 
                 CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
 				CONTENT, PW, CREATE_DATE, ANSWER,
 				MODIFY_DATE, HIT, IP
 					          FROM smore.Q_BOARD
-		), user_cmt as (
-				select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
+		UNION ALL
+		select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
                 CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
 				C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
 				C.MODIFY_DATE, "" as HIT, C.IP
 		          FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
 		            ON Q.QA_NO = C.QA_NO
 				  WHERE C.STATE = '1'
-		)
-		(select * from user_qna)
-		UNION ALL
-		(select * from user_cmt)
 		ORDER BY QA_NO DESC, CMT_NO ASC
 		LIMIT #{begin} OFFSET #{end}
 	</select>
-	
-	
-	
-	
 </mapper>
 	
 	
