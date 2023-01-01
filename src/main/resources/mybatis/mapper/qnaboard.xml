@@ -9,9 +9,9 @@
 	<select id="selectQnaBoardListCount" resultType="int">
 		select sum(b.cnt) as cnt from
 		(
-			select count(*) as cnt FROM smore.Q_BOARD
+			select count(*) as cnt FROM Q_BOARD
 				UNION ALL
-			select count(*) as cnt FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
+			select count(*) as cnt FROM Q_BOARD Q left outer join Q_CMT C
 				ON Q.QA_NO = C.QA_NO
 		  	WHERE C.STATE = '1'
 		) b
@@ -87,13 +87,13 @@
                 CASE WHEN (CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
 				CONTENT, PW, CREATE_DATE, ANSWER,
 				MODIFY_DATE, HIT, IP
-					          FROM smore.Q_BOARD
+					          FROM Q_BOARD
 		UNION ALL
 		select C.CMT_NO, Q.QA_NO, "관리자" as NICKNAME,  "└ 답변 작성" as TITLE, 
                 CASE WHEN (C.CREATE_DATE >= CURDATE()-interval 7 DAY) THEN 'Y' ELSE 'N' END as NEW_YN,
 				C.CMT_CONTENT, Q.PW, C.CREATE_DATE, "" as ANSWER,
 				C.MODIFY_DATE, "" as HIT, C.IP
-		          FROM smore.Q_BOARD Q left outer join smore.Q_CMT C
+		          FROM Q_BOARD Q left outer join Q_CMT C
 		            ON Q.QA_NO = C.QA_NO
 				  WHERE C.STATE = '1'
 		ORDER BY QA_NO DESC, CMT_NO ASC
