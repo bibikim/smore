@@ -92,10 +92,22 @@
 	    margin-right: 300px;
 	}
 	.btn_write_a{
-		padding: 8px;
 	    margin-right: 240px;
 	    height: 100%;
 	    line-height: 40px;
+	    background-color: #000000;
+	    border-radius: 28px;
+	    border: 1px solid #000000;
+	    display: inline-block;
+	    cursor: pointer;
+	    color: white;
+	    font-family: Arial;
+	    font-size: 15px;
+	    padding: 1px 13px;
+	    text-decoration: none;
+	}
+	.btn_write_a:hover {
+		color: white;
 	}
 	
 	.tag {
