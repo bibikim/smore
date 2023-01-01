@@ -61,6 +61,8 @@
 
 </style>
 
+<link rel="stylesheet" href="/resources/css/reset.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script>
 
@@ -138,7 +140,7 @@
 				    </label><br>
 					<br>
 					<div>
-						<input type="button" value="비밀번호 찾기" id="btn_findPw">
+						<input type="button" value="비밀번호 찾기" id="btn_findPw" class="btn btn-outline-secondary">
 					</div>
 					<br>
 					<div id="msg_result" style="text-align: left; font-size:15px; color:#666"></div>

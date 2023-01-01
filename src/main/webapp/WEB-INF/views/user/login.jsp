@@ -128,8 +128,6 @@
 					    </label>
 					    <br><br>
 						<div>			
-							<!-- <button class="btn_login">로그인</button> -->
-							<!-- <button class="btn btn-outline-secondary">로그인</button> -->
 							<button class="btn btn-outline-secondary">로그인</button>
 						</div>
 						
