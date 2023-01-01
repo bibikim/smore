@@ -6,6 +6,14 @@
 <jsp:include page="../layout/header.jsp">
    <jsp:param value="QNA게시판" name="title"/>
 </jsp:include>
+
+<style>
+	a { text-decoration: none; outline: none}
+
+ a:hover, a:active {text-decoration: none; }
+
+</style>
+
 <link rel="stylesheet" type="text/css" href="../../../resources/css/free/list.css"> 
 
 <div class="cont-body">
