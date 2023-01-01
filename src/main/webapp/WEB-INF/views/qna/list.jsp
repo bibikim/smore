@@ -16,6 +16,19 @@
 
 <link rel="stylesheet" type="text/css" href="../../../resources/css/free/list.css"> 
 
+<body>
+	<c:if test="${loginUser != null}">
+    	<c:if test="${loginUser.grade ne '0'}">
+		    <div class="aligner" data-top="sm">
+		        <div class="right">
+		            <button type="button" class="btn" id="btn_write" onclick="goWritePage();">
+		                글 작성하러 가기
+		            </button>
+		        </div>
+		    </div>
+	    </c:if>
+    </c:if>
+
 <div class="cont-body">
 
     <div class="table">
@@ -127,17 +140,7 @@
     </div>
 
     <!-- 버튼 -->
-    <c:if test="${loginUser != null}">
-    	<c:if test="${loginUser.grade ne '0'}">
-		    <div class="aligner" data-top="sm">
-		        <div class="right">
-		            <button type="button" class="btn" onclick="goWritePage();">
-		                등록하기
-		            </button>
-		        </div>
-		    </div>
-	    </c:if>
-    </c:if>
+    
     <!-- //버튼 -->
 
     <!-- 페이징 -->
@@ -218,4 +221,5 @@
 	}
 	
 </script>
+</body>
 </html>
