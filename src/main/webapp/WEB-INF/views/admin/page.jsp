@@ -106,7 +106,7 @@
 									<input type="text" id="stop2" name="stop2" >
 								</span>
 								<span>
-									<input type="button" value="검색" id="btn_searchBoard" class="btn btn-outline-secondary">
+									<input type="button" value="검색" id="btn_searchBoard" class="btn btn-outline-secondary" style="margin-bottom: 15px;">
 								</span>
 							</form>
 						</div>	
