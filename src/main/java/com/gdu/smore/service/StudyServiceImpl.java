@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -25,7 +24,6 @@ import com.gdu.smore.mapper.StudyMapper;
 import com.gdu.smore.util.PageUtil;
 import com.gdu.smore.util.StudPageUtil;
 
-@PropertySource(value = {"classpath:application.yml"})
 @Service
 public class StudyServiceImpl implements StudyService {
 

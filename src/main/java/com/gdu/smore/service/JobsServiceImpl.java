@@ -26,7 +26,6 @@ public class JobsServiceImpl implements JobsService{
 
 	private JobsMapper jobMapper;
 	private PageUtil pageUtil;
-	
 	private JobZzimMapper zzimMapeer;
 	
 	@Override
@@ -231,7 +230,6 @@ public class JobsServiceImpl implements JobsService{
 	
 	@Override
 	public void changeStatus(HttpServletRequest request ,HttpServletResponse response) { // request는 서버로 보내고, response가 화면에 뿌려주는것..
-		System.out.println(request.getParameter("jobNo"));
 		int jobNo = Integer.parseInt(request.getParameter("jobNo"));
 		int result = jobMapper.updateStatus(jobNo);
 		

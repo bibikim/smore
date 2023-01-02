@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Smore</title>
+<title>${param.title}</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
@@ -31,9 +31,8 @@
 		color: black;
 	}
 
-	
 	.nav-link {
-		color: rgba(0,0,0,.9) 
+		color: rgba(0,0,0,.9);
 	}
 	
 	.nav-link:hover{
@@ -72,7 +71,7 @@
 			<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" style="width: 150px;"></a>
 			<ul class="nav justify-content-end">
 				<li class="nav-item">
-					<a class="nav-link active" href="/">Study&모임</a>
+					<a class="nav-link active" href="/">Study&amp;모임</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" href="/free/list">커뮤니티</a>
@@ -84,7 +83,7 @@
 				    <a class="nav-link" href="/job/list">Jobs</a>
 				</li>
 				<li class="nav-item">
-				    <a class="nav-link" href="/qna/list">Q&A</a>
+				    <a class="nav-link" href="/qna/list">Q&amp;A</a>
 				</li>
 				<li class="nav-item">
 				    <a class="nav-link" href="/user/login/form" tabindex="-1" aria-disabled="true">login</a>
@@ -101,7 +100,7 @@
 				<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png" width="150px"></a>
 				<ul class="nav justify-content-end">
 					<li class="nav-item">
-						<a class="nav-link active" href="/">Study&모임</a>
+						<a class="nav-link active" href="/">Study&amp;모임</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link active" href="/free/list">커뮤니티</a>
@@ -113,7 +112,7 @@
 				    	<a class="nav-link" href="/job/list">Jobs</a>
 					</li>
 					<li class="nav-item">
-					    <a class="nav-link" href="/qna/list">Q&A</a>
+					    <a class="nav-link" href="/qna/list">Q&amp;A</a>
 					</li>
 
 					<li class="nav-item dropdown">

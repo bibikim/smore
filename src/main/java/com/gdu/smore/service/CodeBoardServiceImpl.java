@@ -101,8 +101,9 @@ public class CodeBoardServiceImpl implements CodeBoardService {
 		for(int i = 0; i < code.size(); i++) {
 			coNo.add(code.get(i).getCoNo());
 			cmtCount.add(cmtMapper.selectCommentCnt(coNo.get(i)));
-	 }
+		}
 		model.addAttribute("codeCmtCnt", cmtCount);
+		
 	}
 	
 	@Override

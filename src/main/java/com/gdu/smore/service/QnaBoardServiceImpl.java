@@ -15,24 +15,18 @@ import org.springframework.ui.Model;
 import com.gdu.smore.domain.qna.QnaBoardDTO;
 import com.gdu.smore.domain.qna.QnaCommentDTO;
 import com.gdu.smore.mapper.QnaBoardMapper;
-import com.gdu.smore.util.MyFileUtil;
 import com.gdu.smore.util.QnaPageUtil;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Service
 public class QnaBoardServiceImpl implements QnaBoardService {
 	
 	private QnaBoardMapper qnaboardMapper;
 	private QnaPageUtil pageUtil;
-	private MyFileUtil myFileUtil;
 	
 	@Autowired
-	public void set(QnaBoardMapper qnaboardMapper, QnaPageUtil pageUtil, MyFileUtil myFileUtil) {
+	public void set(QnaBoardMapper qnaboardMapper, QnaPageUtil pageUtil) {
 		this.qnaboardMapper = qnaboardMapper;
 		this.pageUtil = pageUtil;
-		this.myFileUtil = myFileUtil;
 	}
 	
 	public void getQnaBoardList(Model model) {
@@ -53,7 +47,6 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		// offset
 		int offset = (page - 1) * pageCount;
 		
-		log.info("pageCount ==>" + pageCount + "offset ==> " + offset + "totalRecord ==>" + totalRecord);
 		// 조회 조건으로 사용할 Map 만들기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageCount);

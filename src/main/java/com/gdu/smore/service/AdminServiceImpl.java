@@ -9,7 +9,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,9 +21,7 @@ import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.AdminMapper;
 import com.gdu.smore.mapper.UserMapper;
 import com.gdu.smore.util.NaverPageUtil;
-import com.gdu.smore.util.PageUtil;
 
-@PropertySource(value = {"classpath:application.yml"})
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -34,8 +31,6 @@ public class AdminServiceImpl implements AdminService {
    @Autowired
    private UserMapper userMapper;
    
-   @Autowired
-   private PageUtil pageUtil;
    @Autowired 
    private NaverPageUtil naverPageUtil;  
    
@@ -181,17 +176,19 @@ public class AdminServiceImpl implements AdminService {
 
    @Override
    public Map<String, Object> getreportUserList(int page) {
-      int totalRecord = adminMapper.selectReportUserCount();
-      naverPageUtil.setNaverPageUtil(page, totalRecord);
-      
-      Map<String, Object> map = new HashMap<String, Object>();
-      map.put("begin", naverPageUtil.getBegin() - 1);
-      map.put("recordPerPage", naverPageUtil.getRecordPerPage());
-      
-      Map<String, Object> result = new HashMap<String, Object>();
-      result.put("reportUserList", adminMapper.selectReportUserList(map));
-      result.put("naverPageUtil", naverPageUtil);
-      return result;
+		/*
+		 * int totalRecord = adminMapper.selectReportUserCount();
+		 * naverPageUtil.setNaverPageUtil(page, totalRecord);
+		 * 
+		 * Map<String, Object> map = new HashMap<String, Object>(); map.put("begin",
+		 * naverPageUtil.getBegin() - 1); map.put("recordPerPage",
+		 * naverPageUtil.getRecordPerPage());
+		 * 
+		 * Map<String, Object> result = new HashMap<String, Object>();
+		 * result.put("reportUserList", adminMapper.selectReportUserList(map));
+		 * result.put("naverPageUtil", naverPageUtil); return result;
+		 */
+	   return null;
    }
    
 
@@ -208,7 +205,6 @@ public class AdminServiceImpl implements AdminService {
       
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("freeBoardList", adminMapper.selectFreeListByMap(map));
-      System.out.println(result);
       result.put("naverPageUtil", naverPageUtil);
       return result;
    }
@@ -317,7 +313,6 @@ public class AdminServiceImpl implements AdminService {
 		String query2 = request.getParameter("query2");
 		String start2 = request.getParameter("start2");
 		String stop2 = request.getParameter("stop2");
-	   System.out.println(board);
 	   
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("column2", column2);

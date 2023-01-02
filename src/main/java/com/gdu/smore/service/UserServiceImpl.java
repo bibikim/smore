@@ -71,11 +71,10 @@ public class UserServiceImpl implements UserService {
 		
 		// 인증코드 만들기
 		String authCode = securityUtil.getAuthCode(6);
-		System.out.println("발송된 인증코드 : " + authCode);
 		
 		// 메일 전송
 		javaMailUtil.sendJavaMail(email, "[Application] 인증요청", "인증번호는 <strong>" + authCode + "</strong>입니다.");
-		
+		System.out.println("인증코드:" + authCode);
 		// join.jsp로 생성한 인증코드를 보내줘야 함
 		// 그래야 사용자가 입력한 인증코드와 비교를 할 수 있음
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -107,11 +106,8 @@ public class UserServiceImpl implements UserService {
 		String location = request.getParameter("location");
 		String promotion = request.getParameter("promotion");
             
-
 		pw = securityUtil.sha256(pw);
 		 
-		System.out.println(pw);
-		
 		name = securityUtil.preventXSS(name);
 		nickname = securityUtil.preventXSS(nickname);
 		String birthday = birthmonth + birthdate;
@@ -518,7 +514,6 @@ public class UserServiceImpl implements UserService {
 	public Map<String, Object> sendTemporaryPw(UserDTO user) {
 		// 9자리 임시 비밀번호
 		String temporaryPassword = securityUtil.generateRandomString(9);
-		System.out.println("임시비번 : " + temporaryPassword);
 		
 		// 메일 내용
 		String text = "";
