@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/resources/css/base.css">
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="자유게시판" name="title"/>
+   <jsp:param value="JOBS" name="title"/>
 </jsp:include>
 
 
@@ -199,5 +199,6 @@
 			</form>
 	</div>	
 
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="JOBS" name="title"/>
+</jsp:include>
