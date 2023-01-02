@@ -29,6 +29,18 @@
 			}
 		});
 		
+		$('#frm_edit').change(function(event){
+			if($('#region').val() == 'Seoul'){
+				$('.wido').val('37.566535') && $('.gdo').val('126.9779692');
+			} else if ($('#region').val() == 'Busan'){
+				$('.wido').val('35.1795543') && $('.gdo').val('129.0756416');
+			} else if ($('#region').val() == 'Gangnam'){
+				$('.wido').val('37.498095') && $('.gdo').val('127.027610');
+			} else if ($('#region').val() == 'Jam-sil'){
+				$('.wido').val('37.513272317072') && $('.gdo').val('127.09431687965');
+			}
+		});
+		
 		$('#frm_edit').submit(function(event){
 			if($('#content').val() == ''){
 				alert('내용이 없습니다.');
@@ -257,15 +269,7 @@
 			 -->
 			<label for="region" id="seccolor">지역</label>
 			&nbsp;&nbsp;
-			<select name="region" id="region" class="region">
-
-				<option value = "${study.region}" selected>${study.region}</option>
-				<option value = "Seoul" >Seoul</option>
-				<option value = "Busan" >Busan</option>
-				<option value = "Gangnam" >Gangnam</option>
-				<option value = "Jam-sil" >Jam-sil</option>
-
-			</select>	 
+			<input type="text" value="${study.region}" readonly>	 
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

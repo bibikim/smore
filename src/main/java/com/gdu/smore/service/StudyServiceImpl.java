@@ -159,7 +159,6 @@ public class StudyServiceImpl implements StudyService {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String gender = request.getParameter("gender");
-		String region = request.getParameter("region");
 		String lang = request.getParameter("lang");
 		String people = request.getParameter("people");
 		String contact = request.getParameter("contact");
@@ -171,7 +170,6 @@ public class StudyServiceImpl implements StudyService {
 				.title(title)
 				.content(content)
 				.gender(gender)
-				.region(region)
 				.lang(lang)
 				.people(people)
 				.contact(contact)
