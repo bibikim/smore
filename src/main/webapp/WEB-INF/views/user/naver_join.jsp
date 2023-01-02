@@ -291,7 +291,7 @@ var emailPass = false;
 			
 			<div>
 				<button class="button" style="background-color:#217Af0; width: 100x; margin-top: 30px;">가입하기</button>
-				<input type="button" value="취소하기" onclick="location.href='/'" class="btn btn-outline-secondary" tyle="margin-bottom: 4px;">
+				<input type="button" value="취소하기" onclick="location.href='/'" class="btn btn-outline-secondary" style="margin-bottom: 4px;">
 			</div>
 		
 		</form>
