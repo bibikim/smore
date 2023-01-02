@@ -22,7 +22,7 @@
 		    <div class="aligner" data-top="sm">
 		        <div class="right">
 		            <button type="button" class="btn" id="btn_write" onclick="goWritePage();">
-		                글 작성하러 가기
+		                글쓰기
 		            </button>
 		        </div>
 		    </div>
@@ -44,8 +44,8 @@
                 <tr>
                     <th scope="col">No.</th>
                     <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">등록일</th>
+                    <th scope="col">글쓴이</th>
+                    <th scope="col">작성일</th>
                     <th scope="col">조회</th>
                 </tr>
             </thead>
