@@ -45,7 +45,6 @@
 		     , CONTENT = #{content}
 		     , MODIFY_DATE = NOW()
 		     , GENDER = #{gender}
-		     , REGION = #{region}
 		     , LANG = #{lang}
 		     , PEOPLE = #{people}
 		     , CONTACT = #{contact}
