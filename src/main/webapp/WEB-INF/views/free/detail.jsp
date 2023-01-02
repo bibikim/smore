@@ -372,7 +372,7 @@
 <body>
 	<div class="wr-wrapper">
 		<div style="width: 800px; display: inline-block;" >
-			<div style="width: 300px;">
+			<div style="float: left;">
 				<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
 	<!-- 			<input type="button" value="이전글">
 				<input type="button" value="다음글"> -->
@@ -435,5 +435,6 @@
 			</div>
 	</div>
 		
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="JOBS" name="title"/>
+</jsp:include>
