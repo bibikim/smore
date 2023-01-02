@@ -12,7 +12,7 @@
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
-
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/write.css">
 <script>
 	
 	$(document).ready(function(){
@@ -74,9 +74,9 @@
 </script>
 </head>
 <body>
-    <div class="cont-body">
-       <!-- 페이지 내용 -->
-       <div class="cont-body">
+   <div class="wr-wrapper">
+		<div class="div-write">
+
            <form id="frm_write" method="post"
                class="form-horizontal">
 			<input type="hidden" name="nickname" value="${loginUser.nickname}">
@@ -94,9 +94,9 @@
                            </colgroup>
                            <tbody>
                                <tr>
-                                   <th scope="row" class="text-left">제목 <span class="point-color-red">*</span></th>
+                                   <th scope="row" class="text-left"><span class="point-color-red"></span></th>
                                    <td colspan="3">
-                                       <div class="input expanded">
+                                    	<div class="wr-title">
                                            <input type="text" id="title" name="title" value="${question.title}" placeholder="제목을 입력하세요." required style="width: 500px;"/>
                                        </div>
                                    </td>
@@ -119,7 +119,7 @@
                                    </td>
                                </tr>
                                <tr>
-                                   <th scope="row" class="text-left">내용 <span class="point-color-red">*</span></th>
+                                   <th scope="row" class="text-left"><span class="point-color-red"></span></th>
                                    <td colspan="3">
                                        <div class="textarea">
                                            <textarea id="content" name="content" cols="30" rows="10"
