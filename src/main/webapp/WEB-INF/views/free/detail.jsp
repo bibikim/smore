@@ -372,14 +372,13 @@
 <body>
 	<div class="wr-wrapper">
 		<div style="width: 800px; display: inline-block;" >
-			<div style="float: left;">
+<!-- 			<div style="float: left;">
 				<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
-	<!-- 			<input type="button" value="이전글">
-				<input type="button" value="다음글"> -->
-			</div>
-			<div style="width: 200px; display: inline-block;">
+			</div> -->
+			<div class="btn_zone">
 				<form id="frm_btn" method="post">
 					<input type="hidden" name="freeNo" value="${free.freeNo}">
+					<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
 					<input type="button" value="수정" class="btn_modify">
 					<input type="button" value="삭제" class="btn_remove">
 				</form>

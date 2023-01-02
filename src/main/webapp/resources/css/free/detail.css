@@ -8,8 +8,12 @@
 		position: absolute;
 	  	left: 50%;
 	 	transform: translateX(-50%);
-	    margin: 0 auto;
+	    margin-top: 60px;
 	 	padding: 1.5rem 1.5rem 5rem;
+	}
+	.btn_zone {
+		width: 400px; 
+		display: inline-block;
 	}
 	
 	.blind {

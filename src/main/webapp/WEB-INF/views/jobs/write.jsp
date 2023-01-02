@@ -190,17 +190,13 @@
 							<textarea name="profile" id="profile" class="profile" required></textarea>
 						</div>
 			      </div>
-				  <div class="float">
+				  <div>
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
 				  	  <input type="button" id="btn_list" value="목록">
- 				  	  <button id="btn_add">작성 완료</button>
+ 				  	  <button id="btn_add">공고 등록</button>
 				  </div>
-				  <div>
-				  </div>
-					
 			   </div>
 			</form>
-		
 	</div>	
 
 </body>
