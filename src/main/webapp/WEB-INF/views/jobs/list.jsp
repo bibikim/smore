@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/resources/css/base.css">
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="자유게시판" name="title"/>
+   <jsp:param value="JOBS" name="title"/>
 </jsp:include>
 
 <link rel="stylesheet" type="text/css" href="../../../resources/css/job/list.css">

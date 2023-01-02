@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/resources/css/base.css">
 
 <jsp:include page="../layout/header.jsp">
-   <jsp:param value="자유게시판" name="title"/>
+   <jsp:param value="JOBS" name="title"/>
 </jsp:include>
 
 
@@ -204,18 +204,15 @@
 						  <textarea name="profile" id="profile" class="profile">${job.profile}</textarea>
 					  </div>
 			      </div>
-				  <div class="float">
+				  <div>
 				  	  <input type="button" id="btn_cancel" value="작성 취소">
 				  	  <input type="button" id="btn_list" value="목록">
+				  	  <button id="btn_edit">수정 완료</button>
 				  </div>
-				  <div>
-				  	  <button style="margin-left: 540px;">수정 완료</button>
-				  </div>
-
-				
 			</form>
 			<input type="hidden" id="careerval" value="${job.career}">
 	</div>	
 
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="JOBS" name="title"/>
+</jsp:include>
