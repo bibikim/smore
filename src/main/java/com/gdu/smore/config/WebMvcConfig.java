@@ -34,7 +34,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/login");
 		
 		registry.addInterceptor(preventLoginInterceptor)
-				.addPathPatterns("/user/login/form") .addPathPatterns("/user/join/write")
+				.addPathPatterns("/user/login/form")
+				.addPathPatterns("/user/join/write")
 				.addPathPatterns("/user/agree");
 		  
 		registry.addInterceptor(sleepUserCheckingInterceptor)

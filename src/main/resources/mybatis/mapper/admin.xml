@@ -70,61 +70,6 @@
 		<collection resultMap="AccessLogMap" property="accessLogDTO"></collection>
 	</resultMap> 
 
-	<resultMap type="FreeBoardDTO" id="FreeMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<result column="FREE_NO" property="freeNo" />
-		<result column="NICKNAME" property="nickname" />
-		<result column="TITLE" property="title" />
-		<result column="CONTENT" property="content" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="MODIFY_DATE" property="modifyDate" />
-		<result column="HIT" property="hit" />
-		<result column="IP" property="ip" />
-	</resultMap>
-	<resultMap type="CodeBoardDTO" id="CodeMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<result column="CO_NO" property="coNo" />
-		<result column="NICKNAME" property="nickname" />
-		<result column="TITLE" property="title" />
-		<result column="CONTENT" property="content" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="MODIFY_DATE" property="modifyDate" />
-		<result column="HIT" property="hit" />
-		<result column="IP" property="ip" />
-	</resultMap>
-	<resultMap type="QnaBoardDTO" id="QnaMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<result column="QA_NO" property="qaNo" />
-		<result column="NICKNAME" property="nickname" />
-		<result column="TITLE" property="title" />
-		<result column="CONTENT" property="content" />
-		<result column="PW" property="pw" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="MODIFY_DATE" property="modifyDate" />
-		<result column="HIT" property="hit" />
-		<result column="IP" property="ip" />
-		<result column="ANSWER" property="answer" />
-	</resultMap>
-	<resultMap type="StudyGroupDTO" id="StudyMap">
-		<result column="ROW_NUM" property="rowNum" />
-		<result column="STUD_NO" property="studNo" />
-		<result column="NICKNAME" property="nickname" />
-		<result column="TITLE" property="title" />
-		<result column="CONTENT" property="content" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="MODIFY_DATE" property="modifyDate" />
-		<result column="HIT" property="hit" />
-		<result column="GENDER" property="gender" />
-		<result column="REGION" property="region" />
-		<result column="WIDO" property="wido" />
-		<result column="GDO" property="gdo" />
-		<result column="LANG" property="lang" />
-		<result column="PEOPLE" property="people" />
-		<result column="CONTACT" property="contact" />
-		<result column="STUD_DATE" property="studDate" />
-		<result column="IP" property="ip" />
-	</resultMap>
-		
 	<resultMap type="AllBoardDTO" id="AllBoardMap">
 		<result column="ROW_NUM" property="rowNum"/>
 		<result column="FREE_NO" property="freeNo"/>
@@ -241,18 +186,16 @@
 	    	  <if test="column2=='ID' or column2 == 'NICKNAME'">
 	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
 	   		  </if> 
- 		   
-		  <if test="column2=='CREATE_DATE'">
-		 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
-		  </if>
+			  <if test="column2=='CREATE_DATE'">
+			 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
+			  </if>
 		 </where> 
 	</select>
 	
 	<!-- 코드게시판 검색 -->
 	<select id="selectCodeBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.CO_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM C_BOARD) D
+		SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM C_BOARD
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
    		  <if test="column2=='ID' or column2 == 'NICKNAME'">
@@ -260,7 +203,7 @@
    		  </if> 
 		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
 		</where>
-         ORDER BY D.CREATE_DATE DESC   
+         ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
@@ -279,9 +222,8 @@
 	
 	<!-- 스터디게시판 검색 -->
 	<select id="selectStudyBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT  D.STUD_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM S_GROUP) D
+		SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM S_GROUP
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
    		  <if test="column2=='ID' or column2 == 'NICKNAME'">
@@ -292,7 +234,7 @@
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
 		</where>
-         ORDER BY D.CREATE_DATE DESC   
+         ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}   
 	</select>
 	
@@ -311,9 +253,8 @@
 	
 	<!-- QNA게시판 검색 -->
 	<select id="selectQnaBoardByQuery" parameterType="map" resultMap="AllBoardMap">
-		SELECT D.QA_NO, D.NICKNAME, D.TITLE, D.CONTENT, D.CREATE_DATE, D.MODIFY_DATE, D.HIT, D.IP
-		  FROM (SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM Q_BOARD) D
+		SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM Q_BOARD
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
    		  <if test="column2=='ID' or column2 == 'NICKNAME'">
@@ -324,7 +265,7 @@
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
 		</where>
-         ORDER BY D.CREATE_DATE DESC   
+         ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}  
 	</select>
 	
@@ -367,45 +308,41 @@
 
 	<!-- 휴면유저 조회 -->
 	<select id="selectSleepUserListByMap" parameterType="map" resultType="SleepUserDTO">
-		SELECT B.USER_NO, B.ID, B.NAME, B.GENDER, B.JOIN_DATE, B.LAST_LOGIN_DATE, B.SLEEP_DATE, B.SNS_TYPE
-		  FROM (SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE, U.SNS_TYPE
-		  		  FROM SLEEP_USERS U) B
-	     ORDER BY B.JOIN_DATE DESC   
+		SELECT U.USER_NO, U.ID, U.NAME, U.GENDER, U.JOIN_DATE, U.LAST_LOGIN_DATE, U.SLEEP_DATE, U.SNS_TYPE
+		  FROM SLEEP_USERS U
+	     ORDER BY U.JOIN_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage} 	  
 	</select> 
 		
 	<!-- 자유게시판 조회 -->
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		  		FROM FREEBOARD
+		  FROM FREEBOARD
 		 ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage} 	
 	</select>
 	
 	<!-- 스터디모집게시판 조회 -->
 	<select id="selectStudyListByMap" parameterType="Map" resultType="StudyGroupDTO">
-		SELECT A.STUD_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.GENDER, A.REGION, A.WIDO, A.GDO, A.LANG, A.PEOPLE, A.CONTACT, A.STUD_DATE, A.IP
-		  FROM (SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
-		          FROM S_GROUP B) A
- 		 ORDER BY A.CREATE_DATE DESC   
+		SELECT STUD_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, GENDER, REGION, WIDO, GDO, LANG, PEOPLE, CONTACT, STUD_DATE, IP
+		  FROM S_GROUP
+ 		 ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<!-- 코드게시판 조회 -->
 	<select id="selectCodeListByMap" parameterType="map" resultType="CodeBoardDTO">
-		SELECT A.CO_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP
-		  FROM (SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
-		          FROM C_BOARD) A
-		 ORDER BY A.CREATE_DATE DESC   
+		SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+		  FROM C_BOARD
+		 ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 	
 	<!-- qna게시판 조회 -->
 	<select id="selectQnaListByMap" parameterType="map" resultType="QnaBoardDTO">
-		SELECT A.QA_NO, A.NICKNAME, A.TITLE, A.CONTENT, A.CREATE_DATE, A.MODIFY_DATE, A.HIT, A.IP, A.ANSWER
-		  FROM (SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
-		          FROM Q_BOARD) A 
-		 ORDER BY A.CREATE_DATE DESC   
+		SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP, ANSWER
+		  FROM Q_BOARD
+		 ORDER BY CREATE_DATE DESC   
 		 LIMIT #{begin}, #{recordPerPage}       
 	</select>
 

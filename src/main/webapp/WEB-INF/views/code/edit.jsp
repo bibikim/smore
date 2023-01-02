@@ -87,7 +87,7 @@
 <body>
 	
 	<div class="ed-wrapper">
-			<div class="div-edit">
+		<div class="div-edit">
 		<form id="frm_edit" action="/code/modify" method="post">
 			
 			<%-- <input type="hidden" name="nickname" value="${loginUser.nickname}"> --%>

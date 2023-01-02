@@ -278,8 +278,8 @@
 				<option value = "1" selected>연락처</option>
 				<option value = "2" >카카오톡</option>
 				<option value = "3" >이메일</option>
-				<input type="text" id="contact" name="contact">
 			</select>
+			<input type="text" id="contact" name="contact">
 		</div>
 	</section>
 	

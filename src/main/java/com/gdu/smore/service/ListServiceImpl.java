@@ -13,7 +13,6 @@ import com.gdu.smore.domain.user.UserDTO;
 import com.gdu.smore.mapper.ListMapper;
 import com.gdu.smore.util.PageUtil;
 
-
 @Service
 public class ListServiceImpl implements ListService {
 

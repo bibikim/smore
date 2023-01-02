@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Component	
-@Aspect		
+//@Component
+//@Aspect
 public class RequestLoggingAspect {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RequestLoggingAspect.class);

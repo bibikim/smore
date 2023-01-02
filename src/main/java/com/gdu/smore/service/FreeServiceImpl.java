@@ -28,8 +28,6 @@ import com.gdu.smore.util.PageUtil;
 @Service
 public class FreeServiceImpl implements FreeService {
 
-	// id= dlwlrma, pw= dkdldb1!
-	
 	private FreeMapper freeMapper;
 	private FreeCmtMapper cmtMapper;
 	private PageUtil pageUtil;

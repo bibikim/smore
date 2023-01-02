@@ -118,8 +118,8 @@
 						<a class="navbar-brand" href="/"><img alt="" src="/resources/images/logo3.png"  style=" text-align: center; width: 210px;"></a>
 						<input type="hidden" name="url" value="${url}">		
 				 		<label>
-					    <p class="fonts" style="text-align: left; font-size:15px; color:#666">ID</p>
-					    <input type="text" name="id" id="id" placeholder="아이디" class="size" >
+						    <p class="fonts" style="text-align: left; font-size:15px; color:#666">ID</p>
+						    <input type="text" name="id" id="id" placeholder="아이디" class="size" >
 				    	</label><br>
 											
 					 	<label>

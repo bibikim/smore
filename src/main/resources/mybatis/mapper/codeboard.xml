@@ -87,7 +87,6 @@
 		  FROM C_BOARD
 		 WHERE CO_NO = #{coNo}
 	</delete>
-	
 
 	<select id="selectAllUploadCount" resultType="int"> 
 		SELECT COUNT(*)
@@ -105,15 +104,18 @@
 		   SET DOWNLOAD_CNT = DOWNLOAD_CNT +1
 		 WHERE ATTACH_NO = #{attachNo}  
 	</update>
-<select id="selectAttachList" parameterType="int" resultType="CodeAttachDTO">
+	
+	<select id="selectAttachList" parameterType="int" resultType="CodeAttachDTO">
 		SELECT ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, CO_NO
 		  FROM C_ATTACH
 		 WHERE CO_NO = #{coNo}  
 	</select>
+	
 	<insert id="insertAttach" parameterType="CodeAttachDTO">
 		INSERT INTO C_ATTACH
 			(PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, CO_NO)
 		VALUES
 			(#{path}, #{origin}, #{filesystem}, 0, #{coNo})	
 	</insert>
+	
 </mapper>

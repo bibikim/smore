@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:include page="layout/header.jsp">
-   <jsp:param value="" name="title"/>
+   <jsp:param value="Smore" name="title"/>
 </jsp:include>
 
 <link rel="stylesheet" type="text/css" href="../../resources/css/index.css">
@@ -52,6 +52,7 @@
 			}
 		});
 	}
+	
 	$(document).ready(function(){
 		
 		/*

@@ -9,7 +9,6 @@ import com.gdu.smore.domain.AllBoardDTO;
 import com.gdu.smore.domain.code.CodeBoardDTO;
 import com.gdu.smore.domain.free.FreeBoardDTO;
 import com.gdu.smore.domain.qna.QnaBoardDTO;
-import com.gdu.smore.domain.redbell.GrpRedbellDTO;
 import com.gdu.smore.domain.study.StudyGroupDTO;
 import com.gdu.smore.domain.user.AllUserDTO;
 import com.gdu.smore.domain.user.RetireUserDTO;
@@ -79,5 +78,5 @@ public interface AdminMapper {
 	public UserDTO selectUserByNo(int userNo);
 	public SleepUserDTO selectSleepUserByNo(int userNo);
 	
-	public List<GrpRedbellDTO> selectReportUserList(Map<String, Object> map);
+	//public List<GrpRedbellDTO> selectReportUserList(Map<String, Object> map);
 }
