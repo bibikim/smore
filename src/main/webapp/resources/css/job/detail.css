@@ -181,3 +181,18 @@
 		text-decoration:none;
 	}
 	
+	.btn_remv {
+		margin-bottom: 20px;
+		margin-top: 20px;
+		background-color:#000000;
+		border-radius:28px;
+		border:1px solid #000000;
+		display:inline-block;
+		cursor:pointer;
+		color:white;
+		font-family:Arial;
+		font-size:13px;
+		padding:5px 24px;
+		text-decoration:none;
+	}
+	
