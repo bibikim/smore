@@ -165,10 +165,12 @@
 		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
   		  FROM FREEBOARD
     	<where>
-    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-	   	<if test="column2=='ID' or column2 == 'NICKNAME'">
-	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-	   	</if> 
+ 		  <if test="column2=='ID'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
    		  
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">
@@ -183,12 +185,15 @@
 		SELECT COUNT(*)
 		  FROM FREEBOARD  
  		 <where>
-	    	  <if test="column2=='ID' or column2 == 'NICKNAME'">
-	   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-	   		  </if> 
-			  <if test="column2=='CREATE_DATE'">
+  		  <if test="column2=='ID'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
+		  <if test="column2=='CREATE_DATE'">
 			 		AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
-			  </if>
+		  </if>
 		 </where> 
 	</select>
 	
@@ -197,10 +202,12 @@
 		SELECT CO_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  FROM C_BOARD
     	<where>
-    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+  		  <if test="column2=='ID'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
 		  <if test="column2=='CREATE_DATE'">AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1</if>
 		</where>
          ORDER BY CREATE_DATE DESC   
@@ -211,9 +218,12 @@
 		SELECT COUNT(*)
 		  FROM C_BOARD  
  		 <where>
-  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+          <if test="column2=='ID'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
@@ -226,9 +236,12 @@
 		  FROM S_GROUP
     	<where>
     		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+   		  <if test="column2=='ID'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>  
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
@@ -242,9 +255,12 @@
 		SELECT COUNT(*)
 		  FROM S_GROUP  
  		 <where>
-  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
-   		 	 ${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+		  <if test="column2=='ID'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
@@ -256,10 +272,12 @@
 		SELECT QA_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
 		  FROM Q_BOARD
     	<where>
-    		 <!-- D.ROW_NUM BETWEEN #{begin} AND #{end}  --> 		
-   		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+  		  <if test="column2=='ID'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
 		  <!-- <if test="column=='JOIN_DATE'">${column} BETWEEN STR_TO_DATE(#{start}, '%Y-%m-%d') AND  STR_TO_DATE(#{stop}, '%Y-%m-%d') -->
 		  <if test="column2=='CREATE_DATE'">
 		  	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
@@ -273,9 +291,12 @@
 		SELECT COUNT(*)
 		  FROM Q_BOARD  
  		 <where>
-  		  <if test="column2=='ID' or column2 == 'NICKNAME'">
+  		  <if test="column2=='ID'">
    		  	${column2} LIKE CONCAT('%', #{query2}, '%')
-   		  </if> 
+   		  </if>
+   		  <if test="column2 == 'TITLE'">
+   		  	${column2} LIKE CONCAT('%', #{query2}, '%')
+   		  </if>
 		  <if test="column2=='CREATE_DATE'">
 		 	AND ${column2} >= STR_TO_DATE(#{start2}, '%Y-%m-%d') AND  ${column2} <![CDATA[<]]> STR_TO_DATE(#{stop2}, '%Y-%m-%d') + 1
 		  </if>
