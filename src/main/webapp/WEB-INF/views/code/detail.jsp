@@ -441,6 +441,11 @@
 	box-sizing: border-box;
 }
 
+.cmt_cnt{
+	position: relative;
+	bottom: 10px;
+}
+
 .blind {
 	display: none;
 }

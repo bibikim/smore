@@ -13,6 +13,7 @@
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/edit.css">
 
 <script>
 	
@@ -85,7 +86,8 @@
 </head>
 <body>
 	
-	<div>
+	<div class="ed-wrapper">
+			<div class="div-edit">
 		<form id="frm_edit" action="/code/modify" method="post">
 			
 			<%-- <input type="hidden" name="nickname" value="${loginUser.nickname}"> --%>
@@ -93,13 +95,13 @@
 
 		
 			<div>
-				<div>
+				<div class="ed-title">
 					<label for="title">제목</label>
 					<input type="text" id="title" name="title" value="${code.title}">
 				</div>
 			</div>
 		
-			<div>
+			<div class="ed-content">
 				<label for="content">내용</label>
 				<textarea id="content" name="content">${code.content}</textarea>
 			</div>
@@ -107,13 +109,13 @@
 			<div id="sumnote_image_list"></div>
 			
 			<div>
-				<div>
+				<div id="btn_group">
 					<input type="button" id="btn_cancel" value="취소">
-					<button>등록</button>
+					<button id="btn_submit">등록</button>
 				</div>
 			</div>
 		</form>
 	</div>
-	
+	</div>
 </body>
 </html>
