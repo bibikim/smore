@@ -171,9 +171,9 @@
 				// 스크랩 선택/해제 상태 변경
 				$('#zzim').toggleClass("zzim_checked");
 				if($('#zzim').hasClass("zzim_checked")) {
-					$('#scrap').html('<img src="../resources/images/f-bookmark.png" width="20px">');
+					$('#scrap').html('<img src="../resources/images/f-bookmark.png" width="30px">');
 				} else {
-					$('#scrap').html('<img src="../resources/images/b-bookmark.png" width="20px">');
+					$('#scrap').html('<img src="../resources/images/b-bookmark.png" width="30px">');
 				}
 			
 				// 스크랩 처리

@@ -386,28 +386,10 @@
 			</div>
 		</div>
 		<div>
-<%-- 			<table>
-				<tbody>
-					<tr>
-						<td id="fr-title"><strong>${free.title}</strong></td>
-					</tr>
-					<tr>
-						<div><td><img src="../../resources/images/monster.png" ></td></div>
-						<div><td><strong>${loginUser.nickname}</strong></td></div>
-					</tr>
-					<tr>
-						<td><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></td>
-					</tr>
-					<tr>
-						<td>
-							<p style="text-align: left;">${free.content}</p>
-						</td>
-					</tr>
-				</tbody>
-			</table> --%>
+		
 			<div id="fr-title"><strong>${free.title}</strong></div>
 			<div id="fr-nick"><img src="../../resources/images/monster.png" >${loginUser.nickname}</div>
-			<span id="fr-hit">${free.hit}</span>
+			<div id="fr-hit"><img src="../../resources/images/eye.png">${free.hit}</div>
 			<div id="fr-date"><span><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></span></div>
 			<p style="text-align: left;">${free.content}</p>
 			
@@ -415,7 +397,7 @@
 		</div>
 	
 			<div>
-				<span id="btn_cmtlist" class="" style="">
+				<span id="btn_cmtlist" class="">
 					댓글
 					<span class="cmt_cnt"></span>개
 				</span>
