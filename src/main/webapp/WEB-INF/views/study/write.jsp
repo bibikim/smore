@@ -121,7 +121,7 @@
 		<section>
 		
 		<div class = "firstflex">
-			<label for="gender" id="seccolor">성별</label>
+			<label for="gender" id="seccolor">성별&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 			&nbsp;&nbsp;
 			   <input type="radio" name="gender" id="male" value="M">
                <label for="male" id="seccolor">남자만</label>
@@ -206,7 +206,7 @@
 			       onclick='checkOnlyOne(this)'>  
 			<label for="lang8">Spring</label>          
 			 -->
-			<label for="region" id="seccolor">지역</label>
+			<label for="region" id="seccolor">지역&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 			&nbsp;&nbsp;
 			<select name="region" id="region" class="region">
 
@@ -226,7 +226,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;
 
 		 <label for="lang" id="seccolor">기술 스택</label>
-		 	&nbsp;&nbsp;
+		 	&nbsp;&nbsp;&nbsp;&nbsp;
 			<select name="lang" id="lang">			
 				<option value = "none" selected>프로젝트 사용 스택</option>
 				<option value = "JavaScript" >JavaScript</option>
@@ -246,7 +246,7 @@
 	
 		 <div class="secondflex">
 		 
-		 	<label for="people" id="seccolor">정원</label>
+		 	<label for="people" id="seccolor">정원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 		 	&nbsp;&nbsp;
 			<select name="people" id="people">
 				<option value = "none" selected></option>
@@ -267,6 +267,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		 	<label for="studDate" id="seccolor">시작예정일&nbsp;&nbsp;</label>
 			<input type="date" id="studDate" name="studDate" min="2022-01-01" max="2024-12-31">
@@ -278,14 +279,15 @@
 				<option value = "1" selected>연락처</option>
 				<option value = "2" >카카오톡</option>
 				<option value = "3" >이메일</option>
-				<input type="text" id="contact" name="contact">
 			</select>
+				<input type="text" id="contact" name="contact">
 		</div>
 	</section>
 	
 	<section>
 		<div class="tnczone">
-			<label for="title" id="seccolor">제목</label>
+			<label for="title" id="seccolor">제목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;</label>
 			<input type="text" name="title" id="title" placeholder="제목을 입력해 주세요!">
 		</div>
 		
