@@ -249,7 +249,7 @@
 												type : 'post',
 												url : '/code/comment/remove',
 												data : 'cmtNo='
-														+ $(this).data(
+														+ $(this).find("span").data(
 																'comment_no'),
 												dataType : 'json',
 												success : function(resData) {

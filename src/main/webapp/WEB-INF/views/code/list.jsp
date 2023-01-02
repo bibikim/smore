@@ -30,7 +30,7 @@
 
 	<div class="wr-box">
 		<c:if test="${loginUser != null}">
-			<button id="btn_write" onclick="location.href='/code/write';">글 작성하러 가기</button>
+			<button id="btn_write" onclick="location.href='/code/write';">글쓰기</button>
 		</c:if>
 		<c:if test="${loginUser == null}">
 			<span>글 작성은<a id="c_write" href="/user/login/form">로그인</a>후에
@@ -53,8 +53,8 @@
 				<tr>
 					<th scope="col">NO</th>
 					<th scope="col">제목</th>
-					<th scope="col">작성자</th>
-					<th scope="col">등록일</th>
+					<th scope="col">글쓴이</th>
+					<th scope="col">작성일</th>
 					<th scope="col">조회</th>
 				</tr>
 			</thead>
