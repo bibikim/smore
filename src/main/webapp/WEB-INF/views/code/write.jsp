@@ -12,7 +12,7 @@
 <script src="/resources/summernote-0.8.18-dist/summernote-lite.js"></script>
 <script src="/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="/resources/summernote-0.8.18-dist/summernote-lite.css">
-
+<link rel="stylesheet" type="text/css" href="../../../resources/css/free/write.css">
 <script>
 	
 	$(document).ready(function(){
@@ -102,15 +102,16 @@
 <body>
 	
 	
-	<div>
+	<div class="wr-wrapper">
+		<div class="div-write">
 		<form id="frm_write" action="/code/save" method="post" enctype="multipart/form-data">
 			
 			<input type="hidden" name="nickname" value="${loginUser.nickname}">
 
 		
 			<div>
-				<div>
-					<label for="title">제목</label>
+				<div class="wr-title">
+					<label for="title"></label>
 				</div>
 				<input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
 			</div>
@@ -129,14 +130,14 @@
 			<div id="sumnote_image_list"></div>
 			
 			<div>
-				<div>
+				<div id="btn_group">
 					<input type="button" id="btn_cancel" value="취소">
 					<input type="button" id="btn_list" value="목록">
-					<button>등록</button>
+					<button id="btn_submit">등록</button>
 				</div>
 			</div>
 		</form>
 	</div>
-	
+	</div>
 </body>
 </html>
