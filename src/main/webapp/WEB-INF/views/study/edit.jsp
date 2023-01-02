@@ -182,7 +182,7 @@
 		<section>
 		
 		<div class = "firstflex">
-			<label for="gender" id="seccolor">성별</label>
+			<label for="gender" id="seccolor">성별&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 			&nbsp;&nbsp;
 			   <input type="radio" name="gender" id="male" value="M">
                <label for="male" id="seccolor">남자만</label>
@@ -267,19 +267,17 @@
 			       onclick='checkOnlyOne(this)'>  
 			<label for="lang8">Spring</label>          
 			 -->
-			<label for="region" id="seccolor">지역</label>
+			<label for="region" id="seccolor">지역&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 			&nbsp;&nbsp;
 			<input type="text" value="${study.region}" readonly>	 
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 		 <label for="lang" id="seccolor">기술 스택</label>
-		 	&nbsp;&nbsp;
+		 	&nbsp;&nbsp;&nbsp;&nbsp;
 			<select name="lang" id="lang">			
 				<option value = "${study.lang}" selected>${study.lang}</option>
 				<option value = "JavaScript" >JavaScript</option>
@@ -298,7 +296,7 @@
 	
 		 <div class="secondflex">
 		 
-		 	<label for="people" id="seccolor">정원</label>
+		 	<label for="people" id="seccolor">정원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 		 	&nbsp;&nbsp;
 			<select name="people" id="people">
 				<option value = "${study.people}" selected>${study.people}</option>
@@ -313,6 +311,7 @@
 				<option value = "10" >10</option>
 			</select>
 		 	 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -337,7 +336,7 @@
 	
 	<section>
 		<div class="tnczone">
-			<label for="title" id="seccolor">제목</label>
+			<label for="title" id="seccolor">제목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 			<input type="text" name="title" id="title" value="${study.title}">
 		</div>
 		
