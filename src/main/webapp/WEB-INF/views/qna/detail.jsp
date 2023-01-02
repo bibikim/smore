@@ -93,6 +93,10 @@
 			}
 		}
 	}
-	
+
 </script>
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="" name="title"/>
+</jsp:include>	
+</body>
 </html>

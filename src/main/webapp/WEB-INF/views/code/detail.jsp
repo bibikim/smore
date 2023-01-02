@@ -559,7 +559,12 @@
 		</div>
 		<div class="Toastify"></div>
 	</div>
-
+	<hr>
+	
 	<input type="hidden" id="page" value="1">
+
+<jsp:include page="../layout/footer.jsp">
+   <jsp:param value="" name="title"/>
+</jsp:include>	
 </body>
 </html>

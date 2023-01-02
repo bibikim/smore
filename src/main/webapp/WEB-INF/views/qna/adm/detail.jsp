@@ -126,6 +126,9 @@
 			}
 		}
 	}
+
 	
 </script>
+
+</body>
 </html>
