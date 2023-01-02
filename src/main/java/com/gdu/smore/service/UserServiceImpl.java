@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
 		
 		// 메일 전송
 		javaMailUtil.sendJavaMail(email, "[Application] 인증요청", "인증번호는 <strong>" + authCode + "</strong>입니다.");
-		System.out.println("인증코드:" + authCode);
 		// join.jsp로 생성한 인증코드를 보내줘야 함
 		// 그래야 사용자가 입력한 인증코드와 비교를 할 수 있음
 		Map<String, Object> result = new HashMap<String, Object>();
