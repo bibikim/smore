@@ -1058,7 +1058,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 
 .note-editor.note-frame .note-editing-area .note-editable, .note-editor.note-airframe .note-editing-area .note-editable
 	{
-	padding: 200px;
+/* 	padding: 200px; */
 	overflow: auto;
 	word-wrap: break-word
 }
