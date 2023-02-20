@@ -25,6 +25,12 @@ public class JobsController {
 		return "jobs/list";
 	}
 	
+	@GetMapping("/job/search/list")
+	public String jobSearch(HttpServletRequest request, Model model) {
+		jobService.getSearchJob(request, model);
+		return "jobs/list";
+	}
+	
 	@GetMapping("/job/write")
 	public String write() {
 		return "jobs/write";

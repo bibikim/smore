@@ -125,7 +125,7 @@ public class FreeServiceImpl implements FreeService {
 		
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging("/free/search/list?page" + page + "&type=" + type + "&keyword=" + keyword));
+		model.addAttribute("paging", pageUtil.getPaging("/free/search/list?page=" + page + "&type=" + type + "&keyword=" + keyword));
 		
 		// 검색결과 list
 		List<FreeBoardDTO> searchFree = freeMapper.selectFreeSearchList(map);

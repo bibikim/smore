@@ -77,17 +77,19 @@
 									<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
 									<span>[${freeCmtCnt[vs.index]}]</span>
 									
-	 								<c:set var="now" value="${java.util.Date}"/>
-									<fmt:parseDate value="${now}" var="now1"/>
-									<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>
-									<fmt:parseDate value="${createDate}" var="creDate"/>
-									<fmt:parseNumber value="${creDate.time /(1000*60*60*24)}" integerOnly="true" var="creDt"/>
-									<c:if test="${today - creDt le 1}">
+					<%-- 				<fmt:parseDate value="${now}" var="now1" pattern="yyyy-MM-dd"/>
+									<fmt:parseDate value="${createDate}" var="creDate" pattern="yyyy-MM-dd"/> --%>
+									<%-- <fmt:formatDate var="nowDate" value="${now} pattern="yyyyMMdd"/> --%>
+
+	 								<jsp:useBean id="now" class="java.util.Date"/>
+									<fmt:parseNumber value="${now.time /(1000*60*60*24)}" integerOnly="true" var="today"/>
+									<fmt:parseNumber value="${free.createDate.time /(1000*60*60*24)}" integerOnly="true" var="creDt"/>
+									<c:if test="${today - creDt < 1}">
 										<img src="../../resources/images/icon-new.png">
 									</c:if>
 								</td>
 								<td id="align">${free.nickname}</td>
-								<td id="align"><fmt:formatDate value="${free.createDate}" pattern="yy.M.d hh:mm"/></td>
+								<td id="align"><fmt:formatDate value="${free.createDate}" pattern="yy.MM.dd hh:mm"/></td>
 								<td id="align">${free.hit}</td>
 							</tr>
 						</c:forEach>

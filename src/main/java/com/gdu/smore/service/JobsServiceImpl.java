@@ -50,11 +50,11 @@ public class JobsServiceImpl implements JobsService{
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
 		model.addAttribute("paging", pageUtil.getPaging("/job/list"));
 		
-		// 검색기능
-		String type = request.getParameter("type");
-		String keyword = request.getParameter("keyword");
-		map.put("type", type);
-		map.put("keyword", keyword);
+		/*
+		 * // 검색기능 String type = request.getParameter("type"); String keyword =
+		 * request.getParameter("keyword"); map.put("type", type); map.put("keyword",
+		 * keyword);
+		 */
 		
 		// 글 목록
 		List<JobsDTO> jobs = jobMapper.selectJobsListByMap(map);
@@ -69,6 +69,36 @@ public class JobsServiceImpl implements JobsService{
 		}
 		model.addAttribute("zzimCnt", zzimCnt);
 		
+	}
+	
+	@Override
+	public void getSearchJob(HttpServletRequest request, Model model) {
+		
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+		
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		int totalRecord = jobMapper.selectSearchCount(map);
+		
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		
+		pageUtil.setPageUtil(page, totalRecord);
+		map.put("begin", pageUtil.getBegin() - 1);
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
+		
+		model.addAttribute("total", totalRecord);
+		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
+		model.addAttribute("paging", pageUtil.getPaging("/job/search/list?page=" + page + "&type=" + type + "&keyword=" + keyword));
+	
+		List<JobsDTO> searchJob = jobMapper.selectJobSearchList(map);
+		model.addAttribute("jobList", searchJob);
 	}
 	
 	@Override

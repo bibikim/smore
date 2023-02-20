@@ -70,7 +70,7 @@
 			
 			<div class="searching">
 				<!-- 검색 input 위치 -->
-				<form id="frm_search" action="/job/list?page=${page}&type=${type}&keyword=${keyword}">
+				<form id="frm_search" action="/job/search/list?page=${page}&type=${type}&keyword=${keyword}">
 					<select name="type" class="type">
 						<option value="">선택</option>
 						<option value="TITLE">제목</option>

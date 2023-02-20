@@ -15,7 +15,7 @@
 	<select id="selectJobsListByMap" parameterType="Map" resultType="JobsDTO">
 		SELECT JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK 
 		  FROM JOBS
-		  <where>
+<!-- 		  <where>
 			 <choose>
 			 		<when test="type == 'TITLE'">
 			 			AND TITLE LIKE CONCAT('%', #{keyword}, '%')
@@ -27,9 +27,45 @@
 			 			AND COMPANY_NAME LIKE CONCAT('%', #{keyword}, '%')
 			 		</when>
 			 </choose> 	     
-		  </where>
+		  </where> -->
 		 ORDER BY JOB_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<!-- 검색 count -->
+	<select id="selectSearchCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM JOBS
+		  	<where>
+		  		<if test="type=='TITLE'">
+		  			TITLE LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  		<if test="type=='CONTENT'">
+		  			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  		<if test="type=='COMPANY_NAME'">
+		  			AND COMPANY_NAME LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  	</where>
+	</select>
+	
+	<!-- 검색 기능 list -->
+	<select id="selectJobSearchList" parameterType="Map" resultType="JobsDTO">
+		SELECT JOB_NO, NICKNAME, TITLE, COMPANY_NAME, CONTACT, HOMEPAGE, PROFILE, HR_NAME, HR_CONTACT, HR_EMAIL, LOCATION, POSITION, JOB_TYPE, CONTENT, CREATE_DATE, HIT, CAREER, STATUS, SKILL_STACK
+		  FROM JOBS
+		  	<where>
+		  		<if test="type='TITLE'">
+					${type} LIKE CONCAT('%', #{keyword}, '%')	  		
+		  		</if>
+		  		<if test="type=='CONTENT'">
+		  			AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  		<if test="type=='COMPANY_NAME'">
+		  			AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  	</where>
+		  ORDER BY JOB_NO DESC
+		  LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<!-- 상세 보기 -->

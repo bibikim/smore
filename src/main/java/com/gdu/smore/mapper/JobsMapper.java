@@ -11,6 +11,11 @@ import com.gdu.smore.domain.jobs.JobsDTO;
 public interface JobsMapper {
 	public int selectListCount();
 	public List<JobsDTO> selectJobsListByMap(Map<String, Object> map);
+	
+	// 검색
+	public int selectSearchCount(Map<String, Object> map);
+	public List<JobsDTO> selectJobSearchList(Map<String, Object> map);
+	
 	public JobsDTO selectJobsByNo(int jobNo);
 	public int insertJobs(JobsDTO job);
 	public int updateHit(int jobNo);

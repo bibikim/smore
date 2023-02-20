@@ -12,6 +12,9 @@ public interface JobsService {
 	// 목록
 	public void getJobsList(HttpServletRequest request, Model model);
 	
+	// 검색
+	public void getSearchJob(HttpServletRequest request, Model model);
+	
 	// 상세
 	public JobsDTO getJobsByNo(int jobNo);
 	
