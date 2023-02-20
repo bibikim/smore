@@ -16,6 +16,10 @@ public interface FreeMapper {
 	public int insertFree(FreeBoardDTO free);
 	public int insertImage(FreeImageDTO fimage);
 	
+	// 검색
+	public int selectSearchCount(Map<String, Object> map);
+	public List<FreeBoardDTO> selectFreeSearchList(Map<String, Object> map);
+	
 	// 상세
 	public FreeBoardDTO selectFreeByNo(int freeNo);
 	public List<FreeImageDTO> selectFreeImageListInFree(int freeNo);

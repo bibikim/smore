@@ -30,6 +30,13 @@ public class FreeController {
 		return "free/list";
 	}
 	
+	@GetMapping("/free/search/list")
+	public String freeSearch(HttpServletRequest request, Model model) {
+		freeService.getSearchList(request, model);
+		return "free/list";
+	}
+	
+	
 	@GetMapping("/free/write")
 	public String requiredLogin_write() {
 		return "free/write";

@@ -77,14 +77,14 @@
 									<a href="/free/increase/hit?freeNo=${free.freeNo}">${free.title}</a>
 									<span>[${freeCmtCnt[vs.index]}]</span>
 									
-	<%-- 								<c:set var="now" value="${java.util.Date}"/>
-									<fmt:parseDate value="${now}" var="now1" pattern="yyyyMMddHHmmss"/>
+	 								<c:set var="now" value="${java.util.Date}"/>
+									<fmt:parseDate value="${now}" var="now1"/>
 									<fmt:parseNumber value="${now1.time /(1000*60*60*24)}" integerOnly="true" var="today"/>
-									<fmt:parseDate value="${createDate}" var="creDate" pattern="yyyyMMddHHmmss" />
+									<fmt:parseDate value="${createDate}" var="creDate"/>
 									<fmt:parseNumber value="${creDate.time /(1000*60*60*24)}" integerOnly="true" var="creDt"/>
 									<c:if test="${today - creDt le 1}">
 										<img src="../../resources/images/icon-new.png">
-									</c:if> --%>
+									</c:if>
 								</td>
 								<td id="align">${free.nickname}</td>
 								<td id="align"><fmt:formatDate value="${free.createDate}" pattern="yy.M.d hh:mm"/></td>
@@ -102,7 +102,8 @@
 					<nav class="pagination">${paging}</nav>
 				</div>
 				<div class="searching">
-					<form id="frm_search" action="/free/list?page=${page}&type=${type}&keyword=${keyword}" method="get">
+					<!-- <form id="frm_search" action="/free/search/list"> -->
+					<form id="frm_search" action="/free/search/list?page=${page}&type=${type}&keyword=${keyword}" method="get">
 						<select name="type" class="type">
 							<option value=""> 선택 </option>
 							<option value="TITLE"> 제목 </option>

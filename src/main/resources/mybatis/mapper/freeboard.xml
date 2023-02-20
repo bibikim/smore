@@ -14,7 +14,7 @@
 	<select id="selectFreeListByMap" parameterType="Map" resultType="FreeBoardDTO">
 		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
   		  FROM FREEBOARD
-  		  <where>
+<!--   		  <where>
 			   <choose>
 				 	<when test="type == 'TITLE'">
 				 		AND TITLE LIKE CONCAT('%', #{keyword}, '%')
@@ -26,10 +26,48 @@
 				 		AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
 				 	</when>	
 			  </choose>
-  		  </where>
+  		  </where> 
+-->
 		 ORDER BY FREE_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
+
+	<!-- 검색 count -->
+	<select id="selectSearchCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM FREEBOARD
+		  	<where>
+		  		<if test="type=='TITLE'">
+		  			TITLE LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  		<if test="type=='CONTENT'">
+		  			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  		<if test="type=='NICKNAME'">
+		  			AND NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+		  		</if>
+		  	</where>
+	</select>
+	
+	<!-- 검색 기능 list -->
+	<select id="selectFreeSearchList" parameterType="Map" resultType="FreeBoardDTO">
+		SELECT FREE_NO, NICKNAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, IP
+  		  FROM FREEBOARD
+	  		  <where>
+					<if test="type=='TITLE'">
+						${type} LIKE CONCAT('%', #{keyword}, '%')
+					</if>
+					<if test="type=='CONTENT'">
+						AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+					</if>
+					<if test="type=='NICKNAME'">
+						AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+					</if>
+	  		  </where>
+	  	 ORDER BY FREE_NO DESC
+	  	 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
 
 	<!-- 글쓰기 -->
 	<insert id="insertFree" parameterType="FreeBoardDTO">

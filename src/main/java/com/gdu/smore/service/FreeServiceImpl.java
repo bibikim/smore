@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.smore.domain.free.FreeBoardDTO;
+import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.free.FreeImageDTO;
 import com.gdu.smore.mapper.FreeCmtMapper;
 import com.gdu.smore.mapper.FreeMapper;
@@ -48,16 +49,15 @@ public class FreeServiceImpl implements FreeService {
 		Map<String, Object> mtomap = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) mtomap.get("request"); // 컨트롤러에서 model에 저장한 request 꺼내기
 		
-		// 검색기능
-		String type = request.getParameter("type");
-		String keyword = request.getParameter("keyword");
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("type", type);
-		map.put("keyword", keyword);
-		
-		model.addAttribute("type", type);
-		model.addAttribute("keyword", keyword);
+		/*
+		 * // 검색기능 String type = request.getParameter("type"); String keyword =
+		 * request.getParameter("keyword");
+		 * 
+		 * Map<String, Object> map = new HashMap<String, Object>(); map.put("type",
+		 * type); map.put("keyword", keyword);
+		 * 
+		 * model.addAttribute("type", type); model.addAttribute("keyword", keyword);
+		 */
 		
 		
 		// 첫 페이지
@@ -68,7 +68,7 @@ public class FreeServiceImpl implements FreeService {
 
 		pageUtil.setPageUtil(page, totalRecord);
 		
-		//Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin() - 1);   // mySQL은 begin이 0부터 시작. 따라서 - 1 을 해줘야 한다.
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
@@ -82,7 +82,6 @@ public class FreeServiceImpl implements FreeService {
 		List<FreeBoardDTO> free = freeMapper.selectFreeListByMap(map);
 
 		model.addAttribute("freeList", free);
-		//model.addAttribute("freeList", free);
 		
 		// list에 댓글 갯수 띄우기
 		List<Integer> freeNo = new ArrayList<Integer>();
@@ -93,6 +92,53 @@ public class FreeServiceImpl implements FreeService {
 		}
 		model.addAttribute("freeCmtCnt", cmtCount);
 		
+	}
+	
+	
+	@Override
+	public void getSearchList(HttpServletRequest request, Model model) {
+		
+		// 검색 페이지 표시
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+		
+		// 검색 파라미터 받아오기
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
+		
+		// 검색 파라미터 map에 담기
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		// 검색된 글 갯수
+		int totalRecord = freeMapper.selectSearchCount(map);
+		
+		// 검색 값 model에 넣기
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		
+		// 검색 결과 페이지
+		pageUtil.setPageUtil(page, totalRecord);
+		map.put("begin", pageUtil.getBegin() - 1);
+		map.put("recordPerPage", pageUtil.getRecordPerPage());
+		
+		model.addAttribute("totalRecord", totalRecord);
+		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
+		model.addAttribute("paging", pageUtil.getPaging("/free/search/list?page" + page + "&type=" + type + "&keyword=" + keyword));
+		
+		// 검색결과 list
+		List<FreeBoardDTO> searchFree = freeMapper.selectFreeSearchList(map);
+		model.addAttribute("freeList", searchFree);
+		
+		// 검색 대상 게시글의 댓글 갯수
+		List<Integer> freeNo = new ArrayList<>();
+		List<Integer> cmtCount = new ArrayList<>();
+		for(int i = 0; i < searchFree.size(); i++) {
+			freeNo.add(searchFree.get(i).getFreeNo());
+			cmtCount.add(cmtMapper.selectCommentCnt(freeNo.get(i)));
+		}
+		model.addAttribute("freeCmtCnt", cmtCount);
 	}
 	
 	

@@ -15,6 +15,9 @@ public interface FreeService {
 	// 목록
 	public void getFreeList(Model model);
 	
+	// 검색
+	public void getSearchList(HttpServletRequest request, Model model);
+	
 	// 글 삽입
 	public void saveFree(HttpServletRequest request, HttpServletResponse response);
 	
