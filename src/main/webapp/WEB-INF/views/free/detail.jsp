@@ -379,7 +379,7 @@
 				<form id="frm_btn" method="post">
 					<input type="hidden" name="freeNo" value="${free.freeNo}">
 					<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
-					<c:if test="${free.nickname eq loginUser.nickname}">
+					<c:if test="${free.nickname eq loginUser.nickname || loginUser.grade eq 0}">
 						<input type="button" value="수정" class="btn_modify">
 						<input type="button" value="삭제" class="btn_remove">
 					</c:if>

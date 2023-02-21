@@ -163,7 +163,7 @@
 					alert('해당 기능은 로그인이 필요합니다.');
 					return;
 				} 
-				// 셀프 스크랩 방지
+				// 셀프 스크랩 막기
 				if('${loginUser.nickname}' == '${job.nickname}') {
 					alert('작성자의 게시글에서는 스크랩이 불가합니다.');
 					return;

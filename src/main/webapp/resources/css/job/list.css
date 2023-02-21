@@ -206,15 +206,17 @@
 	 } 
 	 
     /************************/
-    
-	.searching {
-		margin-bottom: 60px;
-		/* margin-left: 300px; */
-		display: block;
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
+	#a-login {
+		padding: 0 2px 0 7px;
+		display: inline-block;
+		margin-bottom: 11px;
+		color: #0078FF;
 	}
+
+	.searching {
+		text-align: center;
+		margin-bottom: 7px;
+	} 
 	
 	.type {
 		width: 95px;

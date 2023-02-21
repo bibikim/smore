@@ -46,31 +46,19 @@
 			</div>
 	
 			<div>
-				<!-- && loginUser == 3 이어야 글쓰기 가능 -->
-				<%-- <c:if test="${loginUser.grade == 3}"> --%>
+				<!-- loginUser.grade == 3 이어야 글쓰기 가능 -->
 					<span><a id="job_write" href="/job/write">구인 공고 등록</a></span>
-				<%-- </c:if> --%>
 			</div>
-			<div>
+			<div style="font-size: 14px;">
 				<c:if test="${loginUser == null}">
-					<span>글 작성은<a href="/user/login/form">로그인</a> 후에 가능합니다.</span>
+					<span>글 작성은<a id="a-login" href="/user/login/form">로그인</a> 후에 가능합니다.</span>
 				</c:if>
 			</div>
 		
-		
-			<div>
-<!-- 				<div class="board-name-wrapper">
-				<div class="board-name">
-					<span style="font-weight: bold;"> 구인 공고 </span>
-					<span style="font-weight: 200; font-size: 9px"> 구인 공고 </span>
-				</div>
-				</div> -->
-				<div id="gubun"></div>
-			</div>	
-			
 			<div class="searching">
+
 				<!-- 검색 input 위치 -->
-				<form id="frm_search" action="/job/search/list?page=${page}&type=${type}&keyword=${keyword}">
+				<form id="frm_search" action="/job/search/list">
 					<select name="type" class="type">
 						<option value="">선택</option>
 						<option value="TITLE">제목</option>
@@ -80,7 +68,13 @@
 					<input type="text" class="keyword" name="keyword">
 					<input type="submit" class="btn_search" value="search">
 				</form>
+
 			</div>
+			
+		
+			<div>
+				<div id="gubun"></div>
+			</div>	
 			
 			
 			<div class="job-list">

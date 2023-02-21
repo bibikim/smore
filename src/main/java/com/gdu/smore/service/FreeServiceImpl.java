@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.smore.domain.free.FreeBoardDTO;
-import com.gdu.smore.domain.free.FreeCommentDTO;
 import com.gdu.smore.domain.free.FreeImageDTO;
 import com.gdu.smore.mapper.FreeCmtMapper;
 import com.gdu.smore.mapper.FreeMapper;
@@ -348,10 +347,5 @@ public class FreeServiceImpl implements FreeService {
 		}
 		
 	}
-	
-	
-	/*
-	 * @Override public void getCmtCount(int freeNo) {
-	 * freeMapper.updateCmtCount(freeNo); }
-	 */
+
 }

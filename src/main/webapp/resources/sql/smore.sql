@@ -294,50 +294,53 @@ CREATE TABLE CMT_REDBELL (
    CONSTRAINT FK_CMT_REDBELL_S_CMT FOREIGN KEY (CMT_NO) REFERENCES S_CMT (CMT_NO) ON DELETE CASCADE
 );
 
-drop table if exists jobs;
+DROP TABLE IF EXISTS JOBS;
 
-create table jobs (
-	job_no 		 int 			not null auto_increment,
-    title 		 varchar(50) 	not null,	-- 구인 공고 제목
-    nickname	 varchar(20)	not null,
-    company_name varchar(50) 	not null,	-- 회사 이름
-    contact 	 varchar(15)  	null,		-- 회사 연락처
-	homepage 	 varchar(80) 	null,		-- 회사 홈페이지 링크
-    profile 	 mediumtext 	not null,	-- 회사 소개
-    -- users 테이블이랑 조인 해야되나..? 조인 하기엔 슬데 없는게 넘 많은데 우짜노..
-    hr_name 	 varchar(15) 	not null,	-- 채용 담당자 이름
-    hr_contact 	 varchar(11) 	not null, 	-- 인사 관련 연락처
-    hr_email 	 varchar(60) 	not null,	-- 채용 담당자 이메일
+CREATE TABLE JOBS (
+	JOB_NO 		 INT 			NOT NULL AUTO_INCREMENT,
+    TITLE 		 VARCHAR(50) 	NOT NULL,	-- 구인 공고 제목
+    NICKNAME	 VARCHAR(20)	NOT NULL,
+    COMPANY_NAME VARCHAR(50) 	NOT NULL,	-- 회사 이름
+    CONTACT 	 VARCHAR(15)  	NULL,		-- 회사 연락처
+	HOMEPAGE 	 VARCHAR(80) 	NULL,		-- 회사 홈페이지 링크
+    PROFILE 	 MEDIUMTEXT 	NOT NULL,	-- 회사 소개
+    -- USERS 테이블이랑 조인 해야되나..? 조인 하기엔 슬데 없는게 넘 많은데 우짜노..
+    HR_NAME 	 VARCHAR(15) 	NOT NULL,	-- 채용 담당자 이름
+    HR_CONTACT 	 VARCHAR(11) 	NOT NULL, 	-- 인사 관련 연락처
+    HR_EMAIL 	 VARCHAR(60) 	NOT NULL,	-- 채용 담당자 이메일
     -- 
-	status 		 smallint 		not null, 	-- 채용중0, 채용완료1
-    skill_stack	 varchar(500) 	null,  		-- 기술스택
-    career 		 varchar(30) 	not null,   -- 요구 경력
-    position 	 varchar(50) 	not null,	-- 포지션(프론트/백)
-	location 	 varchar(100) 	not null,	-- 근무 지역
-    job_type 	 varchar(30) 	not null,  	-- 고용 형태 (정규직/계약직)
-    content 	 mediumtext 	not null,	-- 공고 내용
-    create_date  datetime 		NOT NULL,	
-	HIT			 int 	 		NOT NULL,
+	STATUS 		 SMALLINT 		NOT NULL, 	-- 채용중0, 채용완료1
+    SKILL_STACK	 VARCHAR(500) 	NULL,  		-- 기술스택
+    CAREER 		 VARCHAR(30) 	NOT NULL,   -- 요구 경력
+    POSITION 	 VARCHAR(50) 	NOT NULL,	-- 포지션(프론트/백)
+	LOCATION 	 VARCHAR(100) 	NOT NULL,	-- 근무 지역
+    JOB_TYPE 	 VARCHAR(30) 	NOT NULL,  	-- 고용 형태 (정규직/계약직)
+    CONTENT 	 MEDIUMTEXT 	NOT NULL,	-- 공고 내용
+    CREATE_DATE  DATETIME 		NOT NULL,	
+	HIT			 INT 	 		NOT NULL,
     
-    constraint primary key (job_no),
-    constraint foreign key (nickname) references users (nickname)
+    CONSTRAINT PRIMARY KEY (JOB_NO),
+    CONSTRAINT FOREIGN KEY (NICKNAME) REFERENCES USERS (NICKNAME)
 );
 
-alter table users modify column grade smallint not null;  -- users 테이블freecmtjobs
-alter table jobs modify column hr_contact varchar(13) not null;
-alter table jobs modify column contact varchar(13) not null;
+ALTER TABLE USERS MODIFY COLUMN GRADE SMALLINT NOT NULL;  -- USERS 테이블FREECMTJOBS
+ALTER TABLE JOBS MODIFY COLUMN HR_CONTACT VARCHAR(13) NOT NULL;
+ALTER TABLE JOBS MODIFY COLUMN CONTACT VARCHAR(13) NOT NULL;
 
-drop table if exists job_zzim;
-create table job_zzim (
-	job_no      int 		not null,
-    nickname 	varchar(20)	not null,
-    constraint foreign key (job_no) references jobs (job_no),
-    constraint foreign key (nickname) references users (nickname)
+DROP TABLE IF EXISTS JOB_ZZIM;
+CREATE TABLE JOB_ZZIM (
+	JOB_NO      INT 		NOT NULL,
+    NICKNAME 	VARCHAR(20)	NOT NULL,
+    CONSTRAINT FOREIGN KEY (JOB_NO) REFERENCES JOBS (JOB_NO),
+    CONSTRAINT FOREIGN KEY (NICKNAME) REFERENCES USERS (NICKNAME)
 );
 
 ALTER TABLE S_GROUP MODIFY STUD_DATE VARCHAR(20);
+ALTER TABLE JOB_ZZIM DROP FOREIGN KEY JOB_ZZIM_IBFK_1;
+ALTER TABLE JOB_ZZIM ADD CONSTRAINT FOREIGN KEY (JOB_NO) REFERENCES JOBS (JOB_NO) ON DELETE CASCADE;
 
-commit;
+COMMIT;
+
 
 -- 닉네임fk...... el로 loginUser 닉네임으로 fk
 -- alter table jobs add column career varchar(30) not null;

@@ -95,7 +95,7 @@ public class JobsServiceImpl implements JobsService{
 		
 		model.addAttribute("total", totalRecord);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging("/job/search/list?page=" + page + "&type=" + type + "&keyword=" + keyword));
+		model.addAttribute("paging", pageUtil.getPaging("/job/search/list?type=" + type + "&keyword=" + keyword));
 	
 		List<JobsDTO> searchJob = jobMapper.selectJobSearchList(map);
 		model.addAttribute("jobList", searchJob);
@@ -103,8 +103,6 @@ public class JobsServiceImpl implements JobsService{
 	
 	@Override
 	public void saveJobs(HttpServletRequest request, HttpServletResponse response) {
-
-
 		
 		JobsDTO job = JobsDTO.builder()
 				.title(request.getParameter("title"))
