@@ -49,17 +49,6 @@ public class FreeServiceImpl implements FreeService {
 		Map<String, Object> mtomap = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) mtomap.get("request"); // 컨트롤러에서 model에 저장한 request 꺼내기
 		
-		/*
-		 * // 검색기능 String type = request.getParameter("type"); String keyword =
-		 * request.getParameter("keyword");
-		 * 
-		 * Map<String, Object> map = new HashMap<String, Object>(); map.put("type",
-		 * type); map.put("keyword", keyword);
-		 * 
-		 * model.addAttribute("type", type); model.addAttribute("keyword", keyword);
-		 */
-		
-		
 		// 첫 페이지
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));
@@ -98,34 +87,35 @@ public class FreeServiceImpl implements FreeService {
 	@Override
 	public void getSearchList(HttpServletRequest request, Model model) {
 		
-		// 검색 페이지 표시
-		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-		int page = Integer.parseInt(opt.orElse("1"));
 		
-		// 검색 파라미터 받아오기
+		// 검색 파라미터 받아오기 (type=검색 대상, keyword=검색어)
 		String type = request.getParameter("type");
 		String keyword = request.getParameter("keyword");
 		
 		// 검색 파라미터 map에 담기
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("type", type);
 		map.put("keyword", keyword);
-		
-		// 검색된 글 갯수
-		int totalRecord = freeMapper.selectSearchCount(map);
 		
 		// 검색 값 model에 넣기
 		model.addAttribute("type", type);
 		model.addAttribute("keyword", keyword);
 		
-		// 검색 결과 페이지
+		// 검색된 게시글 수
+		int totalRecord = freeMapper.selectSearchCount(map);
+		// 검색 페이지 표시
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+		
+		// 검색 결과 페이징
 		pageUtil.setPageUtil(page, totalRecord);
 		map.put("begin", pageUtil.getBegin() - 1);
 		map.put("recordPerPage", pageUtil.getRecordPerPage());
 		
+		// list.jsp로 보낼 데이터
 		model.addAttribute("totalRecord", totalRecord);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging("/free/search/list?page=" + page + "&type=" + type + "&keyword=" + keyword));
+		model.addAttribute("paging", pageUtil.getPaging("/free/search/list?type=" + type + "&keyword=" + keyword));
 		
 		// 검색결과 list
 		List<FreeBoardDTO> searchFree = freeMapper.selectFreeSearchList(map);

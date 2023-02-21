@@ -117,7 +117,7 @@
 	.creDate {
 		font-size: 14px;
 		text-align: right;
-		margin-right: 40px;
+		margin-right: 17px;
 	}
 	
  	#a-title {
@@ -208,7 +208,8 @@
     /************************/
     
 	.searching {
-		padding-bottom: 80px;
+		margin-bottom: 60px;
+		/* margin-left: 300px; */
 		display: block;
 		position: absolute;
 		left: 50%;
@@ -216,7 +217,7 @@
 	}
 	
 	.type {
-		width: 80px;
+		width: 95px;
 	    border: 1px solid #C4C4C4;
 	    box-sizing: border-box;
 	    border-radius: 10px;

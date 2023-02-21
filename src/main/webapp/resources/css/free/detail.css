@@ -10,8 +10,8 @@
 	 	transform: translateX(-50%);
 	    margin-top: 60px;
 	 	padding: 1.5rem 1.5rem 5rem;
-
 	}
+	
 	.btn_zone {
 		width: 400px; 
 		display: inline-block;
@@ -28,6 +28,16 @@
 	#heart {
 		width: 16px;
 		margin-right: 5px;
+	}
+	
+	#like {
+		display: inline-block;
+		padding: 4px 4px 0 0;
+	}
+	
+	#like_count {
+		display: inline-block;
+		padding-top: 4px;
 	}
 	
 	.btn_addcmt {
@@ -69,16 +79,21 @@
 		margin-bottom: 7px;
 	}
 	
-	.btn_removecmt, .btn_editcmt_area,	.btn_recomment_area {
-		border-radius:28px;
+	.btn_removecmt, .btn_editcmt_area {
+		margin-left: 8px;
+	}
+	
+	.btn_removecmt, .btn_editcmt_area, .btn_recomment_area {
+		border-radius:8px;
 		border:1px solid #000000;
 		display:inline-block;
 		cursor:pointer;
  		color: #000000;
 		font-family:Arial;
-		font-size:13px;
-		padding:5px 20px;
-		margin-bottom: 5px;
+		font-size:12px;
+		padding:5px 10px;
+		margin-bottom: 3px;
+		margin-top: 5px;
 	}
 
 	#btn_addcmt:active {
@@ -109,9 +124,16 @@
 	    margin: 16px 0 24px;
   	}
   	
+  	#btn_cmtlist {
+  		display:inline-block;
+  		padding: 18px 7px 0 0;
+  	}
+  	
   	.cmt_cnt {
   		position: relative;
   		bottom: 10px;
+  		display:inline-block; 
+  		padding: 8px 2px 0 0;
   	}
 
   	.recmtContent {
@@ -139,6 +161,6 @@
 	#fr-hit, #fr-date {
 		text-align: right;
 	}
-	.py-5 {
+ 	.py-5 {
 		margin-top: 1300px;
 	}

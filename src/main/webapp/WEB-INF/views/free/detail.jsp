@@ -129,7 +129,7 @@
 						}
 						div += '<div>';
 						moment.locale('ko-KR');
-						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.createDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.createDate).format('YYYY. MM. DD HH:mm') + '</span>';
 						div += '</div>';
 						
 						/********************************** 대댓 ****************************************/
@@ -379,17 +379,19 @@
 				<form id="frm_btn" method="post">
 					<input type="hidden" name="freeNo" value="${free.freeNo}">
 					<input type="button" class="btn_list" value="목록" onclick="location.href='/free/list'">
-					<input type="button" value="수정" class="btn_modify">
-					<input type="button" value="삭제" class="btn_remove">
+					<c:if test="${free.nickname eq loginUser.nickname}">
+						<input type="button" value="수정" class="btn_modify">
+						<input type="button" value="삭제" class="btn_remove">
+					</c:if>
 				</form>
 			</div>
 		</div>
 		<div>
 		
 			<div id="fr-title"><strong>${free.title}</strong></div>
-			<div id="fr-nick"><img src="../../resources/images/monster.png" >${loginUser.nickname}</div>
+			<div id="fr-nick"><img src="../../resources/images/monster.png" >${free.nickname}</div>
 			<div id="fr-hit"><img src="../../resources/images/eye.png">${free.hit}</div>
-			<div id="fr-date"><span><fmt:formatDate value="${free.createDate}" pattern="yyyy.M.d hh:mm"/></span></div>
+			<div id="fr-date"><span><fmt:formatDate value="${free.createDate}" pattern="yyyy.MM.dd HH:mm"/></span></div>
 			<p style="text-align: left;">${free.content}</p>
 			
 			
@@ -397,8 +399,9 @@
 	
 			<div>
 				<span id="btn_cmtlist" class="">
+					<img src="../../resources/images/comments-16.png">
 					댓글
-					<span class="cmt_cnt"></span>개
+					<span class="cmt_cnt"></span>
 				</span>
 				<a id="lnk_like">
 					<span id="heart"></span><span id="like">좋아요 </span><span id="like_count"></span>
@@ -412,7 +415,8 @@
 				<div id="paging"></div>
 			</div>
 			
-			<hr>
+			<br>
+
 	
 			<div>
 				<form id="frm_addcmt">

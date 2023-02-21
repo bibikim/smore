@@ -95,6 +95,10 @@
 		transform: translateX(-50%);
 	}
 	
+	#n-icon {
+		padding-top: 8px;
+	}
+	
 	.li-page {
 	    float: left;
 	    margin-right: 20px;
@@ -127,7 +131,7 @@
 	}
 	
 	.type {
-		width: 80px;
+		width: 95px;
 	    border: 1px solid #C4C4C4;
 	    box-sizing: border-box;
 	    border-radius: 10px;

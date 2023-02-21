@@ -52,9 +52,16 @@ public class PageUtil {
 		StringBuilder sb = new StringBuilder();
 		
 	      sb.append("<ul class=\"ul-paging\">");
+	      
+	      if(path.contains("?")) {
+	    	  path += "&";
+	      } else {
+	    	  path += "?";
+	      }
+	      
 	      // 이전블록 : 1block이 아니면 이전블록이 있다
 	      if(beginPage != 1) {
-	         sb.append("<li class=\"li-page\"><a href=\"" + path + "?page=" + (beginPage-1) + "\">◀</a></li>");
+	         sb.append("<li class=\"li-page\"><a href=\"" + path + "page=" + (beginPage-1) + "\">◀</a></li>");
 	      }
 	      
 	      // 페이지번호 : 현재 페이지는 링크가 없다
@@ -62,13 +69,13 @@ public class PageUtil {
 	         if(p == page) {
 	            sb.append("<li class=\"li-page\"><a href=\"#\">"+ p + "</a></li>");
 	         } else {
-	            sb.append("<li class=\"li-page\"><a href=\"" + path + "?page=" + p + "\">" + p + "</a></li>");
+	            sb.append("<li class=\"li-page\"><a href=\"" + path + "page=" + p + "\">" + p + "</a></li>");
 	         }
 	      }
 	      
 	      // 다음블록 : 마지막 블록이 아니면 다음블록이 있다
 	      if(endPage != totalPage) {
-	         sb.append("<li class=\"li-page\"><a href=\"" + path + "?page=" + (endPage+1) + "\">▶</a></li>");
+	         sb.append("<li class=\"li-page\"><a href=\"" + path + "page=" + (endPage+1) + "\">▶</a></li>");
 	      }
 	      sb.append("</ul>");
 
